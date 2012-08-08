@@ -15,6 +15,11 @@
     <url>http://www.phresco.org</url>
     <name>Phresco Commons</name>
 	<description>phresco-commons</description>
+	
+	 <properties>
+		<siteBaseUrl>file://C:/apache-tomcat-7.0.26/webapps/ROOT/phresco-site/</siteBaseUrl>
+	 </properties>
+	
      <distributionManagement>
         <site>
             <id>phresco.commons</id>
@@ -22,7 +27,7 @@
              <url>${siteBaseUrl}/commons/</url>
         </site>
      </distributionManagement>
-
+	 
     <dependencies>
     
         <dependency>
