@@ -19,18 +19,23 @@
  */
 package com.photon.phresco.util;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.io.SequenceInputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.cli.CommandLineException;
+import org.codehaus.plexus.util.cli.Commandline;
 
 import com.photon.phresco.exception.PhrescoWebServiceException;
 
@@ -205,5 +210,26 @@ public final class Utility implements Constants {
     	} catch (IOException e) {
     		//FIXME : log exception
     	}
+	}
+    
+    public static BufferedReader executeCommand(String commandString, String workingDirectory) {
+		InputStream inputStream = null;
+		InputStream errorStream = null;
+		SequenceInputStream sequenceInputStream = null;
+		BufferedReader bufferedReader = null;
+		try {
+			Commandline cl = new Commandline(commandString);
+			cl.setWorkingDirectory(workingDirectory);
+			Process process = cl.execute();
+			inputStream = process.getInputStream();
+			errorStream = process.getErrorStream();
+			sequenceInputStream = new SequenceInputStream(inputStream, errorStream);
+			bufferedReader = new BufferedReader(new InputStreamReader(sequenceInputStream));
+		} catch (CommandLineException e) {
+			//FIXME : log exception
+			e.printStackTrace();
+		} 
+
+		return bufferedReader;
 	}
 }
