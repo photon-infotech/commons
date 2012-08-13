@@ -38,6 +38,7 @@ public class ModuleGroup implements Serializable {
 	private String artifactId;
 	private String type;
 	private String name;
+	private String description;
 	private String vendor;
 	private boolean core;
 	private boolean required;
@@ -208,12 +209,20 @@ public class ModuleGroup implements Serializable {
 	public void setCustomerId(String customerId) {
 		this.customerId = customerId;
 	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	@Override
 	public String toString() {
 		return "ModuleGroup [id=" + id + ", moduleId=" + moduleId
 				+ ", groupId=" + groupId + ", artifactId=" + artifactId
-				+ ", type=" + type + ", name=" + name + ", vendor=" + vendor
+				+ ", type=" + type + ", name=" + name + ",description=" +description +", vendor=" + vendor
 				+ ", core=" + core + ", required=" + required + ", docs="
 				+ docs + ", techId=" + techId + ", versions=" + versions
 				+ ", imageURL=" + imageURL + ", system=" + system
