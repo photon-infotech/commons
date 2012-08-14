@@ -61,6 +61,7 @@ public interface ServiceConstants {
 	String REST_API_JSBYID = "/modules/js";
 	String REST_API_PILOTSBYID = "/pilots/id";
 	String REST_API_LOGIN = "/login";
+	String REST_API_ENV_PATH = "/settings/env";
 	String REST_LOGIN_PATH = "/service/rest/api/login";
 	String REST_API_LDAP_PARAM_ID = "ldap";
 	String REST_API_PATH_ID = "/{id}";
