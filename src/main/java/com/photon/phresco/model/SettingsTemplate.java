@@ -40,6 +40,8 @@ public class SettingsTemplate implements Serializable {
     //List of technology ids
     private List<String> appliesTo;
     private String customerId;
+    private boolean system;
+    
     public SettingsTemplate() {
         super();
     }
@@ -91,7 +93,15 @@ public class SettingsTemplate implements Serializable {
 		this.customerId = customerId;
 	}
 
-	@Override
+	public boolean isSystem() {
+        return system;
+    }
+
+    public void setSystem(boolean system) {
+        this.system = system;
+    }
+
+    @Override
 	public String toString() {
 		return "SettingsTemplate [id=" + id + ", type=" + type
 				+ ", properties=" + properties + ", appliesTo=" + appliesTo
