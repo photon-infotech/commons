@@ -54,6 +54,7 @@ public class Technology extends Element implements Cloneable, Serializable {
 	private String customerId;
 	private ArchetypeInfo archetypeInfo;
 	private List<Documentation> docs;
+	private List<ArchetypeInfo> plugins;
 	
     public Technology() {
         super();
@@ -171,6 +172,14 @@ public class Technology extends Element implements Cloneable, Serializable {
 
     public void setSystem(boolean system) {
         this.system = system;
+    }
+
+    public List<ArchetypeInfo> getPlugins() {
+        return plugins;
+    }
+
+    public void setPlugins(List<ArchetypeInfo> plugins) {
+        this.plugins = plugins;
     }
 
     public List<String> getAppType() {

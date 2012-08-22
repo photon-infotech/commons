@@ -78,8 +78,10 @@ public interface ServiceConstants {
 	String REST_QUERY_TYPE_MODULE = "module";
 	String REST_QUERY_TYPE_JS = "js";
 	String REST_QUERY_CUSTOMERID = "customerId";
+	String REST_QUERY_APPTYPEID = "appTypeId";
 	String DEFAULT_CUSTOMER_NAME = "photon";
 	String PROJECT_NAME = "name";
+	String DEFAULT_REPO = "default";
 	
 	 /*
      * Constants for MongoDB Collections
@@ -100,6 +102,8 @@ public interface ServiceConstants {
 	String USERDAO_COLLECTION_NAME = "userdaos";
 	String ROLES_COLLECTION_NAME = "roles";
 	String APPTYPESDAO_COLLECTION_NAME = "apptypedao";
+	String REPOINFO_COLLECTION_NAME = "repoinfo";
+	String CUSTOMERDAO_COLLECTION_NAME = "customerdao";
 	
 	/*
      * Constants for Exception Message keys
