@@ -48,11 +48,12 @@ public class ModuleGroup implements Serializable {
 	private String imageURL;
 	private boolean system;
 	private String customerId;
+	private String helpText;
 	
 	public ModuleGroup() {
 	}
 
-	public ModuleGroup(String id, String name,String groupId,String artifactId,String type,String vendor,boolean core,boolean required,List<Documentation> docs,List<Module> modules) {
+	public ModuleGroup(String id, String name,String groupId,String artifactId,String type,String vendor,boolean core,boolean required,List<Documentation> docs,List<Module> modules,String helpText) {
 		this.id = id;
 		this.name = name;
 		this.groupId = groupId;
@@ -63,6 +64,7 @@ public class ModuleGroup implements Serializable {
 		this.required = required;
 		this.docs = docs;
 		this.versions = modules;
+		this.helpText = helpText;
 	}
 
 	public String getId() {
@@ -217,6 +219,15 @@ public class ModuleGroup implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public String getHelpText() {
+		return helpText;
+	}
+
+	public void setHelpText(String helpText) {
+		this.helpText = helpText;
+	}
+
 
 	@Override
 	public String toString() {
@@ -226,7 +237,8 @@ public class ModuleGroup implements Serializable {
 				+ ", core=" + core + ", required=" + required + ", docs="
 				+ docs + ", techId=" + techId + ", versions=" + versions
 				+ ", imageURL=" + imageURL + ", system=" + system
-				+ ", customerId=" + customerId + "]";
+				+ ", customerId=" + customerId  
+				+ ", helpText=" + helpText + "]";
 	}
     
     
