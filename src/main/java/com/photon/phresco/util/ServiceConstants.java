@@ -104,6 +104,7 @@ public interface ServiceConstants {
 	String APPTYPESDAO_COLLECTION_NAME = "apptypedao";
 	String REPOINFO_COLLECTION_NAME = "repoinfo";
 	String CUSTOMERDAO_COLLECTION_NAME = "customerdao";
+	String CREATEDPROJECTS_COLLECTION_NAME = "createdprojects";
 	
 	/*
      * Constants for Exception Message keys
