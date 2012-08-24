@@ -8,6 +8,7 @@ public class ArchetypeInfo extends Element{
     private String artifactId;
     private String version;
     private String projectGroupId;
+    private String packaging;
     //for file upload
     private boolean mavenJar;
 	private boolean success;
@@ -15,11 +16,12 @@ public class ArchetypeInfo extends Element{
     public ArchetypeInfo() {
     }
     
-    public ArchetypeInfo(String groupId, String artifactId, String version) {
+    public ArchetypeInfo(String groupId, String artifactId, String version, String packaging) {
 		super();
 		this.groupId = groupId;
 		this.artifactId = artifactId;
 		this.version = version;
+		this.packaging = packaging;
 	}
 
     public String getGroupId() {
@@ -70,7 +72,15 @@ public class ArchetypeInfo extends Element{
 		this.success = success;
 	}
 
-	@Override
+	public String getPackaging() {
+        return packaging;
+    }
+
+    public void setPackaging(String packaging) {
+        this.packaging = packaging;
+    }
+
+    @Override
     public String toString() {
         return "ArchetypeInfo [groupId=" + groupId + ", artifactId="
                 + artifactId + ", version=" + version + ", projectGroupId="
