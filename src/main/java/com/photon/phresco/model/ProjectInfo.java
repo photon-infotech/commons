@@ -28,9 +28,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class ProjectInfo implements Cloneable ,Serializable {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 	private int pilotid;
 	private String id;
@@ -41,7 +38,6 @@ public class ProjectInfo implements Cloneable ,Serializable {
 	private Technology technology;
 	private String application;
 	private List<String> pilotProjectUrls;
-	private String techID;
 	private String contentURLId;
 	private String pilotProjectName;
 	private String projectCode;
@@ -65,20 +61,6 @@ public class ProjectInfo implements Cloneable ,Serializable {
 	 */
 	public void setPilotid(int pilotid) {
 		this.pilotid = pilotid;
-	}
-
-	/**
-	 * @return the techID
-	 */
-	public String getTechID() {
-		return techID;
-	}
-
-	/**
-	 * @param techID the techID to set
-	 */
-	public void setTechID(String techID) {
-		this.techID = techID;
 	}
 
 	/**
@@ -231,8 +213,7 @@ public class ProjectInfo implements Cloneable ,Serializable {
 				+ name + ", code=" + code + ", version=" + version
 				+ ", description=" + description + ", technology=" + technology
 				+ ", application=" + application + ", pilotProjectUrls="
-				+ pilotProjectUrls + ", techID=" + techID
-				+ ", contentURLId=" + contentURLId + ", pilotProjectName="
+				+ pilotProjectUrls + "contentURLId=" + contentURLId + ", pilotProjectName="
 				+ pilotProjectName + ", projectCode=" + projectCode
 				+ ", groupId=" + groupId + ", artifactId=" + artifactId
 				+ ", customerId=" + customerId + "]";
@@ -248,7 +229,6 @@ public class ProjectInfo implements Cloneable ,Serializable {
 		infos.setId(id);
 		infos.setName(name);
 		infos.setPilotProjectUrls(pilotProjectUrls);
-		infos.setTechID(techID);
 		infos.setVersion(version);
 		infos.setGroupId(groupId);
 		infos.setArtifactId(artifactId);
