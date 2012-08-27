@@ -4,13 +4,25 @@ import com.photon.phresco.commons.model.Element;
 
 public class ArchetypeInfo extends Element{
     
-    private String groupId;
+	private String groupId;
     private String artifactId;
     private String version;
     private String projectGroupId;
+    private String packaging;
+    //for file upload
+    private boolean mavenJar;
+	private boolean success;
     
     public ArchetypeInfo() {
     }
+    
+    public ArchetypeInfo(String groupId, String artifactId, String version, String packaging) {
+		super();
+		this.groupId = groupId;
+		this.artifactId = artifactId;
+		this.version = version;
+		this.packaging = packaging;
+	}
 
     public String getGroupId() {
         return groupId;
@@ -42,6 +54,30 @@ public class ArchetypeInfo extends Element{
 
     public void setProjectGroupId(String projectGroupId) {
         this.projectGroupId = projectGroupId;
+    }
+    
+    public boolean isMavenJar() {
+		return mavenJar;
+	}
+
+	public void setMavenJar(boolean mavenJar) {
+		this.mavenJar = mavenJar;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+
+	public String getPackaging() {
+        return packaging;
+    }
+
+    public void setPackaging(String packaging) {
+        this.packaging = packaging;
     }
 
     @Override

@@ -21,7 +21,6 @@
  */
 package com.photon.phresco.commons.model;
 
-import java.net.URL;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -42,9 +41,9 @@ public class Customer extends Element {
     private String helpText;
 	Date validFrom;
 	Date validUpto;
-	private URL repoURL;
 	private CustomerStatus status;
 	private int type;
+	private RepoInfo repoInfo;
 	
 	public enum CustomerStatus {
         TYPE_GOLD, TYPE_SILVER, TYPE_BRONZE
@@ -218,20 +217,6 @@ public class Customer extends Element {
     /**
      * @return
      */
-    public URL getRepoURL() {
-        return repoURL;
-    }
-
-    /**
-     * @param repoURL
-     */
-    public void setRepoURL(URL repoURL) {
-        this.repoURL = repoURL;
-    }
-
-    /**
-     * @return
-     */
     public CustomerStatus getStatus() {
         return status;
     }
@@ -257,6 +242,14 @@ public class Customer extends Element {
         this.type = type;
     }
 
+    public RepoInfo getRepoInfo() {
+        return repoInfo;
+    }
+
+    public void setRepoInfo(RepoInfo repoInfo) {
+        this.repoInfo = repoInfo;
+    }
+
     public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
@@ -271,9 +264,9 @@ public class Customer extends Element {
                 .append("helpText", helpText)
                 .append("validFrom", validFrom)
                 .append("validUpto", validUpto)
-                .append("repoURL", repoURL)
                 .append("status", status)
                 .append("type", type)
+                .append("repoInfo", repoInfo)
                 .toString();
     }
 }

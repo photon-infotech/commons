@@ -25,14 +25,14 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.photon.phresco.commons.model.Element;
 import com.photon.phresco.util.SizeConstants;
 
 @SuppressWarnings("restriction")
 @XmlRootElement
-public class SettingsTemplate implements Serializable {
+public class SettingsTemplate extends Element implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String id;
     //Database, Server, Email
     private String type;
     //List of properties available for the template
@@ -52,14 +52,6 @@ public class SettingsTemplate implements Serializable {
         this.properties = properties;
         this.appliesTo = appliesTo;
     }
-
-    public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getType() {
         return type;
@@ -103,11 +95,8 @@ public class SettingsTemplate implements Serializable {
 
     @Override
 	public String toString() {
-		return "SettingsTemplate [id=" + id + ", type=" + type
+		return "SettingsTemplate [type=" + type
 				+ ", properties=" + properties + ", appliesTo=" + appliesTo
 				+ ", customerId=" + customerId + "]";
 	}
-
-   
-
 }
