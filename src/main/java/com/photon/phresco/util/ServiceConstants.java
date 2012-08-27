@@ -82,6 +82,8 @@ public interface ServiceConstants {
 	String DEFAULT_CUSTOMER_NAME = "photon";
 	String PROJECT_NAME = "name";
 	String DEFAULT_REPO = "default";
+	String APPTYPE = "appType";
+	String LOGIN = "login";
 	
 	 /*
      * Constants for MongoDB Collections
