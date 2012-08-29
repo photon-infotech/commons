@@ -22,7 +22,9 @@ package com.photon.phresco.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlRootElement;
+
 import com.photon.phresco.model.Documentation.DocumentationType;
 import com.photon.phresco.util.SizeConstants;
 

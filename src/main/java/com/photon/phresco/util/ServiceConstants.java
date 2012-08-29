@@ -143,4 +143,10 @@ public interface ServiceConstants {
      * Constants for Media Type
      */
 	String MEDIATYPE_ZIP = "application/zip";
+	
+	/*
+     * Constants for Response Code
+     */
+	int RES_CODE_200 = 200;
+	int RES_CODE_201 = 201;
 }

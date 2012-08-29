@@ -53,6 +53,11 @@ public class PhrescoException extends PhrescoExceptionAbstract {
         this.message = msg;
     }
     
+    public PhrescoException(Throwable cause, String pErrorMessage) {
+        super(cause);
+        this.message = pErrorMessage;
+    }
+    
     public String toString() {
         StringBuffer buffer = new StringBuffer();
         buffer.append("[PhrescoException]: ");
