@@ -17,7 +17,6 @@
  * limitations under the License.
  * ###
  * 
- * @author kumar_s
  */
 package com.photon.phresco.commons.model;
 

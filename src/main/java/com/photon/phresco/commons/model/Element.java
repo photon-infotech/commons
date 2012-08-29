@@ -17,7 +17,6 @@
  * limitations under the License.
  * ###
  * 
- * @author kumar_s
  */
 package com.photon.phresco.commons.model;
 
@@ -38,7 +37,7 @@ public abstract class Element {
 	private String id;
 	private String name;
 	private String description;
-	Date creationDate;
+	private Date creationDate;
 
 	protected Element() {
 		super();
