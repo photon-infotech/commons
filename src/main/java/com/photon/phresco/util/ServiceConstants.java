@@ -63,6 +63,13 @@ public interface ServiceConstants {
 	String REST_API_LOGIN = "/login";
 	String REST_API_ENV_PATH = "/settings/env";
 	String REST_LOGIN_PATH = "/service/rest/api/login";
+	String REST_REPO = "/repo";
+	String REST_CI_CONFIG_PATH = "/ci/config";
+	String REST_CI_CREDENTIAL_PATH = "/ci/credentialsxml";
+	String REST_CI_JDK_HOME = "/ci/javahomexml";
+	String REST_CI_MAVEN_HOME = "/ci/mavenhomexml";
+	String REST_CI_MAILER_HOME = "/ci/mailxml";
+	String REST_CI_MAIL_PLUGIN = "/ci/emailext";
 	String REST_API_LDAP_PARAM_ID = "ldap";
 	String REST_API_PATH_ID = "/{id}";
 	String REST_API_PATH_PARAM_ID = "id";
