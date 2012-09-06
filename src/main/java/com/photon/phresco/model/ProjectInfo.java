@@ -219,7 +219,7 @@ public class ProjectInfo implements Cloneable ,Serializable {
 				+ ", customerId=" + customerId + "]";
 	}
 
-	public ProjectInfo clone()throws CloneNotSupportedException{
+	public ProjectInfo clone()throws CloneNotSupportedException {
 		ProjectInfo infos = new ProjectInfo();
 		infos.setApplication(application);
 		infos.setCode(code);
@@ -228,6 +228,7 @@ public class ProjectInfo implements Cloneable ,Serializable {
 		infos.setDescription(description);
 		infos.setId(id);
 		infos.setName(name);
+		infos.setCustomerId(customerId);
 		infos.setPilotProjectUrls(pilotProjectUrls);
 		infos.setVersion(version);
 		infos.setGroupId(groupId);
