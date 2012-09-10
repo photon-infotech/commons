@@ -110,6 +110,7 @@ public interface ServiceConstants {
 	String TECHNOLOGIES_COLLECTION_NAME = "technologies";
 	String USERDAO_COLLECTION_NAME = "userdaos";
 	String ROLES_COLLECTION_NAME = "roles";
+	String PERMISSION_COLLECTION_NAME = "permissions";
 	String APPTYPESDAO_COLLECTION_NAME = "apptypedao";
 	String REPOINFO_COLLECTION_NAME = "repoinfo";
 	String CUSTOMERDAO_COLLECTION_NAME = "customerdao";
