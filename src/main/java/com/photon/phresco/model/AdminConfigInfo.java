@@ -31,6 +31,15 @@ public class AdminConfigInfo implements Serializable {
 	private String key;
 	private String value;
 	private String description;
+	private String customerId;
+
+	public String getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
+	}
 
 	public String getDescription() {
 		return description;

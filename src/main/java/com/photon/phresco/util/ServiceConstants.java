@@ -54,6 +54,7 @@ public interface ServiceConstants {
 	String REST_API_VIDEOS = "/videos";
 	String REST_API_USERS = "/users";
 	String REST_API_ROLES = "/roles";
+	String REST_API_FORUMS = "/forums";
 	String REST_API_PERMISSIONS = "/permissions";
 	String REST_API_LDAP = "/settings/ldap";
 	String REST_API_SETTINGS = "/settings";
@@ -96,6 +97,7 @@ public interface ServiceConstants {
      * Constants for MongoDB Collections
      */
 	String CUSTOMERS_COLLECTION_NAME = "customers";
+	String FORUM_COLLECTION_NAME = "forums";
 	String VIDEOS_COLLECTION_NAME = "videos";
 	String USERS_COLLECTION_NAME = "users";
 	String DOWNLOAD_COLLECTION_NAME = "downloads";
