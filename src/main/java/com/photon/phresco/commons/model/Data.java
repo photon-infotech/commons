@@ -21,13 +21,12 @@
 
 package com.photon.phresco.commons.model;
 
-import org.apache.commons.codec.binary.Base64;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import com.google.gson.Gson;
-import com.photon.phresco.util.Credentials;
-
+@XmlRootElement
 public class Data {
     
     private String contentResourceURI;
@@ -47,6 +46,27 @@ public class Data {
     private String defaultLocalStorageUrl;
     
     public Data() {
+        
+    }
+    
+    public Data(String contentResourceURI, String id, String name, String provider,
+            String providerRole, String format, String repoType, boolean exposed, 
+            String writePolicy, boolean browseable, boolean indexable,
+            int notFoundCacheTTL, String repoPolicy, boolean downloadRemoteIndexes) {
+        this.contentResourceURI = contentResourceURI;
+        this.id = id;
+        this.name = name;
+        this.provider = provider;
+        this.providerRole = providerRole;
+        this.format = format;
+        this.repoType = repoType;
+        this.exposed = exposed;
+        this.writePolicy = writePolicy;
+        this.browseable = browseable;
+        this.indexable = indexable;
+        this.notFoundCacheTTL = notFoundCacheTTL;
+        this.repoPolicy = repoPolicy;
+        this.downloadRemoteIndexes = downloadRemoteIndexes;
         
     }
     

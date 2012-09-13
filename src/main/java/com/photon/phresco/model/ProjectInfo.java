@@ -47,6 +47,7 @@ public class ProjectInfo implements Cloneable ,Serializable {
 	private boolean system;
 	private String techId;
 	private String projectURL;
+	private ArchetypeInfo archetypeInfo;
 	
 
 	/**
@@ -170,38 +171,60 @@ public class ProjectInfo implements Cloneable ,Serializable {
 		this.pilotProjectUrls = pilotProjectUrls;
 	}
     
-	
-
+	/**
+	 * @return
+	 */
 	public String getId() {
 		return id;
 	}
 
+	/**
+	 * @param id
+	 */
 	public void setId(String id) {
 		this.id = id;
 	}
     
 	
 
+	/**
+	 * @return
+	 */
 	public String getTechId() {
         return techId;
     }
 
+    /**
+     * @param techId
+     */
     public void setTechId(String techId) {
         this.techId = techId;
     }
 
+    /**
+     * @return
+     */
     public String getCustomerId() {
 		return customerId;
 	}
 
+	/**
+	 * @return
+	 */
 	public boolean isSystem() {
         return system;
     }
 
+    /**
+     * @param system
+     */
     public void setSystem(boolean system) {
         this.system = system;
     }
 
+    /**
+     * @param customerId
+     */
     public void setCustomerId(String customerId) {
 		this.customerId = customerId;
 	}
@@ -252,6 +275,14 @@ public class ProjectInfo implements Cloneable ,Serializable {
 
     public void setProjectURL(String projectURL) {
         this.projectURL = projectURL;
+    }
+
+    public ArchetypeInfo getArchetypeInfo() {
+        return archetypeInfo;
+    }
+
+    public void setArchetypeInfo(ArchetypeInfo archetypeInfo) {
+        this.archetypeInfo = archetypeInfo;
     }
 
 }

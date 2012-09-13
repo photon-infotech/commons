@@ -42,6 +42,7 @@ public class Customer extends Element {
 	Date validUpto;
 	private CustomerStatus status;
 	private int type;
+	private String repoURL;
 	private RepoInfo repoInfo;
 	
 	public enum CustomerStatus {
@@ -241,12 +242,32 @@ public class Customer extends Element {
         this.type = type;
     }
 
+    /**
+     * @return
+     */
     public RepoInfo getRepoInfo() {
         return repoInfo;
     }
 
+    /**
+     * @param repoInfo
+     */
     public void setRepoInfo(RepoInfo repoInfo) {
         this.repoInfo = repoInfo;
+    }
+
+    /**
+     * @return
+     */
+    public String getRepoURL() {
+        return repoURL;
+    }
+
+    /**
+     * @param repoURL
+     */
+    public void setRepoURL(String repoURL) {
+        this.repoURL = repoURL;
     }
 
     public String toString() {

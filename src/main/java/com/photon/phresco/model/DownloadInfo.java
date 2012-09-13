@@ -31,7 +31,7 @@ public class DownloadInfo implements Serializable {
 	private String id;
 	private String name;
 	private String description;
-	private String version;
+	private List<String> versions;
 	private String downloadURL;
 	private String type;
 	private String fileName;
@@ -39,18 +39,20 @@ public class DownloadInfo implements Serializable {
 	private String customerId;
 	private List<String> appliesTo;
 	private List<String> platform;
-
+	private boolean system;
+	private ArchetypeInfo archetypeInfo;
+	
 	public DownloadInfo() {
 	}
 
-	public DownloadInfo(String id, String name, String description, String version,
+	public DownloadInfo(String id, String name, String description, List<String> versions,
 			String downloadURL, String type, List<String> appliesTo,
 			List<String> platform) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.version = version;
+		this.versions = versions;
 		this.downloadURL = downloadURL;
 		this.type = type;
 		this.appliesTo = appliesTo;
@@ -73,12 +75,12 @@ public class DownloadInfo implements Serializable {
 		this.name = name;
 	}
 
-	public String getVersion() {
-		return version;
+	public List<String> getVersion() {
+		return versions;
 	}
 
-	public void setVersion(String version) {
-		this.version = version;
+	public void setVersion(List<String> versions) {
+		this.versions = versions;
 	}
 
 	public String getDownloadURL() {
@@ -145,10 +147,26 @@ public class DownloadInfo implements Serializable {
 		this.platform = platform;
 	}
 
-	@Override
+	public boolean isSystem() {
+        return system;
+    }
+
+    public void setSystem(boolean system) {
+        this.system = system;
+    }
+
+    public ArchetypeInfo getArchetypeInfo() {
+        return archetypeInfo;
+    }
+
+    public void setArchetypeInfo(ArchetypeInfo archetypeInfo) {
+        this.archetypeInfo = archetypeInfo;
+    }
+
+    @Override
 	public String toString() {
 		return "DownloadInfo [id=" + id + ", name=" + name + ", version="
-				+ version + ", downloadURL=" + downloadURL + ", type=" + type
+				+ versions + ", downloadURL=" + downloadURL + ", type=" + type
 				+ ", fileName=" + fileName + ", fileSize=" + fileSize
 				+ ", appliesTo=" + appliesTo + ", platform="
 				+ platform + ", customerId=" + customerId
@@ -161,6 +179,4 @@ public class DownloadInfo implements Serializable {
 				+ getFileSize() + ", getCustomerId()=" + getCustomerId() + "]";
 	}
 
-
-	
 }
