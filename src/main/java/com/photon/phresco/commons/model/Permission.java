@@ -27,6 +27,9 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 @XmlRootElement
 public class Permission extends Element {
+	
+	private String permission = "";
+
 
 	/**
 	 * 
@@ -50,6 +53,14 @@ public class Permission extends Element {
 	 */
 	public Permission(String name, String description) {
 		super(name, description);
+	}
+	
+	public String getPermission() {
+		return permission;
+	}
+
+	public void setPermission(String permission) {
+		this.permission = permission;
 	}
 
 	public String toString() {
