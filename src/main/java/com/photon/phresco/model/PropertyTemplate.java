@@ -35,7 +35,9 @@ public class PropertyTemplate implements Serializable {
 	private I18NString name;
 	private I18NString description;
 	private String type;
-	private boolean isRequired;
+	private String helpText;
+	private boolean required;
+	private boolean multiple;
 	private List<String> possibleValues;
 	private List<PropertyTemplate> propertyTemplates;
 	
@@ -50,11 +52,11 @@ public class PropertyTemplate implements Serializable {
 	}
 
 	public PropertyTemplate(String key, String type, boolean projectSpecific,
-			boolean isRequired) {
+			boolean required) {
 		super();
 		this.key = key;
 		this.type = type;
-		this.isRequired = isRequired;
+		this.required = required;
 	}
 	
 	public String getId() {
@@ -97,14 +99,6 @@ public class PropertyTemplate implements Serializable {
 		this.type = type;
 	}
 
-	public boolean isRequired() {
-		return isRequired;
-	}
-
-	public void setRequired(boolean isRequired) {
-		this.isRequired = isRequired;
-	}
-
 	public List<String> getPossibleValues() {
 		return possibleValues;
 	}
@@ -119,5 +113,39 @@ public class PropertyTemplate implements Serializable {
 
 	public void setPropertyTemplates(List<PropertyTemplate> propertyTemplates) {
 		this.propertyTemplates = propertyTemplates;
+	}
+	
+	public String getHelpText() {
+		return helpText;
+	}
+
+	public void setHelpText(String helpText) {
+		this.helpText = helpText;
+	}
+	
+	public boolean isRequired() {
+		return required;
+	}
+
+	public void setRequired(boolean required) {
+		this.required = required;
+	}
+
+	public boolean isMultiple() {
+		return multiple;
+	}
+
+	public void setMultiple(boolean multiple) {
+		this.multiple = multiple;
+	}
+	
+	@Override
+	public String toString() {
+		return "PropertyTemplate [id=" + id + ", key=" + key + ", name=" + name
+				+ ", description=" + description + ", type=" + type
+				+ ", helpText=" + helpText + ", required=" + required
+				+ ", multiple=" + multiple + ", possibleValues="
+				+ possibleValues + ", propertyTemplates=" + propertyTemplates
+				+ "]";
 	}
 }
