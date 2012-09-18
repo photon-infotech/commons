@@ -48,6 +48,7 @@ public class ProjectInfo implements Cloneable ,Serializable {
 	private String techId;
 	private String projectURL;
 	private ArchetypeInfo archetypeInfo;
+	private boolean used;
 	
 
 	/**
@@ -283,6 +284,14 @@ public class ProjectInfo implements Cloneable ,Serializable {
 
     public void setArchetypeInfo(ArchetypeInfo archetypeInfo) {
         this.archetypeInfo = archetypeInfo;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
     }
 
 }

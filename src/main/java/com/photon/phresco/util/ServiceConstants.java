@@ -120,6 +120,7 @@ public interface ServiceConstants {
 	String REPOINFO_COLLECTION_NAME = "repoinfo";
 	String CUSTOMERDAO_COLLECTION_NAME = "customerdao";
 	String CREATEDPROJECTS_COLLECTION_NAME = "createdprojects";
+	String ARCHETYPEINFO_COLLECTION_NAME = "archetypes";
 	
 	/*
      * Constants for Exception Message keys
@@ -151,6 +152,9 @@ public interface ServiceConstants {
      */
 	String REST_API_FIELD_TECH = "technologies";
 	String REST_API_FIELD_APPID = "appTypeId";
+	String REST_API_USED = "used";
+	String REST_API_NAME = "name";
+	String REST_API_ARTIFACTID = "artifactId";
 	
 	/*
      * Constants for Media Type
