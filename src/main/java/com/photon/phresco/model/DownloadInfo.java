@@ -41,6 +41,7 @@ public class DownloadInfo implements Serializable {
 	private List<String> platform;
 	private boolean system;
 	private ArchetypeInfo archetypeInfo;
+	private boolean used;
 	
 	public DownloadInfo() {
 	}
@@ -161,6 +162,22 @@ public class DownloadInfo implements Serializable {
 
     public void setArchetypeInfo(ArchetypeInfo archetypeInfo) {
         this.archetypeInfo = archetypeInfo;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
+    public List<String> getVersions() {
+        return versions;
+    }
+
+    public void setVersions(List<String> versions) {
+        this.versions = versions;
     }
 
     @Override

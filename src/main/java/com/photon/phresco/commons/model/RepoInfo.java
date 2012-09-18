@@ -28,6 +28,7 @@ public class RepoInfo {
     
     private String id;
     private String customerId;
+    private String baseRepoURL;
     private String releaseRepoURL;
     private String snapshotRepoURL;
     private String groupRepoURL;
@@ -137,6 +138,14 @@ public class RepoInfo {
      */
     public void setGroupRepoURL(String groupRepoURL) {
         this.groupRepoURL = groupRepoURL;
+    }
+
+    public String getBaseRepoURL() {
+        return baseRepoURL;
+    }
+
+    public void setBaseRepoURL(String baseRepoURL) {
+        this.baseRepoURL = baseRepoURL;
     }
 
     public String toString() {

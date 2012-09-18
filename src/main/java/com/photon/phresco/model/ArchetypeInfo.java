@@ -9,6 +9,7 @@ public class ArchetypeInfo extends Element{
     private String version;
     private String projectGroupId;
     private String packaging;
+    private boolean used;
     //for file upload
     private boolean mavenJar;
 	private boolean success;
@@ -78,6 +79,14 @@ public class ArchetypeInfo extends Element{
 
     public void setPackaging(String packaging) {
         this.packaging = packaging;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
     }
 
     @Override

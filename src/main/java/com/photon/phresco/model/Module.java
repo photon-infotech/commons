@@ -42,6 +42,7 @@ public class Module implements Serializable {
     private String groupId;
     private String artifactId;
     private List<Documentation> docs;
+    private boolean used;
 
     public Module() {
         // TODO Auto-generated constructor stub
@@ -205,7 +206,15 @@ public class Module implements Serializable {
 		return null;
 	}
 	
-	@Override
+	public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
+    @Override
 	public String toString() {
 		return "Module [id=" + id + ", contentType=" + contentType
 				+ ", contentURL=" + contentURL + ", dependentModules="

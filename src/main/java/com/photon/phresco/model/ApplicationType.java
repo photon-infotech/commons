@@ -41,6 +41,8 @@ public class ApplicationType extends Element implements Serializable {
 	
 	private boolean system;
 	private String customerId;
+	private String description;
+	
 	public ApplicationType() {
 		super();
 	}
@@ -87,7 +89,15 @@ public class ApplicationType extends Element implements Serializable {
 		this.customerId = customerId;
 	}
 
-	@Override
+	public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
 	public String toString() {
 		return "ApplicationType [technologies=" + technologies + ", system="
 				+ system + ", customerId=" + customerId + "]";
