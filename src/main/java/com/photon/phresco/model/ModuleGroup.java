@@ -25,17 +25,16 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.photon.phresco.commons.model.Element;
 import com.photon.phresco.util.SizeConstants;
 
 @XmlRootElement
-public class ModuleGroup implements Serializable {
+public class ModuleGroup extends Element implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	//String id of the module. this will be groupId:artifactId:
-	private String id;
 	private String type;
-	private String name;
 	private boolean core;
 	private String techId;
 	private List<Module> versions = new ArrayList<Module>(SizeConstants.SIZE_VERSIONS_MAP);
@@ -47,19 +46,10 @@ public class ModuleGroup implements Serializable {
 	}
 
 	public ModuleGroup(String id, String name, String groupId, String artifactId, String type, boolean core, List<Module> modules) {
-		this.id = id;
-		this.name = name;
+		super(id, name);
 		this.type = type;
 		this.core = core;
 		this.versions = modules;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getType() {
@@ -68,14 +58,6 @@ public class ModuleGroup implements Serializable {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public boolean isCore() {
@@ -138,8 +120,7 @@ public class ModuleGroup implements Serializable {
 
     @Override
     public String toString() {
-        return "ModuleGroup [id=" + id + ", type=" + type + ", name=" + name
-                + ", core=" + core + ", techId=" + techId + ", versions="
+        return "ModuleGroup [type=" + type + ", core=" + core + ", techId=" + techId + ", versions="
                 + versions + ", imageURL=" + imageURL + ", system=" + system
                 + ", customerId=" + customerId + "]";
     }

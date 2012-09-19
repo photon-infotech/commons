@@ -122,6 +122,7 @@ public interface ServiceConstants {
 	String CUSTOMERDAO_COLLECTION_NAME = "customerdao";
 	String CREATEDPROJECTS_COLLECTION_NAME = "createdprojects";
 	String ARCHETYPEINFO_COLLECTION_NAME = "archetypes";
+	String MODULEDAO_COLLECTION_NAME = "moduledao";
 	
 	/*
      * Constants for Exception Message keys
@@ -156,6 +157,7 @@ public interface ServiceConstants {
 	String REST_API_USED = "used";
 	String REST_API_NAME = "name";
 	String REST_API_ARTIFACTID = "artifactId";
+	String REST_API_MODULEID = "moduleGroupId";
 	
 	/*
      * Constants for Media Type

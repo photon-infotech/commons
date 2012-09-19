@@ -33,6 +33,7 @@ import com.photon.phresco.model.Documentation.DocumentationType;
 public class Module implements Serializable {
 
 	private String id;
+	private String moduleGroupId;
     private String contentType;
     private String contentURL;
     private List<ModuleGroup> dependentModules;
@@ -214,12 +215,22 @@ public class Module implements Serializable {
         this.used = used;
     }
 
+    public String getModuleGroupId() {
+        return moduleGroupId;
+    }
+
+    public void setModuleGroupId(String moduleGroupId) {
+        this.moduleGroupId = moduleGroupId;
+    }
+
     @Override
-	public String toString() {
-		return "Module [id=" + id + ", contentType=" + contentType
-				+ ", contentURL=" + contentURL + ", dependentModules="
-				+ dependentModules + ", name=" + name + ", version=" + version
-				+ ", required=" + required + ", groupId=" + groupId
-				+ ", artifactId=" + artifactId + ", docs=" + docs + "]";
-	}
+    public String toString() {
+        return "Module [id=" + id + ", moduleGroupId=" + moduleGroupId
+                + ", contentType=" + contentType + ", contentURL=" + contentURL
+                + ", dependentModules=" + dependentModules + ", name=" + name
+                + ", version=" + version + ", required=" + required
+                + ", groupId=" + groupId + ", artifactId=" + artifactId
+                + ", docs=" + docs + ", used=" + used + "]";
+    }
+
 }
