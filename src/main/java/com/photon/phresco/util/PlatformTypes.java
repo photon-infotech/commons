@@ -40,4 +40,8 @@ public interface PlatformTypes {
 	String WINDOWS_SERVER86 = "Server86";
 	
 	String WINDOWS_SERVER64 = "Server64";
+
+    String WINDOWS = "Windows";
+    String LINUX = "Linux";
+    String MAC = "Mac";
 }

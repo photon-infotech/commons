@@ -17,51 +17,29 @@
  * limitations under the License.
  * ###
  */
-package com.photon.phresco.model;
-
-import java.io.Serializable;
+package com.photon.phresco.commons.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
+
 @XmlRootElement
-public class AdminConfigInfo implements Serializable {
+public class Property extends CustomerBasedElement {
 
 	private static final long serialVersionUID = 8809204276913498651L;
-	private String id;
 	private String key;
 	private String value;
-	private String description;
-	private String customerId;
 
-	public String getCustomerId() {
-		return customerId;
+	public Property() {
+	    super();
 	}
 
-	public void setCustomerId(String customerId) {
-		this.customerId = customerId;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public AdminConfigInfo() {
-
-	}
-
-	public AdminConfigInfo(String key, String value) {
+	public Property(String key, String value) {
+	    super();
 		this.key = key;
 		this.value = value;
-	}
-
-	public AdminConfigInfo(String key, String value, String description) {
-		this.key = key;
-		this.value = value;
-		this.description = description;
 	}
 
 	public String getKey() {
@@ -80,11 +58,12 @@ public class AdminConfigInfo implements Serializable {
 		this.value = value;
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String toString() {
+        return new ToStringBuilder(this,
+                ToStringStyle.DEFAULT_STYLE)
+                .append(super.toString())
+                .append("key", getKey())
+                .append("value", getValue())
+                .toString();
+    }
 }

@@ -1,6 +1,6 @@
 /*
  * ###
-\ * Phresco Commons
+ * Phresco Commons
  *
  * Copyright (C) 1999 - 2012 Photon Infotech Inc.
  *
@@ -30,20 +30,17 @@ import org.apache.commons.lang.builder.ToStringStyle;
 @XmlRootElement
 public class User extends Element {
 
-	private String loginId;
+    private static final long serialVersionUID = 1L;
+    
+    private String loginId;
 	private String email;
 	private String firstName;
 	private String lastName;
-	private UserStatus status;
 	private List<Role> roles;
 	private boolean phrescoEnabled;
 	private String displayName;
 	private List<Customer> customers;
 	private String token;
-	
-	public enum UserStatus {
-	    TYPE_GOLD, TYPE_SILVER, TYPE_BRONZE
-    }
 	
 	public User() {
 		super();
@@ -120,20 +117,6 @@ public class User extends Element {
      */
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-    
-	/**
-	 * @return
-	 */
-	public UserStatus getStatus() {
-        return status;
-    }
-
-    /**
-     * @param status
-     */
-    public void setStatus(UserStatus status) {
-        this.status = status;
     }
 
     /**
@@ -214,7 +197,6 @@ public class User extends Element {
                 .append("email", email)
                 .append("firstName", firstName)
                 .append("lastName", lastName)
-                .append("status", status)
                 .append("roles", roles)
                 .append("phrescoEnabled", phrescoEnabled)
                 .append("displayName", displayName)

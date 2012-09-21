@@ -19,20 +19,17 @@
  */
 package com.photon.phresco.util;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 import com.google.gson.Gson;
+import com.photon.phresco.commons.model.ProjectInfo;
 import com.photon.phresco.exception.PhrescoException;
-import com.photon.phresco.model.ModuleGroup;
-import com.photon.phresco.model.ProjectInfo;
 
 public class ProjectUtils implements Constants {
+    
 	public static void writeProjectInfo(ProjectInfo info, File phrescoFolder) throws PhrescoException {
 		BufferedWriter out = null;
 		FileWriter fstream = null;
@@ -73,53 +70,54 @@ public class ProjectUtils implements Constants {
 	}
 	
 	public static void updateProjectInfo(ProjectInfo info, File phrescoFolder) throws PhrescoException {
-		// TODO Only  the use modified information should come from UI. So no filtering should be removed.
-		BufferedWriter out = null;
-		FileWriter fstream = null;
-		BufferedReader reader = null;
-		try {
-			Gson gson = new Gson();
-			reader = new BufferedReader(new FileReader(phrescoFolder));
-			ProjectInfo projectInfos = gson.fromJson(reader, ProjectInfo.class);
-			
-			List<ModuleGroup> ProjectInfomodules = projectInfos.getTechnology().getModules();
-			List<ModuleGroup> projectInfojsLibraries = projectInfos.getTechnology().getJsLibraries();
-			
-			List<ModuleGroup> selectedInfomodules = info.getTechnology().getModules();
-			List<ModuleGroup> selectedInfojsLibraries = info.getTechnology().getJsLibraries();
-			
-			if(ProjectInfomodules != null && !ProjectInfomodules.isEmpty() && selectedInfomodules != null) {
-				selectedInfomodules.addAll(ProjectInfomodules);	
-				info.getTechnology().setModules(selectedInfomodules);
-			}else if (ProjectInfomodules != null) {
-				info.getTechnology().setModules(ProjectInfomodules);
-			}
-			if(projectInfojsLibraries != null && !projectInfojsLibraries.isEmpty() && selectedInfojsLibraries != null) {
-			    selectedInfojsLibraries.addAll(projectInfojsLibraries); 
-			    info.getTechnology().setModules(selectedInfojsLibraries);
-            }else if (projectInfojsLibraries != null) {
-				info.getTechnology().setModules(ProjectInfomodules);
-			}
-			
-			String infoJSON = gson.toJson(info);
-			fstream = new FileWriter(phrescoFolder.getPath());
-			out = new BufferedWriter(fstream);
-			out.write(infoJSON);
-		} catch (IOException e) {
-			throw new PhrescoException(e);
-		} finally {
-			Utility.closeStream(reader);
-			try {
-				if (out != null) {
-					out.close();
-				}
-				if (fstream != null) {
-					fstream.close();
-				}
-			} catch (IOException e) {
-				throw new PhrescoException(e);
-			}
-		}
+	    throw new UnsupportedOperationException("Method not supported yet");
+//		// TODO Only  the use modified information should come from UI. So no filtering should be removed.
+//		BufferedWriter out = null;
+//		FileWriter fstream = null;
+//		BufferedReader reader = null;
+//		try {
+//			Gson gson = new Gson();
+//			reader = new BufferedReader(new FileReader(phrescoFolder));
+//			ApplicationInfo projectInfos = gson.fromJson(reader, ApplicationInfo.class);
+//			
+//			List<ArtifactGroup> ProjectInfomodules = projectInfos..getModules();
+//			List<ArtifactGroup> projectInfojsLibraries = projectInfos.getTechnology().getJsLibraries();
+//			
+//			List<ArtifactGroup> selectedInfomodules = info.getModules();
+//			List<ArtifactGroup> selectedInfojsLibraries = info.getTechnology().getJsLibraries();
+//			
+//			if(ProjectInfomodules != null && !ProjectInfomodules.isEmpty() && selectedInfomodules != null) {
+//				selectedInfomodules.addAll(ProjectInfomodules);	
+//				info.getTechnology().setModules(selectedInfomodules);
+//			}else if (ProjectInfomodules != null) {
+//				info.getTechnology().setModules(ProjectInfomodules);
+//			}
+//			if(projectInfojsLibraries != null && !projectInfojsLibraries.isEmpty() && selectedInfojsLibraries != null) {
+//			    selectedInfojsLibraries.addAll(projectInfojsLibraries); 
+//			    info.getTechnology().setModules(selectedInfojsLibraries);
+//            }else if (projectInfojsLibraries != null) {
+//				info.getTechnology().setModules(ProjectInfomodules);
+//			}
+//			
+//			String infoJSON = gson.toJson(info);
+//			fstream = new FileWriter(phrescoFolder.getPath());
+//			out = new BufferedWriter(fstream);
+//			out.write(infoJSON);
+//		} catch (IOException e) {
+//			throw new PhrescoException(e);
+//		} finally {
+//			Utility.closeStream(reader);
+//			try {
+//				if (out != null) {
+//					out.close();
+//				}
+//				if (fstream != null) {
+//					fstream.close();
+//				}
+//			} catch (IOException e) {
+//				throw new PhrescoException(e);
+//			}
+//		}
 	}
 	
 	

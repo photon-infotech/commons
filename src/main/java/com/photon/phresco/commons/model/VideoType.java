@@ -17,32 +17,20 @@
  * limitations under the License.
  * ###
  */
-package com.photon.phresco.model;
+package com.photon.phresco.commons.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
+
 @XmlRootElement
-public class VideoType {
-	private String id;
-	private String type;
+public class VideoType extends ArtifactGroup {
+    
 	private String url;
-	private String codecs;
 
 	public VideoType() {
-	}
-
-	public VideoType(String type, String url, String codecs) {
-		this.type = type;
-		this.url = url;
-		this.codecs = codecs;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public String getUrl() {
@@ -53,20 +41,12 @@ public class VideoType {
 		this.url = url;
 	}
 
-	public String getCodecs() {
-		return codecs;
-	}
-
-	public void setCodecs(String codecs) {
-		this.codecs = codecs;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this,
+                ToStringStyle.DEFAULT_STYLE)
+                .append(super.toString())
+                .append("url", getUrl())
+                .toString();
+    }
 }

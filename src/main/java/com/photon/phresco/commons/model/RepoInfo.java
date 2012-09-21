@@ -26,7 +26,6 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 public class RepoInfo {
     
-    private String id;
     private String customerId;
     private String baseRepoURL;
     private String releaseRepoURL;
@@ -40,20 +39,6 @@ public class RepoInfo {
      */
     public RepoInfo() {
         
-    }
-
-    /**
-     * @return
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * @param id
-     */
-    public void setId(String id) {
-        this.id = id;
     }
 
     /**
@@ -151,7 +136,6 @@ public class RepoInfo {
     public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
-                .append("id", id)
                 .append("customerId", customerId)
                 .append("repoURL", releaseRepoURL)
                 .append("repoUserName", repoUserName)

@@ -17,15 +17,16 @@
  * limitations under the License.
  * ###
  */
-package com.photon.phresco.model;
+package com.photon.phresco.commons.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 @SuppressWarnings("restriction")
 @XmlRootElement
 public class VersionInfo {
-	private String serviceversion;
-	private String frameworkversion;
+    
+	private String serviceVersion;
+	private String frameworkVersion;
 	private String message;
 	private boolean updateAvailable;
 
@@ -46,18 +47,18 @@ public class VersionInfo {
 		this.updateAvailable = updateAvailable;
 	}
 
-	public String getFrameworkversion() {
-		return frameworkversion;
+	public String getFrameworkVersion() {
+		return frameworkVersion;
 	}
 
-	public void setFrameworkversion(String frameworkversion) {
-		this.frameworkversion = frameworkversion;
+	public void setFrameworkVersion(String frameworkversion) {
+		this.frameworkVersion = frameworkversion;
 	}
-	public String getServiceversion() {
-		return serviceversion;
+	public String getServiceVersion() {
+		return serviceVersion;
 	}
 
-	public void setServiceversion(String serviceversion) {
-		this.serviceversion = serviceversion;
+	public void setServiceVersion(String serviceversion) {
+		this.serviceVersion = serviceversion;
 	}
 }
