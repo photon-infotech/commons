@@ -30,7 +30,7 @@ public class ApplicationInfo extends Element {
     
     private String code;
     private String version;
-    private Element techInfo;
+    private TechnologyInfo techInfo;
     //Information about the pilot project which was used to create this application
     private Element pilotInfo;
     
@@ -61,12 +61,12 @@ public class ApplicationInfo extends Element {
     public void setVersion(String version) {
         this.version = version;
     }
-
-    public Element getTechInfo() {
+    
+    public TechnologyInfo getTechInfo() {
         return techInfo;
     }
 
-    public void setTechInfo(Element techInfo) {
+    public void setTechInfo(TechnologyInfo techInfo) {
         this.techInfo = techInfo;
     }
 
