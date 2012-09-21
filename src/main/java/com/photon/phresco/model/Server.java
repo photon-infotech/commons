@@ -39,6 +39,7 @@ public class Server implements Serializable {
     private List<String> technologies = new ArrayList<String>();
     private String customerId;
     private boolean system;
+    private boolean used;
     
 	public Server() {
 		super();
@@ -112,6 +113,14 @@ public class Server implements Serializable {
 
     public void setSystem(boolean system) {
         this.system = system;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
     }
 
     @Override

@@ -31,6 +31,9 @@ import com.photon.phresco.commons.model.Element;
 @XmlRootElement
 public class Technology extends Element implements Cloneable, Serializable {
 
+	public enum DocumentationType {
+		DESCRIPTION, HELP_TEXT, TOOL_TIP, DOCUMENT, ARCHITECHTURE, CODING_GUIDELINES
+	}
     /**
      *
      */
@@ -44,8 +47,8 @@ public class Technology extends Element implements Cloneable, Serializable {
 	private List<Database> databases;
 	private List<WebService> webservices;
 	private boolean emailSupported;
-	private String description;
 	private String versionComment;
+	private String techVersion;
 	private List<String> appType;
 	private String appJar;
 	private String pluginJar;
@@ -55,6 +58,8 @@ public class Technology extends Element implements Cloneable, Serializable {
 	private ArchetypeInfo archetypeInfo;
 	private List<Documentation> docs;
 	private List<ArchetypeInfo> plugins;
+	private boolean used;
+	private boolean supportJs;
 	
     public Technology() {
         super();
@@ -142,20 +147,20 @@ public class Technology extends Element implements Cloneable, Serializable {
 		return versions;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public String getVersionComment() {
 		return versionComment;
 	}
 
 	public void setVersionComment(String versionComment) {
 		this.versionComment = versionComment;
+	}
+
+	public String getTechVersion() {
+		return techVersion;
+	}
+
+	public void setTechVersion(String techVersion) {
+		this.techVersion = techVersion;
 	}
 
 	public ArchetypeInfo getArchetypeInfo() {
@@ -213,9 +218,6 @@ public class Technology extends Element implements Cloneable, Serializable {
 	public void setCustomerId(String customerId) {
 		this.customerId = customerId;
 	}
-    
-	
-	
 
 	public List<Documentation> getDocs() {
         return docs;
@@ -225,14 +227,29 @@ public class Technology extends Element implements Cloneable, Serializable {
         this.docs = docs;
     }
 
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
+    public boolean isSupportJs() {
+        return supportJs;
+    }
+
+    public void setSupportJs(boolean supportJs) {
+        this.supportJs = supportJs;
+    }
+
     @Override
 	public String toString() {
 		return "Technology [appTypeId=" + appTypeId + ", frameworks="
 				+ frameworks + ", jsLibraries=" + jsLibraries + ", modules="
 				+ modules + ", servers=" + servers + ", databases=" + databases
 				+ ", webservices=" + webservices + ", emailSupported="
-				+ emailSupported + ", description=" + description
-				+ ", versionComment=" + versionComment + ", appType=" + appType
+				+ emailSupported + ", versionComment=" + versionComment + ", appType=" + appType
 				+ ", appJar=" + appJar + ", pluginJar=" + pluginJar
 				+ ", versions=" + versions + ", system=" + system
 				+ ", customerId=" + customerId  + "]";

@@ -38,6 +38,9 @@ package com.photon.phresco.util;
 public interface ServiceConstants {
 
 	String REST_API_PROJECT =  "/project";
+	String REST_API_PROJECT_CREATE =  "/create";
+	String REST_API_PROJECT_UPDATE =  "/update";
+	String REST_APP_UPDATEDOCS = "/updatedocs";
 	String REST_API_COMPONENT =  "/components";
 	String REST_API_ADMIN =  "/admin";
 	String REST_API_CUSTOMERS = "/customers";
@@ -84,6 +87,7 @@ public interface ServiceConstants {
 	String REST_QUERY_PROJECTID = "projectId";
 	String REST_QUERY_TYPE = "type";
 	String REST_QUERY_TYPE_MODULE = "module";
+	String REST_QUERY_TYPE_COMPONENT = "component";
 	String REST_QUERY_TYPE_JS = "js";
 	String REST_QUERY_CUSTOMERID = "customerId";
 	String REST_QUERY_APPTYPEID = "appTypeId";
@@ -117,6 +121,8 @@ public interface ServiceConstants {
 	String REPOINFO_COLLECTION_NAME = "repoinfo";
 	String CUSTOMERDAO_COLLECTION_NAME = "customerdao";
 	String CREATEDPROJECTS_COLLECTION_NAME = "createdprojects";
+	String ARCHETYPEINFO_COLLECTION_NAME = "archetypes";
+	String MODULEDAO_COLLECTION_NAME = "moduledao";
 	
 	/*
      * Constants for Exception Message keys
@@ -148,6 +154,10 @@ public interface ServiceConstants {
      */
 	String REST_API_FIELD_TECH = "technologies";
 	String REST_API_FIELD_APPID = "appTypeId";
+	String REST_API_USED = "used";
+	String REST_API_NAME = "name";
+	String REST_API_ARTIFACTID = "artifactId";
+	String REST_API_MODULEID = "moduleGroupId";
 	
 	/*
      * Constants for Media Type

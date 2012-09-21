@@ -64,7 +64,7 @@ public interface Constants {
     String MVN_GOAL_DEPLOY = "deploy";
     String MVN_PLUGIN_IPHONE_ID = "xcode:";
     String MVN_PLUGIN_WORDPRESS_ID = "wordpress:";
-
+    
     //Constants for Authentication Token
     String AUTH_TOKEN = "auth_token";
     
@@ -150,4 +150,20 @@ public interface Constants {
 	String WEBLOGIC_11gR1 = "11gR1(10.3.6)";
 	String WEBLOGIC_12c_PLUGIN_VERSION = "12.1.1.0";
 	String WEBLOGIC_11gr1c_PLUGIN_VERSION = "10.3.6.0";
+	
+	/*
+	 * Constants for Framework Options
+	 */
+	
+	String ENABLE_CODE_VALIDATION = "lbl.framework.options.code.validation";
+	String ENABLE_BUILD = "lbl.framework.options.build";
+	String ENABLE_DEPLOY = "lbl.framework.options.deploy";
+	String ENABLE_RUN_AGAINST_SOURCE = "lbl.framework.options.run.against.source";
+	String ENABLE_UNIT_TEST = "lbl.framework.options.unit.test";
+	String ENABLE_FUNCTIONAL_TEST = "lbl.framework.options.functional.test";
+	String ENABLE_PERFORMANCE_TEST = "lbl.framework.options.performance.test";
+	String ENABLE_LOAD_TEST = "lbl.framework.options.load.test";
+	String ENABLE_CONTINUOUS_INTEGRATION = "lbl.framework.options.continous.integration";
+	String ENABLE_JS_LIBRARIES = "lbl.framework.options.js.libraries";
+
 }

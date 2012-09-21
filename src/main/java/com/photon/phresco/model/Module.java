@@ -26,81 +26,27 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.photon.phresco.model.Documentation.DocumentationType;
+
 @XmlRootElement
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Module implements Serializable {
 
-    private String id;
+	private String id;
+	private String moduleGroupId;
     private String contentType;
     private String contentURL;
-    private List<String> technolgoyRef;
     private List<ModuleGroup> dependentModules;
-    private int documentsid;
     private String name;
     private String version;
-    private Boolean core;
     private Boolean required;
     private String groupId;
     private String artifactId;
-    private String url;
-    private int modulesid;
+    private List<Documentation> docs;
+    private boolean used;
 
     public Module() {
         // TODO Auto-generated constructor stub
-    }
-
-    /**
-     * @return the documentsid
-     */
-    public int getDocumentsid() {
-        return documentsid;
-    }
-
-    /**
-     * @param documentsid
-     *            the documentsid to set
-     */
-    public void setDocumentsid(int documentsid) {
-        this.documentsid = documentsid;
-    }
-
-    /**
-     * @return the moduleid
-     */
-    public int getModulesid() {
-        return modulesid;
-    }
-
-    /**
-     * @param moduleid
-     *            the moduleid to set
-     */
-    public void setModulesid(int moduleid) {
-        this.modulesid = moduleid;
-    }
-
-    /**
-     * @return the documentsId
-     */
-    public int getDocumentsId() {
-        return documentsid;
-    }
-
-    /**
-     * @param documentsId
-     *            the documentsId to set
-     * @param documentsid
-     */
-    public void setDocumentsId(int documentsid) {
-        this.documentsid = documentsid;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     /**
@@ -149,21 +95,6 @@ public class Module implements Serializable {
     }
 
     /**
-     * @return the technolgoyRef
-     */
-    public List<String> getTechnolgoyRef() {
-        return technolgoyRef;
-    }
-
-    /**
-     * @param technolgoyRef
-     *            the technolgoyRef to set
-     */
-    public void setTechnolgoyRef(List<String> technolgoyRef) {
-        this.technolgoyRef = technolgoyRef;
-    }
-
-    /**
      * @return the dependentModules
      */
     public List<ModuleGroup> getDependentModules() {
@@ -176,13 +107,6 @@ public class Module implements Serializable {
      */
     public void setDependentModules(List<ModuleGroup> dependentModules) {
         this.dependentModules = dependentModules;
-    }
-
-    /**
-     * @return the documents
-     */
-    public int getDocuments() {
-        return documentsid;
     }
 
     /**
@@ -213,21 +137,6 @@ public class Module implements Serializable {
      */
     public void setVersion(String version) {
         this.version = version;
-    }
-
-    /**
-     * @return the core
-     */
-    public Boolean getCore() {
-        return core;
-    }
-
-    /**
-     * @param core
-     *            the core to set
-     */
-    public void setCore(Boolean core) {
-        this.core = core;
     }
 
     /**
@@ -274,21 +183,54 @@ public class Module implements Serializable {
     public void setArtifactId(String artifactId) {
         this.artifactId = artifactId;
     }
+    
+	public List<Documentation> getDocs() {
+		return docs;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
+	public void setDocs(List<Documentation> docs) {
+		this.docs = docs;
+	}
+	
+	public Documentation getDoc(DocumentationType type) {
+		List<Documentation> docs2 = getDocs();
+		if (docs2 == null || docs2.isEmpty()) {
+			return null;
+		}
+
+		for (Documentation documentation : docs2) {
+			if (type.equals(documentation.getType())) {
+				return documentation;
+			}
+		}
+
+		return null;
+	}
+	
+	public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
+    public String getModuleGroupId() {
+        return moduleGroupId;
+    }
+
+    public void setModuleGroupId(String moduleGroupId) {
+        this.moduleGroupId = moduleGroupId;
+    }
+
     @Override
     public String toString() {
-        return "Modules [id=" + id + ", contentType=" + contentType
-                + ", contentURL=" + contentURL + ", technolgoyRef="
-                + technolgoyRef + ", dependentModules=" + dependentModules
-                + ", documents=" + documentsid + ", name=" + name
-                + ", version=" + version + ", core=" + core + ", required="
-                + required + ", groupId=" + groupId + ", artifactId="
-                + artifactId + "]";
+        return "Module [id=" + id + ", moduleGroupId=" + moduleGroupId
+                + ", contentType=" + contentType + ", contentURL=" + contentURL
+                + ", dependentModules=" + dependentModules + ", name=" + name
+                + ", version=" + version + ", required=" + required
+                + ", groupId=" + groupId + ", artifactId=" + artifactId
+                + ", docs=" + docs + ", used=" + used + "]";
     }
 
 }
