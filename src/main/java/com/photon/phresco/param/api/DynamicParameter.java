@@ -5,7 +5,7 @@ import java.util.Collection;
 import com.photon.phresco.plugins.model.Mojos;
 
 
-public interface DynamicParam {
+public interface DynamicParameter {
 
     Collection<Mojos.Mojo.Configuration.Parameters.Parameter.Possiblevalues> getValues();
 }
