@@ -52,17 +52,9 @@ public class User extends Element {
 	 * @param description
 	 */
 	public User(String id, String name, String description) {
-		super(id, name, description);
+		super();
 	}
 
-	/**
-	 * @param name
-	 * @param description
-	 */
-	public User(String name, String description) {
-		super(name, description);
-	}
-	
 	/**
 	 * @return
 	 */

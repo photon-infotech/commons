@@ -35,8 +35,7 @@ public class WebService extends Element {
 	}
 
 	public WebService(String id, String name, String version, String description) {
-	    super(id, name, description);
-		this.version = version;
+	    super();
 	}
 
 	public String getVersion() {

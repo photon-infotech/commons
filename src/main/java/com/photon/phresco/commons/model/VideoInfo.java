@@ -38,11 +38,7 @@ public class VideoInfo extends CustomerBasedElement {
 	}
 	
 	public VideoInfo(String id, String name, String description) {
-        super(id, name, description);
-    }
-
-    public VideoInfo(String name, String description) {
-        super(name, description);
+        super();
     }
 
     public String getImageurl() {

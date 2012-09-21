@@ -45,15 +45,7 @@ public class Role extends Element {
 	 * @param description
 	 */
 	public Role(String id, String name, String description) {
-		super(id, name, description);
-	}
-
-	/**
-	 * @param name
-	 * @param description
-	 */
-	public Role(String name, String description) {
-		super(name, description);
+		super();
 	}
 
 	/**

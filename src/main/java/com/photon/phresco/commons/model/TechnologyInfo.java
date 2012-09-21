@@ -57,8 +57,7 @@ public class TechnologyInfo extends Element {
     }
 
     public TechnologyInfo(String id, String name, String description, String version) {
-        super(id, name, description);
-        this.version = version;
+        super();
     }
 
     public String getVersion() {
