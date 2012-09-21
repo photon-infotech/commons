@@ -5,13 +5,10 @@ public class CoreOption {
     String techId;
     boolean core;
     
-    boolean required;
-    
     public CoreOption(String techId, boolean core, boolean required) {
         super();
         this.techId = techId;
         this.core = core;
-        this.required = required;
     }
 
     public String getTechId() {
@@ -29,14 +26,4 @@ public class CoreOption {
     public void setCore(boolean core) {
         this.core = core;
     }
-    
-    public boolean isRequired() {
-        return required;
-    }
-    
-    public void setRequired(boolean required) {
-        this.required = required;
-    }
-
-    
 }
