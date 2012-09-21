@@ -32,10 +32,6 @@ public class ApplicationType extends CustomerBasedElement implements Serializabl
 		super();
 	}
 
-	public ApplicationType(String name, String description) {
-		super(name, description);
-	}
-
     @Override
 	public String toString() {
 		return super.toString();

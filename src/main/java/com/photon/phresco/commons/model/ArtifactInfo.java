@@ -32,6 +32,7 @@ public class ArtifactInfo extends Element {
     private long fileSize;
     //Ids of dependent artifactInfos
     private List<String> dependencyIds;
+    private List<RequiredOption> appliesTo;
     
     public String getArtifactGroupId() {
         return artifactGroupId;

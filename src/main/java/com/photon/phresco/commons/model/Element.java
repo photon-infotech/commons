@@ -22,6 +22,7 @@ package com.photon.phresco.commons.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -63,20 +64,13 @@ public class Element implements Serializable {
 
 	public Element() {
 		super();
+		this.id = UUID.randomUUID().toString();
 	}
 
-	public Element(String id, String name, String description) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-	}
-
-	public Element(String name, String description) {
-		super();
-		this.name = name;
-		this.description = description;
-	}
+    public Element(String id) {
+        super();
+        this.id = id;
+    }
 
 	/**
 	 * @return

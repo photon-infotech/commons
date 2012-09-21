@@ -52,23 +52,6 @@ public class Customer extends Element {
 	public Customer() {
 		super();
 	}
-
-	/**
-	 * @param name
-	 * @param description
-	 */
-	public Customer(String name, String description) {
-		super(name, description);
-	}
-
-	/**
-	 * @param id
-	 * @param name
-	 * @param description
-	 */
-	public Customer(String id, String name, String description) {
-	    super(id, name, description);
-	}
 	
 	/**
 	 * @return

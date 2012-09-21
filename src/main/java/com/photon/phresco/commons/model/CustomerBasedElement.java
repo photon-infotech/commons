@@ -37,13 +37,9 @@ public abstract class CustomerBasedElement extends Element {
 		super();
 	}
 
-	protected CustomerBasedElement(String id, String name, String description) {
-		super(id, name, description);
-	}
-
-	protected CustomerBasedElement(String name, String description) {
-		super(name, description);
-	}
+    protected CustomerBasedElement(String id) {
+        super(id);
+    }
 
     public List<String> getCustomerIds() {
         return customerIds;

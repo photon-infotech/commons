@@ -24,6 +24,7 @@ import java.util.List;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+
 public class ArtifactGroup extends CustomerBasedElement {
     
 	private String groupId;
@@ -35,28 +36,11 @@ public class ArtifactGroup extends CustomerBasedElement {
     //module, component, js, archetype
     private String type;
     private String imageURL;
-    private List<String> appliesTo;
+    private List<CoreOption> appliesTo;
     
     public ArtifactGroup() {
         super();
     }
-    
-    public ArtifactGroup(String id, String name, String description) {
-        super(id, name, description);
-    }
-
-    public ArtifactGroup(String groupId, String artifactId) {
-        this.groupId = groupId;
-        this.artifactId = artifactId;
-    }
-
-    public ArtifactGroup(String name, String description, 
-            String groupId, String artifactId, String packaging) {
-		super(name, description);
-		this.groupId = groupId;
-		this.artifactId = artifactId;
-		this.packaging = packaging;
-	}
 
     public String getGroupId() {
         return groupId;
@@ -114,11 +98,11 @@ public class ArtifactGroup extends CustomerBasedElement {
         this.classifier = classifier;
     }
     
-    public List<String> getAppliesTo() {
+    public List<CoreOption> getAppliesTo() {
         return appliesTo;
     }
 
-    public void setAppliesTo(List<String> appliesTo) {
+    public void setAppliesTo(List<CoreOption> appliesTo) {
         this.appliesTo = appliesTo;
     }
     

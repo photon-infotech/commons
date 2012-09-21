@@ -31,6 +31,7 @@ public class VideoType extends ArtifactGroup {
 	private String url;
 
 	public VideoType() {
+	    super();
 	}
 
 	public String getUrl() {

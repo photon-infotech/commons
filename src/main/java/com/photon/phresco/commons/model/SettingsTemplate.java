@@ -48,11 +48,6 @@ public class SettingsTemplate extends CustomerBasedElement {
         super();
     }
 
-    public SettingsTemplate(String type, List<PropertyTemplate> properties) {
-        this.type = type;
-        this.properties = properties;
-    }
-
 	public String getType() {
         return type;
     }

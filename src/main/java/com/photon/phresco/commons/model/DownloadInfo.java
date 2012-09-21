@@ -36,14 +36,6 @@ public class DownloadInfo extends ArtifactGroup {
 	public DownloadInfo() {
 	    super();
 	}
-	
-	public DownloadInfo(String id, String name, String description) {
-        super(id, name, description);
-    }
-
-    public DownloadInfo(String name, String description) {
-        super(name, description);
-    }
 
     public List<Element> getAppliesToTechs() {
         return appliesToTechs;

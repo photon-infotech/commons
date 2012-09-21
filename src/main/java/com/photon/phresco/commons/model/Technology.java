@@ -46,8 +46,8 @@ public class Technology extends CustomerBasedElement implements Cloneable, Seria
         super();
     }
 
-    public Technology(String id, String name) {
-        super(id, name);
+    public Technology(String id) {
+        super(id);
     }
 
     public String getAppTypeId() {
