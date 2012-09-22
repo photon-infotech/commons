@@ -25,6 +25,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import com.google.gson.Gson;
+import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ProjectInfo;
 import com.photon.phresco.exception.PhrescoException;
 
@@ -69,7 +70,7 @@ public class ProjectUtils implements Constants {
 		}
 	}
 	
-	public static void updateProjectInfo(ProjectInfo info, File phrescoFolder) throws PhrescoException {
+	public static void updateProjectInfo(ApplicationInfo info, File phrescoFolder) throws PhrescoException {
 	    throw new UnsupportedOperationException("Method not supported yet");
 //		// TODO Only  the use modified information should come from UI. So no filtering should be removed.
 //		BufferedWriter out = null;

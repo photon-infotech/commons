@@ -5,7 +5,7 @@ public class CoreOption {
     String techId;
     boolean core;
     
-    public CoreOption(String techId, boolean core, boolean required) {
+    public CoreOption(String techId, boolean core) {
         super();
         this.techId = techId;
         this.core = core;
