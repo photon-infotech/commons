@@ -46,7 +46,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * 
  */
 @XmlRootElement
-public class TechnologyInfo extends Element {
+public class TechnologyInfo {
     
     private static final long serialVersionUID = 2573493968812398251L;
     
@@ -57,8 +57,10 @@ public class TechnologyInfo extends Element {
         super();
     }
 
-    public TechnologyInfo(String id, String name, String description, String appTypeId, String version) {
+    public TechnologyInfo(String appTypeId, String version) {
         super();
+        this.appTypeId = appTypeId;
+        this.version = version;
     }
 
     public String getAppTypeId() {
@@ -80,7 +82,6 @@ public class TechnologyInfo extends Element {
     public String toString() {
 	    return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
-	            .append(super.toString())
 	            .append("appTypeId", getAppTypeId())
                 .append("techVersion", getVersion())
                 .toString();

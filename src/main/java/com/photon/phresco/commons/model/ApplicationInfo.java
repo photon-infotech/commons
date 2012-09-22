@@ -34,13 +34,13 @@ public class ApplicationInfo extends Element {
     //Information about the pilot project which was used to create this application
     private Element pilotInfo;
     
-    private List<ArtifactGroup> selectedModules;
-    private List<ArtifactGroup> selectedJSLibs;
+    private List<String> selectedModules;
+    private List<String> selectedJSLibs;
     private List<ArtifactGroup> selectedFrameworks;
-    private List<ArtifactGroup> selectedComponents;
-    private List<DownloadInfo> selectedServers;
-    private List<DownloadInfo> selectedDatabases;
-    private List<WebService> selectedWebservices;
+    private List<String> selectedComponents;
+    private List<String> selectedServers;
+    private List<String> selectedDatabases;
+    private List<String> selectedWebservices;
     private boolean emailSupported;
 
     //Information about where the pilot project is stored in repository
@@ -78,19 +78,19 @@ public class ApplicationInfo extends Element {
         this.pilotInfo = pilotInfo;
     }
 
-    public List<ArtifactGroup> getSelectedModules() {
+    public List<String> getSelectedModules() {
         return selectedModules;
     }
 
-    public void setSelectedModules(List<ArtifactGroup> selectedModules) {
+    public void setSelectedModules(List<String> selectedModules) {
         this.selectedModules = selectedModules;
     }
 
-    public List<ArtifactGroup> getSelectedJSLibs() {
+    public List<String> getSelectedJSLibs() {
         return selectedJSLibs;
     }
 
-    public void setSelectedJSLibs(List<ArtifactGroup> selectedJSLibs) {
+    public void setSelectedJSLibs(List<String> selectedJSLibs) {
         this.selectedJSLibs = selectedJSLibs;
     }
 
@@ -102,35 +102,35 @@ public class ApplicationInfo extends Element {
         this.selectedFrameworks = selectedFrameworks;
     }
 
-    public List<ArtifactGroup> getSelectedComponents() {
+    public List<String> getSelectedComponents() {
         return selectedComponents;
     }
 
-    public void setSelectedComponents(List<ArtifactGroup> selectedComponents) {
+    public void setSelectedComponents(List<String> selectedComponents) {
         this.selectedComponents = selectedComponents;
     }
 
-    public List<DownloadInfo> getSelectedServers() {
+    public List<String> getSelectedServers() {
         return selectedServers;
     }
 
-    public void setSelectedServers(List<DownloadInfo> selectedServers) {
+    public void setSelectedServers(List<String> selectedServers) {
         this.selectedServers = selectedServers;
     }
 
-    public List<DownloadInfo> getSelectedDatabases() {
+    public List<String> getSelectedDatabases() {
         return selectedDatabases;
     }
 
-    public void setSelectedDatabases(List<DownloadInfo> selectedDatabases) {
+    public void setSelectedDatabases(List<String> selectedDatabases) {
         this.selectedDatabases = selectedDatabases;
     }
 
-    public List<WebService> getSelectedWebservices() {
+    public List<String> getSelectedWebservices() {
         return selectedWebservices;
     }
 
-    public void setSelectedWebservices(List<WebService> selectedWebservices) {
+    public void setSelectedWebservices(List<String> selectedWebservices) {
         this.selectedWebservices = selectedWebservices;
     }
 
