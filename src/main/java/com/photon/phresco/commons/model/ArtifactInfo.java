@@ -65,6 +65,14 @@ public class ArtifactInfo extends Element {
     public void setDependencies(List<String> dependencyIds) {
         this.dependencyIds = dependencyIds;
     }
+    
+    public List<RequiredOption> getAppliesTo() {
+        return appliesTo;
+    }
+
+    public void setAppliesTo(List<RequiredOption> appliesTo) {
+        this.appliesTo = appliesTo;
+    }
 
     public void setFileSize(long fileSize) {
         this.fileSize = fileSize;
@@ -84,6 +92,7 @@ public class ArtifactInfo extends Element {
                 .append("isUsed", isUsed())
                 .append("fileSize", getFileSize())
                 .append("dependencies", getDependencies())
+                .append("appliesTo", getAppliesTo())
                 .toString();
     }
     

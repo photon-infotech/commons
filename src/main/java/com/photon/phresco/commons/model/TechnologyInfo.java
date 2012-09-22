@@ -50,16 +50,25 @@ public class TechnologyInfo extends Element {
     
     private static final long serialVersionUID = 2573493968812398251L;
     
+    private String appTypeId;
     private String version;
 
     public TechnologyInfo() {
         super();
     }
 
-    public TechnologyInfo(String id, String name, String description, String version) {
+    public TechnologyInfo(String id, String name, String description, String appTypeId, String version) {
         super();
     }
 
+    public String getAppTypeId() {
+        return appTypeId;
+    }
+
+    public void setAppTypeId(String appTypeId) {
+        this.appTypeId = appTypeId;
+    }
+    
     public String getVersion() {
         return version;
     }
@@ -72,6 +81,7 @@ public class TechnologyInfo extends Element {
 	    return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
 	            .append(super.toString())
+	            .append("appTypeId", getAppTypeId())
                 .append("techVersion", getVersion())
                 .toString();
 	}

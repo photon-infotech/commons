@@ -26,6 +26,4 @@ public class RequiredOption {
     public void setRequired(boolean required) {
         this.required = required;
     }
-
-    
 }
