@@ -26,6 +26,10 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 
 public class ArtifactGroup extends CustomerBasedElement {
+	
+	public enum Type {
+		ARCHETYPE, FEATURE, JAVASCRIPT
+	}
     
 	private String groupId;
     private String artifactId;
@@ -34,7 +38,7 @@ public class ArtifactGroup extends CustomerBasedElement {
     private String classifier;
     private List<ArtifactInfo> versions;
     //module, component, js, archetype
-    private String type;
+    private Type type;
     private String imageURL;
     private List<CoreOption> appliesTo;
     
@@ -74,11 +78,11 @@ public class ArtifactGroup extends CustomerBasedElement {
         this.versions = artifactInfos;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 

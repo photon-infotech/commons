@@ -30,19 +30,22 @@ import org.apache.commons.lang.builder.ToStringStyle;
 @XmlRootElement
 public class Technology extends CustomerBasedElement implements Cloneable, Serializable {
 
-    private static final long serialVersionUID = 1L;
+    public enum Option {
+    	BUILD_SUPPORTED, CODE_QULAITY_SUPPORTED, DEPLOY_SUPPORTED, 
+    	UNIT_TEST_SUPPORTED, FUNCTIONAL_TEST_SUPPORTED, PERFORMANCE_TEST_SUPPORTED, 
+    	LOAD_TEST_SUPPORTED, REPORTS_SUPPORTED, CI_SUPPORTED
+	}
+
+	private static final long serialVersionUID = 1L;
     
     private String appTypeId;
 	private List<String> techVersions;
 	private ArtifactGroup archetypeInfo;
 	
-	//Plugins and Dependencies
-	private List<ArtifactGroup> dependencies;
-	
 	//Admin Options - Is build enabled, is Code Quality enabled, etc
-//	private List<Option> options;
+	private List<Option> options;
 	
-    public Technology() {
+	public Technology() {
         super();
     }
 
@@ -74,22 +77,20 @@ public class Technology extends CustomerBasedElement implements Cloneable, Seria
         this.archetypeInfo = archetypeInfo;
     }
 
-    public List<ArtifactGroup> getDependencies() {
-        return dependencies;
-    }
+    public List<Option> getOptions() {
+		return options;
+	}
 
-    public void setDependencies(List<ArtifactGroup> dependencies) {
-        this.dependencies = dependencies;
-    }
+	public void setOptions(List<Option> options) {
+		this.options = options;
+	}
 
     public String toString() {
-        return new ToStringBuilder(this,
-                ToStringStyle.DEFAULT_STYLE)
+        return new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)
                 .append(super.toString())
                 .append("appTypeId", getAppTypeId())
                 .append("archetypeInfo", getArchetypeInfo())
                 .append("techVersions", getTechVersions())
-                .append("dependencies", getDependencies())
                 .toString();
     }
 

@@ -51,9 +51,9 @@ public interface ServiceConstants {
 	String REST_API_SERVERS = "/servers";
 	String REST_API_DATABASES = "/databases";
 	String REST_API_WEBSERVICES = "/webservices";
-	String REST_API_TECHNOLOGIES= "/technologies";
+	String REST_API_TECHNOLOGIES = "/technologies";
 	String REST_API_DOWNLOADS = "/downloads";
-	String REST_API_GLOBALURL="/globalurl";
+	String REST_API_GLOBALURL ="/globalurl";
 	String REST_API_VIDEOS = "/videos";
 	String REST_API_USERS = "/users";
 	String REST_API_ROLES = "/roles";
@@ -123,6 +123,11 @@ public interface ServiceConstants {
 	String CREATEDPROJECTS_COLLECTION_NAME = "createdprojects";
 	String ARCHETYPEINFO_COLLECTION_NAME = "archetypes";
 	String MODULEDAO_COLLECTION_NAME = "moduledao";
+
+	/*
+	 * DB query params
+	 */
+	String DB_COLUMN_CUSTOMERIDS = "customerIds";
 	
 	/*
      * Constants for Exception Message keys

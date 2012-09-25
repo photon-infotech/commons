@@ -65,6 +65,7 @@ public class Element implements Serializable {
 	public Element() {
 		super();
 		this.id = UUID.randomUUID().toString();
+		this.creationDate = new Date();
 	}
 
     public Element(String id) {

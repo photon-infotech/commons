@@ -58,8 +58,7 @@ public abstract class CustomerBasedElement extends Element {
     }
 
     public String toString() {
-        return new ToStringBuilder(this,
-                ToStringStyle.DEFAULT_STYLE)
+        return new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)
                 .append(super.toString())
                 .append("customerIds", getCustomerIds())
                 .append("isUsed", isUsed())
