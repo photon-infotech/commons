@@ -36,23 +36,27 @@ public class User extends Element {
 	private String email;
 	private String firstName;
 	private String lastName;
-	private List<Role> roles;
+	private List<String> roleIds;
 	private boolean phrescoEnabled;
 	private String displayName;
-	private List<Customer> customers;
+	private List<String> customerIds;
 	private String token;
 	
 	public User() {
 		super();
 	}
 
+	public User(String id) {
+		super(id);
+	}
+	
 	/**
 	 * @param id
 	 * @param name
 	 * @param description
 	 */
 	public User(String id, String name, String description) {
-		super();
+		super(id);
 	}
 
 	/**
@@ -114,15 +118,15 @@ public class User extends Element {
     /**
      * @return
      */
-    public List<Role> getRoles() {
-		return roles;
+    public List<String> getRoleIds() {
+		return roleIds;
 	}
 
 	/**
 	 * @param roles
 	 */
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
+	public void setRoleIds(List<String> roleIds) {
+		this.roleIds = roleIds;
 	}
 
 	/**
@@ -156,15 +160,15 @@ public class User extends Element {
 	/**
 	 * @return
 	 */
-	public List<Customer> getCustomers() {
-        return customers;
+	public List<String> getCustomerIds() {
+        return customerIds;
     }
 
     /**
      * @param customers
      */
-    public void setCustomers(List<Customer> customers) {
-        this.customers = customers;
+    public void setCustomerIds(List<String> customerIds) {
+        this.customerIds = customerIds;
     }
 
     /**
@@ -189,10 +193,10 @@ public class User extends Element {
                 .append("email", email)
                 .append("firstName", firstName)
                 .append("lastName", lastName)
-                .append("roles", roles)
+                .append("roleIds", roleIds)
                 .append("phrescoEnabled", phrescoEnabled)
                 .append("displayName", displayName)
-                .append("customers", customers)
+                .append("customers", customerIds)
                 .append("token", token)
                 .toString();
     }

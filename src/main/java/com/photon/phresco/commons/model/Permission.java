@@ -40,6 +40,7 @@ public class Permission extends Element {
 	 * @param description
 	 */
 	public Permission(String id, String name, String description) {
-		super();
+		super(id);
 	}
+	
 }

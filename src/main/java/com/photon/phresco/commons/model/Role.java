@@ -30,7 +30,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 @XmlRootElement
 public class Role extends Element {
 
-    private List<Permission> permissions;
+    private List<String> permissionIds;
 
 	/**
 	 * 
@@ -51,22 +51,22 @@ public class Role extends Element {
 	/**
 	 * @return
 	 */
-	public List<Permission> getPermissions() {
-		return permissions;
+	public List<String> getPermissionIds() {
+		return permissionIds;
 	}
 
 	/**
 	 * @param roles
 	 */
-	public void setPermissions(List<Permission> roles) {
-		this.permissions = roles;
+	public void setPermissions(List<String> permissionIds) {
+		this.permissionIds = permissionIds;
 	}
 
 	public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
                 .append(super.toString())
-                .append("permissions", permissions)
+                .append("permissions", permissionIds)
                 .toString();
     }
 }

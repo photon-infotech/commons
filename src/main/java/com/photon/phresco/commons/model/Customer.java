@@ -30,6 +30,8 @@ import org.apache.commons.lang.builder.ToStringStyle;
 @XmlRootElement
 public class Customer extends Element {
 
+	private static final long serialVersionUID = -1276089034320060699L;
+	
 	private String emailId;
     private String address;
     private String country;
@@ -51,6 +53,10 @@ public class Customer extends Element {
 	 */
 	public Customer() {
 		super();
+	}
+
+	public Customer(String id) {
+		super(id);
 	}
 	
 	/**

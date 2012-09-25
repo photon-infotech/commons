@@ -119,7 +119,7 @@ public interface ServiceConstants {
 	String PERMISSION_COLLECTION_NAME = "permissions";
 	String APPTYPESDAO_COLLECTION_NAME = "apptypedao";
 	String REPOINFO_COLLECTION_NAME = "repoinfo";
-	String CUSTOMERDAO_COLLECTION_NAME = "customerdao";
+	String CUSTOMERDAO_COLLECTION_NAME = "customers";
 	String CREATEDPROJECTS_COLLECTION_NAME = "createdprojects";
 	String ARCHETYPEINFO_COLLECTION_NAME = "archetypes";
 	String ARTIFACT_GROUP_COLLECTION_NAME = "artifactGroupDAOs";
