@@ -122,12 +122,16 @@ public interface ServiceConstants {
 	String CUSTOMERDAO_COLLECTION_NAME = "customerdao";
 	String CREATEDPROJECTS_COLLECTION_NAME = "createdprojects";
 	String ARCHETYPEINFO_COLLECTION_NAME = "archetypes";
+	String ARTIFACT_GROUP_COLLECTION_NAME = "artifactGroupDAOs";
+	String ARTIFACT_INFO_COLLECTION_NAME = "artifactInfos";
 	String MODULEDAO_COLLECTION_NAME = "moduledao";
 
 	/*
 	 * DB query params
 	 */
 	String DB_COLUMN_CUSTOMERIDS = "customerIds";
+    String DB_COLUMN_ARTIFACT_GROUP_ID = "artifactGroupId";
+
 	
 	/*
      * Constants for Exception Message keys
