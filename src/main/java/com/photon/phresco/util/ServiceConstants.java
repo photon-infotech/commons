@@ -107,7 +107,6 @@ public interface ServiceConstants {
 	String USERS_COLLECTION_NAME = "users";
 	String DOWNLOAD_COLLECTION_NAME = "downloads";
 	String GLOBALURL_COLLECTION_NAME="globalurl";
-	String MODULES_COLLECTION_NAME = "modules";
 	String APPTYPES_COLLECTION_NAME = "apptypes";
 	String PILOTS_COLLECTION_NAME = "pilots";
 	String SERVERS_COLLECTION_NAME = "servers";
@@ -125,13 +124,13 @@ public interface ServiceConstants {
 	String ARCHETYPEINFO_COLLECTION_NAME = "archetypes";
 	String ARTIFACT_GROUP_COLLECTION_NAME = "artifactGroupDAOs";
 	String ARTIFACT_INFO_COLLECTION_NAME = "artifactInfos";
-	String MODULEDAO_COLLECTION_NAME = "moduledao";
 
 	/*
 	 * DB query params
 	 */
 	String DB_COLUMN_CUSTOMERIDS = "customerIds";
     String DB_COLUMN_ARTIFACT_GROUP_ID = "artifactGroupId";
+    String DB_COLUMN_ARTIFACT_GROUP_TYPE = "type";
 
 	
 	/*

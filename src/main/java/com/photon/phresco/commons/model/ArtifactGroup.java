@@ -24,7 +24,6 @@ import java.util.List;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-
 public class ArtifactGroup extends CustomerBasedElement {
 	
 	public enum Type {
@@ -41,9 +40,13 @@ public class ArtifactGroup extends CustomerBasedElement {
     private Type type;
     private String imageURL;
     private List<CoreOption> appliesTo;
-    
+
     public ArtifactGroup() {
         super();
+    }
+
+    public ArtifactGroup(String id) {
+        super(id);
     }
 
     public String getGroupId() {
