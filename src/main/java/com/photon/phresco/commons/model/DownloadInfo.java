@@ -30,19 +30,23 @@ import org.apache.commons.lang.builder.ToStringStyle;
 @XmlRootElement
 public class DownloadInfo extends ArtifactGroup {
 
-	private List<Element> appliesToTechs;
+	private List<String> appliesToTechIds;
 	private List<PlatformType> platform;
 	
 	public DownloadInfo() {
 	    super();
 	}
 
-    public List<Element> getAppliesToTechs() {
-        return appliesToTechs;
+	public DownloadInfo(String id) {
+	    super(id);
+	}
+	
+    public List<String> getAppliesToTechIds() {
+        return appliesToTechIds;
     }
 
-    public void setAppliesToTechs(List<Element> appliesToTechs) {
-        this.appliesToTechs = appliesToTechs;
+    public void setAppliesToTechIds(List<String> appliesToTechs) {
+        this.appliesToTechIds = appliesToTechs;
     }
 
     public List<PlatformType> getPlatform() {
@@ -58,7 +62,7 @@ public class DownloadInfo extends ArtifactGroup {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
                 .append(super.toString())
-                .append("appliesToTechs", getAppliesToTechs())
+                .append("appliesToTechs", getAppliesToTechIds())
                 .append("platform", getPlatform())
                 .toString();
     }
