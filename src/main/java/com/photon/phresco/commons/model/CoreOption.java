@@ -5,6 +5,10 @@ public class CoreOption {
     String techId;
     boolean core;
     
+    public CoreOption(){
+    	super();
+    }
+    
     public CoreOption(String techId, boolean core) {
         super();
         this.techId = techId;
