@@ -58,11 +58,11 @@ public class ArtifactInfo extends Element {
         this.used = used;
     }
     
-    public List<String> getDependencies() {
+    public List<String> getDependencyIds() {
         return dependencyIds;
     }
     
-    public void setDependencies(List<String> dependencyIds) {
+    public void setDependencyIds(List<String> dependencyIds) {
         this.dependencyIds = dependencyIds;
     }
     
@@ -91,7 +91,7 @@ public class ArtifactInfo extends Element {
                 .append("version", getVersion())
                 .append("isUsed", isUsed())
                 .append("fileSize", getFileSize())
-                .append("dependencies", getDependencies())
+                .append("dependencies", getDependencyIds())
                 .append("appliesTo", getAppliesTo())
                 .toString();
     }
