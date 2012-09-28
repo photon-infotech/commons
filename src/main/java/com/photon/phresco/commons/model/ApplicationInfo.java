@@ -26,7 +26,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 
-public class ApplicationInfo extends Element {
+public class ApplicationInfo extends CustomerBasedElement {
     
     private String code;
     private String version;
