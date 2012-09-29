@@ -32,6 +32,7 @@ public class DownloadInfo extends ArtifactGroup {
 
 	private List<String> appliesToTechIds;
 	private List<PlatformType> platform;
+	private String category;
 	
 	public DownloadInfo() {
 	    super();
@@ -57,7 +58,15 @@ public class DownloadInfo extends ArtifactGroup {
         this.platform = platform;
     }
 
-    @Override
+    public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	@Override
     public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
