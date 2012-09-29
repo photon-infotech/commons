@@ -34,6 +34,10 @@ public class ArtifactInfo extends Element {
     private List<String> dependencyIds;
     private List<RequiredOption> appliesTo;
     
+    public ArtifactInfo() {
+		// TODO Auto-generated constructor stub
+	}
+    
     public String getArtifactGroupId() {
         return artifactGroupId;
     }

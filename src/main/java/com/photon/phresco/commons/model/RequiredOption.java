@@ -5,6 +5,9 @@ public class RequiredOption {
     String techId;
     boolean required;
     
+    public RequiredOption() {
+		// TODO Auto-generated constructor stub
+	}
     public RequiredOption(String techId, boolean required) {
         super();
         this.techId = techId;

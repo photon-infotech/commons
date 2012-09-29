@@ -122,8 +122,9 @@ public interface ServiceConstants {
 	String CUSTOMERDAO_COLLECTION_NAME = "customers";
 	String CREATEDPROJECTS_COLLECTION_NAME = "createdprojects";
 	String ARCHETYPEINFO_COLLECTION_NAME = "archetypes";
-	String ARTIFACT_GROUP_COLLECTION_NAME = "ArtifactDAO";
-	String ARTIFACT_INFO_COLLECTION_NAME = "ArtifactInfo";
+	String ARTIFACT_GROUP_COLLECTION_NAME = "artifactGroupDAOs";
+	String ARTIFACT_INFO_COLLECTION_NAME = "artifactInfos";
+	String APPLICATION_INFO_COLLECTION_NAME = "applicationInfos";
 
 	/*
 	 * DB query params
