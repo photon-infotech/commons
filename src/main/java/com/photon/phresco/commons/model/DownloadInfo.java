@@ -28,11 +28,12 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 
 @XmlRootElement
-public class DownloadInfo extends ArtifactGroup {
+public class DownloadInfo extends CustomerBasedElement {
 
 	private List<String> appliesToTechIds;
 	private List<PlatformType> platform;
 	private String category;
+	private ArtifactGroup artifactGroup;
 	
 	public DownloadInfo() {
 	    super();
@@ -64,6 +65,14 @@ public class DownloadInfo extends ArtifactGroup {
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+
+	public ArtifactGroup getArtifactGroup() {
+		return artifactGroup;
+	}
+
+	public void setArtifactGroup(ArtifactGroup artifactGroup) {
+		this.artifactGroup = artifactGroup;
 	}
 
 	@Override
