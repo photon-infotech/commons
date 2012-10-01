@@ -26,10 +26,11 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 
 @XmlRootElement
-public class VideoType extends ArtifactGroup {
+public class VideoType extends Element {
     
 	private String url;
-
+	private ArtifactGroup artifactGroup;
+	
 	public VideoType() {
 	    super();
 	}
@@ -42,12 +43,21 @@ public class VideoType extends ArtifactGroup {
 		this.url = url;
 	}
 
-    @Override
+    public ArtifactGroup getArtifactGroup() {
+		return artifactGroup;
+	}
+
+	public void setArtifactGroup(ArtifactGroup artifactGroup) {
+		this.artifactGroup = artifactGroup;
+	}
+
+	@Override
     public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
                 .append(super.toString())
                 .append("url", getUrl())
+                .append("artifactGroup", getArtifactGroup())
                 .toString();
     }
 }
