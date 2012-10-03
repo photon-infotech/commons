@@ -56,6 +56,7 @@ public interface ServiceConstants {
 	String REST_API_GLOBALURL ="/globalurl";
 	String REST_API_VIDEOS = "/videos";
 	String REST_API_USERS = "/users";
+	String REST_API_USERS_IMPORT = "/users/import";
 	String REST_API_ROLES = "/roles";
 	String REST_API_FORUMS = "/forums";
 	String REST_API_PERMISSIONS = "/permissions";
