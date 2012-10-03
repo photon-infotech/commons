@@ -1,28 +1,45 @@
 package com.photon.phresco.commons.model;
 
-import com.photon.phresco.util.PlatformTypes;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
-public enum PlatformType {
+public class PlatformType {
     
-    WIN32(PlatformTypes.WINDOWS, 32), WIN64(PlatformTypes.WINDOWS, 64),
-    LINUX32(PlatformTypes.LINUX, 32), LINUX64(PlatformTypes.LINUX, 64),
-    MAC32(PlatformTypes.MAC, 32), MAC64(PlatformTypes.MAC, 64),
-    WINSERVER32(PlatformTypes.WINDOWS_SERVER86, 32), WINSERVER64(PlatformTypes.WINDOWS_SERVER64, 64);
+    private String type;
+
+    private int bit;
     
-    String type;
-    int bit;
+    private PlatformType() {
+        super();
+    }
     
     private PlatformType(String type, int bit) {
         this.type = type;
         this.bit = bit;
+    }
+    
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getBit() {
         return bit;
     }
 
-    public String getType() {
-        return type;
+    public void setBit(int bit) {
+        this.bit = bit;
     }
-    
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this,
+                ToStringStyle.DEFAULT_STYLE)
+                .append("type", getType())
+                .append("bit", getBit())
+                .toString();
+    }
 }
