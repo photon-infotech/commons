@@ -39,8 +39,8 @@ public class Customer extends Element {
     private String zipcode;
     private String contactNumber;
     private String fax;
-	Date validFrom;
-	Date validUpto;
+	private Date validFrom;
+	private Date validUpto;
 	private LicenseType type;
 	private RepoInfo repoInfo;
 	
