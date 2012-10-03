@@ -3,17 +3,17 @@ package com.photon.phresco.commons.model;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-public class PlatformType {
+public class PlatformType extends Element {
     
-    private String type;
-
+	private static final long serialVersionUID = 1L;
+	private String type;
     private int bit;
     
-    private PlatformType() {
+    public PlatformType() {
         super();
     }
     
-    private PlatformType(String type, int bit) {
+    public PlatformType(String type, int bit) {
         this.type = type;
         this.bit = bit;
     }

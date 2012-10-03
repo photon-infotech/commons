@@ -62,6 +62,7 @@ public interface ServiceConstants {
 	String REST_API_PERMISSIONS = "/permissions";
 	String REST_API_LDAP = "/settings/ldap";
 	String REST_API_SETTINGS = "/settings";
+	String REST_API_PLATFORMS = "/platforms";
 	String REST_API_TWEETS = "/tweets";
 	String REST_API_JSBYID = "/modules/js";
 	String REST_API_PILOTSBYID = "/pilots/id";
@@ -126,6 +127,7 @@ public interface ServiceConstants {
 	String ARTIFACT_GROUP_COLLECTION_NAME = "artifactGroupDAOs";
 	String ARTIFACT_INFO_COLLECTION_NAME = "artifactInfos";
 	String APPLICATION_INFO_COLLECTION_NAME = "applicationInfos";
+	String PLATFORMS_COLLECTION_NAME = "platforms";
 
 	/*
 	 * DB query params
