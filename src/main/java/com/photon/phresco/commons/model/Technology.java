@@ -41,6 +41,7 @@ public class Technology extends CustomerBasedElement implements Cloneable, Seria
     private String appTypeId;
 	private List<String> techVersions;
 	private ArtifactGroup archetypeInfo;
+	private List<ArtifactGroup> plugins;
 	
 	//Admin Options - Is build enabled, is Code Quality enabled, etc
 	private List<Option> options;
@@ -85,7 +86,15 @@ public class Technology extends CustomerBasedElement implements Cloneable, Seria
 		this.options = options;
 	}
 
-    public String toString() {
+    public List<ArtifactGroup> getPlugins() {
+		return plugins;
+	}
+
+	public void setPlugins(List<ArtifactGroup> plugins) {
+		this.plugins = plugins;
+	}
+
+	public String toString() {
         return new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)
                 .append(super.toString())
                 .append("appTypeId", getAppTypeId())
