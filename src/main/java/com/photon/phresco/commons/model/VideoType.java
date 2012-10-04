@@ -28,11 +28,20 @@ import org.apache.commons.lang.builder.ToStringStyle;
 @XmlRootElement
 public class VideoType extends Element {
     
+	private String videoInfoId;
 	private String url;
 	private ArtifactGroup artifactGroup;
 	
 	public VideoType() {
 	    super();
+	}
+
+	public String getVideoInfoId() {
+		return videoInfoId;
+	}
+
+	public void setVideoInfoId(String videoInfoId) {
+		this.videoInfoId = videoInfoId;
 	}
 
 	public String getUrl() {

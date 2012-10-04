@@ -106,6 +106,9 @@ public interface ServiceConstants {
 	String CUSTOMERS_COLLECTION_NAME = "customers";
 	String FORUM_COLLECTION_NAME = "forums";
 	String VIDEOS_COLLECTION_NAME = "videos";
+	String VIDEODAO_COLLECTION_NAME = "videoDAOs";
+	String VIDEOTYPES_COLLECTION_NAME = "videotypes";
+	String VIDEOTYPESDAO_COLLECTION_NAME = "videotypeDAOs";
 	String USERS_COLLECTION_NAME = "users";
 	String DOWNLOAD_COLLECTION_NAME = "downloads";
 	String GLOBALURL_COLLECTION_NAME="globalurl";
