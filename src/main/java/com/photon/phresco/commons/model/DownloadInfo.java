@@ -31,7 +31,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class DownloadInfo extends CustomerBasedElement {
 
 	private List<String> appliesToTechIds;
-	private List<PlatformType> platform;
+	private List<String> platformTypeIds;
 	private String category;
 	private ArtifactGroup artifactGroup;
 	
@@ -51,12 +51,12 @@ public class DownloadInfo extends CustomerBasedElement {
         this.appliesToTechIds = appliesToTechs;
     }
 
-    public List<PlatformType> getPlatform() {
-        return platform;
+    public List<String> getPlatformTypeIds() {
+        return platformTypeIds;
     }
 
-    public void setPlatform(List<PlatformType> platform) {
-        this.platform = platform;
+    public void setPlatformTypeIds(List<String> platformTypeIds) {
+        this.platformTypeIds = platformTypeIds;
     }
 
     public String getCategory() {
@@ -81,7 +81,7 @@ public class DownloadInfo extends CustomerBasedElement {
                 ToStringStyle.DEFAULT_STYLE)
                 .append(super.toString())
                 .append("appliesToTechs", getAppliesToTechIds())
-                .append("platform", getPlatform())
+                .append("platformTypeIds", getPlatformTypeIds())
                 .toString();
     }
 
