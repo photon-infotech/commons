@@ -141,6 +141,7 @@ public interface ServiceConstants {
     String DB_COLUMN_TECHID = "techId";
     String DB_COLUMN_APPLIESTOTECHID = "appliesTo.techId";
 	String DB_COLUMN_CREATIONDATE = "creationDate";
+	String DB_COLUMN_VIDEOINFOID = "videoInfoId";
 
 	
 	/*
