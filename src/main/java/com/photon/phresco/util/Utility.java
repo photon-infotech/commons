@@ -214,6 +214,26 @@ public final class Utility implements Constants {
     		//FIXME : log exception
     	}
 	}
+	
+	  public static void closeReader(BufferedReader reader) {
+    	try {
+    		if (reader != null) {
+    			reader.close();
+    		}
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+	}
+    
+    public static void closeWriter(BufferedWriter writer) {
+    	try {
+    		if (writer != null) {
+    			writer.close();
+    		}
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+	}
     
     public static BufferedReader executeCommand(String commandString, String workingDirectory) {
 		InputStream inputStream = null;
