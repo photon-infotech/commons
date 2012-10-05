@@ -138,6 +138,8 @@ public interface ServiceConstants {
 	String DB_COLUMN_CUSTOMERIDS = "customerIds";
     String DB_COLUMN_ARTIFACT_GROUP_ID = "artifactGroupId";
     String DB_COLUMN_ARTIFACT_GROUP_TYPE = "type";
+    String DB_COLUMN_TECHID = "techId";
+    String DB_COLUMN_APPLIESTOTECHID = "appliesTo.techId";
 
 	
 	/*
