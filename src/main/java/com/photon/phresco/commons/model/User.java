@@ -41,6 +41,7 @@ public class User extends Element {
 	private String displayName;
 	private List<String> customerIds;
 	private String token;
+	private boolean validLogin;
 	
 	public User() {
 		super();
@@ -185,6 +186,14 @@ public class User extends Element {
         this.token = token;
     }
 	
+	public boolean isValidLogin() {
+		return validLogin;
+	}
+
+	public void setValidLogin(boolean validLogin) {
+		this.validLogin = validLogin;
+	}
+
 	public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)

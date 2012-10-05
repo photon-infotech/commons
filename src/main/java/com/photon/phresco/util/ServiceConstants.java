@@ -140,6 +140,7 @@ public interface ServiceConstants {
     String DB_COLUMN_ARTIFACT_GROUP_TYPE = "type";
     String DB_COLUMN_TECHID = "techId";
     String DB_COLUMN_APPLIESTOTECHID = "appliesTo.techId";
+	String DB_COLUMN_CREATIONDATE = "creationDate";
 
 	
 	/*
