@@ -51,6 +51,7 @@ public interface ServiceConstants {
 	String REST_API_SERVERS = "/servers";
 	String REST_API_DATABASES = "/databases";
 	String REST_API_WEBSERVICES = "/webservices";
+	String REST_API_REPORTS = "/reports";
 	String REST_API_TECHNOLOGIES = "/technologies";
 	String REST_API_DOWNLOADS = "/downloads";
 	String REST_API_GLOBALURL ="/globalurl";
@@ -132,6 +133,7 @@ public interface ServiceConstants {
 	String ARTIFACT_INFO_COLLECTION_NAME = "artifactInfos";
 	String APPLICATION_INFO_COLLECTION_NAME = "applicationInfos";
 	String PLATFORMS_COLLECTION_NAME = "platforms";
+	String REPORTS_COLLECTION_NAME = "reports";
 
 	/*
 	 * DB query params
