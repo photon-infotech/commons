@@ -58,6 +58,7 @@ public interface ServiceConstants {
 	String REST_API_USERS = "/users";
 	String REST_API_USERS_IMPORT = "/users/import";
 	String REST_API_ROLES = "/roles";
+	String REST_API_VERSION = "/version";
 	String REST_API_FORUMS = "/forums";
 	String REST_API_PERMISSIONS = "/permissions";
 	String REST_API_LDAP = "/settings/ldap";
