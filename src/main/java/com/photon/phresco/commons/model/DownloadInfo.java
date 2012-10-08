@@ -30,6 +30,10 @@ import org.apache.commons.lang.builder.ToStringStyle;
 @XmlRootElement
 public class DownloadInfo extends CustomerBasedElement {
 
+    public enum Category {
+        SERVER, DATABASE, EDITOR, TOOLS, OTHERS
+    }
+    
 	private List<String> appliesToTechIds;
 	private List<String> platformTypeIds;
 	private String category;
