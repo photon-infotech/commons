@@ -45,6 +45,7 @@ public interface ServiceConstants {
 	String REST_API_ADMIN =  "/admin";
 	String REST_API_CUSTOMERS = "/customers";
 	String REST_API_APPTYPES = "/apptypes";
+	String REST_API_PROPERTY = "/property";
 	String REST_API_CONFIG_TEMPLATES= "/configtemplates";
 	String REST_API_MODULES= "/modules";
 	String REST_API_PILOTS = "/pilots";
@@ -52,6 +53,7 @@ public interface ServiceConstants {
 	String REST_API_DATABASES = "/databases";
 	String REST_API_WEBSERVICES = "/webservices";
 	String REST_API_REPORTS = "/reports";
+	String REST_API_OPTIONS = "/options";
 	String REST_API_TECHNOLOGIES = "/technologies";
 	String REST_API_DOWNLOADS = "/downloads";
 	String REST_API_GLOBALURL ="/globalurl";
@@ -134,7 +136,8 @@ public interface ServiceConstants {
 	String APPLICATION_INFO_COLLECTION_NAME = "applicationInfos";
 	String PLATFORMS_COLLECTION_NAME = "platforms";
 	String REPORTS_COLLECTION_NAME = "reports";
-
+	String PROPERTIES_COLLECTION_NAME = "properties";
+	String OPTIONS_COLLECTION_NAME = "options";
 	/*
 	 * DB query params
 	 */

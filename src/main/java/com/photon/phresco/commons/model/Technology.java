@@ -44,7 +44,7 @@ public class Technology extends CustomerBasedElement implements Cloneable, Seria
 	private List<ArtifactGroup> plugins;
 	
 	//Admin Options - Is build enabled, is Code Quality enabled, etc
-	private List<Option> options;
+	private List<TechnologyOptions> options;
 	
 	public Technology() {
         super();
@@ -78,11 +78,11 @@ public class Technology extends CustomerBasedElement implements Cloneable, Seria
         this.archetypeInfo = archetypeInfo;
     }
 
-    public List<Option> getOptions() {
+    public List<TechnologyOptions> getOptions() {
 		return options;
 	}
 
-	public void setOptions(List<Option> options) {
+	public void setOptions(List<TechnologyOptions> options) {
 		this.options = options;
 	}
 
