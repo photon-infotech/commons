@@ -24,19 +24,19 @@ import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Properties;
 
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 
 
-public class PhrescoWebServiceException extends RuntimeException {
+public class PhrescoWebServiceException extends WebApplicationException {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private Response response;
 	private static InputStream is = null;
 	private static Properties exceptionProp = null;
 	private static final Logger S_LOGGER  = Logger.getLogger(PhrescoWebServiceException.class);
@@ -59,13 +59,14 @@ public class PhrescoWebServiceException extends RuntimeException {
     }
 
 	public PhrescoWebServiceException(Throwable cause, String errorNum, String type) {
-        super(cause);
-
+        super(cause, Response.status(Response.Status.NOT_FOUND).
+        		type(MediaType.TEXT_PLAIN).entity(MessageFormat.
+        		format(exceptionProp.getProperty(errorNum), type )).build());
         if (isDebugEnabled) {
             S_LOGGER.debug("************************************");
             S_LOGGER.debug("MessageFormat.format(exceptionProp.getProperty(errorNum), type )");
             S_LOGGER.debug("************************************");
         }
-        this.response = Response.status(Response.Status.NOT_FOUND).type(MediaType.TEXT_PLAIN).entity(MessageFormat.format(exceptionProp.getProperty(errorNum), type )).build();
+        
     }
 }
