@@ -30,20 +30,30 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 @SuppressWarnings("restriction")
 @XmlRootElement
-public class ProjectInfo extends CustomerBasedElement implements Serializable {
+public class ProjectInfo extends CustomerBasedElement implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 1L;
     
     private String projectCode;
-    private List<ApplicationInfo> appInfos;
+    private String version;
+	private List<ApplicationInfo> appInfos;
+    private int noOfApps;    
     
-    public String getProjectCode() {
+	public String getProjectCode() {
         return projectCode;
     }
     
     public void setProjectCode(String projectCode) {
         this.projectCode = projectCode;
     }
+    
+    public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
     
     public List<ApplicationInfo> getAppInfos() {
         return appInfos;
@@ -52,6 +62,22 @@ public class ProjectInfo extends CustomerBasedElement implements Serializable {
     public void setAppInfos(List<ApplicationInfo> appInfos) {
         this.appInfos = appInfos;
     }
+    
+    public int getNoOfApps() {
+		return noOfApps;
+	}
+
+	public void setNoOfApps(int noOfApps) {
+		this.noOfApps = noOfApps;
+	}
+	
+	public ProjectInfo clone() {
+		try {
+			return (ProjectInfo)super.clone();
+		} catch (CloneNotSupportedException e) {
+			return this;
+		}
+	}
 
     public String toString() {
         return new ToStringBuilder(this,
@@ -59,6 +85,7 @@ public class ProjectInfo extends CustomerBasedElement implements Serializable {
                 .append(super.toString())
                 .append("projectCode", getProjectCode())
                 .append("appInfos", getAppInfos())
+                .append("noOfApps", getNoOfApps())
                 .toString();
     }
 

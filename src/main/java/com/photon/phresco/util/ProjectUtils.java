@@ -31,7 +31,7 @@ import com.photon.phresco.exception.PhrescoException;
 
 public class ProjectUtils implements Constants {
     
-	public static void writeProjectInfo(ApplicationInfo info, File phrescoFolder) throws PhrescoException {
+	public static void writeProjectInfo(ProjectInfo info, File phrescoFolder) throws PhrescoException {
 		BufferedWriter out = null;
 		FileWriter fstream = null;
 		try {

@@ -29,7 +29,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class ApplicationInfo extends CustomerBasedElement {
     
     private String code;
-    private String version;
+    private String appDirName;
     private TechnologyInfo techInfo;
     //Information about the pilot project which was used to create this application
     private Element pilotInfo;
@@ -54,14 +54,6 @@ public class ApplicationInfo extends CustomerBasedElement {
         this.code = code;
     }
 
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-    
     public TechnologyInfo getTechInfo() {
         return techInfo;
     }
@@ -149,13 +141,21 @@ public class ApplicationInfo extends CustomerBasedElement {
     public void setPilotContent(ArtifactGroup pilotContent) {
         this.pilotContent = pilotContent;
     }
+    
+    public String getAppDirName() {
+		return appDirName;
+	}
+
+	public void setAppDirName(String appDirName) {
+		this.appDirName = appDirName;
+	}
 
     public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
                 .append(super.toString())
                 .append("code", getCode())
-                .append("version", getVersion())
+                .append("appDirName", getAppDirName())
                 .append("techInfo", getTechInfo())
                 .append("pilotInfo", getPilotInfo())
                 .append("emailSupported", isEmailSupported())
