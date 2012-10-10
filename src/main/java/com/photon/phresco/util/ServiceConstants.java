@@ -204,6 +204,7 @@ public interface ServiceConstants {
 	String REPOTYPE_RELEASE = "RELEASE";
 	String REPOTYPE_SNAPSHOT = "SNAPSHOT";
 	String REPOTYPE_GROUP = "group";
+	String REPO_LOCAL="/service/local/repositories/";
 	String REPO_GROUP_PATH = "/service/local/repo_groups?undefined";
 	String REPO_GROUP_CONTENT = "/content/groups/";
 	String REPO_HOSTED_PATH = "/service/local/repositories?undefined";
@@ -214,9 +215,12 @@ public interface ServiceConstants {
 	int NOT_FOUND_CACHE = 1440;
 	String REPO_HOSTED = "hosted";
 	String SLASH = "\"";
+	String FORWARD_SLASH="/";
+	String DOT=".";
+	String CONTENT="/content/";
 	String LOCAL_REPO_GROUP = "/service/local/repo_groups/";
 	String REPO_RELEASE_NAME = "release";
 	String REPO_SNAPSHOT_NAME = "snapshot";
 	String REPO_OBJECT_ID = "data";
-	String REPO_FAILURE_MSG = "Repository Creation Failed......";
+	String REPO_FAILURE_MSG = "Repository Creation Failed Repository Already Exists......";
 }
