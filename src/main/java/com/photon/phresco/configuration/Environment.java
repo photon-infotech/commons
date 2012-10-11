@@ -19,6 +19,8 @@
  */
 package com.photon.phresco.configuration;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @SuppressWarnings("restriction")
@@ -29,7 +31,8 @@ public class Environment {
     private String desc;
     private boolean defaultEnv;
     private boolean delete;
-
+    private List<Configuration> configurations;
+    
 	public Environment() {
 	}
 
@@ -69,6 +72,18 @@ public class Environment {
 
 	public void setDelete(boolean delete) {
 		this.delete = delete;
+	}
+
+	public boolean isDelete() {
+		return delete;
+	}
+
+	public List<Configuration> getConfigurations() {
+		return configurations;
+	}
+
+	public void setConfigurations(List<Configuration> configurations) {
+		this.configurations = configurations;
 	}
 
 	public String toString() {

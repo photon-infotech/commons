@@ -21,6 +21,7 @@ package com.photon.phresco.configuration;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import com.photon.phresco.exception.PhrescoException;
+import com.photon.phresco.exception.ConfigurationException;
 
 public class ConfigReader {
 
@@ -54,14 +55,19 @@ public class ConfigReader {
 	 * ConfigReader single instance created by configuration xml
 	 * @param configXML File type
 	 * @return
+	 * @throws ConfigurationException 
 	 * @throws SAXException
 	 * @throws ParserConfigurationException
 	 * @throws Exception
 	 */
-	public ConfigReader(File configXML) throws IOException, ParserConfigurationException, SAXException {
+	public ConfigReader(File configXML) throws ConfigurationException {
 		if (configXML.exists()) {
 			this.configFile = configXML;
-			initXML(new FileInputStream(configXML));
+			try {
+				initXML(new FileInputStream(configXML));
+			} catch (FileNotFoundException e) {
+				throw new ConfigurationException(e);
+			} 
 		}
 	}
 
@@ -129,12 +135,13 @@ public class ConfigReader {
 	/**
 	 * loads the configuration xml as input stream
 	 * @param xmlStream
+	 * @throws ConfigurationException 
 	 * @throws IOException
 	 * @throws SAXException
 	 * @throws ParserConfigurationException
 	 * @throws Exception
 	 */
-	protected void initXML(InputStream xmlStream) throws IOException, ParserConfigurationException, SAXException {
+	protected void initXML(InputStream xmlStream) throws ConfigurationException {
 		try {
 			if (xmlStream == null) {
 				xmlStream = this.getClass().getClassLoader().getResourceAsStream("configuration.xml");
@@ -144,7 +151,7 @@ public class ConfigReader {
 			try {
 				xmlStream.close();
 			} catch (IOException e) {
-				throw new IOException(e);
+				throw new ConfigurationException(e);
 			}
 		}
 	}
@@ -152,16 +159,26 @@ public class ConfigReader {
 	/**
 	 * Creating Dom object to parse the configuration xml
 	 * @param xmlStream
+	 * @throws ConfigurationException 
 	 * @throws ParserConfigurationException
 	 * @throws IOException
 	 * @throws SAXException
 	 * @throws Exception
 	 */
-	private void parseXML(InputStream xmlStream) throws ParserConfigurationException, SAXException, IOException {
+	private void parseXML(InputStream xmlStream) throws ConfigurationException  {
 		DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
 		domFactory.setNamespaceAware(false);
-		DocumentBuilder builder = domFactory.newDocumentBuilder();
-		document = builder.parse(xmlStream);
+		DocumentBuilder builder;
+		try {
+			builder = domFactory.newDocumentBuilder();
+			document = builder.parse(xmlStream);
+		} catch (ParserConfigurationException e) {
+			throw new ConfigurationException(e);
+		} catch (SAXException e) {
+			throw new ConfigurationException(e);
+		} catch (IOException e) {
+			throw new ConfigurationException(e);
+		}
 		parseDocument(document);
 	}
 
@@ -249,5 +266,35 @@ public class ConfigReader {
 		}
 		return json;
 	}
-
+	
+	public List<Environment> getEnvironments(List<String> environmentNames) {
+		List<Element> elements = new ArrayList<Element>();
+		for (String envName : environmentNames) {
+			elements.add(ENV_MAP.get(envName));
+		}
+		return getEnvironmentsByElements(elements);
+	}
+	
+	private List<Environment> getEnvironmentsByElements(List<Element> elements) {
+		List<Environment> envs = new ArrayList<Environment>(elements.size());
+		for (Element envElement : elements) {
+			String envName = envElement.getAttribute("name");
+			String envDesc = envElement.getAttribute("desc");
+			String defaultEnv = envElement.getAttribute("default");
+			List<Configuration> configurations = getConfigByEnv(envName);
+			Environment environment = new Environment(envName, envDesc, Boolean.parseBoolean(defaultEnv));
+			environment.setConfigurations(configurations);
+			environment.setDelete(canDelete(envElement));
+			envs.add(environment);
+		}
+		return envs;
+	}
+	
+	public boolean canDelete(Element envElement) {
+		if (!envElement.hasChildNodes() || (envElement.getChildNodes().getLength() == 1 &&
+				envElement.getChildNodes().item(0).getNodeType() == Element.TEXT_NODE)) {
+			return true;
+		}
+		return false;
+	}
 }
