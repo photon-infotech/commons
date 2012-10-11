@@ -47,7 +47,8 @@ public interface Constants {
     String TYPE_TOMCAT	= "Apache Tomcat";
 	String TYPE_JBOSS = "JBoss";
 	String TYPE_WEBLOGIC ="WebLogic";
-	String PHRESCO_FOLDER_NAME = "phresco";
+	String PHRESCO = "phresco";
+	
     
     // Constants for Maven
     String MVN_COMMAND = "mvn";

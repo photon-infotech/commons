@@ -32,6 +32,10 @@ public class User extends Element {
 
     private static final long serialVersionUID = 1L;
     
+    public enum AuthType {
+    	LOCAL, AUTHSERVICE, OAUTH
+    }
+    
     private String loginId;
 	private String email;
 	private String firstName;
@@ -42,6 +46,8 @@ public class User extends Element {
 	private List<String> customerIds;
 	private String token;
 	private boolean validLogin;
+	private AuthType authType;
+	private String password;
 	
 	public User() {
 		super();
@@ -194,6 +200,22 @@ public class User extends Element {
 		this.validLogin = validLogin;
 	}
 
+	public AuthType getAuthType() {
+		return authType;
+	}
+
+	public void setAuthType(AuthType authType) {
+		this.authType = authType;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
@@ -207,6 +229,8 @@ public class User extends Element {
                 .append("displayName", displayName)
                 .append("customers", customerIds)
                 .append("token", token)
+                .append("authType", authType)
+                .append("password", password)
                 .toString();
     }
 }
