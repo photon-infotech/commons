@@ -34,6 +34,7 @@ public class ApplicationInfo extends CustomerBasedElement {
     //Information about the pilot project which was used to create this application
     private Element pilotInfo;
     
+    private String version;
     private List<String> selectedModules;
     private List<String> selectedJSLibs;
     private List<ArtifactGroup> selectedFrameworks;
@@ -150,7 +151,15 @@ public class ApplicationInfo extends CustomerBasedElement {
 		this.appDirName = appDirName;
 	}
 
-    public String toString() {
+    public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
                 .append(super.toString())
@@ -166,6 +175,7 @@ public class ApplicationInfo extends CustomerBasedElement {
                 .append("selectedServers", getSelectedServers())
                 .append("selectedDatabases", getSelectedDatabases())
                 .append("selectedWebservices", getSelectedWebservices())
+                .append("version", getVersion())
                 .toString();
     }
         
