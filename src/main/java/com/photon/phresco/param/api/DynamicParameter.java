@@ -1,10 +1,16 @@
 package com.photon.phresco.param.api;
 
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import com.photon.phresco.commons.model.ApplicationInfo;
-import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter.PossibleValues;
+import com.photon.phresco.plugins.model.Mojos;
 
 
 public interface DynamicParameter {
 
-	public PossibleValues getValues(ApplicationInfo applicationInfo);
+    public Mojos.Mojo.Configuration.Parameters.Parameter.PossibleValues getValues(ApplicationInfo projectInfo) throws IOException, ParserConfigurationException, SAXException;
 }

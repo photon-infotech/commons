@@ -54,7 +54,7 @@ public interface Constants {
     String MVN_ARCHETYPE = "archetype";
     String MVN_GOAL_GENERATE = "generate";
     String MVN_GOAL_PACKAGE = "package";
-    String MVN_PLUGIN_PHP_ID = "php:";
+    /*String MVN_PLUGIN_PHP_ID = "php:";
     String MVN_PLUGIN_DRUPAL_ID = "drupal:";
     String MVN_PLUGIN_ANDROID_ID = "android:";
     String MVN_PLUGIN_JAVA_ID = "java:";
@@ -66,7 +66,8 @@ public interface Constants {
     String MVN_PLUGIN_IPHONE_ID = "xcode:";
     String MVN_PLUGIN_WORDPRESS_ID = "wordpress:";
     String MVN_PLUGIN_WINDOWS_PHONE_ID = "windows-phone:";
-    String MVN_PLUGIN_BLACKBERRY_ID = "blackberry:";
+    String MVN_PLUGIN_BLACKBERRY_ID = "blackberry:"*/
+	String MVN_PLUGIN_PHRESCO_ID = "phresco:";
     
     //Constants for Authentication Token
     String AUTH_TOKEN = "auth_token";
