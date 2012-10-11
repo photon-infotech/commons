@@ -184,8 +184,13 @@ public interface ServiceConstants {
 	String REST_API_FIELD_APPID = "appTypeId";
 	String REST_API_USED = "used";
 	String REST_API_NAME = "name";
+	String PASSWORD = "password";
+	String AUTHTYPE = "authType";
 	String REST_API_ARTIFACTID = "artifactId";
 	String REST_API_MODULEID = "moduleGroupId";
+	String CATEGORY = "category";
+	String SERVER = "Server";
+	String DATABASE = "Database";
 	
 	/*
      * Constants for Media Type
