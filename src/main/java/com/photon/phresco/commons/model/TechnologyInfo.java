@@ -50,6 +50,7 @@ public class TechnologyInfo {
     
     private static final long serialVersionUID = 2573493968812398251L;
     
+    private String id;
     private String appTypeId;
     private String version;
 
@@ -79,11 +80,20 @@ public class TechnologyInfo {
         this.version = version;
     }
 
-    public String toString() {
+    public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String toString() {
 	    return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
 	            .append("appTypeId", getAppTypeId())
                 .append("techVersion", getVersion())
+                .append("id", getId())
                 .toString();
 	}
 }

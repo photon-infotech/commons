@@ -25,6 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -296,5 +297,19 @@ public class ConfigReader {
 			return true;
 		}
 		return false;
+	}
+	
+	public List<Environment> getAllEnvironments() {
+		Collection<Element> enviroments = ENV_MAP.values();
+		List<Environment> envs = new ArrayList<Environment>(enviroments.size());
+		for (Element envElement : enviroments) {
+			String envName = envElement.getAttribute("name");
+			String envDesc = envElement.getAttribute("desc");
+			String defaultEnv = envElement.getAttribute("default");
+			Environment environment = new Environment(envName, envDesc, Boolean.parseBoolean(defaultEnv));
+			environment.setDelete(canDelete(envElement));
+			envs.add(environment);
+		}
+		return envs;
 	}
 }
