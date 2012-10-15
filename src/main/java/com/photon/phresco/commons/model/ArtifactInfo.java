@@ -33,6 +33,7 @@ public class ArtifactInfo extends Element {
     //Ids of dependent artifactInfos
     private List<String> dependencyIds;
     private List<RequiredOption> appliesTo;
+    private String downloadURL;
     
     public ArtifactInfo() {
 		// TODO Auto-generated constructor stub
@@ -86,7 +87,15 @@ public class ArtifactInfo extends Element {
         return fileSize;
     }
 
-    @Override
+    public String getDownloadURL() {
+		return downloadURL;
+	}
+
+	public void setDownloadURL(String downloadURL) {
+		this.downloadURL = downloadURL;
+	}
+
+	@Override
     public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
@@ -97,6 +106,7 @@ public class ArtifactInfo extends Element {
                 .append("fileSize", getFileSize())
                 .append("dependencies", getDependencyIds())
                 .append("appliesTo", getAppliesTo())
+                .append("downloadURL", getDownloadURL())
                 .toString();
     }
     
