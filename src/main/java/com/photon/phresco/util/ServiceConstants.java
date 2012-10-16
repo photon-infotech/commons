@@ -91,6 +91,8 @@ public interface ServiceConstants {
 	String ERROR_MSG_NOT_FOUND = "Content Not Found";
 	String ERROR_MSG_ID_NOT_EQUAL = "Given Id Not Equal";
 	String REST_QUERY_TECHID = "techId";
+	String REST_LIMIT_VALUE = "limitValue";
+	String REST_SKIP_VALUE = "skipValue";
 	String REST_QUERY_PROJECTID = "projectId";
 	String REST_QUERY_TYPE = "type";
 	String REST_QUERY_TYPE_MODULE = "module";
@@ -145,6 +147,7 @@ public interface ServiceConstants {
     String DB_COLUMN_ARTIFACT_GROUP_ID = "artifactGroupId";
     String DB_COLUMN_ARTIFACT_GROUP_TYPE = "type";
     String DB_COLUMN_TECHID = "techId";
+    String DB_COLUMN_VERSIONIDS = "versionIds";
     String DB_COLUMN_APPLIESTOTECHID = "appliesTo.techId";
 	String DB_COLUMN_CREATIONDATE = "creationDate";
 	String DB_COLUMN_VIDEOINFOID = "videoInfoId";

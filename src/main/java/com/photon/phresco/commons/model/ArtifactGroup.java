@@ -48,7 +48,12 @@ public class ArtifactGroup extends CustomerBasedElement {
     public ArtifactGroup(String id) {
         super(id);
     }
-
+    
+    public ArtifactGroup(String groupId, String artifactId) {
+        this.groupId = groupId;
+        this.artifactId = artifactId;
+    }
+    
     public String getGroupId() {
         return groupId;
     }
