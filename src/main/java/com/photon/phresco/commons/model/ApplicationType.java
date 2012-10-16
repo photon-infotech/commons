@@ -20,6 +20,7 @@
 package com.photon.phresco.commons.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -28,11 +29,21 @@ public class ApplicationType extends CustomerBasedElement implements Serializabl
 
 	private static final long serialVersionUID = 1L;
 	
+	private List<TechnologyGroup> techGroups;
+	
 	public ApplicationType() {
 		super();
 	}
 
-    @Override
+    public List<TechnologyGroup> getTechGroups() {
+		return techGroups;
+	}
+
+	public void setTechGroups(List<TechnologyGroup> techGroups) {
+		this.techGroups = techGroups;
+	}
+
+	@Override
 	public String toString() {
 		return super.toString();
 	}

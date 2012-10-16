@@ -20,6 +20,8 @@
  */
 package com.photon.phresco.commons.model;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -46,13 +48,13 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * 
  */
 @XmlRootElement
-public class TechnologyInfo {
+public class TechnologyInfo extends Element {
     
     private static final long serialVersionUID = 2573493968812398251L;
     
-    private String id;
     private String appTypeId;
     private String version;
+    private List<String> techVersions;
 
     public TechnologyInfo() {
         super();
@@ -80,12 +82,12 @@ public class TechnologyInfo {
         this.version = version;
     }
 
-    public String getId() {
-		return id;
+	public List<String> getTechVersions() {
+		return techVersions;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setTechVersions(List<String> techVersions) {
+		this.techVersions = techVersions;
 	}
 
 	public String toString() {
@@ -93,7 +95,7 @@ public class TechnologyInfo {
                 ToStringStyle.DEFAULT_STYLE)
 	            .append("appTypeId", getAppTypeId())
                 .append("techVersion", getVersion())
-                .append("id", getId())
+                .append("techVersions", getTechVersions())
                 .toString();
 	}
 }
