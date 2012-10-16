@@ -48,6 +48,8 @@ public interface Constants {
 	String TYPE_JBOSS = "JBoss";
 	String TYPE_WEBLOGIC ="WebLogic";
 	String PHRESCO = "phresco";
+	String CONFIGURATION_INFO_FILE = "phresco-env-config.xml";
+	String DOT_PHRESCO_FOLDER = ".phresco";
 	
     
     // Constants for Maven
@@ -55,6 +57,7 @@ public interface Constants {
     String MVN_ARCHETYPE = "archetype";
     String MVN_GOAL_GENERATE = "generate";
     String MVN_GOAL_PACKAGE = "package";
+    String MVN_GOAL_DEPLOY = "deploy";
     /*String MVN_PLUGIN_PHP_ID = "php:";
     String MVN_PLUGIN_DRUPAL_ID = "drupal:";
     String MVN_PLUGIN_ANDROID_ID = "android:";
@@ -63,13 +66,12 @@ public interface Constants {
     String MVN_PLUGIN_SHAREPOINT_ID = "sharepoint:";
     String MVN_PLUGIN_DOTNET_ID = "dotnet:";
     String MVN_PLUGIN_SITECORE_ID ="sitecore:";
-    String MVN_GOAL_DEPLOY = "deploy";
     String MVN_PLUGIN_IPHONE_ID = "xcode:";
     String MVN_PLUGIN_WORDPRESS_ID = "wordpress:";
     String MVN_PLUGIN_WINDOWS_PHONE_ID = "windows-phone:";
     String MVN_PLUGIN_BLACKBERRY_ID = "blackberry:"*/
 	String MVN_PLUGIN_PHRESCO_ID = "phresco:";
-    
+
     //Constants for Authentication Token
     String AUTH_TOKEN = "auth_token";
     
