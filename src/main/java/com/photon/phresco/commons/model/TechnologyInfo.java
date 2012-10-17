@@ -95,6 +95,7 @@ public class TechnologyInfo extends Element {
                 ToStringStyle.DEFAULT_STYLE)
 	            .append("appTypeId", getAppTypeId())
                 .append("techVersion", getVersion())
+                .append("id", getId())
                 .append("techVersions", getTechVersions())
                 .toString();
 	}
