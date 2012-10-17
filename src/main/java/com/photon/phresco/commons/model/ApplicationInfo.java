@@ -43,6 +43,8 @@ public class ApplicationInfo extends CustomerBasedElement {
     private List<String> selectedDatabases;
     private List<String> selectedWebservices;
     private boolean emailSupported;
+    private boolean phoneEnabled;
+    private boolean tabletEnabled;
 
     //Information about where the pilot project is stored in repository
     private ArtifactGroup pilotContent;
@@ -158,6 +160,22 @@ public class ApplicationInfo extends CustomerBasedElement {
 	public void setVersion(String version) {
 		this.version = version;
 	}
+	
+	public boolean isPhoneEnabled() {
+        return phoneEnabled;
+    }
+
+    public void setPhoneEnabled(boolean phoneSupported) {
+        this.phoneEnabled = phoneSupported;
+    }
+
+    public boolean isTabletEnabled() {
+        return tabletEnabled;
+    }
+
+    public void setTabletEnabled(boolean tabletSupported) {
+        this.tabletEnabled = tabletSupported;
+    }
 
 	public String toString() {
         return new ToStringBuilder(this,
@@ -176,6 +194,8 @@ public class ApplicationInfo extends CustomerBasedElement {
                 .append("selectedDatabases", getSelectedDatabases())
                 .append("selectedWebservices", getSelectedWebservices())
                 .append("version", getVersion())
+                .append("phoneEnabled", isPhoneEnabled())
+                .append("tabletEnabled", isTabletEnabled())
                 .toString();
     }
         
