@@ -213,6 +213,7 @@ public interface ServiceConstants {
 	String REPOTYPE_SNAPSHOT = "SNAPSHOT";
 	String REPOTYPE_GROUP = "group";
 	String REPO_LOCAL="/service/local/repositories/";
+	String REPO_GROUPURL = "/service/local/repo_groups/";
 	String REPO_GROUP_PATH = "/service/local/repo_groups?undefined";
 	String REPO_GROUP_CONTENT = "/content/groups/";
 	String REPO_HOSTED_PATH = "/service/local/repositories?undefined";
