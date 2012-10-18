@@ -21,8 +21,10 @@ package com.photon.phresco.commons.api;
 
 import java.util.List;
 
+import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.configuration.Environment;
 import com.photon.phresco.exception.ConfigurationException;
+import com.photon.phresco.exception.PhrescoException;
 
 
 public interface ConfigManager {
@@ -61,5 +63,14 @@ public interface ConfigManager {
 	 * @throws ConfigurationException
 	 */
 	List<Environment> getEnvironments() throws ConfigurationException;
+	
+	/**
+	 * Returns the configuration list based on environment name and type
+	 * @param envName
+	 * @param type
+	 * @return
+	 * @throws ConfigurationException
+	 */
+	List<Configuration> getConfigurations(String envName, String type) throws ConfigurationException;
 
 }

@@ -13,6 +13,7 @@ import com.photon.phresco.commons.impl.ConfigManagerImpl;
 import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.configuration.Environment;
 import com.photon.phresco.exception.ConfigurationException;
+import com.photon.phresco.util.FileUtil;
 
 public class ConfigManagerTest {
 	
@@ -21,15 +22,15 @@ public class ConfigManagerTest {
 	
 	@Before
 	public void initTest() throws ConfigurationException {
-		configFile  = new File("src/test/java/com/photon/phresco/framework/impl/config.xml");
+		configFile  = new File("src/test/java/com/photon/phresco/commons/api/config.xml");
 		configManager = new ConfigManagerImpl(configFile);
 	}
 	
 	@Test
 	public void testAddEnvironments() throws ConfigurationException {
-//		if(configFile.exists()) {
-//			configFile.delete();
-//		}
+		if(configFile.exists()) {
+			FileUtil.delete(configFile);
+		}
 		List<Environment> environments = new ArrayList<Environment>();
 		Environment environment = new Environment("Production", "Test For Production", true);
 		List<Configuration> configurations = new ArrayList<Configuration>();
@@ -48,7 +49,6 @@ public class ConfigManagerTest {
 	@Test
 	public void testGetEnvironments() throws ConfigurationException {
 		List<Environment> environments = configManager.getEnvironments(createEnvNames());
-		System.out.println(environments);
 		Assert.assertEquals(1, environments.size());
 	}
 
@@ -74,6 +74,12 @@ public class ConfigManagerTest {
 //	public void testDeleteEnvironment() throws ConfigurationException {
 //		configManager.deleteEnvironment("Production");
 //	}
+	
+	@Test
+	public void testGetgetConfigurations () throws ConfigurationException {
+		List<Configuration> configurations = configManager.getConfigurations("Production", "TestServer");
+		Assert.assertEquals(1, configurations.size());
+	}
 	
 	private List<String> createEnvNames() {
 		List<String> envNames = new ArrayList<String>();
