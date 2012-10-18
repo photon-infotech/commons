@@ -68,6 +68,7 @@ public interface ServiceConstants {
 	String REST_API_SETTINGS = "/settings";
 	String REST_API_PLATFORMS = "/platforms";
 	String REST_API_TWEETS = "/tweets";
+	String REST_API_LICENSE = "/licenses";
 	String REST_API_JSBYID = "/modules/js";
 	String REST_API_PILOTSBYID = "/pilots/id";
 	String REST_API_LOGIN = "/login";
@@ -140,6 +141,7 @@ public interface ServiceConstants {
 	String REPORTS_COLLECTION_NAME = "reports";
 	String PROPERTIES_COLLECTION_NAME = "properties";
 	String OPTIONS_COLLECTION_NAME = "options";
+	String LICENSE_COLLECTION_NAME ="licenses";
 	/*
 	 * DB query params
 	 */
