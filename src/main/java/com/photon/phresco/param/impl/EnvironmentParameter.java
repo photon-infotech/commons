@@ -15,6 +15,7 @@ import com.photon.phresco.configuration.Environment;
 import com.photon.phresco.exception.ConfigurationException;
 import com.photon.phresco.param.api.DynamicParameter;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter.PossibleValues;
+import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter.PossibleValues.Value;
 import com.photon.phresco.util.Constants;
 import com.photon.phresco.util.Utility;
 
@@ -26,8 +27,10 @@ public class EnvironmentParameter implements DynamicParameter, Constants {
     	String configPath = getConfigurationPath(projectDirectory).toString();
     	ConfigManager configManager = new ConfigManagerImpl(new File(configPath)); 
     	List<Environment> environments = configManager.getEnvironments();
+    	Value value = new Value();
     	for (Environment environment : environments) {
-    		values.getValue().add(environment.getName());
+    		value.setValue(environment.getName());
+    		values.getValue().add(value);
 		}
 
     	return values;
