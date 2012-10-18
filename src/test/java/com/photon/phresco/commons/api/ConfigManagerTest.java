@@ -52,7 +52,7 @@ public class ConfigManagerTest {
 		Assert.assertEquals(1, environments.size());
 	}
 
-	@Test
+//	@Test
 	public void testUpdateEnvironment() throws ConfigurationException {
 		Environment environment = new Environment("Production", "Test For Production", true);
 		List<Configuration> configurations = new ArrayList<Configuration>();
