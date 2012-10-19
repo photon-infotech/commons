@@ -196,7 +196,8 @@ public interface ServiceConstants {
 	String CATEGORY = "category";
 	String SERVER = "Server";
 	String DATABASE = "Database";
-	
+	String APPLIES_TO_TECHIDS = "appliesToTechIds";
+	String TECHINFO_VERSION = "techInfo.version";
 	/*
      * Constants for Media Type
      */
