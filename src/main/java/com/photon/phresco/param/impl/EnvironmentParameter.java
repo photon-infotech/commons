@@ -27,12 +27,12 @@ public class EnvironmentParameter implements DynamicParameter, Constants {
     	String configPath = getConfigurationPath(projectDirectory).toString();
     	ConfigManager configManager = new ConfigManagerImpl(new File(configPath)); 
     	List<Environment> environments = configManager.getEnvironments();
-    	Value value = new Value();
     	for (Environment environment : environments) {
+    		Value value = new Value();
     		value.setValue(environment.getName());
     		values.getValue().add(value);
 		}
-
+    	
     	return values;
     }
     
