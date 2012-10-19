@@ -40,8 +40,9 @@ public class ArtifactGroup extends CustomerBasedElement {
     private Type type;
     private String imageURL;
     private List<CoreOption> appliesTo;
+    private String licenseId;
 
-    public ArtifactGroup() {
+   	public ArtifactGroup() {
         super();
     }
 
@@ -118,6 +119,14 @@ public class ArtifactGroup extends CustomerBasedElement {
         this.appliesTo = appliesTo;
     }
     
+    public String getLicenseId() {
+		return licenseId;
+	}
+
+	public void setLicenseId(String licenseId) {
+		this.licenseId = licenseId;
+	}
+    
     @Override
     public String toString() {
         return new ToStringBuilder(this,
@@ -130,6 +139,7 @@ public class ArtifactGroup extends CustomerBasedElement {
                 .append("type", getType())
                 .append("imageURL", getImageURL())
                 .append("appliesTo", getAppliesTo())
+                .append("licenseId",getLicenseId())
                 .toString();
     }
     

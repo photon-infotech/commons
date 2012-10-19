@@ -39,6 +39,7 @@ import com.photon.phresco.configuration.ConfigReader;
 import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.configuration.Environment;
 import com.photon.phresco.exception.ConfigurationException;
+import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.util.Utility;
 
 public class ConfigManagerImpl implements ConfigManager {
@@ -222,5 +223,20 @@ public class ConfigManagerImpl implements ConfigManager {
 	public List<Environment> getEnvironments() throws ConfigurationException {
 		ConfigReader configReader = new ConfigReader(configFile);
 		return configReader.getAllEnvironments();
+	}
+
+	@Override
+	public List<Configuration> getConfigurations(String envName, String type)
+			throws ConfigurationException {
+		ConfigReader configReader = null;
+		try {
+			configReader = new ConfigReader(configFile);
+			if (envName == null || envName.isEmpty() ) {
+				envName = configReader.getDefaultEnvName();
+			}
+		} catch (ConfigurationException e) {
+			throw new ConfigurationException(e);
+		}
+		return configReader.getConfigurations(envName, type);
 	}
 }
