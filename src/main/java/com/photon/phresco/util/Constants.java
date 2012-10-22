@@ -160,6 +160,7 @@ public interface Constants {
 	 * Constants for Rest
 	 */
 	String PHR_AUTH_TOKEN = "X-phr-auth-token";
+	String ARTIFACT_COUNT_RESULT = "X-Result-Count";
 	
 	//constants for server version
 	
