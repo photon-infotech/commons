@@ -39,7 +39,6 @@ import com.photon.phresco.configuration.ConfigReader;
 import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.configuration.Environment;
 import com.photon.phresco.exception.ConfigurationException;
-import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.util.Utility;
 
 public class ConfigManagerImpl implements ConfigManager {

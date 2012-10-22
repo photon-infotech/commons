@@ -19,6 +19,7 @@
  */
 package com.photon.phresco.configuration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -31,7 +32,7 @@ public class Environment {
     private String desc;
     private boolean defaultEnv;
     private boolean delete;
-    private List<Configuration> configurations;
+    private List<Configuration> configurations = new ArrayList<Configuration>(8);
     
 	public Environment() {
 	}
