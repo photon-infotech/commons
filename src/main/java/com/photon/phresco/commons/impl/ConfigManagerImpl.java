@@ -75,6 +75,8 @@ public class ConfigManagerImpl implements ConfigManager {
 	@Override
 	public void addEnvironments(List<Environment> environments)
 			throws ConfigurationException {
+	    
+	    createNewDoc();
 		createEnvironment(environments, configFile);
 	}
 	
