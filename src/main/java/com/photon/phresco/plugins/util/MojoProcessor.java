@@ -13,6 +13,7 @@ import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.plugins.model.Mojos;
 import com.photon.phresco.plugins.model.Mojos.Mojo;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration;
+import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter;
 
 public class MojoProcessor {
 
@@ -60,6 +61,19 @@ public class MojoProcessor {
 			}
 		}
 		return "";
+	}
+	
+	public Parameter getParameter(String goal, String key) {
+		Configuration configuration = getConfiguration(goal);
+		if(configuration != null) {
+			List<Parameter> parameters = configuration.getParameters().getParameter();
+			for (Parameter parameter : parameters) {
+					if(parameter.getKey().equals(key)) {
+						return parameter;
+					}
+			}
+		}
+		return null; 
 	}
 	
 	
