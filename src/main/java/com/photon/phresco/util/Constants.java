@@ -43,6 +43,7 @@ public interface Constants {
     String TOOLS_DIR = "tools";
     String JENKINS_DIR = "jenkins";
     String PLUGIN_DIR = "plugins";
+    String TEMPLATE_DIR = "template";
     String JENKINS_HOME = "JENKINS_HOME";
     String TYPE_TOMCAT	= "Apache Tomcat";
 	String TYPE_JBOSS = "JBoss";

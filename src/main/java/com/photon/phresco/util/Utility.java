@@ -206,6 +206,16 @@ public final class Utility implements Constants {
         FileUtils.mkdir(builder.toString());
         return builder.toString();
     }
+    
+    public static String getJenkinsTemplateDir() {
+    	String jenkinsDataHome = System.getenv(JENKINS_HOME);
+        StringBuilder builder = new StringBuilder(jenkinsDataHome);
+        builder.append(File.separator);
+        builder.append(TEMPLATE_DIR);
+        builder.append(File.separator);
+        FileUtils.mkdir(builder.toString());
+        return builder.toString();
+    }
 
     public static void closeStream(FileWriter writer) {
     	try {
