@@ -16,6 +16,7 @@ public interface DynamicParameter {
 	
 	String KEY_APP_INFO = "applicationInfo";
 	String KEY_BUILD_NO = "buildNumber";
+	String KEY_SETTINGS_ENV = "environmentName";
 
     public Mojos.Mojo.Configuration.Parameters.Parameter.PossibleValues getValues(Map<String, Object> map) throws IOException, ParserConfigurationException, SAXException, ConfigurationException, PhrescoException;
 }

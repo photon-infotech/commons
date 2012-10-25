@@ -51,6 +51,7 @@ public interface Constants {
 	String PHRESCO = "phresco";
 	String CONFIGURATION_INFO_FILE = "phresco-env-config.xml";
 	String DOT_PHRESCO_FOLDER = ".phresco";
+	String SETTINGS_XML = "settings.xml";
 	
     
     // Constants for Maven
