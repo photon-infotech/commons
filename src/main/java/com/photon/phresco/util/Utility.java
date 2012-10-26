@@ -140,6 +140,18 @@ public final class Utility implements Constants {
         FileUtils.mkdir(phrescoHome);
         return phrescoHome;
     }
+    
+    public static String getLocalRepoPath() {
+        String phrescoHome = getPhrescoHome();
+        StringBuilder builder = new StringBuilder(phrescoHome);
+        builder.append(File.separator);
+        builder.append(PROJECTS_WORKSPACE);
+        builder.append(File.separator);
+        builder.append("repo");
+        builder.append(File.separator);
+        FileUtils.mkdir(builder.toString());
+        return builder.toString();
+    }
 
     public static String getProjectHome() {
         String phrescoHome = getPhrescoHome();

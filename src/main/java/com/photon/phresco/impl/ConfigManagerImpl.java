@@ -1,4 +1,4 @@
-package com.photon.phresco.commons.impl;
+package com.photon.phresco.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import com.photon.phresco.commons.api.ConfigManager;
+import com.photon.phresco.api.ConfigManager;
 import com.photon.phresco.configuration.ConfigReader;
 import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.configuration.Environment;

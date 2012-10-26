@@ -9,10 +9,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.photon.phresco.commons.impl.ConfigManagerImpl;
+import com.photon.phresco.api.ConfigManager;
 import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.configuration.Environment;
 import com.photon.phresco.exception.ConfigurationException;
+import com.photon.phresco.impl.ConfigManagerImpl;
 import com.photon.phresco.util.FileUtil;
 
 public class ConfigManagerTest {

@@ -31,6 +31,14 @@
 		<jackson-core-asl.version>1.8.0</jackson-core-asl.version>
 		<lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
 		<tools-maven-plugin.version>1.1</tools-maven-plugin.version>
+		<aether-api.version>1.13</aether-api.version>
+		<aether-spi.version>1.13</aether-spi.version>
+		<aether-util.version>1.13</aether-util.version>
+		<aether-impl.version>1.13</aether-impl.version>
+		<aether-connector-file.version>1.13</aether-connector-file.version>
+		<aether-connector-wagon.version>1.13</aether-connector-wagon.version>
+		<wagon-http-lightweight.version>2.0</wagon-http-lightweight.version>
+		<maven-aether-provider.version>3.0.3</maven-aether-provider.version>
 	 </properties>
 	
      <distributionManagement>
@@ -111,6 +119,54 @@
 			<artifactId>jackson-core-asl</artifactId>
 			<version>${jackson-core-asl.version}</version>
 		</dependency>
+		
+		<dependency>
+            <groupId>org.sonatype.aether</groupId>
+            <artifactId>aether-api</artifactId>
+            <version>${aether-api.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.sonatype.aether</groupId>
+            <artifactId>aether-spi</artifactId>
+            <version>${aether-spi.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.sonatype.aether</groupId>
+            <artifactId>aether-util</artifactId>
+            <version>${aether-util.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.sonatype.aether</groupId>
+            <artifactId>aether-impl</artifactId>
+            <version>${aether-impl.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.sonatype.aether</groupId>
+            <artifactId>aether-connector-file</artifactId>
+            <version>${aether-connector-file.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.sonatype.aether</groupId>
+            <artifactId>aether-connector-wagon</artifactId>
+            <version>${aether-connector-wagon.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-http-lightweight</artifactId>
+            <version>${wagon-http-lightweight.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-aether-provider</artifactId>
+            <version>${maven-aether-provider.version}</version>
+        </dependency>
 
     </dependencies>
     

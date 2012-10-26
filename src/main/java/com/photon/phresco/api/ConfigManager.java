@@ -17,7 +17,7 @@
  * limitations under the License.
  * ###
  */
-package com.photon.phresco.commons.api;
+package com.photon.phresco.api;
 
 import java.util.List;
 
