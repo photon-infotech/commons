@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.apache.struts2.json.annotations.JSON;
 
 /*
  * ###
@@ -133,6 +134,7 @@ public class Element implements Serializable {
 	/**
 	 * @param creationDate
 	 */
+    @JSON(format="MMM dd, yyyy HH:mm:ss a")
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}

@@ -31,6 +31,7 @@
 		<jackson-core-asl.version>1.8.0</jackson-core-asl.version>
 		<lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
 		<tools-maven-plugin.version>1.1</tools-maven-plugin.version>
+        <struts2-json-plugin.version>2.2.3.1</struts2-json-plugin.version>
 	 </properties>
 	
      <distributionManagement>
@@ -75,6 +76,13 @@
             <artifactId>log4j</artifactId>
             <version>${log4j.version}</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-json-plugin</artifactId>
+            <version>${struts2-json-plugin.version}</version>
+        </dependency>
+        
         
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
