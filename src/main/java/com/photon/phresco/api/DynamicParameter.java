@@ -1,4 +1,4 @@
-package com.photon.phresco.param.api;
+package com.photon.phresco.api;
 
 import java.io.IOException;
 import java.util.Map;
