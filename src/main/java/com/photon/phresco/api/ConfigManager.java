@@ -72,5 +72,29 @@ public interface ConfigManager {
 	 * @throws ConfigurationException
 	 */
 	List<Configuration> getConfigurations(String envName, String type) throws ConfigurationException;
-
+	
+	/**
+	 * Create configuration by given environment name and configuration
+	 * @param envName
+	 * @param configuration
+	 * @throws ConfigurationException
+	 */
+	void createConfiguration(String envName, Configuration configuration) throws ConfigurationException;
+	
+	/**
+	 * Updates configuration by given environment name and configuration
+	 * @param envName
+	 * @param oldConfigName
+	 * @param configuration
+	 * @throws ConfigurationException
+	 */
+	void updateConfiguration(String envName, String oldConfigName, Configuration configuration) throws ConfigurationException;
+	
+	/**
+	 * Deletes the configuration by given environment name and configuration
+	 * @param envName
+	 * @param configuration
+	 * @throws ConfigurationException
+	 */
+	void deleteConfiguration(String envName, Configuration configuration) throws ConfigurationException;
 }

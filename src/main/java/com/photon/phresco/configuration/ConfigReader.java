@@ -215,7 +215,7 @@ public class ConfigReader {
 	 * return the environments
 	 * @return
 	 */
-	protected Map<String, Element> getEnviroments() {
+	public Map<String, Element> getEnviroments() {
 		return ENV_MAP;
 	}
 

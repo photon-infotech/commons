@@ -29,6 +29,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -239,5 +240,50 @@ public class ConfigManagerImpl implements ConfigManager {
 			throw new ConfigurationException(e);
 		}
 		return configReader.getConfigurations(envName, type);
+	}
+
+	@Override
+	public void createConfiguration(String envName, Configuration configuration)
+			throws ConfigurationException {
+		ConfigReader configReader = new ConfigReader(configFile);
+		Element element = configReader.getEnviroments().get(envName);
+		element.appendChild(createConfigElement(configuration));
+		rootElement.appendChild(element);
+	}
+	
+	private Element createConfigElement(Configuration configuration) {
+		Element configNode = document.createElement(configuration.getType());
+		configNode.setAttribute("name", configuration.getName());
+		configNode.setAttribute("desc", configuration.getDesc());
+		if(StringUtils.isNotEmpty(configuration.getAppliesTo())) {
+			configNode.setAttribute("appliesTo", configuration.getAppliesTo());
+		}
+		createProperties(configNode, configuration.getProperties());
+		return configNode;
+	}
+
+	@Override
+	public void updateConfiguration(String envName, String oldConfigName,
+			Configuration configuration) throws ConfigurationException {
+		Node environment = getNode(getXpathEnv(envName).toString());
+		Node oldConfigNode = getNode(getXpathConfigByEnv(envName, oldConfigName));
+		Element configElement = createConfigElement(configuration);
+		environment.replaceChild(configElement, oldConfigNode);
+	}
+	
+	private String getXpathConfigByEnv(String envName, String configName) {
+		StringBuilder expBuilder = getXpathEnv(envName);
+		expBuilder.append("/*[@name='");
+		expBuilder.append(configName);
+		expBuilder.append("']");
+		return expBuilder.toString();
+	}
+
+	@Override
+	public void deleteConfiguration(String envName, Configuration configuration)
+			throws ConfigurationException {
+		Node environment = getNode(getXpathEnv(envName).toString());
+		Node configNode = getNode(getXpathConfigByEnv(envName, configuration.getName()));
+		environment.removeChild(configNode);
 	}
 }
