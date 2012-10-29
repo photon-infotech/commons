@@ -42,7 +42,15 @@ public class LogInfo implements Serializable {
 	public LogInfo() {
 	    super();
 	}
-
+	
+	public LogInfo(String errorMessage, String trace, String action, String userid) {
+		super();
+		this.message = errorMessage;
+		this.trace = trace;
+		this.action = action;
+		this.userId = userid;
+	}
+	
     public String getId() {
         return id;
     }
