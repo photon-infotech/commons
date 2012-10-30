@@ -27,6 +27,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class RepoInfo {
     
     private String customerId;
+    private String repoName;
     private String baseRepoURL;
     private String releaseRepoURL;
     private String snapshotRepoURL;
@@ -132,7 +133,15 @@ public class RepoInfo {
     public void setBaseRepoURL(String baseRepoURL) {
         this.baseRepoURL = baseRepoURL;
     }
+    
+    public void setRepoName(String repoName) {
+		this.repoName = repoName;
+	}
 
+	public String getRepoName() {
+		return repoName;
+	}
+	
     public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
@@ -144,4 +153,5 @@ public class RepoInfo {
                 .append("groupRepoURL", groupRepoURL)
                 .toString();
     }
+
 }

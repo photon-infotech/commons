@@ -234,5 +234,6 @@ public interface ServiceConstants {
 	String REPO_RELEASE_NAME = "release";
 	String REPO_SNAPSHOT_NAME = "snapshot";
 	String REPO_OBJECT_ID = "data";
+	String PHRESCO_REPO_NAME = "Releases";
 	String REPO_FAILURE_MSG = "Repository Creation Failed Repository Already Exists......";
 }
