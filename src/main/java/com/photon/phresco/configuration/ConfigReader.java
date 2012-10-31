@@ -308,6 +308,7 @@ public class ConfigReader {
 			String defaultEnv = envElement.getAttribute("default");
 			Environment environment = new Environment(envName, envDesc, Boolean.parseBoolean(defaultEnv));
 			environment.setDelete(canDelete(envElement));
+			environment.setConfigurations(getConfigByEnv(envName));
 			envs.add(environment);
 		}
 		return envs;

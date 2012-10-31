@@ -89,6 +89,6 @@ public class Environment {
 
 	public String toString() {
 		return "Environment [name=" + name + ", description=" + desc  +
-				", default=" + defaultEnv + "]";
+				", default=" + defaultEnv + ", configurations=" + configurations + "]";
 	}
 }
