@@ -141,7 +141,7 @@ public interface ServiceConstants {
 	String REPORTS_COLLECTION_NAME = "reports";
 	String PROPERTIES_COLLECTION_NAME = "properties";
 	String OPTIONS_COLLECTION_NAME = "options";
-	String LICENSE_COLLECTION_NAME ="licenses";
+	String LICENSE_COLLECTION_NAME ="Licenses";
 	/*
 	 * DB query params
 	 */
