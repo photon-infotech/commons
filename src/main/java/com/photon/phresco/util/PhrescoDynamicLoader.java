@@ -19,7 +19,7 @@ public class PhrescoDynamicLoader {
 	RepoInfo repoInfo;
 	List<ArtifactGroup> plugins;
 	
-	PhrescoDynamicLoader(RepoInfo repoInfo, List<ArtifactGroup> plugins) {
+	public PhrescoDynamicLoader(RepoInfo repoInfo, List<ArtifactGroup> plugins) {
 		this.repoInfo = repoInfo;
 		this.plugins = plugins;
 	}

@@ -65,7 +65,6 @@ public class ConfigManagerImpl implements ConfigManager {
 	@Override
 	public List<Environment> getEnvironments(List<String> environmentNames)
 			throws ConfigurationException {
-		
 		if(!configFile.exists()) {
 			throw new ConfigurationException("Config File Not Exists");
 		}
@@ -76,8 +75,6 @@ public class ConfigManagerImpl implements ConfigManager {
 	@Override
 	public void addEnvironments(List<Environment> environments)
 			throws ConfigurationException {
-	    
-	    createNewDoc();
 		createEnvironment(environments, configFile);
 	}
 	
@@ -248,10 +245,15 @@ public class ConfigManagerImpl implements ConfigManager {
 		ConfigReader configReader = new ConfigReader(configFile);
 		Element element = configReader.getEnviroments().get(envName);
 		element.appendChild(createConfigElement(configuration));
-		rootElement.appendChild(element);
+		//rootElement.appendChild(element);
+		try {
+			writeXml(new FileOutputStream(configFile));
+		} catch (FileNotFoundException e) {
+			throw new ConfigurationException(e);
+		}
 	}
 	
-	private Element createConfigElement(Configuration configuration) {
+	private Element createConfigElement(Configuration configuration) throws ConfigurationException {
 		Element configNode = document.createElement(configuration.getType());
 		configNode.setAttribute("name", configuration.getName());
 		configNode.setAttribute("desc", configuration.getDesc());
@@ -269,6 +271,11 @@ public class ConfigManagerImpl implements ConfigManager {
 		Node oldConfigNode = getNode(getXpathConfigByEnv(envName, oldConfigName));
 		Element configElement = createConfigElement(configuration);
 		environment.replaceChild(configElement, oldConfigNode);
+		try {
+			writeXml(new FileOutputStream(configFile));
+		} catch (FileNotFoundException e) {
+			throw new ConfigurationException(e);
+		}
 	}
 	
 	private String getXpathConfigByEnv(String envName, String configName) {
@@ -285,5 +292,10 @@ public class ConfigManagerImpl implements ConfigManager {
 		Node environment = getNode(getXpathEnv(envName).toString());
 		Node configNode = getNode(getXpathConfigByEnv(envName, configuration.getName()));
 		environment.removeChild(configNode);
+		try {
+			writeXml(new FileOutputStream(configFile));
+		} catch (FileNotFoundException e) {
+			throw new ConfigurationException(e);
+		}
 	}
 }
