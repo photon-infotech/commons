@@ -22,6 +22,7 @@ package com.photon.phresco.util;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -280,33 +281,74 @@ public final class Utility implements Constants {
 		return bufferedReader;
 	}
 	
-	  public static void executeStreamconsumer(String command) {
-    	BufferedReader in = null;
-    	fillErrorIdentifiers();
-    	try {
-    	final StringBuffer bufferErrBuffer = new StringBuffer();
-		final StringBuffer bufferOutBuffer = new StringBuffer();
-		Commandline commandLine = new Commandline(command);
-		CommandLineUtils.executeCommandLine(commandLine, new StreamConsumer() {
-			public void consumeLine(String line) {
-				System.out.println(line);
-				if (isError(line) == true) {
+	public static void executeStreamconsumer(String command) {
+		BufferedReader in = null;
+		fillErrorIdentifiers();
+		try {
+			final StringBuffer bufferErrBuffer = new StringBuffer();
+			final StringBuffer bufferOutBuffer = new StringBuffer();
+			Commandline commandLine = new Commandline(command);
+			CommandLineUtils.executeCommandLine(commandLine, new StreamConsumer() {
+				public void consumeLine(String line) {
+					System.out.println(line);
+					if (isError(line) == true) {
+						bufferErrBuffer.append(line);
+					}
+					bufferOutBuffer.append(line);
+				}
+			}, new StreamConsumer() {
+				public void consumeLine(String line) {
+					System.out.println(line);
 					bufferErrBuffer.append(line);
 				}
-				bufferOutBuffer.append(line);
-			}
-		}, new StreamConsumer() {
-			public void consumeLine(String line) {
-				System.out.println(line);
-				bufferErrBuffer.append(line);
-			}
-		});
-	} catch (CommandLineException e) {
-		e.printStackTrace();
-	} finally {
-		Utility.closeStream(in);
+			});
+		} catch (CommandLineException e) {
+			e.printStackTrace();
+		} finally {
+			Utility.closeStream(in);
+		}
 	}
-    }
+	
+	public static void executeStreamconsumer(String command, final FileOutputStream fos) {
+		BufferedReader in = null;
+		fillErrorIdentifiers();
+		try {
+			final StringBuffer bufferErrBuffer = new StringBuffer();
+			final StringBuffer bufferOutBuffer = new StringBuffer();
+			Commandline commandLine = new Commandline(command);
+			CommandLineUtils.executeCommandLine(commandLine, new StreamConsumer() {
+				public void consumeLine(String line) {
+					System.out.println(line);
+					try {
+						fos.write(line.getBytes());
+						fos.write("\n".getBytes());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					if (isError(line) == true) {
+						bufferErrBuffer.append(line);
+					}
+					bufferOutBuffer.append(line);
+				}
+			}, new StreamConsumer() {
+				public void consumeLine(String line) {
+					System.out.println(line);
+					try {
+						fos.write(line.getBytes());
+						fos.write("\n".getBytes());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					bufferErrBuffer.append(line);
+				}
+			});
+		} catch (CommandLineException e) {
+			e.printStackTrace();
+		} finally {
+			Utility.closeStream(in);
+		}
+	}
+	  
     
 	public static boolean isError(String line) {
 		line = line.trim();
