@@ -19,6 +19,8 @@
  */
 package com.photon.phresco.util;
 
+import java.io.File;
+
 public interface Constants {
 
 	int STATUS_OPEN = 0;
@@ -52,8 +54,10 @@ public interface Constants {
 	String CONFIGURATION_INFO_FILE = "phresco-env-config.xml";
 	String DOT_PHRESCO_FOLDER = ".phresco";
 	String SETTINGS_XML = "settings.xml";
-	
-    
+	/*String FILE_SEPARATOR = "/";
+	String BUILD_INFO_FILE_NAME = "build.info";
+	String DO_NOT_CHECKIN_DIR = "do_not_checkin";
+	String BUILD_DIR = DO_NOT_CHECKIN_DIR + File.separator + "build";*/    
     // Constants for Maven
     String MVN_COMMAND = "mvn";
     String MVN_ARCHETYPE = "archetype";

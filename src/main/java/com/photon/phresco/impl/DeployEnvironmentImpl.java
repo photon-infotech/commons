@@ -28,7 +28,10 @@ import com.photon.phresco.util.Constants;
 import com.photon.phresco.util.Utility;
 
 public class DeployEnvironmentImpl implements DynamicParameter, Constants {
-	public Map<Object, Object> dynamicParamMap = new HashMap<Object, Object>();
+	private String FILE_SEPARATOR = "/";
+	private String BUILD_INFO_FILE_NAME = "build.info";
+	private String DO_NOT_CHECKIN_DIR = "do_not_checkin";
+	private String BUILD_DIR = DO_NOT_CHECKIN_DIR + File.separator + "build";
 	
 	@Override
 	public PossibleValues getValues(Map<String, Object> deployEnvMap) throws IOException, ParserConfigurationException, SAXException, ConfigurationException, PhrescoException {
