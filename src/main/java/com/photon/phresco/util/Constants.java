@@ -189,5 +189,10 @@ public interface Constants {
 	String ENABLE_LOAD_TEST = "lbl.framework.options.load.test";
 	String ENABLE_CONTINUOUS_INTEGRATION = "lbl.framework.options.continous.integration";
 	String ENABLE_JS_LIBRARIES = "lbl.framework.options.js.libraries";
+	
+	// Constants for test directories
+	
+	String POM_PROP_KEY_UNITTEST_DIR = "phresco.unitTest.dir";
+	String POM_PROP_KEY_FUNCTEST_DIR = "phresco.functioanlTest.dir";
 
 }
