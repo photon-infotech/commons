@@ -43,6 +43,7 @@ public class SettingsTemplate extends CustomerBasedElement {
     private List<PropertyTemplate> properties = new ArrayList<PropertyTemplate>(SizeConstants.SIZE_PROPERTIES_MAP);
     //List of technology ids
     private List<Element> appliesToTechs;
+    private List<Element> possibleTypes;
     
     public SettingsTemplate() {
         super();
@@ -72,7 +73,15 @@ public class SettingsTemplate extends CustomerBasedElement {
         this.appliesToTechs = appliesTo;
     }
     
-    @Override
+    public List<Element> getPossibleTypes() {
+		return possibleTypes;
+	}
+
+	public void setPossibleTypes(List<Element> types) {
+		this.possibleTypes = types;
+	}
+
+	@Override
     public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
