@@ -19,12 +19,20 @@
  */
 package com.photon.phresco.util;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 
+import org.apache.commons.lang.ArrayUtils;
+
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ProjectInfo;
 import com.photon.phresco.exception.PhrescoException;
@@ -121,7 +129,40 @@ public class ProjectUtils implements Constants {
 //		}
 	}
 	
-	
-	
-	
+	public ProjectInfo getProjectInfo(File baseDir) throws PhrescoException {
+		ProjectInfo projectinfo = null;
+		Gson gson = new Gson();
+		BufferedReader reader = null;
+		try {
+			File[] dotPhrescoFolders = baseDir.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
+			if (!ArrayUtils.isEmpty(dotPhrescoFolders)) {
+				for (File dotPhrescoFolder : dotPhrescoFolders) {
+					File[] dotProjectFiles = dotPhrescoFolder.listFiles(new PhrescoFileNameFilter(PROJECT_INFO_FILE));
+					for (File dotProjectFile : dotProjectFiles) {
+						reader = new BufferedReader(new FileReader(dotProjectFile));
+						projectinfo = gson.fromJson(reader, ProjectInfo.class);
+					}
+				}
+			}
+		} catch (JsonSyntaxException e) {
+			throw new PhrescoException(e);
+		} catch (JsonIOException e) {
+			throw new PhrescoException(e);
+		} catch (FileNotFoundException e) {
+			throw new PhrescoException(e);
+		}
+		return projectinfo;
+	}
+}
+
+class PhrescoFileNameFilter implements FilenameFilter {
+	private String filter_;
+
+	public PhrescoFileNameFilter(String filter) {
+		filter_ = filter;
+	}
+
+	public boolean accept(File dir, String name) {
+		return name.endsWith(filter_);
+	}
 }

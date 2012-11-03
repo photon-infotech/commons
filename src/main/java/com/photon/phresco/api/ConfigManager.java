@@ -24,7 +24,6 @@ import java.util.List;
 import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.configuration.Environment;
 import com.photon.phresco.exception.ConfigurationException;
-import com.photon.phresco.exception.PhrescoException;
 
 
 public interface ConfigManager {
