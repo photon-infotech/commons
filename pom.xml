@@ -89,8 +89,13 @@
             <groupId>org.apache.struts</groupId>
             <artifactId>struts2-json-plugin</artifactId>
             <version>${struts2-json-plugin.version}</version>
+            <exclusions>
+		        <exclusion>
+		            <artifactId>tools</artifactId>
+		            <groupId>com.sun</groupId>
+		        </exclusion>
+    	</exclusions>
         </dependency>
-        
         
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
