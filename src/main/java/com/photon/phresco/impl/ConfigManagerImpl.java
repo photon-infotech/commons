@@ -244,8 +244,10 @@ public class ConfigManagerImpl implements ConfigManager {
 			throws ConfigurationException {
 		ConfigReader configReader = new ConfigReader(configFile);
 		Element element = configReader.getEnviroments().get(envName);
-		element.appendChild(createConfigElement(configuration));
-		//rootElement.appendChild(element);
+		Element imported = (Element)document.importNode(element, Boolean.TRUE);
+		imported.appendChild(createConfigElement(configuration));
+		Node oldNode = getNode(getXpathEnv(envName).toString());
+		rootElement.replaceChild(imported, oldNode);
 		try {
 			writeXml(new FileOutputStream(configFile));
 		} catch (FileNotFoundException e) {
