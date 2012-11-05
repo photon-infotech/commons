@@ -19,17 +19,23 @@ import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Para
 import com.photon.phresco.util.Constants;
 import com.photon.phresco.util.Utility;
 
-public class BuildEnvironmentImpl implements DynamicParameter, Constants {
+public class EnvironmentsParameterImpl implements DynamicParameter, Constants {
 
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	public PossibleValues getValues(Map<String, Object> map) throws IOException, ParserConfigurationException, SAXException, ConfigurationException {
+	@SuppressWarnings("unchecked")
+    @Override
+	public PossibleValues getValues(Map<String, Object> paramsMap) throws IOException, ParserConfigurationException, SAXException, ConfigurationException {
     	PossibleValues possibleValues = new PossibleValues();
-    	ApplicationInfo applicationInfo = (ApplicationInfo) map.get(KEY_APP_INFO);
+    	ApplicationInfo applicationInfo = (ApplicationInfo) paramsMap.get(KEY_APP_INFO);
     	
-    	if (map != null) {
-    		String dependancyValue = (String) map.get(KEY_SETTINGS_ENV);
+    	if (paramsMap != null) {
+    	    Object object = paramsMap.get("showSettings");
+    		String dependancyValue = "";
+    		if (object instanceof Map) {
+    		    dependancyValue = (String) ((Map<String, Object>) object).get(KEY_SETTINGS_ENV);
+    		    System.out.println("show settings dependancyValue--------"+dependancyValue);
+            }
         	if (Boolean.parseBoolean(dependancyValue)) {
             	String settingsPath = getSettingsPath();
             	ConfigManager configManager = new ConfigManagerImpl(new File(settingsPath)); 

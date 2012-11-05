@@ -19,7 +19,6 @@
  */
 package com.photon.phresco.util;
 
-import java.io.File;
 
 public interface Constants {
 

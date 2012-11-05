@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,9 +31,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.SequenceInputStream;
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -42,6 +45,10 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.photon.phresco.commons.model.BuildInfo;
+import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.exception.PhrescoWebServiceException;
 
 public final class Utility implements Constants {
@@ -369,5 +376,40 @@ public final class Utility implements Constants {
 		ERRORIDENTIFIERS.add("Fatal error");
 		ERRORIDENTIFIERS.add("Notice");
 	}
-    
+	
+	public static List<BuildInfo> getBuildInfos(File buildInfoFile) throws PhrescoException {
+	    try {
+	        return readBuildInfo(buildInfoFile);
+	    } catch (IOException e) {
+	        throw new PhrescoException(e);
+	    }
+	}
+
+	private static List<BuildInfo> readBuildInfo(File path) throws IOException {
+	    if (!path.exists()) {
+	        return new ArrayList<BuildInfo>(1);
+	    }
+
+	    BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
+	    Gson gson = new Gson();
+	    Type type = new TypeToken<List<BuildInfo>>(){}.getType();
+
+	    List<BuildInfo> buildInfos = gson.fromJson(bufferedReader, type);
+	    bufferedReader.close();
+
+	    return buildInfos;
+	}
+
+	public static BuildInfo getBuildInfo(int buildNumber, String buildInfoFileDirectory) throws PhrescoException {
+	    List<BuildInfo> buildInfos = getBuildInfos(new File(buildInfoFileDirectory));
+	    if (buildInfos != null) {
+	        for (BuildInfo buildInfo : buildInfos) {
+	            if (buildInfo.getBuildNo() == buildNumber) {
+	                return buildInfo;
+	            }
+	        }
+	    }
+
+	    return null;
+	}
 }
