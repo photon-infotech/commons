@@ -73,8 +73,8 @@ public class ConfigManagerImpl implements ConfigManager {
 	}
 	
 	@Override
-	public void addEnvironments(List<Environment> environments)
-			throws ConfigurationException {
+	public void addEnvironments(List<Environment> environments) throws ConfigurationException {
+		createNewDoc();
 		createEnvironment(environments, configFile);
 	}
 	
@@ -175,26 +175,26 @@ public class ConfigManagerImpl implements ConfigManager {
 	}
 	
 	private void writeXml(OutputStream fos) throws ConfigurationException {
-			TransformerFactory tFactory = TransformerFactory.newInstance();
-			Transformer transformer;
-			try {
-				transformer = tFactory.newTransformer();
-				transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-				transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-				transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-				Source src = new DOMSource(document);
-				Result res = new StreamResult(fos);
-				transformer.transform(src, res);
-			} catch (TransformerConfigurationException e) {
-				throw new ConfigurationException(e);
-			} catch (TransformerException e) {
-				throw new ConfigurationException(e);
-			} finally {
-				if(fos != null) {
-					Utility.closeStream(fos);
-				}
+		TransformerFactory tFactory = TransformerFactory.newInstance();
+		Transformer transformer;
+		try {
+			transformer = tFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+			Source src = new DOMSource(document);
+			Result res = new StreamResult(fos);
+			transformer.transform(src, res);
+		} catch (TransformerConfigurationException e) {
+			throw new ConfigurationException(e);
+		} catch (TransformerException e) {
+			throw new ConfigurationException(e);
+		} finally {
+			if(fos != null) {
+				Utility.closeStream(fos);
 			}
 		}
+	}
 	
 	private StringBuilder getXpathEnv(String envName) {
 		StringBuilder expBuilder = new StringBuilder();
@@ -299,5 +299,27 @@ public class ConfigManagerImpl implements ConfigManager {
 		} catch (FileNotFoundException e) {
 			throw new ConfigurationException(e);
 		}
+	}
+	
+	@Override
+	public Configuration getConfiguration(String envName, String type,
+			String configName) throws ConfigurationException {
+		ConfigReader configReader = null;
+		Configuration configurationFound = null;
+		try {
+			configReader = new ConfigReader(configFile);
+			if (envName == null || envName.isEmpty() ) {
+				envName = configReader.getDefaultEnvName();
+			}
+			List<Configuration> configurations = configReader.getConfigurations(envName, type);
+			for (Configuration configuration : configurations) {
+				if(configuration.getName().equals(configName)) {
+					configurationFound = configuration;
+				}
+			}
+		} catch (ConfigurationException e) {
+			throw new ConfigurationException(e);
+		}
+		return configurationFound;
 	}
 }

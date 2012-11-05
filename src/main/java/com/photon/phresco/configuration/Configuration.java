@@ -30,7 +30,10 @@ public class Configuration {
 	private Properties properties;
 	private String appliesTo;
 
-
+	public Configuration() { // Added for Action class to get Configuration as json from jsp
+		super();
+	}
+	
 	public Configuration(String name, String desc, String envName, String type, Properties properties, String configAppliesTo) {
 		super();
 		this.name = name;

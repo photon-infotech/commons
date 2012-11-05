@@ -24,6 +24,7 @@ import java.util.List;
 import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.configuration.Environment;
 import com.photon.phresco.exception.ConfigurationException;
+import com.photon.phresco.exception.PhrescoException;
 
 
 public interface ConfigManager {
@@ -96,4 +97,14 @@ public interface ConfigManager {
 	 * @throws ConfigurationException
 	 */
 	void deleteConfiguration(String envName, Configuration configuration) throws ConfigurationException;
+	
+	/**
+	 * Get the configuration using envName configtype and configName
+	 * @param envName
+	 * @param type
+	 * @param configName
+	 * @return
+	 * @throws PhrescoException
+	 */
+	Configuration getConfiguration(String envName, String type, String configName) throws ConfigurationException;
 }
