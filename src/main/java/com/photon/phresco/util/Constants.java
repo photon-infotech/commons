@@ -189,10 +189,36 @@ public interface Constants {
 	String ENABLE_CONTINUOUS_INTEGRATION = "lbl.framework.options.continous.integration";
 	String ENABLE_JS_LIBRARIES = "lbl.framework.options.js.libraries";
 	
-	// Constants for test directories
+	/**
+	 * Test and test report directory constants
+	 */
 	
 	String POM_PROP_KEY_UNITTEST_DIR = "phresco.unitTest.dir";
+	String POM_PROP_KEY_UNITTEST_RPT_DIR = "phresco.unitTestReport.dir";
+	String POM_PROP_KEY_UNITTEST_TESTSUITE_XPATH = "phresco.unitTest.testsuite.xpath";
+	String POM_PROP_KEY_UNITTEST_TESTCASE_PATH = "phresco.unitTest.testcase.path";
+	String POM_PROP_KEY_LOADTEST_DIR = "phresco.loadTest.dir";
+	String POM_PROP_KEY_LOADTEST_RPT_DIR = "phresco.loadTestReport.dir";
+	String POM_PROP_KEY_FUNCTEST_SELENIUM_TOOL = "phresco.functioanlTest.selenium.tool";
+    String POM_PROP_KEY_FUNCTEST_RPT_DIR = "phresco.functionalTestReport.dir";
+    String POM_PROP_KEY_FUNCTEST_TESTSUITE_XPATH = "phresco.functionalTest.testsuite.xpath";
+    String POM_PROP_KEY_FUNCTEST_TESTCASE_PATH = "phresco.functionalTest.testcase.path";
 	String POM_PROP_KEY_FUNCTEST_DIR = "phresco.functioanlTest.dir";
-	String PHRESCO_FUNCTIONAL_TEST_ADAPT_DIR = "phresco.functionalTest.adapt.dir";
+	String PHRESCO_FUNCTIONAL_TEST_ADAPT_DIR = "phresco.functionalTest.adapt.config";
+	
+	
+	/**
+	 * MVN Goal Constants
+	 */
+	String PHASE_PACKAGE = "package";
+    String PHASE_DEPLOY = "deploy";
+    String PHASE_VALIDATE_CODE = "validate-code";
+    String PHASE_UNIT_TEST = "unit-test";
+    String PHASE_FUNCTIONAL_TEST = "functional-test";
+    String PHASE_START_HUB = "start-hub";
+    String PHASE_START_NODE = "start-node";
+    String PHASE_LOAD_TEST = "load-test";
+    String PHASE_RUNGAINST_SRC_START = "start";
+    String PHASE_RUNGAINST_SRC_STOP = "stop";
 
 }
