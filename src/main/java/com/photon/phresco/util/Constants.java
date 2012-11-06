@@ -205,7 +205,7 @@ public interface Constants {
     String POM_PROP_KEY_FUNCTEST_TESTCASE_PATH = "phresco.functionalTest.testcase.path";
 	String POM_PROP_KEY_FUNCTEST_DIR = "phresco.functioanlTest.dir";
 	String PHRESCO_FUNCTIONAL_TEST_ADAPT_DIR = "phresco.functionalTest.adapt.config";
-	
+	String POM_PROP_KEY_SQL_FILE_DIR = "phresco.sql.path";
 	
 	/**
 	 * MVN Goal Constants
