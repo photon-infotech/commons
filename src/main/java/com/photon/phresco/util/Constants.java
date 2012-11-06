@@ -193,5 +193,6 @@ public interface Constants {
 	
 	String POM_PROP_KEY_UNITTEST_DIR = "phresco.unitTest.dir";
 	String POM_PROP_KEY_FUNCTEST_DIR = "phresco.functioanlTest.dir";
+	String PHRESCO_FUNCTIONAL_TEST_ADAPT_DIR = "phresco.functionalTest.adapt.dir";
 
 }
