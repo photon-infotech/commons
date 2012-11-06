@@ -33,6 +33,7 @@ import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.photon.phresco.api.ConfigManager;
@@ -74,7 +75,14 @@ public class ConfigManagerImpl implements ConfigManager {
 	
 	@Override
 	public void addEnvironments(List<Environment> environments) throws ConfigurationException {
-		createNewDoc();
+		// This block will remove all the env node due to modify the order of Environment
+		StringBuilder xpathEnvs = getXpathEnvs();
+		NodeList nodeList = getNodeList(xpathEnvs.toString());
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node envNode = nodeList.item(i);
+			envNode.getParentNode().removeChild(envNode);
+		}
+		
 		createEnvironment(environments, configFile);
 	}
 	
@@ -196,6 +204,12 @@ public class ConfigManagerImpl implements ConfigManager {
 		}
 	}
 	
+	private StringBuilder getXpathEnvs() {
+		StringBuilder expBuilder = new StringBuilder();
+		expBuilder.append("/environments/environment"); 
+		return expBuilder;
+	}
+	
 	private StringBuilder getXpathEnv(String envName) {
 		StringBuilder expBuilder = new StringBuilder();
 		expBuilder.append("/environments/environment[@name='"); 
@@ -216,6 +230,20 @@ public class ConfigManagerImpl implements ConfigManager {
 			throw new ConfigurationException(e);
 		}
 		return xpathNode;
+	}
+	
+	private NodeList getNodeList(String xpath) throws ConfigurationException {
+		XPathFactory xPathFactory = XPathFactory.newInstance();
+	    XPath newXPath = xPathFactory.newXPath();	
+		XPathExpression xPathExpression;
+		NodeList xpathNodes = null;
+		try {
+			xPathExpression = newXPath.compile(xpath);
+			xpathNodes = (NodeList) xPathExpression.evaluate(document, XPathConstants.NODESET);
+		} catch (XPathExpressionException e) {
+			throw new ConfigurationException(e);
+		}
+		return xpathNodes;
 	}
 
 	@Override
