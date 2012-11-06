@@ -39,8 +39,8 @@ public class ApplicationInfo extends CustomerBasedElement {
     private List<String> selectedJSLibs;
     private List<ArtifactGroup> selectedFrameworks;
     private List<String> selectedComponents;
-    private List<String> selectedServers;
-    private List<String> selectedDatabases;
+    private List<ArtifactGroupInfo> selectedServers;
+    private List<ArtifactGroupInfo> selectedDatabases;
     private List<String> selectedWebservices;
     private boolean emailSupported;
     private boolean phoneEnabled;
@@ -105,19 +105,19 @@ public class ApplicationInfo extends CustomerBasedElement {
         this.selectedComponents = selectedComponents;
     }
 
-    public List<String> getSelectedServers() {
+    public List<ArtifactGroupInfo> getSelectedServers() {
         return selectedServers;
     }
 
-    public void setSelectedServers(List<String> selectedServers) {
+    public void setSelectedServers(List<ArtifactGroupInfo> selectedServers) {
         this.selectedServers = selectedServers;
     }
 
-    public List<String> getSelectedDatabases() {
+    public List<ArtifactGroupInfo> getSelectedDatabases() {
         return selectedDatabases;
     }
 
-    public void setSelectedDatabases(List<String> selectedDatabases) {
+    public void setSelectedDatabases(List<ArtifactGroupInfo> selectedDatabases) {
         this.selectedDatabases = selectedDatabases;
     }
 
