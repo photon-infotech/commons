@@ -3,6 +3,7 @@ package com.photon.phresco.util;
 import java.net.URL;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.apache.maven.repository.internal.MavenRepositorySystemSession;
 import org.codehaus.plexus.DefaultPlexusContainer;
 import org.sonatype.aether.RepositorySystem;
@@ -17,15 +18,32 @@ import org.sonatype.aether.resolution.DependencyRequest;
 import org.sonatype.aether.util.artifact.JavaScopes;
 import org.sonatype.aether.util.filter.DependencyFilterUtils;
 
-
 public class MavenArtifactResolver {
+	
+	private static final Logger S_LOGGER= Logger.getLogger(MavenArtifactResolver.class);
+	private static Boolean isDebugEnabled = S_LOGGER.isDebugEnabled();
 	
 	public static final URL[] resolve(String url, String username,
 			String password, List<Artifact> artifacts) throws Exception {
+		if (isDebugEnabled) {
+	        S_LOGGER.debug("Entered into MavenArtifactResolver.resolve()");
+	        S_LOGGER.debug("Url Is" + url + " " + "Username Is " + username + "Password Is " + password);
+	    }
+		System.out.println("Entered To MavenArtifactResolver");
+		System.out.println("Url Is" + url);
+		System.out.println("UserName Is " + username);
+		System.out.println("Password Is " + password);
+		System.out.println("Artifacts Are " + artifacts);
+		
 		RepositorySystem repoSystem = new DefaultPlexusContainer().lookup(RepositorySystem.class);
 		MavenRepositorySystemSession session = new MavenRepositorySystemSession();
 
 		LocalRepository localRepo = new LocalRepository(Utility.getLocalRepoPath());
+		if (isDebugEnabled) {
+	        S_LOGGER.debug("Local Repository Is" + Utility.getLocalRepoPath());
+	        S_LOGGER.debug("Local Repository Is" + localRepo);
+	    }
+		System.out.println("Local Repository Is  " + localRepo);
 		session.setLocalRepositoryManager(repoSystem.newLocalRepositoryManager(localRepo));
 		
 		String repoName = "phresco"; //TODO: Should be repoInfo.getName()
