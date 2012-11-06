@@ -255,7 +255,7 @@ public class ConfigManagerImpl implements ConfigManager {
 		}
 	}
 	
-	private Element createConfigElement(Configuration configuration) throws ConfigurationException {
+	public Element createConfigElement(Configuration configuration) throws ConfigurationException {
 		Element configNode = document.createElement(configuration.getType());
 		configNode.setAttribute("name", configuration.getName());
 		configNode.setAttribute("desc", configuration.getDesc());

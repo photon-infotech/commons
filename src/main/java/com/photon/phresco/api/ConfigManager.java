@@ -21,6 +21,8 @@ package com.photon.phresco.api;
 
 import java.util.List;
 
+import org.w3c.dom.Element;
+
 import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.configuration.Environment;
 import com.photon.phresco.exception.ConfigurationException;
@@ -107,4 +109,11 @@ public interface ConfigManager {
 	 * @throws PhrescoException
 	 */
 	Configuration getConfiguration(String envName, String type, String configName) throws ConfigurationException;
+	
+	/**
+	 * @param configuration
+	 * @return
+	 * @throws ConfigurationException
+	 */
+	Element createConfigElement(Configuration configuration) throws ConfigurationException;
 }
