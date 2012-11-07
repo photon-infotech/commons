@@ -26,10 +26,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.photon.phresco.util.ServiceConstants;
 
 @XmlRootElement
 public abstract class CustomerBasedElement extends Element {
-
+	
+	@NotEmpty(message = ServiceConstants.VAL_CUSID_MSG)
 	private List<String> customerIds;
     private boolean used;
 

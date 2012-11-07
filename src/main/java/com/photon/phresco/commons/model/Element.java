@@ -24,11 +24,15 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.struts2.json.annotations.JSON;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.photon.phresco.util.ServiceConstants;
 
 /*
  * ###
@@ -55,7 +59,9 @@ public class Element implements Serializable {
 
     private static final long serialVersionUID = 2573493968812398251L;
     
+    @NotEmpty(message = ServiceConstants.VAL_ID_MSG)
     private String id;
+    @NotEmpty(message = ServiceConstants.VAL_NAME_MSG)
 	private String name;
 	private String description;
 	private String helpText;

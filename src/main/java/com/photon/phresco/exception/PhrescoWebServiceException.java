@@ -53,7 +53,11 @@ public class PhrescoWebServiceException extends WebApplicationException {
 	        }
 		}
 	}
-
+	
+	public PhrescoWebServiceException(Throwable e) {
+		super(e);
+	}
+	
 	public PhrescoWebServiceException(String errorNum, String type) {
         this(null, errorNum, type);
     }

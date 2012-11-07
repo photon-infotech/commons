@@ -26,7 +26,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 
 @XmlRootElement
-public class Property extends CustomerBasedElement {
+public class Property extends Element {
 
 	private static final long serialVersionUID = 8809204276913498651L;
 	private String key;

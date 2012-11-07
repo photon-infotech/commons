@@ -248,4 +248,5 @@ public interface ServiceConstants {
 	String VAL_ARCHETYPE_MSG = "Archetype Should Not Be Null";
 	String VAL_TECHGRPID_MSG = "TechnologyGroupId Should Not Be Null";
 	String VAL_CUSID_MSG = "Customerids Should Not Be Null";
+	
 }
