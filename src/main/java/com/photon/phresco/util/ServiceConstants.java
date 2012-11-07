@@ -92,6 +92,7 @@ public interface ServiceConstants {
 	String ERROR_MSG_NOT_FOUND = "Content Not Found";
 	String ERROR_MSG_ID_NOT_EQUAL = "Given Id Not Equal";
 	String REST_QUERY_TECHID = "techId";
+	String REST_QUERY_ISPILOT = "isPilot";
 	String REST_LIMIT_VALUE = "limitValue";
 	String REST_SKIP_VALUE = "skipValue";
 	String REST_QUERY_PROJECTID = "projectId";
@@ -142,6 +143,7 @@ public interface ServiceConstants {
 	String PROPERTIES_COLLECTION_NAME = "properties";
 	String OPTIONS_COLLECTION_NAME = "options";
 	String LICENSE_COLLECTION_NAME ="Licenses";
+	String TECH_GROUP_COLLECTION_NAME = "techgroup";
 	/*
 	 * DB query params
 	 */
@@ -236,4 +238,14 @@ public interface ServiceConstants {
 	String REPO_OBJECT_ID = "data";
 	String PHRESCO_REPO_NAME = "Releases";
 	String REPO_FAILURE_MSG = "Repository Creation Failed Repository Already Exists......";
+	
+	/*
+     * Constants for Object Validation
+     */
+	String VAL_ID_MSG = "Id Should Not Be Null";
+	String VAL_NAME_MSG = "Name Should Not Be Null";
+	String VAL_APPID_MSG = "ApptypeId Should Not Be Null";
+	String VAL_ARCHETYPE_MSG = "Archetype Should Not Be Null";
+	String VAL_TECHGRPID_MSG = "TechnologyGroupId Should Not Be Null";
+	String VAL_CUSID_MSG = "Customerids Should Not Be Null";
 }

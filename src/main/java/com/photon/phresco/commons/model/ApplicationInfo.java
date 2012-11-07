@@ -45,6 +45,7 @@ public class ApplicationInfo extends CustomerBasedElement {
     private boolean emailSupported;
     private boolean phoneEnabled;
     private boolean tabletEnabled;
+    private boolean isPilot;
 
     //Information about where the pilot project is stored in repository
     private ArtifactGroup pilotContent;
@@ -176,7 +177,15 @@ public class ApplicationInfo extends CustomerBasedElement {
     public void setTabletEnabled(boolean tabletSupported) {
         this.tabletEnabled = tabletSupported;
     }
+    
+    public void setPilot(boolean isPilot) {
+		this.isPilot = isPilot;
+	}
 
+	public boolean isPilot() {
+		return isPilot;
+	}
+	
 	public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
@@ -196,7 +205,8 @@ public class ApplicationInfo extends CustomerBasedElement {
                 .append("version", getVersion())
                 .append("phoneEnabled", isPhoneEnabled())
                 .append("tabletEnabled", isTabletEnabled())
+                .append("isPilot", isPilot)
                 .toString();
     }
-        
+
 }
