@@ -9,18 +9,31 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.apache.commons.lang.StringUtils;
+import org.codehaus.plexus.util.CollectionUtils;
+
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.plugins.model.Mojos;
 import com.photon.phresco.plugins.model.Mojos.Mojo;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter;
 
+/**
+ * 
+ * @author suresh_ma
+ *
+ */
 public class MojoProcessor {
 
 	private Mojos mojos;
 	
 	private File file;
 	
+	/**
+	 * TO initialize the file
+	 * @param infoFile
+	 * @throws PhrescoException
+	 */
 	public MojoProcessor(File infoFile) throws PhrescoException {
         try {
     		if(infoFile.exists()){
@@ -39,6 +52,11 @@ public class MojoProcessor {
         }
 	}
 	
+	/**
+	 * get the configuration from the file
+	 * @param goal
+	 * @return
+	 */
 	public Configuration getConfiguration(String goal) {
 		if(mojos.getMojo() != null) {
 			List<Mojo> mojoList = mojos.getMojo();
@@ -51,6 +69,11 @@ public class MojoProcessor {
 	    return null;
 	}
 	
+	/**
+	 * get the implementation to the particular goal.
+	 * @param goal
+	 * @return
+	 */
 	public String getImplementationClassName(String goal) {
 		if(mojos.getMojo() != null) {
 			List<Mojo> mojoList = mojos.getMojo();
@@ -63,6 +86,12 @@ public class MojoProcessor {
 		return "";
 	}
 	
+	/**
+	 * 
+	 * @param goal
+	 * @param key
+	 * @return
+	 */
 	public Parameter getParameter(String goal, String key) {
 		Configuration configuration = getConfiguration(goal);
 		if(configuration != null) {
@@ -76,7 +105,27 @@ public class MojoProcessor {
 		return null; 
 	}
 	
+	/**
+	 * To check weather the goal is available or not
+	 * @param goal
+	 * @return
+	 */
+	public boolean isGoalAvailable(String goal) {
+		List<Mojo> mojoList = mojos.getMojo();
+		if(mojoList != null) {
+			for (Mojo mojo : mojoList) {
+				if(mojo.getGoal().equals(goal)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	
+	/**
+	 * 
+	 * @throws PhrescoException
+	 */
 	public void save() throws PhrescoException {
         try {
     		JAXBContext jaxbContext = JAXBContext.newInstance(Mojos.class);

@@ -34,7 +34,6 @@ public class BuildInfoParameterImpl implements DynamicParameter, Constants {
                 possibleValues.getValue().add(value);
             }
         }
-
         return possibleValues;
     }
 
