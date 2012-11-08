@@ -141,6 +141,7 @@ public interface Constants {
     String STR_COLON = ":";
     String STR_EQUAL = "=";
     String STR_DOUBLE_QUOTES = "\"";
+    String SLASH = "/";
 
     //Action constants
     String TEST_FUNCTIONAL = "Functional";
