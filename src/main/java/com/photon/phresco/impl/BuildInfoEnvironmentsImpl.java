@@ -24,18 +24,13 @@ public class BuildInfoEnvironmentsImpl implements DynamicParameter, Constants {
 	private String DO_NOT_CHECKIN_DIR = "do_not_checkin";
 	private String BUILD = "build";
 	
-	@SuppressWarnings("unchecked")
     @Override
 	public PossibleValues getValues(Map<String, Object> paramsMap) throws IOException, ParserConfigurationException, SAXException, ConfigurationException, PhrescoException {
 		PossibleValues possibleValues = new PossibleValues();;
 		try {
             ApplicationInfo applicationInfo = (ApplicationInfo) paramsMap.get(KEY_APP_INFO);
-            Object object = paramsMap.get("functionalTest");
-            String buildNumber = "";
-            if (object instanceof Map) {
-                buildNumber = (String) ((Map<String, Object>) object).get(KEY_BUILD_NO);
-            }
-            System.out.println("buildNumber in BuildInfoEnvironmentsImpl:::" + buildNumber);
+            String buildNumber = (String) paramsMap.get(KEY_BUILD_NO);
+            
             BuildInfo buildInfo = Utility.getBuildInfo(Integer.parseInt(buildNumber), getBuildInfoPath(applicationInfo.getAppDirName()).toString());
             List<String> environments = buildInfo.getEnvironments();
             if (environments != null) {

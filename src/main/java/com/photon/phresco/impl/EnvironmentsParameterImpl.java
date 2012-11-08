@@ -30,13 +30,8 @@ public class EnvironmentsParameterImpl implements DynamicParameter, Constants {
     	ApplicationInfo applicationInfo = (ApplicationInfo) paramsMap.get(KEY_APP_INFO);
     	
     	if (paramsMap != null) {
-    	    Object object = paramsMap.get("showSettings");
-    		String dependancyValue = "";
-    		if (object instanceof Map) {
-    		    dependancyValue = (String) ((Map<String, Object>) object).get(KEY_SETTINGS_ENV);
-    		    System.out.println("show settings dependancyValue--------"+dependancyValue);
-            }
-        	if (Boolean.parseBoolean(dependancyValue)) {
+    	    String showSettings = (String) paramsMap.get("showSettings");
+        	if (Boolean.parseBoolean(showSettings)) {
             	String settingsPath = getSettingsPath();
             	ConfigManager configManager = new ConfigManagerImpl(new File(settingsPath)); 
             	List<Environment> environments = configManager.getEnvironments();
