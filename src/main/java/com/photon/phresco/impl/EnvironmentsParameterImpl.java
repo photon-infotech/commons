@@ -23,14 +23,13 @@ public class EnvironmentsParameterImpl implements DynamicParameter, Constants {
 
 	private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unchecked")
     @Override
 	public PossibleValues getValues(Map<String, Object> paramsMap) throws IOException, ParserConfigurationException, SAXException, ConfigurationException {
     	PossibleValues possibleValues = new PossibleValues();
     	ApplicationInfo applicationInfo = (ApplicationInfo) paramsMap.get(KEY_APP_INFO);
     	
     	if (paramsMap != null) {
-    	    String showSettings = (String) paramsMap.get("showSettings");
+    	    String showSettings = (String) paramsMap.get(KEY_SHOW_SETTINGS);
         	if (Boolean.parseBoolean(showSettings)) {
             	String settingsPath = getSettingsPath();
             	ConfigManager configManager = new ConfigManagerImpl(new File(settingsPath)); 
