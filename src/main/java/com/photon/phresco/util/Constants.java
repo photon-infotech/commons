@@ -195,7 +195,7 @@ public interface Constants {
 	 */
 	
 	String POM_PROP_KEY_UNITTEST_DIR = "phresco.unitTest.dir";
-	String POM_PROP_KEY_UNITTEST_RPT_DIR = "phresco.unitTestReport.dir";
+	String POM_PROP_KEY_UNITTEST_RPT_DIR = "phresco.unitTest.report.dir";
 	String POM_PROP_KEY_UNITTEST_TESTSUITE_XPATH = "phresco.unitTest.testsuite.xpath";
 	String POM_PROP_KEY_UNITTEST_TESTCASE_PATH = "phresco.unitTest.testcase.path";
 	String POM_PROP_KEY_LOADTEST_DIR = "phresco.loadTest.dir";
