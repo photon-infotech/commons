@@ -126,7 +126,7 @@ public class ConfigReader {
 		List<Configuration> configurations = getConfigByEnv(envName);
 		List<Configuration> filterConfigs = new ArrayList<Configuration>(configurations.size());
 		for (Configuration configuration : configurations) {
-			if (configuration.getType().equals(configType)) {
+			if (configuration.getType().equalsIgnoreCase(configType)) {
 				filterConfigs.add(configuration);
 			}
 		}
