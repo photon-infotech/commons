@@ -200,8 +200,8 @@ public interface Constants {
 	String POM_PROP_KEY_UNITTEST_TESTCASE_PATH = "phresco.unitTest.testcase.path";
 	String POM_PROP_KEY_LOADTEST_DIR = "phresco.loadTest.dir";
 	String POM_PROP_KEY_LOADTEST_RPT_DIR = "phresco.loadTestReport.dir";
-	String POM_PROP_KEY_FUNCTEST_SELENIUM_TOOL = "phresco.functioanlTest.selenium.tool";
-    String POM_PROP_KEY_FUNCTEST_RPT_DIR = "phresco.functionalTestReport.dir";
+	String POM_PROP_KEY_FUNCTEST_SELENIUM_TOOL = "phresco.functionalTest.selenium.tool";
+    String POM_PROP_KEY_FUNCTEST_RPT_DIR = "phresco.functionalTest.report.dir";
     String POM_PROP_KEY_FUNCTEST_TESTSUITE_XPATH = "phresco.functionalTest.testsuite.xpath";
     String POM_PROP_KEY_FUNCTEST_TESTCASE_PATH = "phresco.functionalTest.testcase.path";
 	String POM_PROP_KEY_FUNCTEST_DIR = "phresco.functioanlTest.dir";
