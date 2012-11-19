@@ -9,6 +9,7 @@ public class SelectedFeature {
 	private String dispValue;
 	private String versionID;
 	private String type;
+	private String moduleId;
 	
 	public String getDispName() {
 		return dispName;
@@ -36,6 +37,13 @@ public class SelectedFeature {
 		this.type = type;
 	}
 	
+	public String getModuleId() {
+		return moduleId;
+	}
+	public void setModuleId(String moduleId) {
+		this.moduleId = moduleId;
+	}
+	
 	@Override
     public String toString() {
         return new ToStringBuilder(this,
@@ -45,6 +53,7 @@ public class SelectedFeature {
                 .append("dispValue", getDispValue())
                 .append("versionID", getVersionID())
                 .append("type", getType())
+                .append("moduleId", getModuleId())
                 .toString();
     }
 }

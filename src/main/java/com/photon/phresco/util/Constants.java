@@ -207,6 +207,7 @@ public interface Constants {
 	String POM_PROP_KEY_FUNCTEST_DIR = "phresco.functioanlTest.dir";
 	String PHRESCO_FUNCTIONAL_TEST_ADAPT_DIR = "phresco.functionalTest.adapt.config";
 	String POM_PROP_KEY_SQL_FILE_DIR = "phresco.sql.path";
+	String POM_PROP_KEY_MODULE_SOURCE_DIR = "phresco.module.source.dir";
 	
 	/**
 	 * MVN Goal Constants
@@ -221,5 +222,16 @@ public interface Constants {
     String PHASE_LOAD_TEST = "load-test";
     String PHASE_RUNGAINST_SRC_START = "start";
     String PHASE_RUNGAINST_SRC_STOP = "stop";
+    
+    /* Drupal Version */
+//  String DRUPAL_VERSION = "drupal.version";
+//  String WORDPRESS_VERSION = "wordpress.version";
+//  String SONAR_EXCLUSION = "sonar.exclusions";
+//  String COMMA = ",";
+//  String SONAR_PHPPDEPEND_ARGUMENTLINE = "sonar.phpDepend.argumentLine";
+//	String SONAR_PHPPMD_ARGUMENTLINE  = "sonar.phpPmd.argumentLine";
+//	String IGNORE = "--ignore=";
+//	String EXCLUDE = "--exclude ";
+
 
 }

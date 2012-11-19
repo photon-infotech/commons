@@ -9,11 +9,9 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.commons.lang.StringUtils;
-import org.codehaus.plexus.util.CollectionUtils;
-
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.plugins.model.Mojos;
+import com.photon.phresco.plugins.model.Mojos.ApplicationProcessor;
 import com.photon.phresco.plugins.model.Mojos.Mojo;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter;
@@ -51,6 +49,10 @@ public class MojoProcessor {
             throw new PhrescoException(e);
         }
 	}
+	
+	public ApplicationProcessor getApplicationProcessor() {
+		return mojos.getApplicationProcessor();
+		}
 	
 	/**
 	 * get the configuration from the file
