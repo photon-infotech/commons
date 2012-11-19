@@ -46,7 +46,9 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + "pom.xml");
 //		List<ArtifactGroup> artifactgroup = getFeatures(custId, appInfo.getTechInfo().getId(), type);
 //		updatePOMWithModules(pomFile, artifactGroup);
+		if(CollectionUtils.isNotEmpty(artifactGroup)) { 
 		updatePOMWithPluginArtifact(pomFile, artifactGroup);
+		}
 //		  updateTestPom(pomFile);
 		
 	}
