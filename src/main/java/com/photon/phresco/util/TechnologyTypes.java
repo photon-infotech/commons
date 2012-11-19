@@ -83,11 +83,21 @@ public interface TechnologyTypes {
      * Technology iPhone Web
      */
     String IPHONE_WEB = "tech-iphone-web";
-
+    
+    /**
+    * Technology IPHONE_LIBRARY
+    */
+    String IPHONE_LIBRARY = "tech-iphone-library";
+        
+    /**
+    * Technology IPHONE_WORKSPACE
+    */
+    String IPHONE_WORKSPACE = "tech-iphone-workspace";
+        
     /*
      * All iPhone Technologies
      */
-    List<String> IPHONES = Arrays.asList(IPHONE_NATIVE, IPHONE_HYBRID, IPHONE_WEB);
+    List<String> IPHONES = Arrays.asList(IPHONE_NATIVE, IPHONE_HYBRID, IPHONE_WEB, IPHONE_LIBRARY, IPHONE_WORKSPACE);
 
 
     /**
@@ -180,13 +190,15 @@ public interface TechnologyTypes {
      * All Technologies
      */
     List<String> ALL = Arrays.asList(PHP, PHP_DRUPAL7,PHP_DRUPAL6, ANDROID_NATIVE,ANDROID_HYBRID,SHAREPOINT,JAVA_WEBSERVICE,
-            NODE_JS_WEBSERVICE,HTML5_MOBILE_WIDGET,HTML5_WIDGET, DOT_NET, WORDPRESS, JAVA_STANDALONE, WIN_METRO, ANDROID_LIBRARY);
+            NODE_JS_WEBSERVICE,HTML5_MOBILE_WIDGET,HTML5_WIDGET, DOT_NET, WORDPRESS, JAVA_STANDALONE, WIN_METRO, ANDROID_LIBRARY, 
+            IPHONE_LIBRARY, IPHONE_WORKSPACE);
 
     String ALL_TECHS = "all";
     
     /**
      * All Mobile Technologies
      */
-    List<String> MOBILES = Arrays.asList(ANDROID_NATIVE, ANDROID_HYBRID, ANDROID_WEB, IPHONE_NATIVE, IPHONE_HYBRID, IPHONE_WEB, WIN_METRO, ANDROID_LIBRARY);
+    List<String> MOBILES = Arrays.asList(ANDROID_NATIVE, ANDROID_HYBRID, ANDROID_WEB, IPHONE_NATIVE, IPHONE_HYBRID, IPHONE_WEB, WIN_METRO, 
+    		ANDROID_LIBRARY, IPHONE_LIBRARY, IPHONE_WORKSPACE);
 
 }
