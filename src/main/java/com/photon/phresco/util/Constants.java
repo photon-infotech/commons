@@ -233,5 +233,17 @@ public interface Constants {
 //	String IGNORE = "--ignore=";
 //	String EXCLUDE = "--exclude ";
 
+    /**
+     * 
+     *  Phresco-plugin-info files Directory constants
+     */
+    String PACKAGE_INFO_FILE			= ".phresco/phresco-package-info.xml";
+    String DEPLOY_INFO_FILE				= ".phresco/phresco-deploy-info.xml";
+    String VALIDATE_CODE_INFO_FILE		= ".phresco/phresco-validate-code-info.xml";
+    String UNIT_TEST_INFO_FILE			= ".phresco/phresco-unit-test-info.xml";
+    String FUNCTIONAL_TEST_INFO_FILE	= ".phresco/phresco-functional-test-info.xml";
+    String PERFORMENCE_TEST_INFO_FILE	= ".phresco/phresco-performence-test-info.xml";
+    String LOAD_TEST_INFO_FILE			= ".phresco/phresco-load-test-info.xml";
+    String CI_INFO_FILE					= ".phresco/phresco-ci-info.xml";
 
 }
