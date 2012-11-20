@@ -92,7 +92,7 @@ public interface ServiceConstants {
 	String ERROR_MSG_NOT_FOUND = "Content Not Found";
 	String ERROR_MSG_ID_NOT_EQUAL = "Given Id Not Equal";
 	String REST_QUERY_TECHID = "techId";
-	String REST_QUERY_ISPILOT = "isPilot";
+	String REST_QUERY_ISPILOT = "pilot";
 	String REST_LIMIT_VALUE = "limitValue";
 	String REST_SKIP_VALUE = "skipValue";
 	String REST_QUERY_PROJECTID = "projectId";
