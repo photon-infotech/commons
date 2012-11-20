@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -40,7 +39,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 import com.photon.phresco.exception.ConfigurationException;
 
@@ -69,6 +67,8 @@ public class ConfigReader {
 			} catch (FileNotFoundException e) {
 				throw new ConfigurationException(e);
 			} 
+		} else {
+			ENV_MAP.clear();
 		}
 	}
 
