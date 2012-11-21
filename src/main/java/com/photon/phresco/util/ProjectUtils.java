@@ -33,7 +33,6 @@ import org.apache.commons.lang.ArrayUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ProjectInfo;
 import com.photon.phresco.exception.PhrescoException;
 
@@ -78,55 +77,35 @@ public class ProjectUtils implements Constants {
 		}
 	}
 	
-	public static void updateProjectInfo(ApplicationInfo info, File phrescoFolder) throws PhrescoException {
-	    throw new UnsupportedOperationException("Method not supported yet");
-//		// TODO Only  the use modified information should come from UI. So no filtering should be removed.
-//		BufferedWriter out = null;
-//		FileWriter fstream = null;
-//		BufferedReader reader = null;
-//		try {
-//			Gson gson = new Gson();
-//			reader = new BufferedReader(new FileReader(phrescoFolder));
-//			ApplicationInfo projectInfos = gson.fromJson(reader, ApplicationInfo.class);
-//			
-//			List<ArtifactGroup> ProjectInfomodules = projectInfos..getModules();
-//			List<ArtifactGroup> projectInfojsLibraries = projectInfos.getTechnology().getJsLibraries();
-//			
-//			List<ArtifactGroup> selectedInfomodules = info.getModules();
-//			List<ArtifactGroup> selectedInfojsLibraries = info.getTechnology().getJsLibraries();
-//			
-//			if(ProjectInfomodules != null && !ProjectInfomodules.isEmpty() && selectedInfomodules != null) {
-//				selectedInfomodules.addAll(ProjectInfomodules);	
-//				info.getTechnology().setModules(selectedInfomodules);
-//			}else if (ProjectInfomodules != null) {
-//				info.getTechnology().setModules(ProjectInfomodules);
-//			}
-//			if(projectInfojsLibraries != null && !projectInfojsLibraries.isEmpty() && selectedInfojsLibraries != null) {
-//			    selectedInfojsLibraries.addAll(projectInfojsLibraries); 
-//			    info.getTechnology().setModules(selectedInfojsLibraries);
-//            }else if (projectInfojsLibraries != null) {
-//				info.getTechnology().setModules(ProjectInfomodules);
-//			}
-//			
-//			String infoJSON = gson.toJson(info);
-//			fstream = new FileWriter(phrescoFolder.getPath());
-//			out = new BufferedWriter(fstream);
-//			out.write(infoJSON);
-//		} catch (IOException e) {
-//			throw new PhrescoException(e);
-//		} finally {
-//			Utility.closeStream(reader);
-//			try {
-//				if (out != null) {
-//					out.close();
-//				}
-//				if (fstream != null) {
-//					fstream.close();
-//				}
-//			} catch (IOException e) {
-//				throw new PhrescoException(e);
-//			}
-//		}
+	/**
+	 * To update the project.info file with the new info
+	 * @param projectInfo
+	 * @param projectInfoFile
+	 * @throws PhrescoException
+	 */
+	public static void updateProjectInfo(ProjectInfo projectInfo, File projectInfoFile) throws PhrescoException {
+		BufferedWriter out = null;
+		FileWriter fstream = null;
+		try {
+			Gson gson = new Gson();
+			String infoJSON = gson.toJson(projectInfo);
+			fstream = new FileWriter(projectInfoFile.getPath());
+			out = new BufferedWriter(fstream);
+			out.write(infoJSON);
+		} catch (IOException e) {
+			throw new PhrescoException(e);
+		} finally {
+			try {
+				if (out != null) {
+					out.close();
+				}
+				if (fstream != null) {
+					fstream.close();
+				}
+			} catch (IOException e) {
+				throw new PhrescoException(e);
+			}
+		}
 	}
 	
 	public ProjectInfo getProjectInfo(File baseDir) throws PhrescoException {
