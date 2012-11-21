@@ -204,7 +204,7 @@ public interface Constants {
     String POM_PROP_KEY_FUNCTEST_RPT_DIR = "phresco.functionalTest.report.dir";
     String POM_PROP_KEY_FUNCTEST_TESTSUITE_XPATH = "phresco.functionalTest.testsuite.xpath";
     String POM_PROP_KEY_FUNCTEST_TESTCASE_PATH = "phresco.functionalTest.testcase.path";
-	String POM_PROP_KEY_FUNCTEST_DIR = "phresco.functioanlTest.dir";
+	String POM_PROP_KEY_FUNCTEST_DIR = "phresco.functionalTest.dir";
 	String PHRESCO_FUNCTIONAL_TEST_ADAPT_DIR = "phresco.functionalTest.adapt.config";
 	String POM_PROP_KEY_SQL_FILE_DIR = "phresco.sql.path";
 	String POM_PROP_KEY_MODULE_SOURCE_DIR = "phresco.module.source.dir";
@@ -219,10 +219,15 @@ public interface Constants {
     String PHASE_FUNCTIONAL_TEST = "functional-test";
     String PHASE_START_HUB = "start-hub";
     String PHASE_START_NODE = "start-node";
+    String PHASE_STOP_HUB = "stop-hub";
+    String PHASE_STOP_NODE = "stop-node";
     String PHASE_LOAD_TEST = "load-test";
     String PHASE_RUNGAINST_SRC_START = "start";
     String PHASE_RUNGAINST_SRC_STOP = "stop";
     
+    
+    String JAVA_UNIX_PROCESS_KILL_CMD	= "kill -9 ";
+	 String WINDOWS_PLATFORM			= "Windows";
     /* Drupal Version */
 //  String DRUPAL_VERSION = "drupal.version";
 //  String WORDPRESS_VERSION = "wordpress.version";
