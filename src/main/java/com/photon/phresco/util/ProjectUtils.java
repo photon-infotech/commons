@@ -27,14 +27,25 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.photon.phresco.commons.model.ProjectInfo;
 import com.photon.phresco.exception.PhrescoException;
+import com.phresco.pom.exception.PhrescoPomException;
+import com.phresco.pom.util.PomProcessor;
 
 public class ProjectUtils implements Constants {
     
@@ -131,6 +142,72 @@ public class ProjectUtils implements Constants {
 			throw new PhrescoException(e);
 		}
 		return projectinfo;
+	}
+	
+	public void updatePOMWithPluginArtifact(File pomFile, List<com.photon.phresco.commons.model.ArtifactGroup> modules) throws PhrescoException {
+		try {
+			if(CollectionUtils.isEmpty(modules)) {
+				return;
+			}
+			List<Element> configList = new ArrayList<Element>();
+			PomProcessor processor = new PomProcessor(pomFile);
+			String modulePath = processor.getProperty(Constants.POM_PROP_KEY_MODULE_SOURCE_DIR);
+			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
+			Document doc = docBuilder.newDocument();
+			for (com.photon.phresco.commons.model.ArtifactGroup module : modules) {
+				if (module != null) {
+					configList = configList(modulePath, module.getGroupId(), module.getArtifactId(),  module.getVersions().get(0).getVersion(), doc);
+					processor.addExecutionConfiguration("org.apache.maven.plugins", "maven-dependency-plugin", "unpack-module", "validate", "unpack", configList, false, doc);
+				}
+			}
+			processor.save();
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		} catch (ParserConfigurationException e) {
+			throw new PhrescoException(e);
+		}
+	}
+
+	private List<Element> configList(String modulePath, String moduleGroupId, String moduleArtifactId, String moduleVersion, Document doc) throws PhrescoException {
+		List<Element> configList = new ArrayList<Element>();
+		Element groupId = doc.createElement("groupId");
+		groupId.setTextContent(moduleGroupId);
+		Element artifactId = doc.createElement("artifactId");
+		artifactId.setTextContent(moduleArtifactId);
+		Element version = doc.createElement("version");
+		version.setTextContent(moduleVersion);
+		Element type = doc.createElement("type");
+		type.setTextContent("zip");
+		Element overWrite = doc.createElement("overWrite");
+		overWrite.setTextContent("false");
+		Element outputDirectory = doc.createElement("outputDirectory");
+		outputDirectory.setTextContent("${project.basedir}" + modulePath);
+		configList.add(groupId);
+		configList.add(artifactId);
+		configList.add(version);
+		configList.add(type);
+		configList.add(overWrite);
+		configList.add(outputDirectory);
+		return configList;
+	}
+	
+	public void updatePOMWithModules(File pomFile, List<com.photon.phresco.commons.model.ArtifactGroup> modules) throws PhrescoException {
+		if (CollectionUtils.isEmpty(modules)) {
+			return;
+		}
+		try {
+			PomProcessor processor = new PomProcessor(pomFile);
+			for (com.photon.phresco.commons.model.ArtifactGroup module : modules) {
+				if (module != null) {
+					processor.addDependency(module.getGroupId(), module.getArtifactId(), module.getVersions().get(0).getVersion(), "",
+							module.getPackaging(), "");
+				}
+			}
+			processor.save();
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		}
 	}
 }
 

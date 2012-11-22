@@ -12,33 +12,33 @@ import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.util.ProjectUtils;
 import com.photon.phresco.util.Utility;
 
-public class PhpApplicationProcessor implements ApplicationProcessor {
+public class JavaApplicationProcessor implements ApplicationProcessor {
 
 	@Override
 	public void preCreate(ApplicationInfo appInfo) throws PhrescoException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void preUpdate(ApplicationInfo appInfo) throws PhrescoException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void postCreate(ApplicationInfo appInfo) throws PhrescoException {
 		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	public void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroup) throws PhrescoException {
+	public void postUpdate(ApplicationInfo appInfo,
+			List<ArtifactGroup> artifactGroup) throws PhrescoException {
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + "pom.xml");
 		ProjectUtils projectUtils = new ProjectUtils();
 		if(CollectionUtils.isNotEmpty(artifactGroup)) {
-			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
+			projectUtils.updatePOMWithModules(pomFile, artifactGroup);
 		}
-		//updatePOMWithModules(pomFile, artifactGroup);
-		//updateTestPom(pomFile);
 	}
 }
