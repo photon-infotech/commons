@@ -42,6 +42,8 @@ import org.w3c.dom.Element;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
+import com.photon.phresco.commons.model.ArtifactGroup;
+import com.photon.phresco.commons.model.ArtifactGroup.Type;
 import com.photon.phresco.commons.model.ProjectInfo;
 import com.photon.phresco.exception.PhrescoException;
 import com.phresco.pom.exception.PhrescoPomException;
@@ -144,20 +146,27 @@ public class ProjectUtils implements Constants {
 		return projectinfo;
 	}
 	
-	public void updatePOMWithPluginArtifact(File pomFile, List<com.photon.phresco.commons.model.ArtifactGroup> modules) throws PhrescoException {
+	public void updatePOMWithPluginArtifact(File pomFile, List<ArtifactGroup> artifactGroups) throws PhrescoException {
 		try {
-			if(CollectionUtils.isEmpty(modules)) {
+			if(CollectionUtils.isEmpty(artifactGroups)) {
 				return;
 			}
 			List<Element> configList = new ArrayList<Element>();
 			PomProcessor processor = new PomProcessor(pomFile);
-			String modulePath = processor.getProperty(Constants.POM_PROP_KEY_MODULE_SOURCE_DIR);
+			String modulePath = "";
 			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
 			Document doc = docBuilder.newDocument();
-			for (com.photon.phresco.commons.model.ArtifactGroup module : modules) {
-				if (module != null) {
-					configList = configList(modulePath, module.getGroupId(), module.getArtifactId(),  module.getVersions().get(0).getVersion(), doc);
+			for (ArtifactGroup artifactGroup : artifactGroups) {
+				if (artifactGroup != null) {
+					if(artifactGroup.getType().name().equals(Type.FEATURE.name())) {
+						modulePath = processor.getProperty(Constants.POM_PROP_KEY_MODULE_SOURCE_DIR);
+					} else if(artifactGroup.getType().name().equals(Type.JAVASCRIPT.name())) {
+						modulePath = processor.getProperty(Constants.POM_PROP_KEY_JSLIBS_SOURCE_DIR);
+					} else if(artifactGroup.getType().name().equals(Type.COMPONENT.name())) {
+						modulePath = processor.getProperty(Constants.POM_PROP_KEY_COMPONENTS_SOURCE_DIR);
+					}
+					configList = configList(modulePath, artifactGroup.getGroupId(), artifactGroup.getArtifactId(),  artifactGroup.getVersions().get(0).getVersion(), doc);
 					processor.addExecutionConfiguration("org.apache.maven.plugins", "maven-dependency-plugin", "unpack-module", "validate", "unpack", configList, false, doc);
 				}
 			}
