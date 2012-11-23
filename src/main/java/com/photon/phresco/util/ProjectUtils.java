@@ -167,7 +167,7 @@ public class ProjectUtils implements Constants {
 						modulePath = processor.getProperty(Constants.POM_PROP_KEY_COMPONENTS_SOURCE_DIR);
 					}
 					configList = configList(modulePath, artifactGroup.getGroupId(), artifactGroup.getArtifactId(),  artifactGroup.getVersions().get(0).getVersion(), doc);
-					processor.addExecutionConfiguration("org.apache.maven.plugins", "maven-dependency-plugin", "unpack-module", "validate", "unpack", configList, false, doc);
+					processor.addExecutionConfiguration(DEPENDENCY_PLUGIN_GROUPID, DEPENDENCY_PLUGIN_ARTIFACTID, EXECUTION_ID, PHASE, GOAL, configList, false, doc);
 				}
 			}
 			processor.save();
@@ -180,17 +180,17 @@ public class ProjectUtils implements Constants {
 
 	private List<Element> configList(String modulePath, String moduleGroupId, String moduleArtifactId, String moduleVersion, Document doc) throws PhrescoException {
 		List<Element> configList = new ArrayList<Element>();
-		Element groupId = doc.createElement("groupId");
+		Element groupId = doc.createElement(GROUP_ID);
 		groupId.setTextContent(moduleGroupId);
-		Element artifactId = doc.createElement("artifactId");
+		Element artifactId = doc.createElement(ARTIFACT_ID);
 		artifactId.setTextContent(moduleArtifactId);
-		Element version = doc.createElement("version");
+		Element version = doc.createElement(VERSION);
 		version.setTextContent(moduleVersion);
-		Element type = doc.createElement("type");
-		type.setTextContent("zip");
-		Element overWrite = doc.createElement("overWrite");
-		overWrite.setTextContent("false");
-		Element outputDirectory = doc.createElement("outputDirectory");
+		Element type = doc.createElement(TYPE);
+		type.setTextContent(ZIP);
+		Element overWrite = doc.createElement(OVER_WRITE);
+		overWrite.setTextContent(OVER_WIRTE_VALUE);
+		Element outputDirectory = doc.createElement(OUTPUT_DIR);
 		outputDirectory.setTextContent("${project.basedir}" + modulePath);
 		configList.add(groupId);
 		configList.add(artifactId);

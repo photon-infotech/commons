@@ -76,7 +76,13 @@ public interface Constants {
     String MVN_PLUGIN_WINDOWS_PHONE_ID = "windows-phone:";
     String MVN_PLUGIN_BLACKBERRY_ID = "blackberry:"*/
 	String MVN_PLUGIN_PHRESCO_ID = "phresco:";
-
+	String NODE_CONFIG_JSON = "nodeconfig.json";
+	String HUB_CONFIG_JSON = "hubconfig.json";
+	String NODE_LOG = "node.log";
+	String HUB_LOG = "hub.log";
+	String POM_NAME = "pom.xml";
+	String DO_NOT_CHECKIN_DIRY = "do_not_checkin";
+	String LOG_DIRECTORY = "log";
     //Constants for Authentication Token
     String AUTH_TOKEN = "auth_token";
     
@@ -255,5 +261,24 @@ public interface Constants {
     String PERFORMENCE_TEST_INFO_FILE	= ".phresco/phresco-performence-test-info.xml";
     String LOAD_TEST_INFO_FILE			= ".phresco/phresco-load-test-info.xml";
     String CI_INFO_FILE					= ".phresco/phresco-ci-info.xml";
+    
+	/**
+	 * Feature Write in pom Constants
+	 */
+    
+    String GROUP_ID = "groupId" ;
+    String ARTIFACT_ID = "artifactId";
+    String VERSION = "version";
+    String TYPE = "type";
+    String ZIP = "zip";
+    String OVER_WRITE = "overWrite";
+    String OUTPUT_DIR = "outputDirectory";
+    String OVER_WIRTE_VALUE = "false";
+    String DEPENDENCY_PLUGIN_GROUPID = "org.apache.maven.plugins";
+    String DEPENDENCY_PLUGIN_ARTIFACTID = "maven-dependency-plugin";
+    String EXECUTION_ID = "unpack-module";
+    String PHASE = "validate";
+    String GOAL = "unpack";
+    
 
 }
