@@ -217,6 +217,7 @@ public interface Constants {
     String PHASE_VALIDATE_CODE = "validate-code";
     String PHASE_UNIT_TEST = "unit-test";
     String PHASE_FUNCTIONAL_TEST = "functional-test";
+    String PHASE_PERFORMANCE_TEST = "performance-test";
     String PHASE_START_HUB = "start-hub";
     String PHASE_START_NODE = "start-node";
     String PHASE_STOP_HUB = "stop-hub";
