@@ -28,7 +28,10 @@ import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -50,7 +53,9 @@ import com.phresco.pom.exception.PhrescoPomException;
 import com.phresco.pom.util.PomProcessor;
 
 public class ProjectUtils implements Constants {
-    
+	
+	private static Map<String, String> testPomFiles = new HashMap<String, String>();
+	
 	public static void writeProjectInfo(ProjectInfo info, File phrescoFolder) throws PhrescoException {
 		BufferedWriter out = null;
 		FileWriter fstream = null;
@@ -90,6 +95,48 @@ public class ProjectUtils implements Constants {
 		}
 	}
 	
+	private static void initializeTestPom() {
+		testPomFiles.put("functional", "/test/functional/pom.xml");
+		testPomFiles.put("load", "/test/load/pom.xml");
+		testPomFiles.put("performance.database", "/test/performance/database/pom.xml");
+		testPomFiles.put("performance.server", "/test/performance/server/pom.xml");
+		testPomFiles.put("performance.webservice", "/test/performance/webservices/pom.xml");
+		testPomFiles.put("unit", "/test/unit/pom.xml");
+		testPomFiles.put("performance", "/test/performance/pom.xml");
+		}
+	
+	public  void updateTestPom(File path) throws PhrescoException {
+		try {
+			File sourcePom = new File(path + "/pom.xml");
+			if (!sourcePom.exists()) {
+				return;
+			}
+			initializeTestPom();
+			PomProcessor processor;
+			processor = new PomProcessor(sourcePom);
+			String groupId = processor.getGroupId();
+			String artifactId = processor.getArtifactId();
+			String version = processor.getVersion();
+			String name = processor.getName();
+			Set<String> keySet = testPomFiles.keySet();
+			for (String string : keySet) {
+			    File testPomFile = new File(path + testPomFiles.get(string));
+			    if (testPomFile.exists()) {
+                  processor = new PomProcessor(testPomFile);
+                  processor.setGroupId(groupId + "." + string);
+                  processor.setArtifactId(artifactId);
+                  processor.setVersion(version);
+                  if (name != null && !name.isEmpty()) {
+                      processor.setName(name);
+                  }
+                  processor.save();
+              }
+            }
+			
+		} catch (Exception e) {
+			throw new PhrescoException(e);
+		}
+	}
 	/**
 	 * To update the project.info file with the new info
 	 * @param projectInfo

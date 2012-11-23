@@ -13,7 +13,7 @@ import com.photon.phresco.util.Constants;
 import com.photon.phresco.util.ProjectUtils;
 import com.photon.phresco.util.Utility;
 
-public class JavaApplicationProcessor implements ApplicationProcessor {
+public class NodejsApplicationProcessor implements ApplicationProcessor{
 
 	@Override
 	public void preCreate(ApplicationInfo appInfo) throws PhrescoException {
@@ -36,17 +36,12 @@ public class JavaApplicationProcessor implements ApplicationProcessor {
 	}
 
 	@Override
-	public void postUpdate(ApplicationInfo appInfo,
-			List<ArtifactGroup> artifactGroup) throws PhrescoException {
+	public void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroup) throws PhrescoException {
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 		ProjectUtils projectUtils = new ProjectUtils();
 		if(CollectionUtils.isNotEmpty(artifactGroup)) {
-			projectUtils.updatePOMWithModules(pomFile, artifactGroup);
+			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
 		}
 //		createSqlFolder(applicationInfo, pomFile.getParentFile(), serviceManager);
-		 //TODO: Need to handle the way of getting the servers
-		 //TODO: move ServerPluginUtil class from framework to commons
-//		ServerPluginUtil spUtil = new ServerPluginUtil();
-//		spUtil.addServerPlugin(info, pomPath);
 	}
 }

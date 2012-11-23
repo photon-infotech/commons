@@ -241,8 +241,8 @@ public interface Constants {
     String JAVA_UNIX_PROCESS_KILL_CMD	= "kill -9 ";
 	 String WINDOWS_PLATFORM			= "Windows";
     /* Drupal Version */
-//  String DRUPAL_VERSION = "drupal.version";
-//  String WORDPRESS_VERSION = "wordpress.version";
+	String DRUPAL_VERSION = "drupal.version";
+	String WORDPRESS_VERSION = "wordpress.version";
 	String SONAR_EXCLUSION = "sonar.exclusions";
 	String COMMA = ",";
 	String SONAR_PHPPDEPEND_ARGUMENTLINE = "sonar.phpDepend.argumentLine";

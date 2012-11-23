@@ -39,6 +39,9 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 		String projectHome = Utility.getProjectHome() + appInfo.getAppDirName();
 		File path = new File(projectHome);
 		updateAndroidVersion(path, appInfo);
+		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName());
+		ProjectUtils projectutil = new ProjectUtils();
+		projectutil.updateTestPom(pomPath);
 	}
 
 	@Override
