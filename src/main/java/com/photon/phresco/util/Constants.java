@@ -229,11 +229,11 @@ public interface Constants {
     String PHASE_UNIT_TEST = "unit-test";
     String PHASE_FUNCTIONAL_TEST = "functional-test";
     String PHASE_PERFORMANCE_TEST = "performance-test";
+    String PHASE_LOAD_TEST = "load-test";
     String PHASE_START_HUB = "start-hub";
     String PHASE_START_NODE = "start-node";
     String PHASE_STOP_HUB = "stop-hub";
     String PHASE_STOP_NODE = "stop-node";
-    String PHASE_LOAD_TEST = "load-test";
     String PHASE_RUNGAINST_SRC_START = "start";
     String PHASE_RUNGAINST_SRC_STOP = "stop";
     
