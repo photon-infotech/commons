@@ -20,6 +20,7 @@
 package com.photon.phresco.api;
 
 import java.util.List;
+import java.util.Map;
 
 import org.w3c.dom.Element;
 
@@ -116,4 +117,19 @@ public interface ConfigManager {
 	 * @throws ConfigurationException
 	 */
 	Element createConfigElement(Configuration configuration) throws ConfigurationException;
+	
+	/**
+	 * Deletes the list of configurations based on environment name
+	 * @param envName
+	 * @param configurations
+	 * @throws ConfigurationException
+	 */
+	void deleteConfigurations(String envName, List<String> configurations) throws ConfigurationException;
+	
+	/**
+	 * Delete configurations based on given environment
+	 * @param configurations
+	 * @throws ConfigurationException
+	 */
+	void deleteConfigurations(Map<String, List<String>> configurations) throws ConfigurationException;
 }

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -41,6 +42,7 @@ import com.photon.phresco.configuration.ConfigReader;
 import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.configuration.Environment;
 import com.photon.phresco.exception.ConfigurationException;
+import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.util.Utility;
 
 public class ConfigManagerImpl implements ConfigManager {
@@ -349,5 +351,38 @@ public class ConfigManagerImpl implements ConfigManager {
 			throw new ConfigurationException(e);
 		}
 		return configurationFound;
+	}
+
+	@Override
+	public void deleteConfigurations(String envName, List<String> configurations) throws ConfigurationException {
+		deleteConfiguration(envName, configurations);
+		try {
+			writeXml(new FileOutputStream(configFile));
+		} catch (FileNotFoundException e) {
+			throw new ConfigurationException(e);
+		}
+	}
+	
+	private void deleteConfiguration(String envName, List<String> configNames) throws ConfigurationException {
+		Node environment = getNode(getXpathEnv(envName).toString());
+		for (String configName : configNames) {
+			Node configNode = getNode(getXpathConfigByEnv(envName, configName));
+			environment.removeChild(configNode);
+		}
+	}
+
+	@Override
+	public void deleteConfigurations(Map<String, List<String>> configurations)
+			throws ConfigurationException {
+		Set<String> keySet = configurations.keySet();
+		for (String envName : keySet) {
+			List<String> configNames = configurations.get(envName);
+			deleteConfiguration(envName, configNames);
+		}
+		try {
+			writeXml(new FileOutputStream(configFile));
+		} catch (FileNotFoundException e) {
+			throw new ConfigurationException(e);
+		}
 	}
 }
