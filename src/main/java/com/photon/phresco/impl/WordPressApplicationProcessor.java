@@ -12,9 +12,11 @@ import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.util.Constants;
 import com.photon.phresco.util.ProjectUtils;
 import com.photon.phresco.util.Utility;
+import com.phresco.pom.exception.PhrescoPomException;
+import com.phresco.pom.util.PomProcessor;
 
-public class JavaApplicationProcessor implements ApplicationProcessor {
-
+public class WordPressApplicationProcessor implements ApplicationProcessor{
+	
 	@Override
 	public void preCreate(ApplicationInfo appInfo) throws PhrescoException {
 		// TODO Auto-generated method stub
@@ -29,24 +31,33 @@ public class JavaApplicationProcessor implements ApplicationProcessor {
 
 	@Override
 	public void postCreate(ApplicationInfo appInfo) throws PhrescoException {
+		File path = new File(Utility.getProjectHome() + appInfo.getAppDirName());
+		updateWordpressVersion(path, appInfo);
 		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName());
 		ProjectUtils projectutil = new ProjectUtils();
 		projectutil.updateTestPom(pomPath);
-		
 	}
 
 	@Override
 	public void postUpdate(ApplicationInfo appInfo,
-			List<ArtifactGroup> artifactGroup) throws PhrescoException {
+			List<ArtifactGroup> artifactGroups) throws PhrescoException {
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 		ProjectUtils projectUtils = new ProjectUtils();
-		if(CollectionUtils.isNotEmpty(artifactGroup)) {
-			projectUtils.updatePOMWithModules(pomFile, artifactGroup);
+		if(CollectionUtils.isNotEmpty(artifactGroups)) {
+			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
 		}
 //		createSqlFolder(applicationInfo, pomFile.getParentFile(), serviceManager);
-		 //TODO: Need to handle the way of getting the servers
-		 //TODO: move ServerPluginUtil class from framework to commons
-//		ServerPluginUtil spUtil = new ServerPluginUtil();
-//		spUtil.addServerPlugin(info, pomPath);
+	}
+	
+	private void updateWordpressVersion(File path, ApplicationInfo info) throws PhrescoException {
+		try {
+			File xmlFile = new File(path, Constants.POM_NAME);
+			PomProcessor processor = new PomProcessor(xmlFile);
+			String selectedVersion = info.getTechInfo().getVersion();
+			processor.setProperty(Constants.WORDPRESS_VERSION, selectedVersion);
+			processor.save();
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		}
 	}
 }

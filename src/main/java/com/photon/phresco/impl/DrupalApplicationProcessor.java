@@ -17,9 +17,6 @@ import com.phresco.pom.exception.PhrescoPomException;
 import com.phresco.pom.util.PomProcessor;
 
 public class DrupalApplicationProcessor implements ApplicationProcessor{
-
-	private String DRUPAL_VERSION = "drupal.version";
-	private String POM_FILE = "pom.xml";
 	
 	@Override
 	public void preCreate(ApplicationInfo appInfo) throws PhrescoException {
@@ -37,25 +34,29 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 	public void postCreate(ApplicationInfo appInfo) throws PhrescoException {
 		File path = new File(Utility.getProjectHome() + appInfo.getAppDirName());
 		updateDrupalVersion(path, appInfo);
+		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName());
+		ProjectUtils projectutil = new ProjectUtils();
+		projectutil.updateTestPom(pomPath);
 	}
 
 	@Override
 	public void postUpdate(ApplicationInfo appInfo,
 			List<ArtifactGroup> artifactGroups) throws PhrescoException {
-		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + "pom.xml");
+		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 		ProjectUtils projectUtils = new ProjectUtils();
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
+			excludeModule(appInfo, artifactGroups);
 		}
-		excludeModule(appInfo, artifactGroups);
+//		createSqlFolder(applicationInfo, pomFile.getParentFile(), serviceManager);
 	}
 	
 	private void updateDrupalVersion(File path, ApplicationInfo info) throws PhrescoException {
 		try {
-			File xmlFile = new File(path, POM_FILE);
+			File xmlFile = new File(path, Constants.POM_NAME);
 			PomProcessor processor = new PomProcessor(xmlFile);
 			String selectedVersion = info.getTechInfo().getVersion();
-			processor.setProperty(DRUPAL_VERSION, selectedVersion);
+			processor.setProperty(Constants.DRUPAL_VERSION, selectedVersion);
 			processor.save();
 		} catch (PhrescoPomException e) {
 			throw new PhrescoException(e);
@@ -64,7 +65,7 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 	
 	private void excludeModule(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroups) throws PhrescoException {
 		try {
-			File projectPath = new File(Utility.getProjectHome()+ File.separator + appInfo.getAppDirName() + File.separator + POM_FILE);
+			File projectPath = new File(Utility.getProjectHome()+ File.separator + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 			PomProcessor processor = new PomProcessor(projectPath);
 			StringBuilder exclusionStringBuff = new StringBuilder();
 			StringBuilder exclusionValueBuff = new StringBuilder();

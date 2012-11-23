@@ -29,7 +29,9 @@ public class PhpApplicationProcessor implements ApplicationProcessor {
 
 	@Override
 	public void postCreate(ApplicationInfo appInfo) throws PhrescoException {
-		// TODO Auto-generated method stub
+		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName());
+		ProjectUtils projectutil = new ProjectUtils();
+		projectutil.updateTestPom(pomPath);
 	}
 
 	@Override
@@ -39,7 +41,6 @@ public class PhpApplicationProcessor implements ApplicationProcessor {
 		if(CollectionUtils.isNotEmpty(artifactGroup)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
 		}
-		//updatePOMWithModules(pomFile, artifactGroup);
-		//updateTestPom(pomFile);
+//		createSqlFolder(applicationInfo, pomFile.getParentFile(), serviceManager);
 	}
 }
