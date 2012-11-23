@@ -10,6 +10,7 @@ import com.photon.phresco.api.ApplicationProcessor;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.exception.PhrescoException;
+import com.photon.phresco.util.Constants;
 import com.photon.phresco.util.ProjectUtils;
 import com.photon.phresco.util.Utility;
 import com.phresco.pom.util.PomProcessor;
@@ -20,7 +21,6 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
     private static final String PERFORMANCE_TEST_POM_XML = "/test/performance/pom.xml";
     private static final String FUNCTIONAL_TEST_POM_XML = "/test/functional/pom.xml";
 	private String ANDROID_VERSION = "android.version";
-	private String POM_FILE = "pom.xml";
 	
 	@Override
 	public void preCreate(ApplicationInfo appInfo) throws PhrescoException {
@@ -44,7 +44,7 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 	@Override
 	public void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroups) throws PhrescoException {
 //		extractPilots(info, path, technology);
-		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + "pom.xml");
+		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 		ProjectUtils projectUtils = new ProjectUtils();
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
 			projectUtils.updatePOMWithModules(pomFile, artifactGroups);
@@ -72,13 +72,13 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 //	}
 	
 	public void updateAndroidVersion(File path, ApplicationInfo appInfo) throws PhrescoException {
-		File pomPath = new File(path ,POM_FILE);
+		File pomPath = new File(path ,Constants.POM_NAME);
 		if(!pomPath.exists()) {
 			return;
 		}
 		PomProcessor processor;
 		List<File> fileList = new ArrayList<File>();
-		fileList.add(new File(path, POM_FILE));
+		fileList.add(new File(path, Constants.POM_NAME));
 		fileList.add(new File(path, FUNCTIONAL_TEST_POM_XML));
 		fileList.add(new File(path, PERFORMANCE_TEST_POM_XML));
 		fileList.add(new File(path, UNIT_TEST_POM_XML));
