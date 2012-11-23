@@ -242,12 +242,28 @@ public interface Constants {
     /* Drupal Version */
 //  String DRUPAL_VERSION = "drupal.version";
 //  String WORDPRESS_VERSION = "wordpress.version";
-//  String SONAR_EXCLUSION = "sonar.exclusions";
-//  String COMMA = ",";
-//  String SONAR_PHPPDEPEND_ARGUMENTLINE = "sonar.phpDepend.argumentLine";
-//	String SONAR_PHPPMD_ARGUMENTLINE  = "sonar.phpPmd.argumentLine";
-//	String IGNORE = "--ignore=";
-//	String EXCLUDE = "--exclude ";
+	String SONAR_EXCLUSION = "sonar.exclusions";
+	String COMMA = ",";
+	String SONAR_PHPPDEPEND_ARGUMENTLINE = "sonar.phpDepend.argumentLine";
+	String SONAR_PHPPMD_ARGUMENTLINE  = "sonar.phpPmd.argumentLine";
+	String IGNORE = "--ignore=";
+	String EXCLUDE = "--exclude ";
+	
+	/**
+     *  Constants for Windows
+     */
+    String SOURCE_DIR 	= "source";
+    String PROJECT_ROOT = "Metro.UI";
+    String CSPROJ_FILE 	= ".csproj";
+    String PROJECT 		= "Project";
+    String ITEMGROUP 	= "ItemGroup";
+    String REFERENCE 	= "Reference";
+    String SRC_DIR		= "src";
+    String INCLUDE = "Include";
+    String DLL = ".dll";
+    String DOUBLE_DOT  = "..";
+    String HINTPATH = "HintPath";
+    String COMMON = "\\Common";
 
     /**
      * 
