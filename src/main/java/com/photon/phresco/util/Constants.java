@@ -219,7 +219,7 @@ public interface Constants {
 	String POM_PROP_KEY_MODULE_SOURCE_DIR = "phresco.module.source.dir";
 	String POM_PROP_KEY_JSLIBS_SOURCE_DIR = "phresco.jslibs.source.dir";
 	String POM_PROP_KEY_COMPONENTS_SOURCE_DIR = "phresco.components.source.dir";
-	
+	String POM_PROP_KEY_VALIDATE_REPORT = "phresco.code.validate.report";
 	/**
 	 * MVN Goal Constants
 	 */
@@ -236,6 +236,7 @@ public interface Constants {
     String PHASE_STOP_NODE = "stop-node";
     String PHASE_RUNGAINST_SRC_START = "start";
     String PHASE_RUNGAINST_SRC_STOP = "stop";
+    String PHASE_PDF_REPORT = "pdf-report";
     
     
     String JAVA_UNIX_PROCESS_KILL_CMD	= "kill -9 ";
