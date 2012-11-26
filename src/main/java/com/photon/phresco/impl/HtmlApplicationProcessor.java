@@ -53,10 +53,8 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 			}
 			projectUtils.updatePOMWithModules(pomFile, featuresArtifact);
 			projectUtils.updatePOMWithPluginArtifact(pomFile, jsArtifact);
-			 //TODO: Need to handle the way of getting the servers
-			 //TODO: move ServerPluginUtil class from framework to commons
-//			ServerPluginUtil spUtil = new ServerPluginUtil();
-//			spUtil.addServerPlugin(info, pomPath);
+			projectUtils.deletePluginFromPom(pomFile);
+			projectUtils.addServerPlugin(appInfo, pomFile);
 		}
 	}
 }

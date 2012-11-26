@@ -28,6 +28,7 @@ import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,10 +46,17 @@ import org.w3c.dom.Element;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
+import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.commons.model.ArtifactGroup.Type;
+import com.photon.phresco.commons.model.ArtifactGroupInfo;
+import com.photon.phresco.commons.model.ArtifactInfo;
+import com.photon.phresco.commons.model.DownloadInfo;
 import com.photon.phresco.commons.model.ProjectInfo;
 import com.photon.phresco.exception.PhrescoException;
+import com.photon.phresco.plugins.model.Mojos.ApplicationHandler;
+import com.photon.phresco.plugins.util.MojoProcessor;
 import com.phresco.pom.exception.PhrescoPomException;
 import com.phresco.pom.util.PomProcessor;
 
@@ -265,6 +273,96 @@ public class ProjectUtils implements Constants {
 			throw new PhrescoException(e);
 		}
 	}
+	
+	public void addServerPlugin(ApplicationInfo info, File path) throws PhrescoException {
+		List<ArtifactGroupInfo> servers = info.getSelectedServers();
+		if (CollectionUtils.isNotEmpty(servers)) {
+			return;
+		}
+		File pluginInfoFile = new File(Utility.getProjectHome()+ info.getAppDirName() + File.separator + DOT_PHRESCO_FOLDER + File.separator + PHRESCO_PLUGIN_INFO_XML);
+		MojoProcessor mojoProcessor = new MojoProcessor(pluginInfoFile);
+		ApplicationHandler applicationHandler = mojoProcessor.getApplicationHandler();
+		String selectedServers = applicationHandler.getSelectedServer();
+		Gson gson = new Gson();
+		java.lang.reflect.Type jsonType = new TypeToken<Collection<DownloadInfo>>(){}.getType();
+		List<DownloadInfo> serverInfos = gson.fromJson(selectedServers, jsonType);
+		for (DownloadInfo serverInfo : serverInfos) {
+			List<ArtifactInfo> artifactInfos = serverInfo.getArtifactGroup().getVersions();
+			for (ArtifactInfo artifactInfo : artifactInfos) {
+				String version = artifactInfo.getVersion();
+				if (serverInfo.getName().contains(Constants.TYPE_WEBLOGIC)) {
+					String pluginVersion = "";
+					if (version.equals(Constants.WEBLOGIC_12c)) {
+						pluginVersion = Constants.WEBLOGIC_12c_PLUGIN_VERSION;
+					} else if (version.equals(Constants.WEBLOGIC_11gR1)) {
+						pluginVersion = Constants.WEBLOGIC_11gr1c_PLUGIN_VERSION;
+					} 
+					addWebLogicPlugin(path, pluginVersion);
+				}
+			}
+		}
+	}
+	
+	public void deletePluginFromPom(File path) throws PhrescoException {
+		try {
+			PomProcessor pomprocessor = new PomProcessor(path);
+			pomprocessor.deletePlugin("com.oracle.weblogic", "weblogic-maven-plugin");
+			pomprocessor.save();
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		}
+	}
+
+	private void addWebLogicPlugin(File pomFile, String pluginVersion) throws PhrescoException {
+		try {
+			PomProcessor pomProcessor = new PomProcessor(pomFile);
+			pomProcessor.addPlugin("com.oracle.weblogic", "weblogic-maven-plugin", pluginVersion);
+			List<Element> configList = new ArrayList<Element>();
+			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
+			Document doc = docBuilder.newDocument();
+			Element adminUrl = doc.createElement("adminurl");
+			adminUrl.setTextContent("t3://${server.host}:${server.port}");
+			Element user = doc.createElement("user");
+			user.setTextContent("${server.username}");
+			Element password = doc.createElement("password");
+			password.setTextContent("${server.password}");
+			Element upload = doc.createElement("upload");
+			upload.setTextContent("true");
+			Element action = doc.createElement("action");
+			action.setTextContent("deploy");
+			Element remote = doc.createElement("remote");
+			remote.setTextContent("true");
+			Element verbose = doc.createElement("verbose");
+			verbose.setTextContent("false");
+			Element source = doc.createElement("source");
+			source.setTextContent("${project.basedir}/do_not_checkin/build/temp/${project.build.finalName}.war");
+			Element name = doc.createElement("name");
+			name.setTextContent("${project.build.finalName}");
+			Element argLineElem = doc.createElement("argLine");
+			argLineElem.setTextContent("-Xmx512m");
+
+			configList.add(adminUrl);
+			configList.add(user);
+			configList.add(password);
+			configList.add(upload);
+			configList.add(action);
+			configList.add(remote);
+			configList.add(verbose);
+			configList.add(source);
+			configList.add(name);
+			configList.add(argLineElem);
+
+			pomProcessor.addConfiguration("com.oracle.weblogic", "weblogic-maven-plugin", configList);
+			pomProcessor.save();
+
+		} catch (ParserConfigurationException e) {
+			throw new PhrescoException(e);
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		}
+	}
+	
 }
 
 class PhrescoFileNameFilter implements FilenameFilter {

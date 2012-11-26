@@ -41,9 +41,7 @@ public class JavaApplicationProcessor implements ApplicationProcessor {
 		if(CollectionUtils.isNotEmpty(artifactGroup)) {
 			projectUtils.updatePOMWithModules(pomFile, artifactGroup);
 		}
-		 //TODO: Need to handle the way of getting the servers
-		 //TODO: move ServerPluginUtil class from framework to commons
-//		ServerPluginUtil spUtil = new ServerPluginUtil();
-//		spUtil.addServerPlugin(info, pomPath);
+		projectUtils.deletePluginFromPom(pomFile);
+		projectUtils.addServerPlugin(appInfo, pomFile);
 	}
 }
