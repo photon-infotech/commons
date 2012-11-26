@@ -31,9 +31,7 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 
 	@Override
 	public void postCreate(ApplicationInfo appInfo) throws PhrescoException {
-		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName());
-		ProjectUtils projectutil = new ProjectUtils();
-		projectutil.updateTestPom(pomPath);
+		// TODO Auto-generated method stub
 		
 	}
 

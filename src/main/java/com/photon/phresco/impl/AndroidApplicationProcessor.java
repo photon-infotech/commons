@@ -39,9 +39,7 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 		String projectHome = Utility.getProjectHome() + appInfo.getAppDirName();
 		File path = new File(projectHome);
 		updateAndroidVersion(path, appInfo);
-		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName());
-		ProjectUtils projectutil = new ProjectUtils();
-		projectutil.updateTestPom(pomPath);
+		
 	}
 
 	@Override
@@ -52,9 +50,6 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
 			projectUtils.updatePOMWithModules(pomFile, artifactGroups);
 		}
-		//extractJsLibraries(path, info.getTechnology().getJsLibraries());   Only for Android Hybrid
-//		updateTestPom(path);
-		
 	}
 	
 //	private void extractPilots(ApplicationInfo appInfo, File path, Technology technology) throws PhrescoException {

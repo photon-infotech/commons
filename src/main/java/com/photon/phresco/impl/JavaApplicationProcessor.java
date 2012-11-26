@@ -29,9 +29,7 @@ public class JavaApplicationProcessor implements ApplicationProcessor {
 
 	@Override
 	public void postCreate(ApplicationInfo appInfo) throws PhrescoException {
-		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName());
-		ProjectUtils projectutil = new ProjectUtils();
-		projectutil.updateTestPom(pomPath);
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -43,7 +41,6 @@ public class JavaApplicationProcessor implements ApplicationProcessor {
 		if(CollectionUtils.isNotEmpty(artifactGroup)) {
 			projectUtils.updatePOMWithModules(pomFile, artifactGroup);
 		}
-//		createSqlFolder(applicationInfo, pomFile.getParentFile(), serviceManager);
 		 //TODO: Need to handle the way of getting the servers
 		 //TODO: move ServerPluginUtil class from framework to commons
 //		ServerPluginUtil spUtil = new ServerPluginUtil();

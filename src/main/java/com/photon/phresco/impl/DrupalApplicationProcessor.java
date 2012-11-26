@@ -34,9 +34,7 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 	public void postCreate(ApplicationInfo appInfo) throws PhrescoException {
 		File path = new File(Utility.getProjectHome() + appInfo.getAppDirName());
 		updateDrupalVersion(path, appInfo);
-		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName());
-		ProjectUtils projectutil = new ProjectUtils();
-		projectutil.updateTestPom(pomPath);
+		
 	}
 
 	@Override
@@ -48,7 +46,6 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
 			excludeModule(appInfo, artifactGroups);
 		}
-//		createSqlFolder(applicationInfo, pomFile.getParentFile(), serviceManager);
 	}
 	
 	private void updateDrupalVersion(File path, ApplicationInfo info) throws PhrescoException {
@@ -99,7 +96,6 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 			processor.setProperty("sonar.phpPmd.argumentLine", "--exclude" + exclusiontoolValue);
 			processor.save();
 		} catch (PhrescoPomException e) {
-			e.printStackTrace();
 			throw new PhrescoException(e);
 		}
 	}

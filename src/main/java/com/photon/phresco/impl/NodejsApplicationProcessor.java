@@ -29,9 +29,7 @@ public class NodejsApplicationProcessor implements ApplicationProcessor{
 
 	@Override
 	public void postCreate(ApplicationInfo appInfo) throws PhrescoException {
-		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName());
-		ProjectUtils projectutil = new ProjectUtils();
-		projectutil.updateTestPom(pomPath);
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -42,6 +40,5 @@ public class NodejsApplicationProcessor implements ApplicationProcessor{
 		if(CollectionUtils.isNotEmpty(artifactGroup)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
 		}
-//		createSqlFolder(applicationInfo, pomFile.getParentFile(), serviceManager);
 	}
 }

@@ -33,9 +33,7 @@ public class WordPressApplicationProcessor implements ApplicationProcessor{
 	public void postCreate(ApplicationInfo appInfo) throws PhrescoException {
 		File path = new File(Utility.getProjectHome() + appInfo.getAppDirName());
 		updateWordpressVersion(path, appInfo);
-		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName());
-		ProjectUtils projectutil = new ProjectUtils();
-		projectutil.updateTestPom(pomPath);
+		
 	}
 
 	@Override
@@ -46,7 +44,6 @@ public class WordPressApplicationProcessor implements ApplicationProcessor{
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
 		}
-//		createSqlFolder(applicationInfo, pomFile.getParentFile(), serviceManager);
 	}
 	
 	private void updateWordpressVersion(File path, ApplicationInfo info) throws PhrescoException {

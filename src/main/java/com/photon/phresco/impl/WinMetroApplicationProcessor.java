@@ -61,9 +61,7 @@ public class WinMetroApplicationProcessor implements ApplicationProcessor, Const
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + "pom.xml");
 		ProjectUtils projectUtils = new ProjectUtils();
 		File path = new File(Utility.getProjectHome() + appInfo.getAppDirName());
-		System.out.println("Calling............");
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
-			System.out.println("Inside ArtifactGroup===============");
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
 			updateItemGroup(appInfo, path, artifactGroups);
 		}		
