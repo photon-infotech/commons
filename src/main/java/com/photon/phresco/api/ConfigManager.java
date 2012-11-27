@@ -127,6 +127,13 @@ public interface ConfigManager {
 	void deleteConfigurations(String envName, List<String> configurations) throws ConfigurationException;
 	
 	/**
+	 * To delete the list of configurations
+	 * @param configurations
+	 * @throws ConfigurationException
+	 */
+	void deleteConfigurations(List<Configuration> configurations)throws ConfigurationException;
+	
+	/**
 	 * Delete configurations based on given environment
 	 * @param configurations
 	 * @throws ConfigurationException

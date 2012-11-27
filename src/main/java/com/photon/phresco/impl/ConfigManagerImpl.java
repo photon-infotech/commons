@@ -317,6 +317,23 @@ public class ConfigManagerImpl implements ConfigManager {
 		expBuilder.append("']");
 		return expBuilder.toString();
 	}
+	
+	@Override
+	public void deleteConfigurations(List<Configuration> configurations)
+			throws ConfigurationException {
+		try {
+			for (Configuration configuration : configurations) {
+				Node environment = getNode(getXpathEnv(configuration.getEnvName()).toString());
+				Node configNode = getNode(getXpathConfigByEnv(configuration.getEnvName(), configuration.getName()));
+				if (environment != null) {
+					environment.removeChild(configNode);
+				}
+			}
+			writeXml(new FileOutputStream(configFile));
+		} catch (FileNotFoundException e) {
+			throw new ConfigurationException(e);
+		}
+	}
 
 	@Override
 	public void deleteConfiguration(String envName, Configuration configuration)
