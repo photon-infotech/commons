@@ -40,6 +40,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -276,33 +277,37 @@ public class ProjectUtils implements Constants {
 	
 	public void addServerPlugin(ApplicationInfo info, File path) throws PhrescoException {
 		List<ArtifactGroupInfo> servers = info.getSelectedServers();
-		if (CollectionUtils.isNotEmpty(servers)) {
+		if (CollectionUtils.isEmpty(servers)) {
 			return;
 		}
-		File pluginInfoFile = new File(Utility.getProjectHome()+ info.getAppDirName() + File.separator + DOT_PHRESCO_FOLDER + File.separator + PHRESCO_PLUGIN_INFO_XML);
+		File pluginInfoFile = new File(Utility.getProjectHome() + info.getAppDirName() + File.separator
+				+ DOT_PHRESCO_FOLDER + File.separator + PHRESCO_PLUGIN_INFO_XML);
 		MojoProcessor mojoProcessor = new MojoProcessor(pluginInfoFile);
 		ApplicationHandler applicationHandler = mojoProcessor.getApplicationHandler();
 		String selectedServers = applicationHandler.getSelectedServer();
-		Gson gson = new Gson();
-		java.lang.reflect.Type jsonType = new TypeToken<Collection<DownloadInfo>>(){}.getType();
-		List<DownloadInfo> serverInfos = gson.fromJson(selectedServers, jsonType);
-		for (DownloadInfo serverInfo : serverInfos) {
-			List<ArtifactInfo> artifactInfos = serverInfo.getArtifactGroup().getVersions();
-			for (ArtifactInfo artifactInfo : artifactInfos) {
-				String version = artifactInfo.getVersion();
-				if (serverInfo.getName().contains(Constants.TYPE_WEBLOGIC)) {
-					String pluginVersion = "";
-					if (version.equals(Constants.WEBLOGIC_12c)) {
-						pluginVersion = Constants.WEBLOGIC_12c_PLUGIN_VERSION;
-					} else if (version.equals(Constants.WEBLOGIC_11gR1)) {
-						pluginVersion = Constants.WEBLOGIC_11gr1c_PLUGIN_VERSION;
-					} 
-					addWebLogicPlugin(path, pluginVersion);
+		if (StringUtils.isNotEmpty(selectedServers)) {
+			Gson gson = new Gson();
+			java.lang.reflect.Type jsonType = new TypeToken<Collection<DownloadInfo>>() {
+			}.getType();
+			List<DownloadInfo> serverInfos = gson.fromJson(selectedServers, jsonType);
+			for (DownloadInfo serverInfo : serverInfos) {
+				List<ArtifactInfo> artifactInfos = serverInfo.getArtifactGroup().getVersions();
+				for (ArtifactInfo artifactInfo : artifactInfos) {
+					String version = artifactInfo.getVersion();
+					if (serverInfo.getName().contains(Constants.TYPE_WEBLOGIC)) {
+						String pluginVersion = "";
+						if (version.equals(Constants.WEBLOGIC_12c)) {
+							pluginVersion = Constants.WEBLOGIC_12c_PLUGIN_VERSION;
+						} else if (version.equals(Constants.WEBLOGIC_11gR1)) {
+							pluginVersion = Constants.WEBLOGIC_11gr1c_PLUGIN_VERSION;
+						}
+						addWebLogicPlugin(path, pluginVersion);
+					}
 				}
 			}
 		}
 	}
-	
+
 	public void deletePluginFromPom(File path) throws PhrescoException {
 		try {
 			PomProcessor pomprocessor = new PomProcessor(path);
