@@ -108,6 +108,9 @@ public interface ServiceConstants {
 	String DEFAULT_REPO = "default";
 	String APPTYPE = "appType";
 	String LOGIN = "login";
+	String FEATURE_TYPE_JS = "JAVASCRIPT";
+	String JS_GROUP_ID = "jslibraries.files";
+	String ICON_EXT = "png";
 	
 	 /*
      * Constants for MongoDB Collections
