@@ -27,11 +27,12 @@ public class EnvironmentsParameterImpl implements DynamicParameter, Constants {
 	public PossibleValues getValues(Map<String, Object> paramsMap) throws IOException, ParserConfigurationException, SAXException, ConfigurationException {
     	PossibleValues possibleValues = new PossibleValues();
     	ApplicationInfo applicationInfo = (ApplicationInfo) paramsMap.get(KEY_APP_INFO);
+    	String customer = (String) paramsMap.get("customerId");
     	
     	if (paramsMap != null) {
-    	    String showSettings = (String) paramsMap.get(KEY_SHOW_SETTINGS);
+    	    String showSettings = (String) paramsMap.get("showSettings");
         	if (Boolean.parseBoolean(showSettings)) {
-            	String settingsPath = getSettingsPath();
+            	String settingsPath = getSettingsPath(customer);
             	ConfigManager configManager = new ConfigManagerImpl(new File(settingsPath)); 
             	List<Environment> environments = configManager.getEnvironments();
             	for (Environment environment : environments) {
@@ -66,7 +67,7 @@ public class EnvironmentsParameterImpl implements DynamicParameter, Constants {
 		 return builder;
 	 }
     
-    private String getSettingsPath() {
-    	return Utility.getProjectHome() + SETTINGS_XML;
+    private String getSettingsPath(String customer) {
+    	return Utility.getProjectHome() + customer +"-settings.xml";
     }
 }

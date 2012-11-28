@@ -19,6 +19,8 @@ public interface DynamicParameter {
 	String KEY_ENVIRONMENT = "environmentName";
 	String KEY_SHOW_SETTINGS = "showSettings";
 	String KEY_DATABASE = "dataBase";
+	String KEY_SERVER = "server";
+	String KEY_WEBSERVICE = "webService";
 
     public Mojos.Mojo.Configuration.Parameters.Parameter.PossibleValues getValues(Map<String, Object> map) throws IOException, ParserConfigurationException, SAXException, ConfigurationException, PhrescoException;
 }
