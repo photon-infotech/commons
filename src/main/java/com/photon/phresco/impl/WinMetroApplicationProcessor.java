@@ -191,4 +191,18 @@ public class WinMetroApplicationProcessor implements ApplicationProcessor, Const
 		}
 		return flag;
 	}
+
+	@Override
+	public void preFeatureConfiguration(ApplicationInfo appInfo)
+			throws PhrescoException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void postFeatureConfiguration(ApplicationInfo appInfo)
+			throws PhrescoException {
+		// TODO Auto-generated method stub
+		
+	}
 }

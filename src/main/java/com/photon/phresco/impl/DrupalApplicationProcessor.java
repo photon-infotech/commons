@@ -106,4 +106,18 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void preFeatureConfiguration(ApplicationInfo appInfo)
+			throws PhrescoException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void postFeatureConfiguration(ApplicationInfo appInfo)
+			throws PhrescoException {
+		// TODO Auto-generated method stub
+		
+	}
 }
