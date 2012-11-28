@@ -41,6 +41,7 @@
 		<wagon-http-lightweight.version>2.0</wagon-http-lightweight.version>
 		<maven-aether-provider.version>3.0.3</maven-aether-provider.version>
 		<commons-collections.version>3.2.1</commons-collections.version>
+		<commons-configuration.version>1.8</commons-configuration.version>
 	 </properties>
 	
      <distributionManagement>
@@ -211,6 +212,12 @@
             <artifactId>maven-aether-provider</artifactId>
             <version>${maven-aether-provider.version}</version>
         </dependency>
+		
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>${commons-configuration.version}</version>
+		</dependency>
 
     </dependencies>
     

@@ -44,4 +44,11 @@ public class JavaApplicationProcessor implements ApplicationProcessor {
 		projectUtils.deletePluginFromPom(pomFile);
 		projectUtils.addServerPlugin(appInfo, pomFile);
 	}
+
+	@Override
+	public void postConfiguration(ApplicationInfo appInfo)
+			throws PhrescoException {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -41,4 +41,11 @@ public class NodejsApplicationProcessor implements ApplicationProcessor{
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
 		}
 	}
+
+	@Override
+	public void postConfiguration(ApplicationInfo appInfo)
+			throws PhrescoException {
+		// TODO Auto-generated method stub
+		
+	}
 }

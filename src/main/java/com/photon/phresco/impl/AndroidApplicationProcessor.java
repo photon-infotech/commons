@@ -94,4 +94,10 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
             }
 		}
 	}
+
+@Override
+public void postConfiguration(ApplicationInfo appInfo) throws PhrescoException {
+	// TODO Auto-generated method stub
+	
+}
 }

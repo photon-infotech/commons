@@ -57,4 +57,11 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 			projectUtils.addServerPlugin(appInfo, pomFile);
 		}
 	}
+
+	@Override
+	public void postConfiguration(ApplicationInfo appInfo)
+			throws PhrescoException {
+		// TODO Auto-generated method stub
+		
+	}
 }

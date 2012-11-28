@@ -67,6 +67,13 @@ public class WinMetroApplicationProcessor implements ApplicationProcessor, Const
 		}		
 	}
 	
+	@Override
+	public void postConfiguration(ApplicationInfo appInfo)
+			throws PhrescoException {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	private static void updateItemGroup(ApplicationInfo appInfo, File path, List<ArtifactGroup> artifactGroups) throws PhrescoException {
 		try {
 			path = new File(path + File.separator + SOURCE_DIR + File.separator + SRC_DIR + File.separator + PROJECT_ROOT + File.separator + PROJECT_ROOT + CSPROJ_FILE);

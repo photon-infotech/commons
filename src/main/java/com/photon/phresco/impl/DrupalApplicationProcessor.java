@@ -99,4 +99,11 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 			throw new PhrescoException(e);
 		}
 	}
+
+	@Override
+	public void postConfiguration(ApplicationInfo appInfo)
+			throws PhrescoException {
+		// TODO Auto-generated method stub
+		
+	}
 }
