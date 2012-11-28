@@ -53,6 +53,8 @@ public interface Constants {
 	String CONFIGURATION_INFO_FILE = "phresco-env-config.xml";
 	String DOT_PHRESCO_FOLDER = ".phresco";
 	String SETTINGS_XML = "settings.xml";
+	String PHRESCO_HYPEN = "phresco-";	
+	String INFO_XML = "-info.xml";
 	/*String FILE_SEPARATOR = "/";
 	String BUILD_INFO_FILE_NAME = "build.info";
 	String DO_NOT_CHECKIN_DIR = "do_not_checkin";
@@ -237,6 +239,7 @@ public interface Constants {
     String PHASE_RUNGAINST_SRC_START = "start";
     String PHASE_RUNGAINST_SRC_STOP = "stop";
     String PHASE_PDF_REPORT = "pdf-report";
+    String PHASE_CI = "ci";
     
     
     String JAVA_UNIX_PROCESS_KILL_CMD	= "kill -9 ";
@@ -279,6 +282,14 @@ public interface Constants {
     String PERFORMENCE_TEST_INFO_FILE	= ".phresco/phresco-performence-test-info.xml";
     String LOAD_TEST_INFO_FILE			= ".phresco/phresco-load-test-info.xml";
     String CI_INFO_FILE					= ".phresco/phresco-ci-info.xml";
+    String PDF_REPORT_INFO_FILE 		= ".phresco/phresco-pdf-report-info.xml";
+    String REPORT_INFO_FILE 			= ".phresco/phresco-report-info.xml";
+    String START_INFO_FILE			    = ".phresco/phresco-start-info.xml";
+    String START_HUB_INFO_FILE 			= ".phresco/phresco-start-hub-info.xml";
+    String START_NODE_INFO_FILE 		= ".phresco/phresco-start-node-info.xml";
+    String STOP_INFO_FILE 				= ".phresco/phresco-stop-info.xml";
+    String SONAR_INFO_FILE 				= ".phresco/phresco-sonar-info.xml";
+
     
 	/**
 	 * Feature Write in pom Constants

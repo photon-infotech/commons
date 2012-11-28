@@ -28,7 +28,11 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 public class ApplicationInfo extends CustomerBasedElement {
     
-    private String code;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String code;
     private String appDirName;
     private TechnologyInfo techInfo;
     //Information about the pilot project which was used to create this application
