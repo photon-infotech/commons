@@ -26,6 +26,7 @@ import com.photon.phresco.api.ApplicationProcessor;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.commons.model.ArtifactGroup.Type;
+import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.util.Constants;
 import com.photon.phresco.util.ProjectUtils;
@@ -194,14 +195,15 @@ public class WinMetroApplicationProcessor implements ApplicationProcessor, Const
 	}
 
 	@Override
-	public void preFeatureConfiguration(ApplicationInfo appInfo)
-			throws PhrescoException {
+	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo,
+			String featureName) throws PhrescoException {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public void postFeatureConfiguration(ApplicationInfo appInfo)
+	public void postFeatureConfiguration(ApplicationInfo appInfo,
+			List<Configuration> configs, String featureName)
 			throws PhrescoException {
 		// TODO Auto-generated method stub
 		

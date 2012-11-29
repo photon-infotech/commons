@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
+import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.exception.PhrescoException;
 
 public interface ApplicationProcessor {
@@ -48,13 +49,12 @@ public interface ApplicationProcessor {
 	 * @param appInfo
 	 * @throws PhrescoException
 	 */
-	void preFeatureConfiguration(ApplicationInfo appInfo) throws PhrescoException;
-	
+	List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo, String featureName) throws PhrescoException;
 	/**
 	 * 
 	 * @param appInfo
 	 * @throws PhrescoException
 	 */
-	void postFeatureConfiguration(ApplicationInfo appInfo) throws PhrescoException;
+	void postFeatureConfiguration(ApplicationInfo appInfo, List<Configuration> configs, String featureName) throws PhrescoException;
 
 }
