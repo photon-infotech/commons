@@ -42,6 +42,7 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 			List<ArtifactGroup> artifactGroups) throws PhrescoException {
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 		ProjectUtils projectUtils = new ProjectUtils();
+		projectUtils.deletePluginExecutionFromPom(pomFile);
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
 			excludeModule(appInfo, artifactGroups);

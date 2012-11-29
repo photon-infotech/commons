@@ -40,6 +40,7 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator
 				+ Constants.POM_NAME);
 		ProjectUtils projectUtils = new ProjectUtils();
+		projectUtils.deletePluginExecutionFromPom(pomFile);
 		List<ArtifactGroup> featuresArtifact = new ArrayList<ArtifactGroup>();
 		List<ArtifactGroup> jsArtifact = new ArrayList<ArtifactGroup>();
 		if (CollectionUtils.isNotEmpty(artifactGroups)) {

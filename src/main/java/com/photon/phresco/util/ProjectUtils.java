@@ -223,13 +223,23 @@ public class ProjectUtils implements Constants {
 						modulePath = processor.getProperty(Constants.POM_PROP_KEY_COMPONENTS_SOURCE_DIR);
 					}
 					configList = configList(modulePath, artifactGroup.getGroupId(), artifactGroup.getArtifactId(),  artifactGroup.getVersions().get(0).getVersion(), doc);
-					processor.addExecutionConfiguration(DEPENDENCY_PLUGIN_GROUPID, DEPENDENCY_PLUGIN_ARTIFACTID, EXECUTION_ID, PHASE, GOAL, configList, false, doc);
+					processor.addExecutionConfiguration(DEPENDENCY_PLUGIN_GROUPID, DEPENDENCY_PLUGIN_ARTIFACTID, EXECUTION_ID, PHASE, GOAL, configList, doc);
 				}
 			}
 			processor.save();
 		} catch (PhrescoPomException e) {
 			throw new PhrescoException(e);
 		} catch (ParserConfigurationException e) {
+			throw new PhrescoException(e);
+		}
+	}
+	
+	public void deletePluginExecutionFromPom(File pomFile) throws PhrescoException {
+		try {
+			PomProcessor processor = new PomProcessor(pomFile);
+			processor.deleteConfiguration(DEPENDENCY_PLUGIN_GROUPID, DEPENDENCY_PLUGIN_ARTIFACTID, EXECUTION_ID, GOAL);
+			processor.save();
+		} catch (PhrescoPomException e) {
 			throw new PhrescoException(e);
 		}
 	}

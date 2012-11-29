@@ -49,6 +49,7 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 	public void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroup) throws PhrescoException {
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 		ProjectUtils projectUtils = new ProjectUtils();
+		projectUtils.deletePluginExecutionFromPom(pomFile);
 		if(CollectionUtils.isNotEmpty(artifactGroup)) { 
 		projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
 		}
