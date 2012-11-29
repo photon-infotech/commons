@@ -36,6 +36,7 @@ public class SettingsTemplate extends CustomerBasedElement {
     
     private static final long serialVersionUID = 1L;
     
+    private boolean customProp;
     //Database, Server, Email
     private String type;
     
@@ -79,6 +80,14 @@ public class SettingsTemplate extends CustomerBasedElement {
 
 	public void setPossibleTypes(List<Element> types) {
 		this.possibleTypes = types;
+	}
+
+	public boolean isCustomProp() {
+		return customProp;
+	}
+
+	public void setCustomProp(boolean customProp) {
+		this.customProp = customProp;
 	}
 
 	@Override
