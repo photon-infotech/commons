@@ -283,13 +283,12 @@ public interface Constants {
     String CI_INFO_FILE					= ".phresco/phresco-ci-info.xml";
     String PDF_REPORT_INFO_FILE 		= ".phresco/phresco-pdf-report-info.xml";
     String REPORT_INFO_FILE 			= ".phresco/phresco-report-info.xml";
-    String START_INFO_FILE			    = ".phresco/phresco-start-info.xml";
+    String START_INFO_FILE			    = ".phresco/phresco-run-against-source-info.xml";
+    String STOP_INFO_FILE 				= ".phresco/phresco-run-against-source-info.xml";
     String START_HUB_INFO_FILE 			= ".phresco/phresco-start-hub-info.xml";
     String START_NODE_INFO_FILE 		= ".phresco/phresco-start-node-info.xml";
-    String STOP_INFO_FILE 				= ".phresco/phresco-stop-info.xml";
     String SONAR_INFO_FILE 				= ".phresco/phresco-sonar-info.xml";
     String APPLICATION_HANDLER_INFO_FILE= "phresco-application-handler-info.xml";
-
     
 	/**
 	 * Feature Write in pom Constants
