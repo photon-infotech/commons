@@ -155,7 +155,6 @@ public interface Constants {
     String TEST_FUNCTIONAL = "Functional";
 	String SITE_SQL = "site.sql";
 	String JSON_PATH = "/.phresco/sqlfile.json";
-	String PHRESCO_PLUGIN_INFO_XML = "phresco-plugin-info.xml";
 	String DB_MYSQL   = "mysql";
 	/*
 	 * Constants for String
@@ -289,6 +288,7 @@ public interface Constants {
     String START_NODE_INFO_FILE 		= ".phresco/phresco-start-node-info.xml";
     String STOP_INFO_FILE 				= ".phresco/phresco-stop-info.xml";
     String SONAR_INFO_FILE 				= ".phresco/phresco-sonar-info.xml";
+    String APPLICATION_HANDLER_INFO_FILE= "phresco-application-handler-info.xml";
 
     
 	/**

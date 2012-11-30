@@ -291,7 +291,7 @@ public class ProjectUtils implements Constants {
 			return;
 		}
 		File pluginInfoFile = new File(Utility.getProjectHome() + info.getAppDirName() + File.separator
-				+ DOT_PHRESCO_FOLDER + File.separator + PHRESCO_PLUGIN_INFO_XML);
+				+ DOT_PHRESCO_FOLDER + File.separator + APPLICATION_HANDLER_INFO_FILE);
 		MojoProcessor mojoProcessor = new MojoProcessor(pluginInfoFile);
 		ApplicationHandler applicationHandler = mojoProcessor.getApplicationHandler();
 		String selectedServers = applicationHandler.getSelectedServer();
