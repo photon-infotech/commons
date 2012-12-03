@@ -33,8 +33,9 @@ public class PhrescoDynamicLoader {
 	public DynamicParameter getDynamicParameter(String className) throws PhrescoException {
 		DynamicParameter dynamicParameter;
 		try {
-			Class<DynamicParameter> apiClass = (Class<DynamicParameter>) Class
-					.forName(className, true, getURLClassLoader());
+//			Class<DynamicParameter> apiClass = (Class<DynamicParameter>) Class
+//					.forName(className, true, getURLClassLoader());
+			Class<DynamicParameter> apiClass = (Class<DynamicParameter>) Class.forName(className);
 			dynamicParameter = apiClass.newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -46,8 +47,9 @@ public class PhrescoDynamicLoader {
 	public ApplicationProcessor getApplicationProcessor(String className) throws PhrescoException {
 		ApplicationProcessor applicationProcessor;
 		try {
-			Class<ApplicationProcessor> apiClass = (Class<ApplicationProcessor>) Class
-					.forName(className, true, getURLClassLoader());
+//			Class<ApplicationProcessor> apiClass = (Class<ApplicationProcessor>) Class
+//					.forName(className, true, getURLClassLoader());
+			Class<ApplicationProcessor> apiClass = (Class<ApplicationProcessor>) Class.forName(className);
 			applicationProcessor = apiClass.newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
