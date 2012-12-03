@@ -106,7 +106,7 @@ public class Configuration {
 	@Override
 	public String toString() {
 		return "Configuration [name=" + name + ", type=" + type
-				+ ", properties=" + properties + "]";
+				+ ", properties=" + properties + ", appliesTo=" + appliesTo + "]";
 	}
 
 }
