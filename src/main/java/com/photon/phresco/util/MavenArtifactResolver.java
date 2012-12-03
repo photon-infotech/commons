@@ -1,6 +1,12 @@
 package com.photon.phresco.util;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -17,6 +23,8 @@ import org.sonatype.aether.resolution.ArtifactResult;
 import org.sonatype.aether.resolution.DependencyRequest;
 import org.sonatype.aether.util.artifact.JavaScopes;
 import org.sonatype.aether.util.filter.DependencyFilterUtils;
+
+import com.photon.phresco.exception.PhrescoException;
 
 public class MavenArtifactResolver {
 	
@@ -43,7 +51,6 @@ public class MavenArtifactResolver {
 	        S_LOGGER.debug("Local Repository Is" + Utility.getLocalRepoPath());
 	        S_LOGGER.debug("Local Repository Is" + localRepo);
 	    }
-		System.out.println("Local Repository Is  " + localRepo);
 		session.setLocalRepositoryManager(repoSystem.newLocalRepositoryManager(localRepo));
 		
 		String repoName = "phresco"; //TODO: Should be repoInfo.getName()
@@ -51,22 +58,62 @@ public class MavenArtifactResolver {
 		
         DependencyFilter classpathFlter = DependencyFilterUtils.classpathFilter(JavaScopes.COMPILE);
        
-        URL[] urls = new URL[10];
+        List<URL> urls = new ArrayList<URL>();
         for (Artifact artifact : artifacts) {
-	        CollectRequest collectRequest = new CollectRequest();
-	        collectRequest.setRoot( new Dependency( artifact, JavaScopes.COMPILE ) );
-	        collectRequest.addRepository( remoteRepo );
-	
-	        DependencyRequest dependencyRequest = new DependencyRequest(collectRequest, classpathFlter);
-			List<ArtifactResult> artifactResults = repoSystem.resolveDependencies(
-					session, dependencyRequest).getArtifactResults();
-	
-	        int i = 0;
+            CollectRequest collectRequest = new CollectRequest();
+            collectRequest.setRoot( new Dependency( artifact, JavaScopes.COMPILE ) );
+            collectRequest.addRepository( remoteRepo );
+
+            DependencyRequest dependencyRequest = new DependencyRequest( collectRequest, classpathFlter );
+            List<ArtifactResult> artifactResults =
+            	repoSystem.resolveDependencies( session, dependencyRequest ).getArtifactResults();
+        	
 	        for (ArtifactResult artifactResult : artifactResults ) {
-	            urls[i++] =  artifactResult.getArtifact().getFile().toURI().toURL();
+	        	urls.add(artifactResult.getArtifact().getFile().toURI().toURL());
 	        }
         }
-        
-        return urls;
+        URL[] urlArr = new URL[0];
+        return urls.toArray(urlArr);
 	}
+
+	
+	public static URL[] resolveUsingTemp(String repoURL, List<Artifact> artifacts) throws PhrescoException {
+		URL[] urls = new URL[10];
+		for (Artifact artifact : artifacts) {
+			InputStream in = null;
+			FileOutputStream fos = null;
+			try {
+				URL url = new URL(repoURL + artifact.getGroupId().replace(".", "/") + "/" + artifact.getArtifactId() + "/" + artifact.getVersion() + "/" + artifact.getArtifactId() + "-" + artifact.getVersion() + ".jar");
+				URLConnection connection = url.openConnection();
+				in = connection.getInputStream();
+				File filePath = new File(Utility.getPhrescoTemp() + artifact.getArtifactId() + ".jar");
+				filePath.createNewFile();
+				int i = 0;
+				urls[i++] = filePath.toURI().toURL();
+				fos = new FileOutputStream(filePath);
+				byte[] buf = new byte[1024];
+				while (true) {
+					int len;
+					len = in.read(buf);
+					if (len == -1) {
+						break;
+					}
+					fos.write(buf, 0, len);
+				}
+			} catch (Exception e) {
+				throw new PhrescoException(e);
+			} finally {
+				Utility.closeStream(in);
+				if (fos != null) {
+					try {
+						fos.close();
+					} catch (IOException e) {
+						throw new PhrescoException(e);
+					}
+				}
+			}
+		}
+		return urls;
+	}
+	
 }
