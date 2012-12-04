@@ -1,14 +1,23 @@
 package com.photon.phresco.util;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang.StringUtils;
 import org.sonatype.aether.artifact.Artifact;
 import org.sonatype.aether.util.artifact.DefaultArtifact;
 import org.xml.sax.SAXException;
@@ -33,10 +42,9 @@ public class PhrescoDynamicLoader {
 	public DynamicParameter getDynamicParameter(String className) throws PhrescoException {
 		DynamicParameter dynamicParameter;
 		try {
-//			Class<DynamicParameter> apiClass = (Class<DynamicParameter>) Class
-//					.forName(className, true, getURLClassLoader());
-			Class<DynamicParameter> apiClass = (Class<DynamicParameter>) Class.forName(className);
-			dynamicParameter = apiClass.newInstance();
+			Class<DynamicParameter> apiClass = (Class<DynamicParameter>) Class
+					.forName(className, true, getURLClassLoader());
+			dynamicParameter = (DynamicParameter) apiClass.newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new PhrescoException(e);
@@ -45,17 +53,52 @@ public class PhrescoDynamicLoader {
 	}
 	
 	public ApplicationProcessor getApplicationProcessor(String className) throws PhrescoException {
-		ApplicationProcessor applicationProcessor;
+		ApplicationProcessor applicationProcessor = null;
 		try {
-//			Class<ApplicationProcessor> apiClass = (Class<ApplicationProcessor>) Class
-//					.forName(className, true, getURLClassLoader());
-			Class<ApplicationProcessor> apiClass = (Class<ApplicationProcessor>) Class.forName(className);
-			applicationProcessor = apiClass.newInstance();
+			Class<ApplicationProcessor> apiClass = (Class<ApplicationProcessor>) Class
+					.forName(className, true, getURLClassLoader());
+			ApplicationProcessor newInstance = apiClass.newInstance();
+			applicationProcessor = (ApplicationProcessor) newInstance;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new PhrescoException(e);
 		}
 		return applicationProcessor;
+	}
+	
+	public InputStream getResourceAsStream(String fileName) throws PhrescoException {
+		List<Artifact> artifacts = new ArrayList<Artifact>();
+		String destFile = "";
+		JarFile jarfile = null; 
+		for (ArtifactGroup plugin : plugins) {
+			List<ArtifactInfo> versions = plugin.getVersions();
+			for (ArtifactInfo artifactInfo : versions) {
+				Artifact artifact = new DefaultArtifact(plugin.getGroupId(), plugin.getArtifactId(), "jar", artifactInfo.getVersion());
+				artifacts.add(artifact);
+			}
+		}
+		try {
+			URL[] artifactURLs = MavenArtifactResolver.resolve(repoInfo.getGroupRepoURL(), repoInfo.getRepoUserName(),
+					repoInfo.getRepoPassword(), artifacts);
+			for (URL url : artifactURLs) {
+				File jarFile = new File(url.toURI());
+				jarfile = new JarFile(jarFile);
+	            for (Enumeration<JarEntry> em = jarfile.entries(); em
+	                    .hasMoreElements();) {
+	                JarEntry jarEntry = em.nextElement();
+	                if (jarEntry.getName().endsWith(fileName)) {
+	                	destFile = jarEntry.getName();
+	                }
+	            }
+			}
+			if(StringUtils.isNotEmpty(destFile)) {
+				ZipEntry entry = jarfile.getEntry(destFile);
+				return jarfile.getInputStream(entry);
+			}
+		} catch (Exception e) {
+			throw new PhrescoException(e);
+		}
+		return null;
 	}
 	
 	private URLClassLoader getURLClassLoader() throws PhrescoException {
@@ -76,9 +119,14 @@ public class PhrescoDynamicLoader {
 			e.printStackTrace();
 			throw new PhrescoException(e);
 		}
-		URLClassLoader classLoader = new URLClassLoader(artifactURLs);
+		ClassLoader clsLoader = Thread.currentThread().getContextClassLoader();
+		if (clsLoader == null) {
+		    clsLoader = this.getClass().getClassLoader();
+		}
+		URLClassLoader classLoader = new URLClassLoader(artifactURLs, clsLoader);
 		return classLoader;
 	}
+	
 	
 	public static void main(String[] args) throws PhrescoException, IOException, ParserConfigurationException, SAXException, ConfigurationException {
 		RepoInfo repoinfo = new RepoInfo();
@@ -88,16 +136,15 @@ public class PhrescoDynamicLoader {
 		repoinfo.setRepoPassword("devrepo2");
 		repoinfo.setGroupRepoURL("http://172.16.17.226:8080/repository/content/groups/public/");
 		ArtifactGroup group = new ArtifactGroup();
-		group.setGroupId("com.photon.phresco.commons");
-		group.setArtifactId("phresco-commons");
+		group.setGroupId("com.photon.sample.appprocessor");
+		group.setArtifactId("testappprocessor");
 		group.setPackaging("jar");
 		ArtifactInfo info = new ArtifactInfo();
-		info.setVersion("2.0.0.26001");
+		info.setVersion("1.0.0");
 		group.setVersions(Arrays.asList(info));
 		PhrescoDynamicLoader loader = new PhrescoDynamicLoader(repoinfo, Arrays.asList(group) );
-		System.out.println("Loader Found..... " + loader);
-		DynamicParameter applicationProcessor = loader.getDynamicParameter("com.photon.phresco.impl.EnvironmentsParameterImpl");
-		applicationProcessor.getValues(null);
+		ApplicationProcessor applicationProcessor = loader.getApplicationProcessor("com.photon.sample.appprocessor.testappprocessor.TestApplicationProcessor");
+		applicationProcessor.preCreate(null);
 	}
 	
 }
