@@ -31,6 +31,8 @@ public class VideoType extends Element {
 	private String videoInfoId;
 	private String url;
 	private ArtifactGroup artifactGroup;
+	private String type;
+	private String codec;
 	
 	public VideoType() {
 	    super();
@@ -58,6 +60,22 @@ public class VideoType extends Element {
 
 	public void setArtifactGroup(ArtifactGroup artifactGroup) {
 		this.artifactGroup = artifactGroup;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getCodec() {
+		return codec;
+	}
+
+	public void setCodec(String codec) {
+		this.codec = codec;
 	}
 
 	@Override
