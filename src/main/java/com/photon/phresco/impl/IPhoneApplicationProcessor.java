@@ -2,7 +2,9 @@ package com.photon.phresco.impl;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -25,7 +27,13 @@ import com.photon.phresco.util.Utility;
 
 public class IPhoneApplicationProcessor implements ApplicationProcessor {
 
-	@Override
+	private static final String PLIST = ".plist";
+    private static final String INFO_PLIST = "info.plist";
+    private static final String FEATURES = "features";
+    private static final String NAME = "name";
+    private static final String ENVIRONMENT_PLIST = "environment.plist";
+
+    @Override
 	public void preCreate(ApplicationInfo appInfo) throws PhrescoException {
 		// TODO Auto-generated method stub
 		
@@ -69,14 +77,14 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 				}
 				List<Configuration> configurations = environment.getConfigurations();
 				if (CollectionUtils.isNotEmpty(configurations)) {
-					String plistFile = file.getPath() + File.separator + "environment.plist";
+					String plistFile = file.getPath() + File.separator + ENVIRONMENT_PLIST;
 					XMLPropertyListConfiguration plist = new XMLPropertyListConfiguration();
 					for (Configuration configuration : configurations) {
 						if(configuration != null) {
 							String configType = configuration.getType();
 							environmenName = environment.getName();
 							Properties properties = configuration.getProperties();
-							properties.setProperty("name", configuration.getName());
+							properties.setProperty(NAME, configuration.getName());
 							if (values.containsKey(configType)) {
 								List<Properties> list = values.get(configType);
 								list.add(properties);
@@ -100,11 +108,10 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 	}
 
 	@Override
-	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo, String featureName)
-	throws PhrescoException {
-		File plistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + "source/ThirdParty/" + featureName + File.separator + featureName+".plist");
+	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo, String featureName) throws PhrescoException {
+		File plistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + "source/ThirdParty/" + featureName + File.separator + featureName+PLIST);
 		try {
-			return getConfigurationFromPlist(plistFile.getPath());
+			return getConfigFromPlist(plistFile.getPath());
 		} catch (Exception e) {
 			throw new PhrescoException(e);
 		}
@@ -113,64 +120,53 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 	@Override
 	public void postFeatureConfiguration(ApplicationInfo appInfo, List<Configuration> configs, String featureName)
 	throws PhrescoException {
-		try {
-			File plistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + "source/ThirdParty/" + featureName + File.separator + featureName+".plist");
-			XMLPropertyListConfiguration plist = new XMLPropertyListConfiguration();
-			for (Configuration configuration : configs) {
-				plist.addProperty(configuration.getName(), configuration.getProperties());
-			}
-			plist.save(plistFile);
-		} catch (org.apache.commons.configuration.ConfigurationException e) {
-
-		}
+	    try {
+	        String plistPath = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + "source/ThirdParty/" + featureName + File.separator + INFO_PLIST;
+	        storeConfigObjAsPlist(configs.get(0), plistPath);
+	    } catch (Exception e) {
+	        throw new PhrescoException(e);
+	    }
 
 	}
 	
-	@SuppressWarnings("unchecked")
-	private List<Configuration> getConfigurationFromPlist(String plistPath) throws Exception {
-		XMLPropertyListConfiguration conf = new XMLPropertyListConfiguration(plistPath);
-		List children = conf.getRoot().getChildren();
+	public void storeConfigObjAsPlist(Configuration keyValueObj, String plistPath) throws Exception {
+	    XMLPropertyListConfiguration plist = new XMLPropertyListConfiguration();
+	    Properties properties = keyValueObj.getProperties();
+	    Enumeration em = properties.keys();
+	    while (em.hasMoreElements()) {
+	        String str = (String) em.nextElement();
+	        plist.addProperty(str, properties.get(str));
+	    }
+	    plist.save(plistPath);
 
-		List<Configuration> phrescoConfigs = new ArrayList<Configuration>();
-		// getting root node childrens
-		if (children instanceof List) {
-			List<PListNode> configs = (List<PListNode>) children;
-			for (PListNode configuration : configs) {
-				// there will be configParam and iconpath
-				List configChildren = configuration.getChildren();
-				if (configChildren instanceof List) {
-					for (PListNode configChild : (List<PListNode>) configChildren) {
-						List configParamChildren = configChild.getChildren();
-						// getting config param
-						if (configParamChildren instanceof List) {
-							for (PListNode configParamChild : (List<PListNode>) configParamChildren) {
-								if (configParamChild.getChildrenCount() > 0) {
-									Configuration config = new Configuration();
-									config.setName(configParamChild.getName());
-									// gets contstants, theme
-									List userDefinedChildren = configParamChild.getChildren();
-									if (userDefinedChildren instanceof List) {
-										Properties prop = getPropetyObj(userDefinedChildren);
-										config.setProperties(prop);
-										phrescoConfigs.add(config);
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		return phrescoConfigs;
 	}
 	
-	private Properties getPropetyObj(List<PListNode> children) {
-		Properties prop = new Properties();
-		if (children instanceof List) {
-			for (PListNode childrenConfigs : (List<PListNode>) children) {
-				prop.setProperty(childrenConfigs.getName(), childrenConfigs.getValue().toString());
-			}
-		}
-		return prop;
+	private List<Configuration> getConfigFromPlist(String plistPath) throws PhrescoException {
+	    List<Configuration> configs = new ArrayList<Configuration>();
+	    try {
+	        Configuration config = null;
+	        File plistFile = new File(plistPath);
+	        if (plistFile.isFile()) {
+	            config = new Configuration(plistFile.getName(), FEATURES);
+	        } else {
+	            throw new PhrescoException("Plist file does not exists .. ");
+	        }
+	        
+	        // get all the key and value pairs
+	        Properties properties = new Properties();
+	        XMLPropertyListConfiguration conf = new XMLPropertyListConfiguration(plistPath);
+	        Iterator it = conf.getKeys();
+	        while (it.hasNext()) {
+	            String key = (String) it.next();
+	            Object property = conf.getProperty(key);
+	            String value = property.toString();
+	            properties.setProperty(key, value);
+	        }
+	        config.setProperties(properties);
+	        configs.add(config);
+        } catch (Exception e) {
+            throw new PhrescoException(e);
+        }
+        return configs;
 	}
 }
