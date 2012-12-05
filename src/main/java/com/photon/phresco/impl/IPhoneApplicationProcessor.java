@@ -27,7 +27,7 @@ import com.photon.phresco.util.Utility;
 
 public class IPhoneApplicationProcessor implements ApplicationProcessor {
 
-	private static final String PLIST = ".plist";
+	private static final String PLIST = "feature-manifest.plist";
     private static final String INFO_PLIST = "info.plist";
     private static final String FEATURES = "features";
     private static final String NAME = "name";
@@ -109,7 +109,7 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 
 	@Override
 	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo, String featureName) throws PhrescoException {
-		File plistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + "source/ThirdParty/" + featureName + File.separator + featureName+PLIST);
+		File plistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + "source/ThirdParty/" + featureName + File.separator + PLIST);
 		try {
 			return getConfigFromPlist(plistFile.getPath());
 		} catch (Exception e) {
