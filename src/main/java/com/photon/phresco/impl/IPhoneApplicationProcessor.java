@@ -11,7 +11,7 @@ import java.util.Properties;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.configuration.plist.XMLPropertyListConfiguration;
-import org.apache.commons.configuration.plist.XMLPropertyListConfiguration.PListNode;
+import org.apache.commons.lang.StringUtils;
 
 import com.photon.phresco.api.ApplicationProcessor;
 import com.photon.phresco.api.ConfigManager;
@@ -24,6 +24,8 @@ import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.util.Constants;
 import com.photon.phresco.util.ProjectUtils;
 import com.photon.phresco.util.Utility;
+import com.phresco.pom.exception.PhrescoPomException;
+import com.phresco.pom.util.PomProcessor;
 
 public class IPhoneApplicationProcessor implements ApplicationProcessor {
 
@@ -71,7 +73,7 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 				String environmenName = "";
 				Map<String, List<Properties>> values = new HashMap<String, List<Properties>>();
 				String environmentName = environment.getName();
-				File file = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + "source/ThirdParty/" + environmentName);
+				File file = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + environmentName);
 				if(!file.exists()) {
 					file.mkdir();
 				}
@@ -109,7 +111,7 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 
 	@Override
 	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo, String featureName) throws PhrescoException {
-		File plistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + "source/ThirdParty/" + featureName + File.separator + PLIST);
+		File plistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + PLIST);
 		try {
 			return getConfigFromPlist(plistFile.getPath());
 		} catch (Exception e) {
@@ -121,7 +123,7 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 	public void postFeatureConfiguration(ApplicationInfo appInfo, List<Configuration> configs, String featureName)
 	throws PhrescoException {
 	    try {
-	        String plistPath = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + "source/ThirdParty/" + featureName + File.separator + INFO_PLIST;
+	        String plistPath = Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + INFO_PLIST;
 	        storeConfigObjAsPlist(configs.get(0), plistPath);
 	    } catch (Exception e) {
 	        throw new PhrescoException(e);
@@ -139,6 +141,20 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 	    }
 	    plist.save(plistPath);
 
+	}
+	
+	private String getThirdPartyFolder(ApplicationInfo appInfo) throws PhrescoException { 
+		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
+		try {
+			PomProcessor processor = new PomProcessor(pomPath);
+			String property = processor.getProperty(Constants.POM_PROP_KEY_MODULE_SOURCE_DIR);
+			if(StringUtils.isNotEmpty(property)) {
+				return property;
+			}
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		}
+		return "";
 	}
 	
 	private List<Configuration> getConfigFromPlist(String plistPath) throws PhrescoException {
