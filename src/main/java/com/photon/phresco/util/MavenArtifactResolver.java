@@ -37,11 +37,6 @@ public class MavenArtifactResolver {
 	        S_LOGGER.debug("Entered into MavenArtifactResolver.resolve()");
 	        S_LOGGER.debug("Url Is" + url + " " + "Username Is " + username + "Password Is " + password);
 	    }
-		System.out.println("Entered To MavenArtifactResolver");
-		System.out.println("Url Is" + url);
-		System.out.println("UserName Is " + username);
-		System.out.println("Password Is " + password);
-		System.out.println("Artifacts Are " + artifacts);
 		
 		RepositorySystem repoSystem = new DefaultPlexusContainer().lookup(RepositorySystem.class);
 		MavenRepositorySystemSession session = new MavenRepositorySystemSession();
