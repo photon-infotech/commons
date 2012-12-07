@@ -113,6 +113,9 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo, String featureName) throws PhrescoException {
 		File plistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + PLIST);
 		try {
+		    if (!plistFile.exists()) {
+		        throw new PhrescoException("feature-manifest.plist file does not exist");
+		    }
 			return getConfigFromPlist(plistFile.getPath());
 		} catch (Exception e) {
 			throw new PhrescoException(e);
@@ -180,7 +183,9 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 	        }
 	        config.setProperties(properties);
 	        configs.add(config);
-        } catch (Exception e) {
+        } catch (PhrescoException e) {
+            throw new PhrescoException(e);
+        } catch (org.apache.commons.configuration.ConfigurationException e) {
             throw new PhrescoException(e);
         }
         return configs;
