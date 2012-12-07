@@ -23,6 +23,7 @@ import org.sonatype.aether.util.artifact.DefaultArtifact;
 import org.xml.sax.SAXException;
 
 import com.photon.phresco.api.ApplicationProcessor;
+import com.photon.phresco.api.DynamicPageParameter;
 import com.photon.phresco.api.DynamicParameter;
 import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.commons.model.ArtifactInfo;
@@ -50,6 +51,19 @@ public class PhrescoDynamicLoader {
 			throw new PhrescoException(e);
 		}
 		return dynamicParameter;
+	}
+	
+	public DynamicPageParameter getDynamicPageParameter(String className) throws PhrescoException {
+		DynamicPageParameter dynamicPageParameter;
+		try {
+			Class<DynamicPageParameter> apiClass = (Class<DynamicPageParameter>) Class
+					.forName(className, true, getURLClassLoader());
+			dynamicPageParameter = (DynamicPageParameter) apiClass.newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new PhrescoException(e);
+		}
+		return dynamicPageParameter;
 	}
 	
 	public ApplicationProcessor getApplicationProcessor(String className) throws PhrescoException {

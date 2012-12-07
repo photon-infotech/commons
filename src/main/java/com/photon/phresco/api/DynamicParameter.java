@@ -21,6 +21,7 @@ public interface DynamicParameter {
 	String KEY_DATABASE = "dataBase";
 	String KEY_SERVER = "server";
 	String KEY_WEBSERVICE = "webService";
+	String KEY_TEST_AGAINST = "testAgainst";
 
     public Mojos.Mojo.Configuration.Parameters.Parameter.PossibleValues getValues(Map<String, Object> map) throws IOException, ParserConfigurationException, SAXException, ConfigurationException, PhrescoException;
 }

@@ -12,5 +12,5 @@ public interface DynamicPageParameter {
     String KEY_TEST_AGAINST = "testAgainst";
     String KEY_TEST_RESULT_NAME = "testResultName";
 
-    public List<Object> getObjects(Map<String, Object> map) throws PhrescoException;
+    public List<? extends Object> getObjects(Map<String, Object> map) throws PhrescoException;
 }

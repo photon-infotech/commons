@@ -33,6 +33,7 @@ public interface Constants {
     String PROJECT_FOLDER = "project";
     String OSNAME  = "os.name";
     String WINDOWS = "Windows";
+    String DOT_JSON = ".json";
 
     String PHRESCO_HOME = "PHRESCO_HOME";
     String USER_HOME = "user.home";
