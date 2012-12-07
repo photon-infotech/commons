@@ -33,7 +33,7 @@ public class Technology extends CustomerBasedElement implements Cloneable, Seria
     public enum Option {
     	BUILD_SUPPORTED, CODE_QULAITY_SUPPORTED, DEPLOY_SUPPORTED, 
     	UNIT_TEST_SUPPORTED, FUNCTIONAL_TEST_SUPPORTED, PERFORMANCE_TEST_SUPPORTED, 
-    	LOAD_TEST_SUPPORTED, REPORTS_SUPPORTED, CI_SUPPORTED
+    	LOAD_TEST_SUPPORTED, REPORTS_SUPPORTED, CI_SUPPORTED, EXE_DOWNLOAD
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -44,7 +44,7 @@ public class Technology extends CustomerBasedElement implements Cloneable, Seria
 	private List<ArtifactGroup> plugins;
 	
 	//Admin Options - Is build enabled, is Code Quality enabled, etc
-	private List<TechnologyOptions> options;
+	private List<String> options;
 	private String techGroupId;
 	private List<String> reports;
 	
@@ -80,11 +80,11 @@ public class Technology extends CustomerBasedElement implements Cloneable, Seria
         this.archetypeInfo = archetypeInfo;
     }
 
-    public List<TechnologyOptions> getOptions() {
+    public List<String> getOptions() {
 		return options;
 	}
 
-	public void setOptions(List<TechnologyOptions> options) {
+	public void setOptions(List<String> options) {
 		this.options = options;
 	}
 
