@@ -215,13 +215,7 @@ public class ProjectUtils implements Constants {
 			Document doc = docBuilder.newDocument();
 			for (ArtifactGroup artifactGroup : artifactGroups) {
 				if (artifactGroup != null) {
-					if(artifactGroup.getType().name().equals(Type.FEATURE.name())) {
-						modulePath = processor.getProperty(Constants.POM_PROP_KEY_MODULE_SOURCE_DIR);
-					} else if(artifactGroup.getType().name().equals(Type.JAVASCRIPT.name())) {
-						modulePath = processor.getProperty(Constants.POM_PROP_KEY_JSLIBS_SOURCE_DIR);
-					} else if(artifactGroup.getType().name().equals(Type.COMPONENT.name())) {
-						modulePath = processor.getProperty(Constants.POM_PROP_KEY_COMPONENTS_SOURCE_DIR);
-					}
+					modulePath = getModulePath(artifactGroup, processor);
 					configList = configList(modulePath, artifactGroup.getGroupId(), artifactGroup.getArtifactId(),  artifactGroup.getVersions().get(0).getVersion(), doc);
 					processor.addExecutionConfiguration(DEPENDENCY_PLUGIN_GROUPID, DEPENDENCY_PLUGIN_ARTIFACTID, EXECUTION_ID, PHASE, GOAL, configList, doc);
 				}
@@ -234,6 +228,72 @@ public class ProjectUtils implements Constants {
 		}
 	}
 	
+	public void removeArtifactFromSource(ApplicationInfo appInfo, List<ArtifactGroup> removedArtifacts) throws PhrescoException {
+		String baseDir = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator;
+		try {
+			PomProcessor processor = new PomProcessor(new File(baseDir + Constants.POM_NAME));
+			String modulePath = "";
+			for (ArtifactGroup artifactGroup : removedArtifacts) {
+				if (artifactGroup != null) {
+					modulePath = getModulePath(artifactGroup, processor);
+				}
+				File sourceDirFiles = new File(baseDir + modulePath) ;
+				File[] listFiles = sourceDirFiles.listFiles();
+				for (File file : listFiles) {
+					if(file.isDirectory() && artifactGroup.getName().equals(file.getName())) {
+						System.out.println(artifactGroup.getName() + ":" + file.getName());
+						delete(file);
+					}
+				}
+			}
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		} catch (IOException e) {
+			throw new PhrescoException(e);
+		}
+	}
+	
+	private String getModulePath(ArtifactGroup artifactGroup, PomProcessor processor) throws PhrescoException {
+		try {
+		if(artifactGroup.getType().name().equals(Type.FEATURE.name())) {
+			return processor.getProperty(Constants.POM_PROP_KEY_MODULE_SOURCE_DIR);
+		} else if(artifactGroup.getType().name().equals(Type.JAVASCRIPT.name())) {
+			return processor.getProperty(Constants.POM_PROP_KEY_JSLIBS_SOURCE_DIR);
+		} else if(artifactGroup.getType().name().equals(Type.COMPONENT.name())) {
+			return processor.getProperty(Constants.POM_PROP_KEY_COMPONENTS_SOURCE_DIR);
+		}
+		}catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		}
+		return "";
+	}
+	
+	public void delete(File file)throws IOException{
+
+		if(file.isDirectory()){
+			//directory is empty, then delete it
+			if(file.list().length==0){
+				file.delete();
+			}else{
+				String files[] = file.list();
+				for (String temp : files) {
+					//construct the file structure
+					File fileDelete = new File(file, temp);
+					//recursive delete
+					delete(fileDelete);
+				}
+				//check the directory again, if empty then delete it
+				if(file.list().length==0){
+					file.delete();
+				}
+			}
+
+		}else{
+			//if file, then delete it
+			file.delete();
+		}
+	}
+
 	public void deletePluginExecutionFromPom(File pomFile) throws PhrescoException {
 		try {
 			PomProcessor processor = new PomProcessor(pomFile);
