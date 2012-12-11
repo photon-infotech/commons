@@ -23,8 +23,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @SuppressWarnings("restriction")
 @XmlRootElement
-public class VersionInfo {
+public class VersionInfo extends Element {
     
+	private static final long serialVersionUID = 1L;
 	private String serviceVersion;
 	private String frameworkVersion;
 	private String message;
@@ -60,5 +61,12 @@ public class VersionInfo {
 
 	public void setServiceVersion(String serviceversion) {
 		this.serviceVersion = serviceversion;
+	}
+
+	@Override
+	public String toString() {
+		return "VersionInfo [serviceVersion=" + serviceVersion
+				+ ", frameworkVersion=" + frameworkVersion + ", message="
+				+ message + ", updateAvailable=" + updateAvailable + "]";
 	}
 }
