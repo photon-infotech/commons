@@ -39,6 +39,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
@@ -204,11 +205,11 @@ public class ProjectUtils implements Constants {
 	
 	public void updatePOMWithPluginArtifact(File pomFile, List<ArtifactGroup> artifactGroups) throws PhrescoException {
 		try {
+			PomProcessor processor = new PomProcessor(pomFile);
 			if(CollectionUtils.isEmpty(artifactGroups)) {
 				return;
 			}
 			List<Element> configList = new ArrayList<Element>();
-			PomProcessor processor = new PomProcessor(pomFile);
 			String modulePath = "";
 			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
@@ -228,29 +229,60 @@ public class ProjectUtils implements Constants {
 		}
 	}
 	
-	public void removeArtifactFromSource(ApplicationInfo appInfo, List<ArtifactGroup> removedArtifacts) throws PhrescoException {
+	public void removeExtractedFeatures(ApplicationInfo appInfo, List<ArtifactGroup> removedArtifacts) throws PhrescoException {
 		String baseDir = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator;
 		try {
 			PomProcessor processor = new PomProcessor(new File(baseDir + Constants.POM_NAME));
 			String modulePath = "";
-			for (ArtifactGroup artifactGroup : removedArtifacts) {
-				if (artifactGroup != null) {
-					modulePath = getModulePath(artifactGroup, processor);
-				}
-				File sourceDirFiles = new File(baseDir + modulePath) ;
-				File[] listFiles = sourceDirFiles.listFiles();
-				for (File file : listFiles) {
-					if(file.isDirectory() && artifactGroup.getName().equals(file.getName())) {
-						System.out.println(artifactGroup.getName() + ":" + file.getName());
-						delete(file);
+			if(CollectionUtils.isNotEmpty(removedArtifacts)) {
+				for (ArtifactGroup artifactGroup : removedArtifacts) {
+					if (artifactGroup != null) {
+						modulePath = getModulePath(artifactGroup, processor);
+					}
+					File sourceDirFiles = new File(baseDir + modulePath) ;
+					File[] listFiles = sourceDirFiles.listFiles();
+					for (File file : listFiles) {
+						if(file.exists() && artifactGroup.getName().equalsIgnoreCase(file.getName())) {
+							delete(file);
+						}
 					}
 				}
 			}
 		} catch (PhrescoPomException e) {
 			throw new PhrescoException(e);
-		} catch (IOException e) {
-			throw new PhrescoException(e);
+		} 
+	}
+	
+	public void removeMarkerFiles(ApplicationInfo appInfo, List<ArtifactGroup> removedArtifacts) {
+		File markersDir = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + DO_NOT_CHECKIN_DIRY + File.separator + MARKERS_DIR);
+		if(!markersDir.exists()) {
+			return;
 		}
+		File[] markerFiles = markersDir.listFiles();
+		for (File markerFile : markerFiles) {
+			for (ArtifactGroup removedArtifact : removedArtifacts) {
+				String markerFileFormat = getMarkerFileFormat(removedArtifact);
+				if(CollectionUtils.isNotEmpty(removedArtifacts) && markerFile.getName().equals(markerFileFormat)) {
+					delete(markerFile);
+				}
+			}
+		}
+	}
+	
+	private String getMarkerFileFormat(ArtifactGroup removedArtifact) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(removedArtifact.getGroupId());
+		builder.append(STR_HYPHEN);
+		builder.append(removedArtifact.getArtifactId());
+		builder.append(STR_HYPHEN);
+		builder.append(removedArtifact.getPackaging());
+		builder.append(STR_HYPHEN);
+		List<ArtifactInfo> artifactInfos = removedArtifact.getVersions();
+		for (ArtifactInfo artifactInfo : artifactInfos) {
+			builder.append(artifactInfo.getVersion());
+		}
+		builder.append(DOT_MARKER);
+		return builder.toString();
 	}
 	
 	private String getModulePath(ArtifactGroup artifactGroup, PomProcessor processor) throws PhrescoException {
@@ -268,7 +300,7 @@ public class ProjectUtils implements Constants {
 		return "";
 	}
 	
-	public void delete(File file)throws IOException{
+	public void delete(File file) {
 
 		if(file.isDirectory()){
 			//directory is empty, then delete it

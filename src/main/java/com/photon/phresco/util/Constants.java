@@ -54,6 +54,7 @@ public interface Constants {
 	String PHRESCO = "phresco";
 	String CONFIGURATION_INFO_FILE = "phresco-env-config.xml";
 	String DOT_PHRESCO_FOLDER = ".phresco";
+	String DOT_MARKER		= ".marker";
 	String SETTINGS_XML = "settings.xml";
 	String PHRESCO_HYPEN = "phresco-";	
 	String INFO_XML = "-info.xml";
@@ -86,6 +87,7 @@ public interface Constants {
 	String HUB_LOG = "hub.log";
 	String POM_NAME = "pom.xml";
 	String DO_NOT_CHECKIN_DIRY = "do_not_checkin";
+	String MARKERS_DIR		= "markers";
 	String LOG_DIRECTORY = "log";
     //Constants for Authentication Token
     String AUTH_TOKEN = "auth_token";
