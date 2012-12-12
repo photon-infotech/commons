@@ -1,6 +1,5 @@
 package com.photon.phresco.api;
 
-import java.util.List;
 import java.util.Map;
 
 import com.photon.phresco.exception.PhrescoException;
