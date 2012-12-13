@@ -19,6 +19,8 @@
  */
 package com.photon.phresco.util;
 
+import java.util.List;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -27,7 +29,7 @@ public class HubConfiguration {
 	private String host;
     private int port;
 	private int newSessionWaitTimeout;
-	private String servlets;
+	private List<String> servlets;
 	private String prioritizer;
     private String capabilityMatcher;
     private boolean throwOnCapabilityNotPresent;
@@ -64,11 +66,11 @@ public class HubConfiguration {
         this.newSessionWaitTimeout = newSessionWaitTimeout;
     }
 
-    public String getServlets() {
+    public List<String> getServlets() {
         return servlets;
     }
 
-    public void setServlets(String servlets) {
+    public void setServlets(List<String> servlets) {
         this.servlets = servlets;
     }
 
