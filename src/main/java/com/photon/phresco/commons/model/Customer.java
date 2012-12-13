@@ -21,6 +21,7 @@
 package com.photon.phresco.commons.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -43,6 +44,10 @@ public class Customer extends Element {
 	private Date validUpto;
 	private LicenseType type;
 	private RepoInfo repoInfo;
+	private String icon;
+	private String brandingColor;
+	private List<String> applicableTechnologies;
+	private List<ApplicationType> applicableAppTypes;
 	
 	public enum LicenseType {
         TYPE_GOLD, TYPE_SILVER, TYPE_BRONZE
@@ -215,7 +220,40 @@ public class Customer extends Element {
         this.repoInfo = repoInfo;
     }
 
-    public String toString() {
+    public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	public String getBrandingColor() {
+		return brandingColor;
+	}
+
+	public void setBrandingColor(String brandingColor) {
+		this.brandingColor = brandingColor;
+	}
+
+	public List<ApplicationType> getApplicableAppTypes() {
+		return applicableAppTypes;
+	}
+
+	public void setApplicableAppTypes(List<ApplicationType> applicableAppTypes) {
+		this.applicableAppTypes = applicableAppTypes;
+	}
+	
+	public List<String> getApplicableTechnologies() {
+		return applicableTechnologies;
+	}
+
+	public void setApplicableTechnologies(List<String> applicableTechnologies) {
+		this.applicableTechnologies = applicableTechnologies;
+	}
+
+
+	public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
                 .append(super.toString())
@@ -230,6 +268,8 @@ public class Customer extends Element {
                 .append("validUpto", validUpto)
                 .append("type", type)
                 .append("repoInfo", repoInfo)
+                .append("applicableTechnologies", applicableTechnologies)
+                .append("applicableAppTypes", applicableAppTypes)
                 .toString();
     }
 }
