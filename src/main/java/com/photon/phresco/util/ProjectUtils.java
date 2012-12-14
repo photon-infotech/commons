@@ -54,12 +54,14 @@ import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.commons.model.ArtifactGroup.Type;
 import com.photon.phresco.commons.model.ArtifactGroupInfo;
 import com.photon.phresco.commons.model.ArtifactInfo;
+import com.photon.phresco.commons.model.CoreOption;
 import com.photon.phresco.commons.model.DownloadInfo;
 import com.photon.phresco.commons.model.ProjectInfo;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.plugins.model.Mojos.ApplicationHandler;
 import com.photon.phresco.plugins.util.MojoProcessor;
 import com.phresco.pom.exception.PhrescoPomException;
+import com.phresco.pom.model.Dependency;
 import com.phresco.pom.util.PomProcessor;
 
 public class ProjectUtils implements Constants {
@@ -215,10 +217,13 @@ public class ProjectUtils implements Constants {
 			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
 			Document doc = docBuilder.newDocument();
 			for (ArtifactGroup artifactGroup : artifactGroups) {
-				if (artifactGroup != null) {
-					modulePath = getModulePath(artifactGroup, processor);
-					configList = configList(modulePath, artifactGroup.getGroupId(), artifactGroup.getArtifactId(),  artifactGroup.getVersions().get(0).getVersion(), doc);
-					processor.addExecutionConfiguration(DEPENDENCY_PLUGIN_GROUPID, DEPENDENCY_PLUGIN_ARTIFACTID, EXECUTION_ID, PHASE, GOAL, configList, doc);
+				List<CoreOption> appliesTo = artifactGroup.getAppliesTo();
+				for (CoreOption coreOption : appliesTo) {
+					if (artifactGroup != null && !coreOption.isCore()) {
+						modulePath = getModulePath(artifactGroup, processor);
+						configList = configList(modulePath, artifactGroup.getGroupId(), artifactGroup.getArtifactId(),  artifactGroup.getVersions().get(0).getVersion(), doc);
+						processor.addExecutionConfiguration(DEPENDENCY_PLUGIN_GROUPID, DEPENDENCY_PLUGIN_ARTIFACTID, EXECUTION_ID, PHASE, GOAL, configList, doc);
+					}
 				}
 			}
 			processor.save();
@@ -266,6 +271,26 @@ public class ProjectUtils implements Constants {
 					delete(markerFile);
 				}
 			}
+		}
+	}
+	
+	public void removeFeatureDependencies(ApplicationInfo appInfo, List<ArtifactGroup> removedFeatures) throws PhrescoException {
+		String pomDir = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + POM_NAME;
+		try {
+			PomProcessor processor = new PomProcessor(new File(pomDir));
+			List<Dependency> dependencies = processor.getModel().getDependencies().getDependency();
+			if(CollectionUtils.isNotEmpty(dependencies)) {
+				for (Dependency dependency : dependencies) {
+					for (ArtifactGroup artifactGroup : removedFeatures) {
+						if(dependency.getGroupId().equals(artifactGroup.getGroupId()) && dependency.getArtifactId().equals(artifactGroup.getArtifactId())) {
+							processor.deleteDependency(dependency.getGroupId(), dependency.getArtifactId());
+						}
+					}
+				}
+			}
+			processor.save();
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
 		}
 	}
 	
