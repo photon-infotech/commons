@@ -44,6 +44,7 @@ public interface ServiceConstants {
 	String REST_API_COMPONENT =  "/components";
 	String REST_API_ADMIN =  "/admin";
 	String REST_API_CUSTOMERS = "/customers";
+	String REST_API_ICON = "/icon";
 	String REST_API_APPTYPES = "/apptypes";
 	String REST_API_PROPERTY = "/property";
 	String REST_API_CONFIG_TEMPLATES= "/configtemplates";
@@ -101,6 +102,7 @@ public interface ServiceConstants {
 	String REST_QUERY_TYPE_MODULE = "module";
 	String REST_QUERY_TYPE_COMPONENT = "component";
 	String REST_QUERY_TYPE_JS = "js";
+	String REST_QUERY_ID = "id";
 	String REST_QUERY_CUSTOMERID = "customerId";
 	String REST_QUERY_APPTYPEID = "appTypeId";
 	String DEFAULT_CUSTOMER_NAME = "photon";

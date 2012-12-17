@@ -43,7 +43,7 @@ public class User extends Element {
 	private List<String> roleIds;
 	private boolean phrescoEnabled;
 	private String displayName;
-	private List<String> customerIds;
+	private List<Customer> customers;
 	private String token;
 	private boolean validLogin;
 	private AuthType authType;
@@ -164,20 +164,6 @@ public class User extends Element {
 		this.displayName = displayName;
 	}
 
-	/**
-	 * @return
-	 */
-	public List<String> getCustomerIds() {
-        return customerIds;
-    }
-
-    /**
-     * @param customers
-     */
-    public void setCustomerIds(List<String> customerIds) {
-        this.customerIds = customerIds;
-    }
-
     /**
      * @return
      */
@@ -216,6 +202,14 @@ public class User extends Element {
 		this.password = password;
 	}
 
+	public List<Customer> getCustomers() {
+		return customers;
+	}
+
+	public void setCustomers(List<Customer> customers) {
+		this.customers = customers;
+	}
+
 	public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
@@ -227,7 +221,7 @@ public class User extends Element {
                 .append("roleIds", roleIds)
                 .append("phrescoEnabled", phrescoEnabled)
                 .append("displayName", displayName)
-                .append("customers", customerIds)
+                .append("customers", customers)
                 .append("token", token)
                 .append("authType", authType)
                 .append("password", password)
