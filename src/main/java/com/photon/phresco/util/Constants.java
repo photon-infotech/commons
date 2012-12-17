@@ -225,6 +225,7 @@ public interface Constants {
 	String POM_PROP_KEY_JSLIBS_SOURCE_DIR = "phresco.jslibs.source.dir";
 	String POM_PROP_KEY_COMPONENTS_SOURCE_DIR = "phresco.components.source.dir";
 	String POM_PROP_KEY_VALIDATE_REPORT = "phresco.code.validate.report";
+	String POM_PROP_KEY_JAVA_STAND_ALONE_JAR_PATH = "Javastandalone.jarPath";
 	/**
 	 * MVN Goal Constants
 	 */
@@ -282,7 +283,7 @@ public interface Constants {
     String VALIDATE_CODE_INFO_FILE		= ".phresco/phresco-validate-code-info.xml";
     String UNIT_TEST_INFO_FILE			= ".phresco/phresco-unit-test-info.xml";
     String FUNCTIONAL_TEST_INFO_FILE	= ".phresco/phresco-functional-test-info.xml";
-    String PERFORMENCE_TEST_INFO_FILE	= ".phresco/phresco-performence-test-info.xml";
+    String PERFORMANCE_TEST_INFO_FILE	= ".phresco/phresco-performance-test-info.xml";
     String LOAD_TEST_INFO_FILE			= ".phresco/phresco-load-test-info.xml";
     String CI_INFO_FILE					= ".phresco/phresco-ci-info.xml";
     String PDF_REPORT_INFO_FILE 		= ".phresco/phresco-pdf-report-info.xml";
