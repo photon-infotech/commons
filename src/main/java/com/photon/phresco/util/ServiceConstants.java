@@ -150,6 +150,7 @@ public interface ServiceConstants {
 	String OPTIONS_COLLECTION_NAME = "options";
 	String LICENSE_COLLECTION_NAME ="Licenses";
 	String TECH_GROUP_COLLECTION_NAME = "techgroup";
+	String TECH_GROUP_ID = "techGroupIds";
 	/*
 	 * DB query params
 	 */
