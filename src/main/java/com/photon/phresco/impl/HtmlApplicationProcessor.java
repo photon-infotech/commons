@@ -1,11 +1,16 @@
 package com.photon.phresco.impl;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.photon.phresco.api.ApplicationProcessor;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
@@ -15,6 +20,8 @@ import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.util.Constants;
 import com.photon.phresco.util.ProjectUtils;
 import com.photon.phresco.util.Utility;
+import com.phresco.pom.exception.PhrescoPomException;
+import com.phresco.pom.util.PomProcessor;
 
 public class HtmlApplicationProcessor implements ApplicationProcessor {
 
@@ -77,8 +84,30 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 	@Override
 	public void postFeatureConfiguration(ApplicationInfo appInfo,
 			List<Configuration> configs, String featureName)
-			throws PhrescoException {
-		// TODO Auto-generated method stub
-		
+	throws PhrescoException {
+		String jsonPath = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + getFeaturePath(appInfo) + File.separator + featureName + File.separator + "config/";
+		Gson gson = new Gson();
+		java.lang.reflect.Type jsonType = new TypeToken<Collection<Configuration>>(){}.getType();
+		String json = gson.toJson(configs, jsonType);
+		if(new File(jsonPath).exists()) {
+			try {
+				//write converted json data to a file named "info.json"
+				FileWriter writer = new FileWriter(jsonPath + "config.json");
+				writer.write(json);
+				writer.close();
+			} catch (IOException e) {
+				throw new PhrescoException(e);
+			}
+		}
+	}
+	
+	private String getFeaturePath(ApplicationInfo appInfo) throws PhrescoException { 
+		String pomPath = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME;
+		try {
+			PomProcessor processor = new PomProcessor(new File(pomPath));
+			return processor.getProperty(Constants.POM_PROP_KEY_COMPONENTS_SOURCE_DIR);
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		}
 	}
 }
