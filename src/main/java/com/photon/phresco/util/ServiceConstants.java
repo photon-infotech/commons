@@ -50,6 +50,7 @@ public interface ServiceConstants {
 	String REST_API_CONFIG_TEMPLATES= "/configtemplates";
 	String REST_API_MODULES= "/modules";
 	String REST_API_PILOTS = "/pilots";
+	String REST_API_ARTIFACTINFO = "/artifactInfo";
 	String REST_API_SERVERS = "/servers";
 	String REST_API_DATABASES = "/databases";
 	String REST_API_WEBSERVICES = "/webservices";
