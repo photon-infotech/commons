@@ -21,6 +21,8 @@ import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.configuration.Environment;
 import com.photon.phresco.exception.ConfigurationException;
 import com.photon.phresco.exception.PhrescoException;
+import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter;
+import com.photon.phresco.plugins.util.MojoProcessor;
 import com.photon.phresco.util.Constants;
 import com.photon.phresco.util.ProjectUtils;
 import com.photon.phresco.util.Utility;
@@ -189,5 +191,34 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
             throw new PhrescoException(e);
         }
         return configs;
+	}
+
+	@Override
+	public void postBuild(ApplicationInfo appInfo) throws PhrescoException {
+		String baseDir = Utility.getProjectHome() + appInfo.getAppDirName();	
+		File pluginInfoFile = new File(baseDir + File.separator + Constants.PACKAGE_INFO_FILE);
+		MojoProcessor mojoProcessor = new MojoProcessor(pluginInfoFile);
+		Parameter environmentParameter = mojoProcessor.getParameter(Constants.MVN_GOAL_PACKAGE, Constants.MOJO_KEY_ENVIRONMENT_NAME);
+		String environmentValue = environmentParameter.getValue();
+		Parameter themeParameter = mojoProcessor.getParameter(Constants.MVN_GOAL_PACKAGE, Constants.MOJO_KEY_THEME);
+		String themeValue = themeParameter.getValue();
+		Configuration configuration = new Configuration();
+		Properties properties = new Properties();
+		properties.put(Constants.MOJO_KEY_ENVIRONMENT_NAME, environmentValue);
+		properties.put(Constants.MOJO_KEY_THEME, themeValue);
+		configuration.setProperties(properties);
+		String plistFile = baseDir + File.separator + "source/info.plist";
+		try {
+			storeConfigObjAsPlist(configuration, plistFile);
+		} catch (Exception e) {
+			throw new PhrescoException(e);
+		}
+	}
+	
+	public static void main(String[] args) throws PhrescoException {
+		IPhoneApplicationProcessor i = new IPhoneApplicationProcessor();
+		ApplicationInfo appInfo = new ApplicationInfo();
+		appInfo.setAppDirName("IPhone-iphone");
+		i.postBuild(appInfo);
 	}
 }

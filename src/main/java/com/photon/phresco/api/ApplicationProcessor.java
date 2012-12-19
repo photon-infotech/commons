@@ -56,5 +56,12 @@ public interface ApplicationProcessor {
 	 * @throws PhrescoException
 	 */
 	void postFeatureConfiguration(ApplicationInfo appInfo, List<Configuration> configs, String featureName) throws PhrescoException;
+	
+	/**
+	 * 
+	 * @param appInfo
+	 * @throws PhrescoException
+	 */
+	void postBuild(ApplicationInfo appInfo) throws PhrescoException;
 
 }

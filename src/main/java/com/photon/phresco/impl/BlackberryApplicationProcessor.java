@@ -57,4 +57,10 @@ public class BlackberryApplicationProcessor implements ApplicationProcessor {
 		
 	}
 
+	@Override
+	public void postBuild(ApplicationInfo appInfo) throws PhrescoException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -81,4 +81,10 @@ public class WordPressApplicationProcessor implements ApplicationProcessor{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void postBuild(ApplicationInfo appInfo) throws PhrescoException {
+		// TODO Auto-generated method stub
+		
+	}
 }

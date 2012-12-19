@@ -110,4 +110,10 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 			throw new PhrescoException(e);
 		}
 	}
+
+	@Override
+	public void postBuild(ApplicationInfo appInfo) throws PhrescoException {
+		// TODO Auto-generated method stub
+		
+	}
 }
