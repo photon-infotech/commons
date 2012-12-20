@@ -125,6 +125,12 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 	}
 
 	@Override
+	public void preBuild(ApplicationInfo appInfo) throws PhrescoException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public void postBuild(ApplicationInfo appInfo) throws PhrescoException {
 		// TODO Auto-generated method stub
 		

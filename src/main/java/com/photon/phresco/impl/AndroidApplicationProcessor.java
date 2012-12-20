@@ -19,20 +19,20 @@ import com.phresco.pom.util.PomProcessor;
 public class AndroidApplicationProcessor implements ApplicationProcessor {
 
 	private static final String UNIT_TEST_POM_XML = "/test/unit/pom.xml";
-    private static final String PERFORMANCE_TEST_POM_XML = "/test/performance/pom.xml";
-    private static final String FUNCTIONAL_TEST_POM_XML = "/test/functional/pom.xml";
+	private static final String PERFORMANCE_TEST_POM_XML = "/test/performance/pom.xml";
+	private static final String FUNCTIONAL_TEST_POM_XML = "/test/functional/pom.xml";
 	private String ANDROID_VERSION = "android.version";
-	
+
 	@Override
 	public void preCreate(ApplicationInfo appInfo) throws PhrescoException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void preUpdate(ApplicationInfo appInfo) throws PhrescoException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -40,36 +40,36 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 		String projectHome = Utility.getProjectHome() + appInfo.getAppDirName();
 		File path = new File(projectHome);
 		updateAndroidVersion(path, appInfo);
-		
+
 	}
 
 	@Override
 	public void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroups) throws PhrescoException {
-//		extractPilots(info, path, technology);
+		//		extractPilots(info, path, technology);
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 		ProjectUtils projectUtils = new ProjectUtils();
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
 			projectUtils.updatePOMWithModules(pomFile, artifactGroups);
 		}
 	}
-	
-//	private void extractPilots(ApplicationInfo appInfo, File path, Technology technology) throws PhrescoException {
-//		if (StringUtils.isNotBlank(appInfo.getPilotProjectName())) {
-//			List<ProjectInfo> pilotProjects = getRepositoryManager().getPilotProjects(technology.getId());
-//			if (CollectionUtils.isEmpty(pilotProjects)) {
-//				return;
-//			}
-//			for (ProjectInfo projectInfo : pilotProjects) {
-//				String urls[] = projectInfo.getPilotProjectUrls();
-//				if (urls != null) {
-//					for (String url : urls) {
-//						DependencyUtils.extractFiles(url, path);
-//					}
-//				}
-//			}
-//		}
-//	}
-	
+
+	//	private void extractPilots(ApplicationInfo appInfo, File path, Technology technology) throws PhrescoException {
+	//		if (StringUtils.isNotBlank(appInfo.getPilotProjectName())) {
+	//			List<ProjectInfo> pilotProjects = getRepositoryManager().getPilotProjects(technology.getId());
+	//			if (CollectionUtils.isEmpty(pilotProjects)) {
+	//				return;
+	//			}
+	//			for (ProjectInfo projectInfo : pilotProjects) {
+	//				String urls[] = projectInfo.getPilotProjectUrls();
+	//				if (urls != null) {
+	//					for (String url : urls) {
+	//						DependencyUtils.extractFiles(url, path);
+	//					}
+	//				}
+	//			}
+	//		}
+	//	}
+
 	public void updateAndroidVersion(File path, ApplicationInfo appInfo) throws PhrescoException {
 		File pomPath = new File(path ,Constants.POM_NAME);
 		if(!pomPath.exists()) {
@@ -92,34 +92,40 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 					e.printStackTrace();
 					throw new PhrescoException(e);
 				}
-            }
+			}
 		}
 	}
 
-@Override
-public void postConfiguration(ApplicationInfo appInfo) throws PhrescoException {
-	// TODO Auto-generated method stub
-	
-}
+	@Override
+	public void postConfiguration(ApplicationInfo appInfo) throws PhrescoException {
+		// TODO Auto-generated method stub
 
-@Override
-public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo,
-		String featureName) throws PhrescoException {
-	// TODO Auto-generated method stub
-	return null;
-}
+	}
 
-@Override
-public void postFeatureConfiguration(ApplicationInfo appInfo,
-		List<Configuration> configs, String featureName)
-		throws PhrescoException {
-	// TODO Auto-generated method stub
-	
-}
+	@Override
+	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo,
+			String featureName) throws PhrescoException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-@Override
-public void postBuild(ApplicationInfo appInfo) throws PhrescoException {
-	// TODO Auto-generated method stub
-	
-}
+	@Override
+	public void postFeatureConfiguration(ApplicationInfo appInfo,
+			List<Configuration> configs, String featureName)
+	throws PhrescoException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void preBuild(ApplicationInfo appInfo) throws PhrescoException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void postBuild(ApplicationInfo appInfo) throws PhrescoException {
+		// TODO Auto-generated method stub
+
+	}
 }

@@ -192,9 +192,9 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
         }
         return configs;
 	}
-
+	
 	@Override
-	public void postBuild(ApplicationInfo appInfo) throws PhrescoException {
+	public void preBuild(ApplicationInfo appInfo) throws PhrescoException {
 		String baseDir = Utility.getProjectHome() + appInfo.getAppDirName();	
 		File pluginInfoFile = new File(baseDir + File.separator + Constants.PACKAGE_INFO_FILE);
 		MojoProcessor mojoProcessor = new MojoProcessor(pluginInfoFile);
@@ -214,11 +214,10 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 			throw new PhrescoException(e);
 		}
 	}
-	
-	public static void main(String[] args) throws PhrescoException {
-		IPhoneApplicationProcessor i = new IPhoneApplicationProcessor();
-		ApplicationInfo appInfo = new ApplicationInfo();
-		appInfo.setAppDirName("IPhone-iphone");
-		i.postBuild(appInfo);
+
+	@Override
+	public void postBuild(ApplicationInfo appInfo) throws PhrescoException {
+		// TODO Auto-generated method stub
+		
 	}
 }

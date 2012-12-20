@@ -62,6 +62,13 @@ public interface ApplicationProcessor {
 	 * @param appInfo
 	 * @throws PhrescoException
 	 */
+	void preBuild(ApplicationInfo appInfo) throws PhrescoException;
+	
+	/**
+	 * 
+	 * @param appInfo
+	 * @throws PhrescoException
+	 */
 	void postBuild(ApplicationInfo appInfo) throws PhrescoException;
 
 }
