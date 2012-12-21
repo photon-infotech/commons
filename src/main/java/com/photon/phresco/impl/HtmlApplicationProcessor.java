@@ -88,7 +88,10 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo,
 			String featureName) throws PhrescoException {
 		try {
-			File fXmlFile = new File("C:\\Documents and Settings\\suresh_ma\\Desktop\\sample.xml");
+			File fXmlFile = new File("C:\\Documents and Settings\\suresh_ma\\Desktop\\ffsample.xml");
+			if(!fXmlFile.exists()) {
+				return null;
+			}
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(fXmlFile);
