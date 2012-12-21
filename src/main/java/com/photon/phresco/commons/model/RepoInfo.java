@@ -21,12 +21,19 @@
 
 package com.photon.phresco.commons.model;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-public class RepoInfo {
+public class RepoInfo implements Serializable  {
     
-    private String customerId;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5150170487041090747L;
+
+	private String customerId;
     private String repoName;
     private String baseRepoURL;
     private String releaseRepoURL;
