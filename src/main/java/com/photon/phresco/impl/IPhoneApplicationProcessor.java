@@ -2,6 +2,7 @@ package com.photon.phresco.impl;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -115,9 +116,9 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo, String featureName) throws PhrescoException {
 		File plistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + PLIST);
 		try {
-		    if (!plistFile.exists()) {
-		        throw new PhrescoException("feature-manifest.plist file does not exist");
-		    }
+//		    if (!plistFile.exists()) {
+//		        throw new PhrescoException("feature-manifest.plist file does not exist");
+//		    }
 			return getConfigFromPlist(plistFile.getPath());
 		} catch (Exception e) {
 			throw new PhrescoException(e);
@@ -170,7 +171,8 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 	        if (plistFile.isFile()) {
 	            config = new Configuration(plistFile.getName(), FEATURES);
 	        } else {
-	            throw new PhrescoException("Plist file does not exists .. ");
+//	            throw new PhrescoException("Plist file does not exists .. ");
+	            return Collections.EMPTY_LIST;
 	        }
 	        
 	        // get all the key and value pairs
@@ -185,8 +187,8 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 	        }
 	        config.setProperties(properties);
 	        configs.add(config);
-        } catch (PhrescoException e) {
-            throw new PhrescoException(e);
+        /*} catch (PhrescoException e) {
+            throw new PhrescoException(e);*/
         } catch (org.apache.commons.configuration.ConfigurationException e) {
             throw new PhrescoException(e);
         }

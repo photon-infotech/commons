@@ -10,22 +10,28 @@ public class SelectedFeature {
 	private String versionID;
 	private String type;
 	private String moduleId;
+	private boolean canConfigure = false;
 	
 	public String getDispName() {
 		return dispName;
 	}
+
 	public void setDispName(String dispName) {
 		this.dispName = dispName;
 	}
+
 	public String getDispValue() {
 		return dispValue;
 	}
+
 	public void setDispValue(String dispValue) {
 		this.dispValue = dispValue;
 	}
+
 	public String getVersionID() {
 		return versionID;
 	}
+
 	public void setVersionID(String versionID) {
 		this.versionID = versionID;
 	}
@@ -33,6 +39,7 @@ public class SelectedFeature {
 	public String getType() {
 		return type;
 	}
+
 	public void setType(String type) {
 		this.type = type;
 	}
@@ -40,11 +47,20 @@ public class SelectedFeature {
 	public String getModuleId() {
 		return moduleId;
 	}
+
 	public void setModuleId(String moduleId) {
 		this.moduleId = moduleId;
 	}
 	
-	@Override
+	public boolean isCanConfigure() {
+        return canConfigure;
+    }
+
+    public void setCanConfigure(boolean canConfigure) {
+        this.canConfigure = canConfigure;
+    }
+
+    @Override
     public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
@@ -54,6 +70,7 @@ public class SelectedFeature {
                 .append("versionID", getVersionID())
                 .append("type", getType())
                 .append("moduleId", getModuleId())
+                .append("canConfigure", isCanConfigure())
                 .toString();
     }
 }
