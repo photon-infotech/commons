@@ -1,12 +1,18 @@
 package com.photon.phresco.impl;
 
+import java.io.File;
 import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
 
 import com.photon.phresco.api.ApplicationProcessor;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.exception.PhrescoException;
+import com.photon.phresco.util.Constants;
+import com.photon.phresco.util.ProjectUtils;
+import com.photon.phresco.util.Utility;
 
 public class BlackberryApplicationProcessor implements ApplicationProcessor {
 
@@ -31,7 +37,12 @@ public class BlackberryApplicationProcessor implements ApplicationProcessor {
 	@Override
 	public void postUpdate(ApplicationInfo appInfo,
 			List<ArtifactGroup> artifactGroup) throws PhrescoException {
-		
+		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
+		ProjectUtils projectUtils = new ProjectUtils();
+		projectUtils.deletePluginExecutionFromPom(pomFile);
+		if(CollectionUtils.isNotEmpty(artifactGroup)) { 
+			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
+		}
 		
 	}
 
