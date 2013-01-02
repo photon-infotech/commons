@@ -1,6 +1,6 @@
 package com.photon.phresco.impl;
 
-import java.io.File;
+import java.io.*;
 import java.util.*;
 
 import javax.xml.parsers.*;
@@ -25,6 +25,8 @@ import com.phresco.pom.util.PomProcessor;
 
 public class DrupalApplicationProcessor implements ApplicationProcessor{
 	
+	private static final String CONFIGURATION_SQL = "configuration.sql";
+	private static final String MYSQL = "mysql";
 	private static final String NAME = "name";
 	private static final String CONFIG_TAG = "configuration";
 	private static final String CONFIG_XPATH_END_TAG = "']";
@@ -220,14 +222,15 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 			String propertyValue = getPropertyValue(appInfo, Constants.POM_PROP_KEY_SQL_FILE_DIR);
 			System.out.println(propertyValue);
 			File featureManifest = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + XML);
-			File featureSqlFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + propertyValue + File.separator + "configuration.sql");
-			storeConfigObj(configs, featureSqlFile, featureManifest);
+			File featureSqlDir = new File(Utility.getProjectHome() + appInfo.getAppDirName() + propertyValue);
+//			File featureSqlFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + propertyValue + File.separator + "configuration.sql");
+			storeConfigObj(configs, featureManifest, featureSqlDir);
 		} catch (Exception e) {
 			throw new PhrescoException(e);
 		}
 	}
 	
-	private void storeConfigObj(List<Configuration> configs, File featureSqlFile, File featureManifestXmlFile) throws PhrescoException { 
+	private void storeConfigObj(List<Configuration> configs, File featureManifestXmlFile, File featureSqlDir) throws PhrescoException { 
 		try {
 			if (!featureManifestXmlFile.isFile()) {
 				throw new PhrescoException("manifest file is not available ");
@@ -243,8 +246,10 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 			XPathFactory factory= XPathFactory.newInstance();
             XPath xPathInstance = factory.newXPath();
             
-			String query = "";
+//			String queryStr = "";
+			List<String> sqlLines = new ArrayList<String>();
 			for (Configuration configuration : configs) {
+				System.out.println(" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ ");
 			    Properties properties = configuration.getProperties();
 			    Enumeration em = properties.keys();
 			    while (em.hasMoreElements()) {
@@ -275,7 +280,7 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 							   Node childNode = childNodes.item(temp1);
 							   if (childNode.getNodeType() == Node.ELEMENT_NODE) {
 								   if (TABLE_NAME.equals(childNode.getNodeName())) {
-							        	tableQuery = tableQuery + DELETE_FROM + childNode.getTextContent() + SEMI_COLON;
+							        	tableQuery = tableQuery + DELETE_FROM + childNode.getTextContent() + SEMI_COLON + "\n";
 							        	tableQuery = tableQuery + INSERT_INTO + childNode.getTextContent() + INSERT_INTO_END_TAG;
 							        } else if (VARIABLE_NAME.equals(childNode.getNodeName())) {
 							        	fieldQuery = VARIABLE_START_TAG + childNode.getTextContent() + VARIABLE_END_TAG;
@@ -291,15 +296,109 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 		            
 				    System.out.println("query  => " + tableQuery + fieldQuery + valueQuery);
 			        constructedQuery = tableQuery + fieldQuery + valueQuery;
-			        query =  query + constructedQuery;
+//			        queryStr =  queryStr + constructedQuery;
+			        
+					List<File> sqlFolders = getSqlFolders(featureSqlDir);
+					for (File sqlFolder : sqlFolders) {
+						replaceSqlBlock(sqlFolder, CONFIGURATION_SQL, key, constructedQuery);
+					}
 			    }
 			}
-			System.out.println("featureSqlFile => " + featureSqlFile);
-			FileUtils.writeStringToFile(featureSqlFile, query);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new PhrescoException(e);
 		}
+	}
+	
+	public List<File> getSqlFolders(File sqlFolder) throws PhrescoException {
+		List<File> sqlFolders = null;
+		try {
+			FilenameFilter mysqlDirectoryFilter = new FilenameFilter() {
+		        public boolean accept(File directory, String fileName) {
+		        	return directory.isDirectory() && MYSQL.equalsIgnoreCase(fileName);
+		        }
+		    };
+			
+			FileFilter directoryFilter = new FileFilter() {
+				public boolean accept(File directory) {
+					return directory.isDirectory();
+				}
+			};
+			
+			File[] dirs = sqlFolder.listFiles(mysqlDirectoryFilter);
+			for (File dir : dirs) {
+				File[] versionFiles = dir.listFiles(directoryFilter);
+				sqlFolders = Arrays.asList(versionFiles);
+			}
+		} catch (Exception e) {
+			throw new PhrescoException(e);
+		}
+		return sqlFolders;
+	}
+	
+	public void replaceSqlBlock(File versionFile, String fileName, String moduleName, String queryString) throws Exception {
+		BufferedReader buff = null;
+		try {
+			File scriptFile = new File(versionFile + File.separator + fileName);
+			StringBuffer sb = new StringBuffer();
+			System.out.println("scriptFile => " + scriptFile);
+			if (scriptFile.isFile()) {
+				// if script file is available need to replace the content
+				buff = new BufferedReader(new FileReader(scriptFile));
+				String readBuff = buff.readLine();
+	            String sectionStarts = "-- '"+ moduleName + "' starts";
+	            String sectionEnds = "-- '"+ moduleName + "' ends";
+	            
+	            while (readBuff != null) {
+	            	sb.append(readBuff);
+	            	sb.append("\n");
+	                readBuff = buff.readLine();
+	            }
+	            
+	            System.out.println("Original text => " + sb.toString());
+	            System.out.println("replace => " + queryString);
+	            int cnt1 = sb.indexOf(sectionStarts);
+	            int cnt2 = sb.indexOf(sectionEnds);
+	            if (cnt1 != -1 || cnt2 != -1) {
+	            	System.out.println("This feature found and can be replaced ");
+	            	sb.replace(cnt1 + sectionStarts.length(), cnt2, queryString);
+	            } else {
+	            	System.out.println("can not find this feature and adding it newly ");
+	            	// if this module is not added already in the file and need to add this config alone
+					sb.append("\n--\n");
+					sb.append("--");
+					sb.append("-- '"+ moduleName + "' starts\n");
+					sb.append(queryString);
+					sb.append("\n");
+					sb.append("--");
+					sb.append("-- '"+ moduleName + "' ends\n");
+					sb.append("--\n");
+	            }
+	            
+			} else {
+            // else construct the format and write
+				// query string buffer
+				sb.append("--\n");
+				sb.append("--");
+				sb.append("-- '"+ moduleName + "' starts\n");
+				sb.append(queryString);
+				sb.append("\n");
+				sb.append("--");
+				sb.append("-- '"+ moduleName + "' ends\n");
+				sb.append("--\n");
+			}
+			
+			System.out.println("writing or updating ======> ");
+			System.out.println("scriptFile ======> " + scriptFile);
+			System.out.println("sb.toString() ======> " + sb.toString());
+            FileUtils.writeStringToFile(scriptFile, sb.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (buff != null) {
+				buff.close();
+			}
+        }
 	}
 	
 	private String getPropertyValue(ApplicationInfo appInfo, String propertyKey) throws PhrescoException { 
