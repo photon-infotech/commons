@@ -1,9 +1,14 @@
 package com.photon.phresco.impl;
 
 import java.io.File;
-import java.util.List;
+import java.util.*;
+
+import javax.xml.parsers.*;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.*;
+import org.apache.commons.lang.*;
+import org.w3c.dom.*;
 
 import com.photon.phresco.api.ApplicationProcessor;
 import com.photon.phresco.commons.model.ApplicationInfo;
@@ -19,6 +24,8 @@ import com.phresco.pom.util.PomProcessor;
 
 public class DrupalApplicationProcessor implements ApplicationProcessor{
 	
+	private static final String XML = "feature-manifest.xml";
+	private static final String FEATURES = "features";
 	@Override
 	public void preCreate(ApplicationInfo appInfo) throws PhrescoException {
 		// TODO Auto-generated method stub
@@ -112,18 +119,160 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 	@Override
 	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo,
 			String featureName) throws PhrescoException {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("prefeature configuration !!!!!!! ");
+		File featureManifest = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + XML);
+		List<Configuration> configs = getConfigObjFromXml(featureManifest.getPath());
+		return configs;
+	}
+	
+	public List<Configuration> getConfigObjFromXml(String featureManifestXml) throws PhrescoException {
+		List<Configuration> configs = new ArrayList<Configuration>();
+		try {
+			System.out.println("featureManifestXml => " + featureManifestXml);
+			File featureManifestXmlFile = new File(featureManifestXml);
+			
+	        Configuration config = null;
+	        if (featureManifestXmlFile.isFile()) {
+	            config = new Configuration(featureManifestXmlFile.getName(), FEATURES);
+	        } else {
+	            return Collections.emptyList();
+	        }
+	        
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(featureManifestXmlFile);
+			doc.getDocumentElement().normalize();
+	 
+			System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+			String rootElemName = doc.getDocumentElement().getAttribute("name");
+			String rootElemDescription = doc.getDocumentElement().getAttribute("description");
+			System.out.println("rootElemName => " + rootElemName);
+			System.out.println("rootElemDescription => " + rootElemDescription);
+			NodeList nList = doc.getElementsByTagName("configuration");
+			System.out.println("-----------------------");
+			Properties properties = new Properties();
+			for (int temp = 0; temp < nList.getLength(); temp++) {
+			   Node nNode = nList.item(temp);
+			   // get attributes
+			   if (nNode.hasAttributes()) {
+				   NamedNodeMap attributes = nNode.getAttributes();
+				   Node name = attributes.getNamedItem("name");
+				   if (name != null) {
+					   System.out.println(name.getNodeValue());
+				   }
+				   Node required = attributes.getNamedItem("required");
+				   if (required != null) {
+					   System.out.println(required.getNodeValue());
+				   }				   
+			   }
+			   
+			   // get config object values
+			   if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+				   NodeList childNodes = nNode.getChildNodes();
+				   // get all the key and value pairs
+				   for (int temp1 = 0; temp1 < childNodes.getLength(); temp1++) {
+					   Node childNode = childNodes.item(temp1);
+					   if (childNode.getNodeType() == Node.ELEMENT_NODE) {
+						   System.out.println("childNode name => " + childNode.getNodeName());
+						   System.out.println("childNode name => " + childNode.getTextContent());
+						   String nodeName = childNode.getNodeName();
+						   String textContent = childNode.getTextContent();
+						   properties.put(nodeName, textContent);
+					   }
+				   }
+			   }
+			}
+	        
+	        config.setProperties(properties);
+	        configs.add(config);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new PhrescoException(e);
+		}
+		return configs;
 	}
 
+	private String getThirdPartyFolder(ApplicationInfo appInfo) throws PhrescoException { 
+		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
+		try {
+			PomProcessor processor = new PomProcessor(pomPath);
+			String property = processor.getProperty(Constants.POM_PROP_KEY_MODULE_SOURCE_DIR);
+			if(StringUtils.isNotEmpty(property)) {
+				return property;
+			}
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		}
+		return "";
+	}
+	
 	@Override
 	public void postFeatureConfiguration(ApplicationInfo appInfo,
 			List<Configuration> configs, String featureName)
 			throws PhrescoException {
-		// TODO Auto-generated method stub
-		
+		System.out.println("post feature configuration !!!!!!! ");
+		try {
+			String propertyValue = getPropertyValue(appInfo, Constants.POM_PROP_KEY_SQL_FILE_DIR);
+			System.out.println(propertyValue);
+			File featureSqlFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + propertyValue + File.separator + "configuration.sql");
+			storeConfigObj(configs, featureSqlFile);
+		} catch (Exception e) {
+			throw new PhrescoException(e);
+		}
 	}
-
+	
+	private void storeConfigObj(List<Configuration> configs, File featureSqlFile) throws PhrescoException { 
+		try {
+			String query = "";
+			for (Configuration configuration : configs) {
+				String tableQuery = "";
+				String fieldQuery = "";
+				String valueQuery = "";
+				String constructedQuery = "";
+			    Properties properties = configuration.getProperties();
+			    Enumeration em = properties.keys();
+			    while (em.hasMoreElements()) {
+			        String key = (String) em.nextElement();
+			        Object value = properties.get(key);
+			        System.out.println("Key => " + key);
+			        System.out.println("value => " + value);
+			        if ("tableName".equals(key)) {
+			        	tableQuery = tableQuery + " delete from " + value.toString() + ";";
+			        	tableQuery = tableQuery + " insert into `" + value.toString() + "`";
+			        } else if ("variableName".equals(key)) {
+			        	fieldQuery = " (`" + value.toString() + "`)";
+			        } else if ("defaultValue".equals(key)) {
+			        	valueQuery = " values ('"+ value.toString() + "');";
+			        } else {
+			        	// other key value pairs ....
+			        }
+			    }
+			    System.out.println("query  => " + tableQuery + fieldQuery + valueQuery);
+		        constructedQuery = tableQuery + fieldQuery + valueQuery;
+		        query =  query + constructedQuery;
+			}
+			System.out.println("featureSqlFile => " + featureSqlFile);
+			FileUtils.writeStringToFile(featureSqlFile, query);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new PhrescoException(e);
+		}
+	}
+	
+	private String getPropertyValue(ApplicationInfo appInfo, String propertyKey) throws PhrescoException { 
+		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
+		try {
+			PomProcessor processor = new PomProcessor(pomPath);
+			String property = processor.getProperty(propertyKey);
+			if(StringUtils.isNotEmpty(property)) {
+				return property;
+			}
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		}
+		return "";
+	}
+	
 	@Override
 	public void preBuild(ApplicationInfo appInfo) throws PhrescoException {
 		// TODO Auto-generated method stub
