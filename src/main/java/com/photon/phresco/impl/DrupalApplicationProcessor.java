@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.*;
 
 import javax.xml.parsers.*;
+import javax.xml.xpath.*;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.*;
@@ -24,6 +25,21 @@ import com.phresco.pom.util.PomProcessor;
 
 public class DrupalApplicationProcessor implements ApplicationProcessor{
 	
+	private static final String NAME = "name";
+	private static final String CONFIG_TAG = "configuration";
+	private static final String CONFIG_XPATH_END_TAG = "']";
+	private static final String CONFIG_XPATH = "//configurations/configuration[@name='";
+	private static final String SEMI_COLON = ";";
+	private static final String INSERT_INTO_END_TAG = "";
+	private static final String VARIABLE_END_TAG = "`)";
+	private static final String VARIABLE_START_TAG = " (`";
+	private static final String VALUES_END_TAG = "');";
+	private static final String VALUES_START_TAG = " values ('";
+	private static final String INSERT_INTO = " insert into ";
+	private static final String DELETE_FROM = " delete from ";
+	private static final String DEFAULT_VALUE = "defaultValue";
+	private static final String VARIABLE_NAME = "variableName";
+	private static final String TABLE_NAME = "tableName";
 	private static final String XML = "feature-manifest.xml";
 	private static final String FEATURES = "features";
 	@Override
@@ -119,7 +135,6 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 	@Override
 	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo,
 			String featureName) throws PhrescoException {
-		System.out.println("prefeature configuration !!!!!!! ");
 		File featureManifest = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + XML);
 		List<Configuration> configs = getConfigObjFromXml(featureManifest.getPath());
 		return configs;
@@ -128,7 +143,6 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 	public List<Configuration> getConfigObjFromXml(String featureManifestXml) throws PhrescoException {
 		List<Configuration> configs = new ArrayList<Configuration>();
 		try {
-			System.out.println("featureManifestXml => " + featureManifestXml);
 			File featureManifestXmlFile = new File(featureManifestXml);
 			
 	        Configuration config = null;
@@ -143,42 +157,20 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 			Document doc = dBuilder.parse(featureManifestXmlFile);
 			doc.getDocumentElement().normalize();
 	 
-			System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-			String rootElemName = doc.getDocumentElement().getAttribute("name");
-			String rootElemDescription = doc.getDocumentElement().getAttribute("description");
-			System.out.println("rootElemName => " + rootElemName);
-			System.out.println("rootElemDescription => " + rootElemDescription);
-			NodeList nList = doc.getElementsByTagName("configuration");
-			System.out.println("-----------------------");
+			NodeList nList = doc.getElementsByTagName(CONFIG_TAG);
 			Properties properties = new Properties();
 			for (int temp = 0; temp < nList.getLength(); temp++) {
 			   Node nNode = nList.item(temp);
 			   // get attributes
 			   if (nNode.hasAttributes()) {
 				   NamedNodeMap attributes = nNode.getAttributes();
-				   Node name = attributes.getNamedItem("name");
+				   Node name = attributes.getNamedItem(NAME);
 				   if (name != null) {
-					   System.out.println(name.getNodeValue());
-				   }
-				   Node required = attributes.getNamedItem("required");
-				   if (required != null) {
-					   System.out.println(required.getNodeValue());
-				   }				   
-			   }
-			   
-			   // get config object values
-			   if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-				   NodeList childNodes = nNode.getChildNodes();
-				   // get all the key and value pairs
-				   for (int temp1 = 0; temp1 < childNodes.getLength(); temp1++) {
-					   Node childNode = childNodes.item(temp1);
-					   if (childNode.getNodeType() == Node.ELEMENT_NODE) {
-						   System.out.println("childNode name => " + childNode.getNodeName());
-						   System.out.println("childNode name => " + childNode.getTextContent());
-						   String nodeName = childNode.getNodeName();
-						   String textContent = childNode.getTextContent();
-						   properties.put(nodeName, textContent);
-					   }
+					   System.out.println("name.getNodeValue() => " + name.getNodeValue());
+					   Element eElement = (Element) nNode;
+					   String defaultValue = getTagValue(DEFAULT_VALUE, eElement);
+					   System.out.println("defaultValue => " + defaultValue);
+					   properties.put(name.getNodeValue(), defaultValue);
 				   }
 			   }
 			}
@@ -192,6 +184,19 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 		return configs;
 	}
 
+	private static String getTagValue(String sTag, Element eElement) {
+		System.out.println("sTag => " + sTag);
+		String tagValue = "";
+		NodeList elementsByTagName = eElement.getElementsByTagName(sTag);
+		System.out.println("elementsByTagName => " + elementsByTagName);
+		if (elementsByTagName != null) {
+			NodeList nlList = eElement.getElementsByTagName(sTag).item(0).getChildNodes();
+		    Node nValue = (Node) nlList.item(0);
+		    tagValue = nValue.getNodeValue();
+		}
+		return tagValue;
+	  }
+	
 	private String getThirdPartyFolder(ApplicationInfo appInfo) throws PhrescoException { 
 		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 		try {
@@ -214,42 +219,80 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 		try {
 			String propertyValue = getPropertyValue(appInfo, Constants.POM_PROP_KEY_SQL_FILE_DIR);
 			System.out.println(propertyValue);
+			File featureManifest = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + XML);
 			File featureSqlFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + propertyValue + File.separator + "configuration.sql");
-			storeConfigObj(configs, featureSqlFile);
+			storeConfigObj(configs, featureSqlFile, featureManifest);
 		} catch (Exception e) {
 			throw new PhrescoException(e);
 		}
 	}
 	
-	private void storeConfigObj(List<Configuration> configs, File featureSqlFile) throws PhrescoException { 
+	private void storeConfigObj(List<Configuration> configs, File featureSqlFile, File featureManifestXmlFile) throws PhrescoException { 
 		try {
+			if (!featureManifestXmlFile.isFile()) {
+				throw new PhrescoException("manifest file is not available ");
+			}
+			
+			// Document
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(featureManifestXmlFile);
+			doc.getDocumentElement().normalize();
+			
+			// xpath
+			XPathFactory factory= XPathFactory.newInstance();
+            XPath xPathInstance = factory.newXPath();
+            
 			String query = "";
 			for (Configuration configuration : configs) {
-				String tableQuery = "";
-				String fieldQuery = "";
-				String valueQuery = "";
-				String constructedQuery = "";
 			    Properties properties = configuration.getProperties();
 			    Enumeration em = properties.keys();
 			    while (em.hasMoreElements()) {
+					String tableQuery = "";
+					String fieldQuery = "";
+					String valueQuery = "";
+					String constructedQuery = "";
+			    	
 			        String key = (String) em.nextElement();
-			        Object value = properties.get(key);
-			        System.out.println("Key => " + key);
-			        System.out.println("value => " + value);
-			        if ("tableName".equals(key)) {
-			        	tableQuery = tableQuery + " delete from " + value.toString() + ";";
-			        	tableQuery = tableQuery + " insert into `" + value.toString() + "`";
-			        } else if ("variableName".equals(key)) {
-			        	fieldQuery = " (`" + value.toString() + "`)";
-			        } else if ("defaultValue".equals(key)) {
-			        	valueQuery = " values ('"+ value.toString() + "');";
-			        } else {
-			        	// other key value pairs ....
-			        }
+			        Object object = properties.get(key);
+			        
+			        System.out.println("post feature config key => " + key);
+			        // get config object for this key
+			        String xPathQuery= CONFIG_XPATH + key + CONFIG_XPATH_END_TAG;			        
+			        XPathExpression xPathExpression = xPathInstance.compile(xPathQuery);
+			        //evalute the xpath query in the entire xml document and define the return type
+		            Object results = xPathExpression.evaluate(doc, XPathConstants.NODESET);
+		            NodeList nList = (NodeList) results;
+		            
+		            // config objects
+		            for (int i = 0; i < nList.getLength(); i++) {
+		                Node nNode = nList.item(i);
+		                // get config object values
+		 			   if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+		 				  // getting child nodes to construct query
+		 				  NodeList childNodes = nNode.getChildNodes();
+						   for (int temp1 = 0; temp1 < childNodes.getLength(); temp1++) {
+							   Node childNode = childNodes.item(temp1);
+							   if (childNode.getNodeType() == Node.ELEMENT_NODE) {
+								   if (TABLE_NAME.equals(childNode.getNodeName())) {
+							        	tableQuery = tableQuery + DELETE_FROM + childNode.getTextContent() + SEMI_COLON;
+							        	tableQuery = tableQuery + INSERT_INTO + childNode.getTextContent() + INSERT_INTO_END_TAG;
+							        } else if (VARIABLE_NAME.equals(childNode.getNodeName())) {
+							        	fieldQuery = VARIABLE_START_TAG + childNode.getTextContent() + VARIABLE_END_TAG;
+							        } else if (DEFAULT_VALUE.equals(childNode.getNodeName())) {
+							        	valueQuery = VALUES_START_TAG + object + VALUES_END_TAG;
+							        }
+								   System.out.println("childNode name => " + childNode.getNodeName());
+								   System.out.println("childNode name => " + childNode.getTextContent());
+							   }
+						   }
+		 			   }
+		            }
+		            
+				    System.out.println("query  => " + tableQuery + fieldQuery + valueQuery);
+			        constructedQuery = tableQuery + fieldQuery + valueQuery;
+			        query =  query + constructedQuery;
 			    }
-			    System.out.println("query  => " + tableQuery + fieldQuery + valueQuery);
-		        constructedQuery = tableQuery + fieldQuery + valueQuery;
-		        query =  query + constructedQuery;
 			}
 			System.out.println("featureSqlFile => " + featureSqlFile);
 			FileUtils.writeStringToFile(featureSqlFile, query);
