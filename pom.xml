@@ -42,6 +42,7 @@
 		<maven-aether-provider.version>3.0.3</maven-aether-provider.version>
 		<commons-collections.version>3.2.1</commons-collections.version>
 		<commons-configuration.version>1.8</commons-configuration.version>
+		<jdom.version>1.0</jdom.version>
 	 </properties>
 	
      <distributionManagement>
@@ -218,6 +219,13 @@
 			<artifactId>commons-configuration</artifactId>
 			<version>${commons-configuration.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>${jdom.version}</version>
+		</dependency>
+            
 
     </dependencies>
     
