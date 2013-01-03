@@ -196,37 +196,41 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 	        File pluginInfoFile = new File(baseDir + File.separator + Constants.PACKAGE_INFO_FILE);
 	        MojoProcessor mojoProcessor = new MojoProcessor(pluginInfoFile);
 	        Parameter defaultThemeParameter = mojoProcessor.getParameter(Constants.MVN_GOAL_PACKAGE, Constants.MOJO_KEY_DEFAULT_THEME);
-	        StringBuilder json = new StringBuilder();
 	        if (defaultThemeParameter != null) {
-	            json.append("{\"theme\"")
-	            .append(":")
-	            .append("{")
-	            .append("\"deafultTheme\"")
-	            .append(":")
-	            .append("\""+defaultThemeParameter.getValue()+"\"")
-	            .append("}}");
+	            StringBuilder json = new StringBuilder();
+	            if (defaultThemeParameter != null) {
+	                json.append("{\"theme\"")
+	                .append(":")
+	                .append("{")
+	                .append("\"deafultTheme\"")
+	                .append(":")
+	                .append("\""+defaultThemeParameter.getValue()+"\"")
+	                .append("}}");
+	            }
+	            StringBuilder sb = new StringBuilder(baseDir)
+	            .append(File.separator)
+	            .append("src")
+	            .append(File.separator)
+	            .append("config.json");
+	            storeConfigObjAsJson(json.toString(), sb.toString());
 	        }
-	        StringBuilder sb = new StringBuilder(baseDir)
-	        .append(File.separator)
-	        .append("src")
-	        .append(File.separator)
-	        .append("config.json");
-	        storeConfigObjAsJson(json.toString(), sb.toString());
 	        
-	        StringBuilder warConfigFilePath = new StringBuilder(baseDir)
-	        .append(File.separator)
-	        .append(".phresco")
-	        .append(File.separator)
-	        .append("war-config.xml");
-	        File warConfigFile = new File(warConfigFilePath.toString());
-	        WarConfigProcessor warConfigProcessor = new WarConfigProcessor(warConfigFile);
-	        List<String> includes = new ArrayList<String>();
 	        Parameter themesParameter = mojoProcessor.getParameter(Constants.MVN_GOAL_PACKAGE, Constants.MOJO_KEY_THEMES);
-	        String value = themesParameter.getValue();
-	        if (StringUtils.isNotEmpty(value)) {
-	            includes.addAll(Arrays.asList(value.split(","))); 
+	        if (themesParameter != null) {
+	            StringBuilder warConfigFilePath = new StringBuilder(baseDir)
+	            .append(File.separator)
+	            .append(".phresco")
+	            .append(File.separator)
+	            .append("war-config.xml");
+	            File warConfigFile = new File(warConfigFilePath.toString());
+	            WarConfigProcessor warConfigProcessor = new WarConfigProcessor(warConfigFile);
+	            List<String> includes = new ArrayList<String>();
+	            String value = themesParameter.getValue();
+	            if (StringUtils.isNotEmpty(value)) {
+	                includes.addAll(Arrays.asList(value.split(","))); 
+	            }
+	            setFileSetIncludes(warConfigProcessor, "themesIncludeFile", includes);
 	        }
-            setFileSetIncludes(warConfigProcessor, "themesIncludeFile", includes);
         } catch (PhrescoException e) {
             throw new PhrescoException(e);
         } catch (JAXBException e) {
