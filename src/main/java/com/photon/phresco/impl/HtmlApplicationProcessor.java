@@ -4,15 +4,18 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
+import javax.xml.bind.JAXBException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -27,6 +30,11 @@ import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.commons.model.ArtifactGroup.Type;
 import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.exception.PhrescoException;
+import com.photon.phresco.plugins.model.Assembly.FileSets.FileSet;
+import com.photon.phresco.plugins.model.Assembly.FileSets.FileSet.Includes;
+import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter;
+import com.photon.phresco.plugins.util.MojoProcessor;
+import com.photon.phresco.plugins.util.WarConfigProcessor;
 import com.photon.phresco.util.Constants;
 import com.photon.phresco.util.ProjectUtils;
 import com.photon.phresco.util.Utility;
@@ -88,7 +96,7 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo,
 			String featureName) throws PhrescoException {
 		try {
-			File fXmlFile = new File("C:\\Documents and Settings\\suresh_ma\\Desktop\\ffsample.xml");
+			File fXmlFile = new File("C:\\Documents and Settings\\loheswaran_g\\Desktop\\sample.xml");
 			if(!fXmlFile.exists()) {
 				return null;
 			}
@@ -114,7 +122,7 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element element = (Element) nNode;
 				NodeList childNodes = element.getChildNodes();
-				for (int child	 = 0; child	 < childNodes.getLength() ; child++) {
+				for (int child = 0; child	< childNodes.getLength(); child++) {
 					Node ChildNode = childNodes.item(child);
 					if (ChildNode.getNodeType() == Node.ELEMENT_NODE) {
 						Element childElement = (Element) ChildNode;
@@ -122,7 +130,7 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 						Configuration configuration = new Configuration();
 						Properties properties = new Properties();
 						String configType = childElement.getNodeName();
-						for (int subChild	 = 0; subChild	 < subChildNodes.getLength() ; subChild++) {
+						for (int subChild = 0; subChild	< subChildNodes.getLength(); subChild++) {
 							Node subChildNode = subChildNodes.item(subChild);
 							if (subChildNode.getNodeType() == Node.ELEMENT_NODE) {
 								Element subChildElement = (Element) subChildNode;
@@ -146,26 +154,32 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 	}
 
 	@Override
-	public void postFeatureConfiguration(ApplicationInfo appInfo,
-			List<Configuration> configs, String featureName)
-	throws PhrescoException {
-		String jsonPath = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + getFeaturePath(appInfo) + File.separator + featureName + File.separator + "config/";
-		Gson gson = new Gson();
-		java.lang.reflect.Type jsonType = new TypeToken<Collection<Configuration>>(){}.getType();
-		String json = gson.toJson(configs, jsonType);
-		if(new File(jsonPath).exists()) {
-			try {
-				//write converted json data to a file named "info.json"
-				FileWriter writer = new FileWriter(jsonPath + "config.json");
-				writer.write(json);
-				writer.close();
-			} catch (IOException e) {
-				throw new PhrescoException(e);
-			}
-		}
+	public void postFeatureConfiguration(ApplicationInfo appInfo, List<Configuration> configs, String featureName)
+	    throws PhrescoException {
+	    StringBuilder sb = new StringBuilder(Utility.getProjectHome())
+	    .append(appInfo.getAppDirName())
+	    .append(File.separator)
+	    .append(getFeaturePath(appInfo))
+	    .append(File.separator)
+	    .append(featureName)
+	    .append(File.separator)
+	    .append("config/");
+	    Gson gson = new Gson();
+	    java.lang.reflect.Type jsonType = new TypeToken<Collection<Configuration>>(){}.getType();
+	    String json = gson.toJson(configs, jsonType);
+	    if(new File(sb.toString()).exists()) {
+	        try {
+	            //write converted json data to a file named "info.json"
+	            FileWriter writer = new FileWriter(sb.toString() + "config.json");
+	            writer.write(json);
+	            writer.close();
+	        } catch (IOException e) {
+	            throw new PhrescoException(e);
+	        }
+	    }
 	}
 	
-	private String getFeaturePath(ApplicationInfo appInfo) throws PhrescoException { 
+	private String getFeaturePath(ApplicationInfo appInfo) throws PhrescoException {
 		String pomPath = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME;
 		try {
 			PomProcessor processor = new PomProcessor(new File(pomPath));
@@ -177,13 +191,93 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 
 	@Override
 	public void preBuild(ApplicationInfo appInfo) throws PhrescoException {
-		// TODO Auto-generated method stub
-		
+	    try {
+	        String baseDir = Utility.getProjectHome() + appInfo.getAppDirName();    
+	        File pluginInfoFile = new File(baseDir + File.separator + Constants.PACKAGE_INFO_FILE);
+	        MojoProcessor mojoProcessor = new MojoProcessor(pluginInfoFile);
+	        Parameter defaultThemeParameter = mojoProcessor.getParameter(Constants.MVN_GOAL_PACKAGE, Constants.MOJO_KEY_DEFAULT_THEME);
+	        StringBuilder json = new StringBuilder();
+	        if (defaultThemeParameter != null) {
+	            json.append("{\"theme\"")
+	            .append(":")
+	            .append("{")
+	            .append("\"deafultTheme\"")
+	            .append(":")
+	            .append("\""+defaultThemeParameter.getValue()+"\"")
+	            .append("}}");
+	        }
+	        StringBuilder sb = new StringBuilder(baseDir)
+	        .append(File.separator)
+	        .append("src")
+	        .append(File.separator)
+	        .append("config.json");
+	        storeConfigObjAsJson(json.toString(), sb.toString());
+	        
+	        StringBuilder warConfigFilePath = new StringBuilder(baseDir)
+	        .append(File.separator)
+	        .append(".phresco")
+	        .append(File.separator)
+	        .append("war-config.xml");
+	        File warConfigFile = new File(warConfigFilePath.toString());
+	        WarConfigProcessor warConfigProcessor = new WarConfigProcessor(warConfigFile);
+	        List<String> includes = new ArrayList<String>();
+	        Parameter themesParameter = mojoProcessor.getParameter(Constants.MVN_GOAL_PACKAGE, Constants.MOJO_KEY_THEMES);
+	        String value = themesParameter.getValue();
+	        if (StringUtils.isNotEmpty(value)) {
+	            includes.addAll(Arrays.asList(value.split(","))); 
+	        }
+            setFileSetIncludes(warConfigProcessor, "themesIncludeFile", includes);
+        } catch (PhrescoException e) {
+            throw new PhrescoException(e);
+        } catch (JAXBException e) {
+            throw new PhrescoException(e);
+        } catch (IOException e) {
+            throw new PhrescoException(e);
+        }
 	}
+	
+	private void setFileSetIncludes(WarConfigProcessor warConfigProcessor, String fileSetId, List<String> toBeIncluded) throws PhrescoException {
+        try {
+            FileSet fileSet = warConfigProcessor.getFileSet(fileSetId);
+            if (fileSet == null) {
+                fileSet = new FileSet();
+                fileSet.setDirectory("src/main/webapp/themes");
+                fileSet.setOutputDirectory("src/main/webapp/themes");
+                fileSet.setId(fileSetId);
+            }
+            
+            if (fileSet.getIncludes() == null) {
+                Includes includes = new Includes();
+                fileSet.setIncludes(includes);
+            }
+            
+            if (CollectionUtils.isNotEmpty(toBeIncluded)) {
+                for (String include : toBeIncluded) {
+                    fileSet.setIncludes(new Includes());
+                    fileSet.getIncludes().getInclude().add(include);
+                }
+            }
+            warConfigProcessor.createFileSet(fileSet);
+            warConfigProcessor.save();
+        } catch (JAXBException e) {
+            throw new PhrescoException();
+        } 
+    }
 	
 	@Override
 	public void postBuild(ApplicationInfo appInfo) throws PhrescoException {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	private void storeConfigObjAsJson(String json, String jsonFile) throws PhrescoException {
+	    try {
+	        Gson gson = new Gson();
+	        FileWriter writer = new FileWriter(jsonFile);
+	        writer.write(json);
+	        writer.close();
+	    } catch (Exception e) {
+	        throw new PhrescoException(e);
+	    }
 	}
 }

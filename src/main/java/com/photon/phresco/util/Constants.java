@@ -93,8 +93,11 @@ public interface Constants {
     String AUTH_TOKEN = "auth_token";
     
     // Constants for Info File
-    String MOJO_KEY_ENVIRONMENT_NAME 	= "environmentName";
-    String MOJO_KEY_THEME				= "theme";
+    String MOJO_KEY_ENVIRONMENT_NAME = "environmentName";
+    String MOJO_KEY_THEME = "theme";
+    String MOJO_KEY_DEFAULT_THEME = "deafultTheme";
+    String MOJO_KEY_THEMES = "themes";
+    
     // Constants for Server
     String SETTINGS_TEMPLATE_SERVER = "Server";
     String SETTINGS_TEMPLATE_BROWSER = "Browser";
