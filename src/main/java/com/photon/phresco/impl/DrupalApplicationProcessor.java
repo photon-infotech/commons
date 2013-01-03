@@ -25,20 +25,31 @@ import com.phresco.pom.util.PomProcessor;
 
 public class DrupalApplicationProcessor implements ApplicationProcessor{
 	
+	private static final String END_MODULE_END_TAG = "' ends";
+	private static final String START_MODULE_END_TAG = "' starts";
+	private static final String MODULE_START_TAG = "-- '";
+	private static final String DOUBLE_HYPHEN = "--";
+	private static final String VALUE_FIELD = "value";
+	private static final String NAME_FIELD = "name";
+	private static final String SQL_VARIABLE_SEP = "`,`";
+	private static final String SQL_VALUE_SEP = "','";
+	private static final String SINGLE_QUOTE = "'";
+	private static final String LINE_BREAK = "\n";
+	private static final String EQUAL = "=";
 	private static final String CONFIGURATION_SQL = "configuration.sql";
 	private static final String MYSQL = "mysql";
-	private static final String NAME = "name";
+	private static final String NAME = NAME_FIELD;
 	private static final String CONFIG_TAG = "configuration";
 	private static final String CONFIG_XPATH_END_TAG = "']";
 	private static final String CONFIG_XPATH = "//configurations/configuration[@name='";
 	private static final String SEMI_COLON = ";";
-	private static final String INSERT_INTO_END_TAG = "";
 	private static final String VARIABLE_END_TAG = "`)";
 	private static final String VARIABLE_START_TAG = " (`";
 	private static final String VALUES_END_TAG = "');";
-	private static final String VALUES_START_TAG = " values ('";
-	private static final String INSERT_INTO = " insert into ";
-	private static final String DELETE_FROM = " delete from ";
+	private static final String VALUES_START_TAG = " VALUES ('";
+	private static final String INSERT_INTO = "INSERT INTO ";
+	private static final String DELETE_FROM = "DELETE FROM ";
+	private static final String WHERE = " WHERE ";
 	private static final String DEFAULT_VALUE = "defaultValue";
 	private static final String VARIABLE_NAME = "variableName";
 	private static final String TABLE_NAME = "tableName";
@@ -168,10 +179,8 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 				   NamedNodeMap attributes = nNode.getAttributes();
 				   Node name = attributes.getNamedItem(NAME);
 				   if (name != null) {
-					   System.out.println("name.getNodeValue() => " + name.getNodeValue());
 					   Element eElement = (Element) nNode;
 					   String defaultValue = getTagValue(DEFAULT_VALUE, eElement);
-					   System.out.println("defaultValue => " + defaultValue);
 					   properties.put(name.getNodeValue(), defaultValue);
 				   }
 			   }
@@ -187,10 +196,8 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 	}
 
 	private static String getTagValue(String sTag, Element eElement) {
-		System.out.println("sTag => " + sTag);
 		String tagValue = "";
 		NodeList elementsByTagName = eElement.getElementsByTagName(sTag);
-		System.out.println("elementsByTagName => " + elementsByTagName);
 		if (elementsByTagName != null) {
 			NodeList nlList = eElement.getElementsByTagName(sTag).item(0).getChildNodes();
 		    Node nValue = (Node) nlList.item(0);
@@ -217,13 +224,10 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 	public void postFeatureConfiguration(ApplicationInfo appInfo,
 			List<Configuration> configs, String featureName)
 			throws PhrescoException {
-		System.out.println("post feature configuration !!!!!!! ");
 		try {
 			String propertyValue = getPropertyValue(appInfo, Constants.POM_PROP_KEY_SQL_FILE_DIR);
-			System.out.println(propertyValue);
 			File featureManifest = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + XML);
 			File featureSqlDir = new File(Utility.getProjectHome() + appInfo.getAppDirName() + propertyValue);
-//			File featureSqlFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + propertyValue + File.separator + "configuration.sql");
 			storeConfigObj(configs, featureManifest, featureSqlDir);
 		} catch (Exception e) {
 			throw new PhrescoException(e);
@@ -246,22 +250,23 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 			XPathFactory factory= XPathFactory.newInstance();
             XPath xPathInstance = factory.newXPath();
             
-//			String queryStr = "";
-			List<String> sqlLines = new ArrayList<String>();
 			for (Configuration configuration : configs) {
-				System.out.println(" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ ");
 			    Properties properties = configuration.getProperties();
 			    Enumeration em = properties.keys();
 			    while (em.hasMoreElements()) {
-					String tableQuery = "";
-					String fieldQuery = "";
-					String valueQuery = "";
+					String insertQuery = "";
+					String insertFieldQuery = "";
+
+					String deleteQuery = "";
+					String deleteFieldQuery = "";
+					
+					String variableName = "";
+					String dafaultValue = "";
+					
 					String constructedQuery = "";
-			    	
 			        String key = (String) em.nextElement();
 			        Object object = properties.get(key);
 			        
-			        System.out.println("post feature config key => " + key);
 			        // get config object for this key
 			        String xPathQuery= CONFIG_XPATH + key + CONFIG_XPATH_END_TAG;			        
 			        XPathExpression xPathExpression = xPathInstance.compile(xPathQuery);
@@ -280,23 +285,21 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 							   Node childNode = childNodes.item(temp1);
 							   if (childNode.getNodeType() == Node.ELEMENT_NODE) {
 								   if (TABLE_NAME.equals(childNode.getNodeName())) {
-							        	tableQuery = tableQuery + DELETE_FROM + childNode.getTextContent() + SEMI_COLON + "\n";
-							        	tableQuery = tableQuery + INSERT_INTO + childNode.getTextContent() + INSERT_INTO_END_TAG;
+									   deleteQuery = deleteQuery + DELETE_FROM + childNode.getTextContent() + WHERE + NAME_FIELD + EQUAL;
+									   insertQuery = insertQuery + INSERT_INTO + childNode.getTextContent() + VARIABLE_START_TAG + NAME_FIELD + SQL_VARIABLE_SEP + VALUE_FIELD + VARIABLE_END_TAG + VALUES_START_TAG;
 							        } else if (VARIABLE_NAME.equals(childNode.getNodeName())) {
-							        	fieldQuery = VARIABLE_START_TAG + childNode.getTextContent() + VARIABLE_END_TAG;
+							        	variableName = childNode.getTextContent();
+							        	deleteFieldQuery = SINGLE_QUOTE + childNode.getTextContent() + SINGLE_QUOTE + SEMI_COLON + LINE_BREAK;
 							        } else if (DEFAULT_VALUE.equals(childNode.getNodeName())) {
-							        	valueQuery = VALUES_START_TAG + object + VALUES_END_TAG;
+							        	dafaultValue = object.toString();
 							        }
-								   System.out.println("childNode name => " + childNode.getNodeName());
-								   System.out.println("childNode name => " + childNode.getTextContent());
+								   	insertFieldQuery = variableName + SQL_VALUE_SEP + dafaultValue + VALUES_END_TAG;
 							   }
 						   }
 		 			   }
 		            }
 		            
-				    System.out.println("query  => " + tableQuery + fieldQuery + valueQuery);
-			        constructedQuery = tableQuery + fieldQuery + valueQuery;
-//			        queryStr =  queryStr + constructedQuery;
+			        constructedQuery = deleteQuery + deleteFieldQuery + insertQuery + insertFieldQuery ;
 			        
 					List<File> sqlFolders = getSqlFolders(featureSqlDir);
 					for (File sqlFolder : sqlFolders) {
@@ -336,64 +339,52 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 		return sqlFolders;
 	}
 	
-	public void replaceSqlBlock(File versionFile, String fileName, String moduleName, String queryString) throws Exception {
+	public void replaceSqlBlock(File versionFile, String fileName, String moduleName, String queryString) throws PhrescoException, IOException {
 		BufferedReader buff = null;
 		try {
 			File scriptFile = new File(versionFile + File.separator + fileName);
 			StringBuffer sb = new StringBuffer();
-			System.out.println("scriptFile => " + scriptFile);
 			if (scriptFile.isFile()) {
 				// if script file is available need to replace the content
 				buff = new BufferedReader(new FileReader(scriptFile));
 				String readBuff = buff.readLine();
-	            String sectionStarts = "-- '"+ moduleName + "' starts";
-	            String sectionEnds = "-- '"+ moduleName + "' ends";
+	            String sectionStarts = MODULE_START_TAG + moduleName + START_MODULE_END_TAG;
+	            String sectionEnds = MODULE_START_TAG + moduleName + END_MODULE_END_TAG;
 	            
 	            while (readBuff != null) {
 	            	sb.append(readBuff);
-	            	sb.append("\n");
+	            	sb.append(LINE_BREAK);
 	                readBuff = buff.readLine();
 	            }
 	            
-	            System.out.println("Original text => " + sb.toString());
-	            System.out.println("replace => " + queryString);
 	            int cnt1 = sb.indexOf(sectionStarts);
 	            int cnt2 = sb.indexOf(sectionEnds);
 	            if (cnt1 != -1 || cnt2 != -1) {
-	            	System.out.println("This feature found and can be replaced ");
-	            	sb.replace(cnt1 + sectionStarts.length(), cnt2, queryString);
+	            	sb.replace(cnt1 + sectionStarts.length(), cnt2, LINE_BREAK + queryString + LINE_BREAK);
 	            } else {
-	            	System.out.println("can not find this feature and adding it newly ");
 	            	// if this module is not added already in the file and need to add this config alone
-					sb.append("\n--\n");
-					sb.append("--");
-					sb.append("-- '"+ moduleName + "' starts\n");
+					sb.append(LINE_BREAK + DOUBLE_HYPHEN + LINE_BREAK);
+					sb.append(MODULE_START_TAG + moduleName + START_MODULE_END_TAG + LINE_BREAK);
 					sb.append(queryString);
-					sb.append("\n");
-					sb.append("--");
-					sb.append("-- '"+ moduleName + "' ends\n");
-					sb.append("--\n");
+					sb.append(LINE_BREAK);
+					sb.append(MODULE_START_TAG + moduleName + END_MODULE_END_TAG + LINE_BREAK);
+					sb.append(DOUBLE_HYPHEN + LINE_BREAK);
 	            }
 	            
 			} else {
             // else construct the format and write
 				// query string buffer
-				sb.append("--\n");
-				sb.append("--");
-				sb.append("-- '"+ moduleName + "' starts\n");
+				sb.append(DOUBLE_HYPHEN + LINE_BREAK);
+				sb.append(MODULE_START_TAG + moduleName + START_MODULE_END_TAG + LINE_BREAK);
 				sb.append(queryString);
-				sb.append("\n");
-				sb.append("--");
-				sb.append("-- '"+ moduleName + "' ends\n");
-				sb.append("--\n");
+				sb.append(LINE_BREAK);
+				sb.append(MODULE_START_TAG + moduleName + END_MODULE_END_TAG + LINE_BREAK);
+				sb.append(DOUBLE_HYPHEN + LINE_BREAK);
 			}
 			
-			System.out.println("writing or updating ======> ");
-			System.out.println("scriptFile ======> " + scriptFile);
-			System.out.println("sb.toString() ======> " + sb.toString());
             FileUtils.writeStringToFile(scriptFile, sb.toString());
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new PhrescoException(e);
 		} finally {
 			if (buff != null) {
 				buff.close();
