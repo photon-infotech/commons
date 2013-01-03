@@ -384,7 +384,7 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 			} else {
             // else construct the format and write
 				// query string buffer
-				sb.append("CREATE TABLE IF NOT EXISTS `variable` (`name` varchar(128) NOT NULL DEFAULT '' COMMENT 'The name of the variable.', `value` longblob NOT NULL COMMENT 'The value of the variable.', PRIMARY KEY (`name`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Named variable/value pairs created by Drupal core or any...';)" + LINE_BREAK);
+				sb.append("CREATE TABLE IF NOT EXISTS `variable` (`name` varchar(128) NOT NULL DEFAULT '' COMMENT 'The name of the variable.', `value` longblob NOT NULL COMMENT 'The value of the variable.', PRIMARY KEY (`name`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Named variable/value pairs created by Drupal core or any...';" + LINE_BREAK);
 				sb.append(DOUBLE_HYPHEN + LINE_BREAK);
 				sb.append(MODULE_START_TAG + moduleName + START_MODULE_END_TAG + LINE_BREAK);
 				sb.append(queryString);
