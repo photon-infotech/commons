@@ -495,6 +495,16 @@ public class ProjectUtils implements Constants {
 		}
 	}
 	
+	public BufferedReader ExtractFeature(ApplicationInfo appInfo) throws PhrescoException {
+		BufferedReader breader = null;
+		StringBuilder sb = new StringBuilder();
+		sb.append("mvn");
+		sb.append(" ");
+		sb.append("validate");
+		breader = Utility.executeCommand(sb.toString(), Utility.getProjectHome() + appInfo.getAppDirName());
+		return breader;
+	}
+
 }
 
 class PhrescoFileNameFilter implements FilenameFilter {

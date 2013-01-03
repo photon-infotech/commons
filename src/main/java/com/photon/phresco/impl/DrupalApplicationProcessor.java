@@ -85,6 +85,17 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
 			excludeModule(appInfo, artifactGroups);
 		}
+		BufferedReader breader = projectUtils.ExtractFeature(appInfo);
+		try {
+		String line = "";
+			while ((line = breader.readLine()) != null) {
+				if (line.startsWith("[ERROR]")) {
+					System.out.println(line);
+				}
+			}
+		} catch (IOException e) {
+			throw new PhrescoException(e);
+		}
 	}
 	
 	private void updateDrupalVersion(File path, ApplicationInfo info) throws PhrescoException {

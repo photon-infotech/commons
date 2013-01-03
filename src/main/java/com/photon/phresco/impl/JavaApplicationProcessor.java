@@ -1,6 +1,8 @@
 package com.photon.phresco.impl;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -44,6 +46,17 @@ public class JavaApplicationProcessor implements ApplicationProcessor {
 		}
 		projectUtils.deletePluginFromPom(pomFile);
 		projectUtils.addServerPlugin(appInfo, pomFile);
+		BufferedReader breader = projectUtils.ExtractFeature(appInfo);
+		try {
+		String line = "";
+			while ((line = breader.readLine()) != null) {
+				if (line.startsWith("[ERROR]")) {
+					System.out.println(line);
+				}
+			}
+		} catch (IOException e) {
+			throw new PhrescoException(e);
+		}
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.photon.phresco.impl;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,7 +67,18 @@ public class WindowsApplicationProcessor implements ApplicationProcessor, Consta
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
 			updateItemGroup(appInfo, path, artifactGroups);
-		}		
+		}	
+		BufferedReader breader = projectUtils.ExtractFeature(appInfo);
+		try {
+		String line = "";
+			while ((line = breader.readLine()) != null) {
+				if (line.startsWith("[ERROR]")) {
+					System.out.println(line);
+				}
+			}
+		} catch (IOException e) {
+			throw new PhrescoException(e);
+		}
 	}
 	
 	@Override

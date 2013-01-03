@@ -1,5 +1,6 @@
 package com.photon.phresco.impl;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,6 +66,17 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 		ProjectUtils projectUtils = new ProjectUtils();
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
 			projectUtils.updatePOMWithModules(pomFile, artifactGroups);
+		}
+		BufferedReader breader = projectUtils.ExtractFeature(appInfo);
+		try {
+		String line = "";
+			while ((line = breader.readLine()) != null) {
+				if (line.startsWith("[ERROR]")) {
+					System.out.println(line);
+				}
+			}
+		} catch (IOException e) {
+			throw new PhrescoException(e);
 		}
 		updatePOM( new File(projectHome));
 	}

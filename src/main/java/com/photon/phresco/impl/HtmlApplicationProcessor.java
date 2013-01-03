@@ -1,5 +1,6 @@
 package com.photon.phresco.impl;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -87,9 +88,20 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 				}
 			}
 			projectUtils.updatePOMWithModules(pomFile, featuresArtifact);
-			projectUtils.updatePOMWithPluginArtifact(pomFile, jsArtifact);
+			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
 			projectUtils.deletePluginFromPom(pomFile);
 			projectUtils.addServerPlugin(appInfo, pomFile);
+			BufferedReader breader = projectUtils.ExtractFeature(appInfo);
+			try {
+			String line = "";
+				while ((line = breader.readLine()) != null) {
+					if (line.startsWith("[INFO] BUILD SUCCESS")) {
+						readConfigJson(appInfo);
+					}
+				}
+			} catch (IOException e) {
+				throw new PhrescoException(e);
+			}
 		}
 	}
 
