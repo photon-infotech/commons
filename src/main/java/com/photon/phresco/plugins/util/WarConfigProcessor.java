@@ -40,7 +40,19 @@ private Assembly assembly;
 	}
 	
 	public void createFileSet(FileSet fileSet) {
-	    assembly.getFileSets().getFileSet().add(fileSet);
+		boolean fileSetExist = false;
+		List<FileSet> fileSets = assembly.getFileSets().getFileSet();
+		for (FileSet newFileSet : fileSets) {
+			if(fileSet.getId().equals(newFileSet.getId())) {
+				assembly.getFileSets().getFileSet().remove(newFileSet);
+				assembly.getFileSets().getFileSet().add(fileSet);
+				fileSetExist = true;
+				break;
+			}
+		}
+		if (!fileSetExist) {
+			assembly.getFileSets().getFileSet().add(fileSet);
+		}
 	}
 	
 	public FileSet getFileSet(String id) throws JAXBException {

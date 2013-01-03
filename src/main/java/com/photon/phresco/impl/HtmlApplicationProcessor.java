@@ -365,8 +365,8 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
             }
             
             if (CollectionUtils.isNotEmpty(toBeIncluded)) {
+            	fileSet.getIncludes().getInclude().clear();
                 for (String include : toBeIncluded) {
-                    fileSet.setIncludes(new Includes());
                     fileSet.getIncludes().getInclude().add(include);
                 }
             }
