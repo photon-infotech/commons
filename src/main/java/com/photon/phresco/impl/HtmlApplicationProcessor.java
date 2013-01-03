@@ -1,13 +1,17 @@
 package com.photon.phresco.impl;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.DocumentBuilder;
@@ -23,6 +27,10 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.photon.phresco.api.ApplicationProcessor;
 import com.photon.phresco.commons.model.ApplicationInfo;
@@ -148,9 +156,98 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 		return configurations;
 	}
 	
-	public static void main(String[] args) throws PhrescoException {
-		HtmlApplicationProcessor html = new HtmlApplicationProcessor();
-		html.preFeatureConfiguration(null, null);
+	private void getConfiguration() throws PhrescoException {
+		FileReader reader = null;
+		try {
+			File jsonFile = new File("C:\\Documents and Settings\\suresh_ma\\workspace\\projects\\HTML5-html5multichanneljquerywidget\\src\\main\\webapp\\json\\config.json");
+			reader = new FileReader(jsonFile);
+			JsonParser parser = new JsonParser();
+			Object obj = parser.parse(reader);
+			JsonObject jsonObject =  (JsonObject) obj;
+			Set<Entry<String,JsonElement>> entrySet = jsonObject.entrySet();
+			Configuration configuration = new Configuration();
+			Properties properties = new Properties();
+			for (Entry<String, JsonElement> entry : entrySet) {
+				String key = entry.getKey();
+				JsonElement value = entry.getValue();
+				JsonObject asJsonObj = value.getAsJsonObject();
+				Set<Entry<String,JsonElement>> entrySet2 = asJsonObj.entrySet();
+				for (Entry<String, JsonElement> entry2 : entrySet2) {
+					String key2 = entry2.getKey();
+					JsonElement value2 = entry2.getValue();
+					properties.setProperty(key + "." + key2, value2.toString());
+				}
+			}
+			configuration.setProperties(properties);
+			Properties properties2 = configuration.getProperties();
+			Set<Entry<Object,Object>> entrySet2 = properties2.entrySet();
+			for (Entry<Object, Object> entry : entrySet2) {
+				String key = (String) entry.getKey();
+				String value = (String) entry.getValue();
+				System.out.println("key:::" + key);
+				System.out.println("value:::" + value);
+			}
+		} catch (Exception e) {
+			throw new PhrescoException(e);
+		}
+	}
+	
+	private void readConfigJson(ApplicationInfo appInfo) throws PhrescoException {
+		FileReader reader;
+		try {
+			File componentDir = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + getFeaturePath(appInfo) + File.separator);
+			File[] listFiles = componentDir.listFiles();
+			if(listFiles.length > 0) {
+				for (File file : listFiles) {
+					String jsonFile = file.getPath() + File.separator + "config" + File.separator + Constants.CONFIG_JSON;
+					reader = new FileReader(jsonFile);
+					JsonParser parser = new JsonParser();
+					Object obj = parser.parse(reader);
+					JsonObject jsonObject =  (JsonObject) obj;
+					JsonElement jsonElement = jsonObject.get(Constants.COMPONENTS);
+					writeJson(appInfo, jsonElement);
+				}
+			}
+		} catch (IOException e) {
+			throw new PhrescoException(e);
+		} catch (PhrescoException e) {
+			throw new PhrescoException(e);
+		} 
+	}
+	
+	private void writeJson(ApplicationInfo appInfo, JsonElement compJsonElement) throws PhrescoException {
+		FileWriter writer = null;
+		try {
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			FileReader reader = new FileReader(new File(Utility.getProjectHome() + appInfo.getAppDirName() + "/src/main/webapp/json/" + Constants.CONFIG_JSON));
+			JsonParser parser = new JsonParser();
+			Object obj = parser.parse(reader);
+			JsonObject jsonObject =  (JsonObject) obj;
+			JsonElement jsonElement = jsonObject.get(Constants.COMPONENTS);
+			String jsonString = jsonElement.toString();
+			String compJsonString = compJsonElement.toString();
+			if (StringUtils.isNotEmpty(compJsonString)) {
+				jsonString = jsonString.substring(0, jsonString.length() - 1).concat(",");
+				compJsonString = compJsonString.substring(1, compJsonString.length());
+				String finalValue = jsonString + compJsonString;
+				JsonElement parse = parser.parse(finalValue);
+				jsonObject.add(Constants.COMPONENTS, parse);
+				writer = new FileWriter(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + "src/main/webapp/json"+ File.separator + Constants.CONFIG_JSON);
+				String json = gson.toJson(jsonObject);
+				writer.write(json);
+				writer.flush();
+			}
+		} catch (FileNotFoundException e) {
+			throw new PhrescoException(e);
+		} catch (IOException e) {
+			throw new PhrescoException(e);
+		} finally {
+			try {
+				writer.close();
+			} catch (IOException e) {
+				throw new PhrescoException(e);
+			}
+		}
 	}
 
 	@Override

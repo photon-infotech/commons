@@ -83,6 +83,8 @@ public interface Constants {
 	String MVN_PLUGIN_PHRESCO_ID = "phresco:";
 	String NODE_CONFIG_JSON = "nodeconfig.json";
 	String HUB_CONFIG_JSON = "hubconfig.json";
+	String CONFIG_JSON	= "config.json";
+	String COMPONENTS   = "components";
 	String NODE_LOG = "node.log";
 	String HUB_LOG = "hub.log";
 	String POM_NAME = "pom.xml";
