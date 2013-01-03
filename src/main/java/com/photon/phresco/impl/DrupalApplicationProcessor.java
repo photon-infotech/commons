@@ -25,6 +25,7 @@ import com.phresco.pom.util.PomProcessor;
 
 public class DrupalApplicationProcessor implements ApplicationProcessor{
 	
+	private static final String VARIABLE_FIELD = "variable";
 	private static final String END_MODULE_END_TAG = "' ends";
 	private static final String START_MODULE_END_TAG = "' starts";
 	private static final String MODULE_START_TAG = "-- '";
@@ -200,8 +201,12 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 		NodeList elementsByTagName = eElement.getElementsByTagName(sTag);
 		if (elementsByTagName != null) {
 			NodeList nlList = eElement.getElementsByTagName(sTag).item(0).getChildNodes();
-		    Node nValue = (Node) nlList.item(0);
-		    tagValue = nValue.getNodeValue();
+			if (nlList.getLength() > 0) {
+			    Node nValue = (Node) nlList.item(0);
+			    if (nValue != null) {
+			    	tagValue = nValue.getNodeValue();
+			    }
+			}
 		}
 		return tagValue;
 	  }
@@ -260,6 +265,7 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 					String deleteQuery = "";
 					String deleteFieldQuery = "";
 					
+					String tableName = "";
 					String variableName = "";
 					String dafaultValue = "";
 					
@@ -285,6 +291,10 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 							   Node childNode = childNodes.item(temp1);
 							   if (childNode.getNodeType() == Node.ELEMENT_NODE) {
 								   if (TABLE_NAME.equals(childNode.getNodeName())) {
+									   tableName = childNode.getTextContent();
+									   if (!VARIABLE_FIELD.equals(tableName)) {
+										   return;
+									   }
 									   deleteQuery = deleteQuery + DELETE_FROM + childNode.getTextContent() + WHERE + NAME_FIELD + EQUAL;
 									   insertQuery = insertQuery + INSERT_INTO + childNode.getTextContent() + VARIABLE_START_TAG + NAME_FIELD + SQL_VARIABLE_SEP + VALUE_FIELD + VARIABLE_END_TAG + VALUES_START_TAG;
 							        } else if (VARIABLE_NAME.equals(childNode.getNodeName())) {
@@ -374,6 +384,7 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 			} else {
             // else construct the format and write
 				// query string buffer
+				sb.append("CREATE TABLE IF NOT EXISTS `variable` (`name` varchar(128) NOT NULL DEFAULT '' COMMENT 'The name of the variable.', `value` longblob NOT NULL COMMENT 'The value of the variable.', PRIMARY KEY (`name`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Named variable/value pairs created by Drupal core or any...';)" + LINE_BREAK);
 				sb.append(DOUBLE_HYPHEN + LINE_BREAK);
 				sb.append(MODULE_START_TAG + moduleName + START_MODULE_END_TAG + LINE_BREAK);
 				sb.append(queryString);
