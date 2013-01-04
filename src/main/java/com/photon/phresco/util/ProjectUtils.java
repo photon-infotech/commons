@@ -206,11 +206,35 @@ public class ProjectUtils implements Constants {
 	}
 	
 	public void updatePOMWithPluginArtifact(File pomFile, List<ArtifactGroup> artifactGroups) throws PhrescoException {
+		if(CollectionUtils.isEmpty(artifactGroups)) {
+			return;
+		}
+		List<ArtifactGroup> dependencies = new ArrayList<ArtifactGroup>();
+		List<ArtifactGroup> artifacts = new ArrayList<ArtifactGroup>();
+		for (ArtifactGroup artifactGroup : artifactGroups) {
+			if(artifactGroup.getPackaging().equals("zip")) {
+				artifacts.add(artifactGroup);
+			} else {
+				dependencies.add(artifactGroup);
+			}
+		}
+		
+		if(CollectionUtils.isNotEmpty(dependencies)) {
+			updatePOMWithModules(pomFile, dependencies);
+		}
+		
+		if(CollectionUtils.isNotEmpty(artifacts)) {
+			updateToDependencyPlugin(pomFile, artifacts);
+		}
+	}
+	
+	private void updateToDependencyPlugin(File pomFile, List<ArtifactGroup> artifactGroups) throws PhrescoException {
 		try {
-			PomProcessor processor = new PomProcessor(pomFile);
 			if(CollectionUtils.isEmpty(artifactGroups)) {
 				return;
 			}
+			
+			PomProcessor processor = new PomProcessor(pomFile);
 			List<Element> configList = new ArrayList<Element>();
 			String modulePath = "";
 			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
@@ -384,7 +408,7 @@ public class ProjectUtils implements Constants {
 		return configList;
 	}
 	
-	public void updatePOMWithModules(File pomFile, List<com.photon.phresco.commons.model.ArtifactGroup> modules) throws PhrescoException {
+	private void updatePOMWithModules(File pomFile, List<com.photon.phresco.commons.model.ArtifactGroup> modules) throws PhrescoException {
 		if (CollectionUtils.isEmpty(modules)) {
 			return;
 		}
