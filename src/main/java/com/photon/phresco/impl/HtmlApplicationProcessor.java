@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -29,6 +30,7 @@ import org.xml.sax.SAXException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -36,7 +38,6 @@ import com.google.gson.reflect.TypeToken;
 import com.photon.phresco.api.ApplicationProcessor;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
-import com.photon.phresco.commons.model.ArtifactGroup.Type;
 import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.plugins.model.Assembly.FileSets.FileSet;
@@ -198,6 +199,7 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 		try {
 			File componentDir = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + getFeaturePath(appInfo) + File.separator);
 			File[] listFiles = componentDir.listFiles();
+			List<JsonElement> jsonElements = new ArrayList<JsonElement>();
 			if(listFiles.length > 0) {
 				for (File file : listFiles) {
 					String jsonFile = file.getPath() + File.separator + "config" + File.separator + Constants.CONFIG_JSON;
@@ -206,49 +208,106 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 					Object obj = parser.parse(reader);
 					JsonObject jsonObject =  (JsonObject) obj;
 					JsonElement jsonElement = jsonObject.get(Constants.COMPONENTS);
-					writeJson(appInfo, jsonElement);
+					jsonElements.add(jsonElement);
 				}
+				writeJson(appInfo, jsonElements);
 			}
 		} catch (IOException e) {
 			throw new PhrescoException(e);
 		} catch (PhrescoException e) {
 			throw new PhrescoException(e);
-		} 
+		}
 	}
 	
-	private void writeJson(ApplicationInfo appInfo, JsonElement compJsonElement) throws PhrescoException {
-		FileWriter writer = null;
-		try {
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			FileReader reader = new FileReader(new File(Utility.getProjectHome() + appInfo.getAppDirName() + "/src/main/webapp/json/" + Constants.CONFIG_JSON));
-			JsonParser parser = new JsonParser();
-			Object obj = parser.parse(reader);
-			JsonObject jsonObject =  (JsonObject) obj;
-			JsonElement jsonElement = jsonObject.get(Constants.COMPONENTS);
-			String jsonString = jsonElement.toString();
-			String compJsonString = compJsonElement.toString();
-			if (StringUtils.isNotEmpty(compJsonString)) {
-				jsonString = jsonString.substring(0, jsonString.length() - 1).concat(",");
-				compJsonString = compJsonString.substring(1, compJsonString.length());
-				String finalValue = jsonString + compJsonString;
-				JsonElement parse = parser.parse(finalValue);
-				jsonObject.add(Constants.COMPONENTS, parse);
-				writer = new FileWriter(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + "src/main/webapp/json"+ File.separator + Constants.CONFIG_JSON);
-				String json = gson.toJson(jsonObject);
-				writer.write(json);
-				writer.flush();
+	private void writeJson(ApplicationInfo appInfo, List<JsonElement> compJsonElements) throws PhrescoException {
+		
+		File jsonDir = new File(Utility.getProjectHome() + 
+				appInfo.getAppDirName() + File.separator + "src/main/webapp/json");
+		if(!jsonDir.exists()) {
+			return;
+		}
+		File configFile = new File(Utility.getProjectHome() + 
+				appInfo.getAppDirName() + File.separator + "src/main/webapp/json" + File.separator + 
+				Constants.CONFIG_JSON);
+
+		JsonParser parser = new JsonParser();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonObject jsonObject = new JsonObject();
+		JsonObject envObject = new JsonObject();
+
+		if (!configFile.exists()) {
+			jsonObject.addProperty("name", "Production");
+			StringBuilder sb = new StringBuilder();
+			sb.append("{");
+			for (JsonElement jsonElement : compJsonElements) {
+				String jsonString = jsonElement.toString();
+				sb.append(jsonString.substring(1, jsonString.length() - 1));
+				sb.append(",");
 			}
-		} catch (FileNotFoundException e) {
-			throw new PhrescoException(e);
+			String compConfig = sb.toString();
+			compConfig = compConfig.substring(0, compConfig.length() - 1) + "}";
+			jsonObject.add(Constants.COMPONENTS, parser.parse(compConfig));
+			envObject.add("environments", parser.parse(Collections.singletonList(jsonObject).toString()));
+		} else {
+			FileReader reader = null;
+			try {
+				reader = new FileReader(configFile);
+				Object obj = parser.parse(reader);
+				envObject =  (JsonObject) obj;
+				JsonArray environments = (JsonArray) envObject.get("environments");
+				jsonObject = getProductionEnv(environments);
+				JsonElement components = jsonObject.get(Constants.COMPONENTS);
+				
+				for (JsonElement compJsonElement : compJsonElements) {
+					JsonObject allComponents = components.getAsJsonObject();
+					Set<Entry<String,JsonElement>> entrySet = compJsonElement.getAsJsonObject().entrySet();
+					Entry<String, JsonElement> entry = entrySet.iterator().next();
+					String key = entry.getKey();
+					if (allComponents.get(key) == null) {
+						allComponents.add(key, entry.getValue());
+					}
+				}
+				
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} finally {
+				if (reader != null) {
+					try {
+						reader.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+
+		}
+
+		FileWriter writer = null;
+		String json = gson.toJson(envObject);
+		try {
+			writer = new FileWriter(configFile);
+			writer.write(json);
+			writer.flush();
 		} catch (IOException e) {
-			throw new PhrescoException(e);
 		} finally {
 			try {
-				writer.close();
+				if (writer != null) {
+					writer.close();
+				}
 			} catch (IOException e) {
 				throw new PhrescoException(e);
 			}
 		}
+	}
+	
+	private JsonObject getProductionEnv(JsonArray environments) {
+		for (JsonElement jsonElement : environments) {
+			JsonElement envName = ((JsonObject)jsonElement).get("name");
+			if ("Production".equals(envName.getAsString())) {
+				return (JsonObject) jsonElement;
+			}
+		}
+		return null;
 	}
 
 	@Override
