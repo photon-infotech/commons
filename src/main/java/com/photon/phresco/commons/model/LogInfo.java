@@ -37,7 +37,7 @@ public class LogInfo implements Serializable {
 	private String action;
 	private String userId;
     private String customerId;
-    private String projectId;
+    private String appId;
 
 	public LogInfo() {
 	    super();
@@ -99,12 +99,12 @@ public class LogInfo implements Serializable {
         this.customerId = customerId;
     }
 
-    public String getProjectId() {
-        return projectId;
+    public String getAppId() {
+        return appId;
     }
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
+    public void setAppId(String projectId) {
+        this.appId = projectId;
     }
 
     @Override
@@ -117,7 +117,7 @@ public class LogInfo implements Serializable {
                 .append("action", getAction())
                 .append("userId", getUserId())
                 .append("customerId", getCustomerId())
-                .append("projectId", getProjectId())
+                .append("appId", getAppId())
                 .toString();
     }
     

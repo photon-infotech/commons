@@ -125,6 +125,7 @@ public interface ServiceConstants {
 	String VIDEOTYPES_COLLECTION_NAME = "videotypes";
 	String VIDEOTYPESDAO_COLLECTION_NAME = "videotypeDAOs";
 	String USERS_COLLECTION_NAME = "users";
+	String LOG_COLLECTION_NAME = "adminLog";
 	String DOWNLOAD_COLLECTION_NAME = "downloads";
 	String GLOBALURL_COLLECTION_NAME="globalurl";
 	String APPTYPES_COLLECTION_NAME = "apptypes";
