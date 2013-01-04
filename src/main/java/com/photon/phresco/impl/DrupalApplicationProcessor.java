@@ -201,7 +201,6 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 	        config.setProperties(properties);
 	        configs.add(config);
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new PhrescoException(e);
 		}
 		return configs;
@@ -329,7 +328,6 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 			    }
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new PhrescoException(e);
 		}
 	}
