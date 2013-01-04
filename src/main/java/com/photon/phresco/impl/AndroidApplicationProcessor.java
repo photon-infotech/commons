@@ -65,7 +65,7 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 		String projectHome = Utility.getProjectHome() + appInfo.getAppDirName();
 		ProjectUtils projectUtils = new ProjectUtils();
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
-			projectUtils.updatePOMWithModules(pomFile, artifactGroups);
+			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
 		}
 		BufferedReader breader = projectUtils.ExtractFeature(appInfo);
 		try {

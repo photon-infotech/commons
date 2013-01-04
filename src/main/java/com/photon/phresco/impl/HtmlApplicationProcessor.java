@@ -76,23 +76,12 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 				+ Constants.POM_NAME);
 		ProjectUtils projectUtils = new ProjectUtils();
 		projectUtils.deletePluginExecutionFromPom(pomFile);
-		List<ArtifactGroup> featuresArtifact = new ArrayList<ArtifactGroup>();
-		List<ArtifactGroup> jsArtifact = new ArrayList<ArtifactGroup>();
 		if (CollectionUtils.isNotEmpty(artifactGroups)) {
-			for (ArtifactGroup artifactGroup : artifactGroups) {
-				if (artifactGroup.getType().name().equals(Type.FEATURE.name())) {
-					featuresArtifact.add(artifactGroup);
-				} else if (artifactGroup.getType().name().equals(Type.JAVASCRIPT.name())
-						|| artifactGroup.getType().name().equals(Type.COMPONENT.name())) {
-					jsArtifact.add(artifactGroup);
-				}
-			}
-			projectUtils.updatePOMWithModules(pomFile, featuresArtifact);
-			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
-			projectUtils.deletePluginFromPom(pomFile);
-			projectUtils.addServerPlugin(appInfo, pomFile);
-			BufferedReader breader = projectUtils.ExtractFeature(appInfo);
 			try {
+				projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
+				projectUtils.deletePluginFromPom(pomFile);
+				projectUtils.addServerPlugin(appInfo, pomFile);
+				BufferedReader breader = projectUtils.ExtractFeature(appInfo);
 			String line = "";
 				while ((line = breader.readLine()) != null) {
 					if (line.startsWith("[INFO] BUILD SUCCESS")) {

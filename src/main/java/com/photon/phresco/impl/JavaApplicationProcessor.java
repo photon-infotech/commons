@@ -42,7 +42,7 @@ public class JavaApplicationProcessor implements ApplicationProcessor {
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 		ProjectUtils projectUtils = new ProjectUtils();
 		if(CollectionUtils.isNotEmpty(artifactGroup)) {
-			projectUtils.updatePOMWithModules(pomFile, artifactGroup);
+			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
 		}
 		projectUtils.deletePluginFromPom(pomFile);
 		projectUtils.addServerPlugin(appInfo, pomFile);
