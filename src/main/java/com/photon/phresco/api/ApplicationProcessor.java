@@ -42,7 +42,7 @@ public interface ApplicationProcessor {
 	 * @param appInfo
 	 * @throws PhrescoException
 	 */
-	void postConfiguration(ApplicationInfo appInfo) throws PhrescoException;
+	void postConfiguration(ApplicationInfo appInfo, List<Configuration> configurations) throws PhrescoException;
 	
 	/**
 	 * 

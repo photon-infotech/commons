@@ -60,7 +60,7 @@ public class BlackberryApplicationProcessor implements ApplicationProcessor {
 	}
 
 	@Override
-	public void postConfiguration(ApplicationInfo appInfo)
+	public void postConfiguration(ApplicationInfo appInfo, List<Configuration> configurations)
 			throws PhrescoException {
 		
 		

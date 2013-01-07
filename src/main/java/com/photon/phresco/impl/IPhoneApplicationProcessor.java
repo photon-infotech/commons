@@ -80,7 +80,7 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 	}
 
 	@Override
-	public void postConfiguration(ApplicationInfo appInfo) throws PhrescoException {
+	public void postConfiguration(ApplicationInfo appInfo, List<Configuration> configs) throws PhrescoException {
 		File ConfigFilePath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.DOT_PHRESCO_FOLDER + File.separator + Constants.CONFIGURATION_INFO_FILE);
 		try {
 			ConfigManager configManager = new ConfigManagerImpl(ConfigFilePath);
