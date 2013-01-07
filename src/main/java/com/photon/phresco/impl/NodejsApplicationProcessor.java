@@ -90,4 +90,11 @@ public class NodejsApplicationProcessor implements ApplicationProcessor{
 		// TODO Auto-generated method stub
 		
 	}
+
+    @Override
+    public List<Configuration> preConfiguration(ApplicationInfo appInfo,
+            String featureName, String envName) throws PhrescoException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

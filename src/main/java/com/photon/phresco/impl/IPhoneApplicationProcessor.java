@@ -184,7 +184,6 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 	        if (plistFile.isFile()) {
 	            config = new Configuration(plistFile.getName(), FEATURES);
 	        } else {
-//	            throw new PhrescoException("Plist file does not exists .. ");
 	            return Collections.EMPTY_LIST;
 	        }
 	        
@@ -200,8 +199,6 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 	        }
 	        config.setProperties(properties);
 	        configs.add(config);
-        /*} catch (PhrescoException e) {
-            throw new PhrescoException(e);*/
         } catch (org.apache.commons.configuration.ConfigurationException e) {
             throw new PhrescoException(e);
         }
@@ -237,4 +234,14 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 		// TODO Auto-generated method stub
 		
 	}
+
+    @Override
+    public List<Configuration> preConfiguration(ApplicationInfo appInfo, String featureName, String envName) throws PhrescoException {
+        File plistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + PLIST);
+        try {
+			return getConfigFromPlist(plistFile.getPath());
+        } catch (Exception e) {
+            throw new PhrescoException(e);
+        }
+    }
 }

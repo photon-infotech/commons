@@ -6,10 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
@@ -17,17 +15,9 @@ import java.util.Properties;
 import java.util.Set;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,15 +25,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
 import com.opensymphony.xwork2.util.ArrayUtils;
 import com.photon.phresco.api.ApplicationProcessor;
-import com.photon.phresco.api.ConfigManager;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.configuration.Configuration;
-import com.photon.phresco.exception.ConfigurationException;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.plugins.model.Assembly.FileSets.FileSet;
 import com.photon.phresco.plugins.model.Assembly.FileSets.FileSet.Includes;
@@ -83,11 +69,12 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 		ProjectUtils projectUtils = new ProjectUtils();
 		projectUtils.deletePluginExecutionFromPom(pomFile);
 		if (CollectionUtils.isNotEmpty(artifactGroups)) {
+		    BufferedReader breader = null;
 			try {
 				projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
 				projectUtils.deletePluginFromPom(pomFile);
 				projectUtils.addServerPlugin(appInfo, pomFile);
-				BufferedReader breader = projectUtils.ExtractFeature(appInfo);
+				breader = projectUtils.ExtractFeature(appInfo);
 			String line = "";
 				while ((line = breader.readLine()) != null) {
 					if (line.startsWith("[INFO] BUILD SUCCESS")) {
@@ -96,9 +83,37 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 				}
 			} catch (IOException e) {
 				throw new PhrescoException(e);
+			} finally {
+			    try {
+                    breader.close();
+                } catch (IOException e) {
+                    throw new PhrescoException(e);
+                }
 			}
 		}
 	}
+	
+	@Override
+    public List<Configuration> preConfiguration(ApplicationInfo appInfo, String componentName, String envName) throws PhrescoException {
+	    StringBuilder sb = new StringBuilder(Utility.getProjectHome())
+        .append(appInfo.getAppDirName())
+        .append(File.separator)
+        .append("src")
+        .append(File.separator)
+        .append("main")
+        .append(File.separator)
+        .append("webapp")
+        .append(File.separator)
+        .append("json")
+        .append(File.separator)
+        .append("config.json");
+        
+        File jsonFile = new File(sb.toString());
+        if(!jsonFile.exists()) {
+            return null;
+        }
+        return getConfiguration(jsonFile, envName);
+    }
 
 	@Override
 	public void postConfiguration(ApplicationInfo appInfo, List<Configuration> configurations)
@@ -124,101 +139,124 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 		jsonElements.add(propJsonObject);
 		writeJson(appInfo, jsonElements, envName, configType);
 	}
-	
+
 	@Override
 	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo,
-			String featureName) throws PhrescoException {
+			String componentName) throws PhrescoException {
 		try {
-			File fXmlFile = new File("C:\\Documents and Settings\\loheswaran_g\\Desktop\\sample.xml");
-			if(!fXmlFile.exists()) {
+		    StringBuilder sb = new StringBuilder(Utility.getProjectHome())
+	        .append(appInfo.getAppDirName())
+	        .append(getFeaturePath(appInfo))
+	        .append(File.separator)
+	        .append(componentName)
+	        .append(File.separator)
+	        .append("config")
+	        .append(File.separator)
+            .append("config.json");
+		    
+			File jsonFile = new File(sb.toString());
+			if(!jsonFile.exists()) {
 				return null;
 			}
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(fXmlFile);
-			doc.getDocumentElement().normalize();
-			NodeList nodeList = doc.getDocumentElement().getChildNodes();
-			return getConfigurations(nodeList);
-		} catch (ParserConfigurationException e) {
-			throw new PhrescoException(e);
-		} catch (SAXException e) {
-			throw new PhrescoException(e);
-		} catch (IOException e) {
-			throw new PhrescoException(e);
-		}
-	}
-
-	private List<Configuration> getConfigurations(NodeList nList) {
-		List<Configuration> configurations = new ArrayList<Configuration>();
-		for (int root = 0; root < nList.getLength(); root++) {
-			Node nNode = nList.item(root);
-			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element element = (Element) nNode;
-				NodeList childNodes = element.getChildNodes();
-				for (int child = 0; child	< childNodes.getLength(); child++) {
-					Node ChildNode = childNodes.item(child);
-					if (ChildNode.getNodeType() == Node.ELEMENT_NODE) {
-						Element childElement = (Element) ChildNode;
-						NodeList subChildNodes = childElement.getChildNodes();
-						Configuration configuration = new Configuration();
-						Properties properties = new Properties();
-						String configType = childElement.getNodeName();
-						for (int subChild = 0; subChild	< subChildNodes.getLength(); subChild++) {
-							Node subChildNode = subChildNodes.item(subChild);
-							if (subChildNode.getNodeType() == Node.ELEMENT_NODE) {
-								Element subChildElement = (Element) subChildNode;
-								String tagName = subChildElement.getTagName();
-								configuration.setType(configType);
-								properties.setProperty(tagName, subChildElement.getTextContent());
-								configuration.setProperties(properties);
-							}
-						}
-						configurations.add(configuration);
-					}
-				}
-			}
-		}
-		return configurations;
-	}
-	
-	private void getConfiguration() throws PhrescoException {
-		FileReader reader = null;
-		try {
-			File jsonFile = new File("C:\\Documents and Settings\\suresh_ma\\workspace\\projects\\HTML5-html5multichanneljquerywidget\\src\\main\\webapp\\json\\config.json");
-			reader = new FileReader(jsonFile);
-			JsonParser parser = new JsonParser();
-			Object obj = parser.parse(reader);
-			JsonObject jsonObject =  (JsonObject) obj;
-			Set<Entry<String,JsonElement>> entrySet = jsonObject.entrySet();
-			Configuration configuration = new Configuration();
-			Properties properties = new Properties();
-			for (Entry<String, JsonElement> entry : entrySet) {
-				String key = entry.getKey();
-				JsonElement value = entry.getValue();
-				JsonObject asJsonObj = value.getAsJsonObject();
-				Set<Entry<String,JsonElement>> entrySet2 = asJsonObj.entrySet();
-				for (Entry<String, JsonElement> entry2 : entrySet2) {
-					String key2 = entry2.getKey();
-					JsonElement value2 = entry2.getValue();
-					properties.setProperty(key + "." + key2, value2.toString());
-				}
-			}
-			configuration.setProperties(properties);
-			Properties properties2 = configuration.getProperties();
-			Set<Entry<Object,Object>> entrySet2 = properties2.entrySet();
-			for (Entry<Object, Object> entry : entrySet2) {
-				String key = (String) entry.getKey();
-				String value = (String) entry.getValue();
-				System.out.println("key:::" + key);
-				System.out.println("value:::" + value);
-			}
+			return getConfiguration(jsonFile);
 		} catch (Exception e) {
 			throw new PhrescoException(e);
 		}
 	}
 	
+	private List<Configuration> getConfiguration(File jsonFile) throws PhrescoException {
+        FileReader reader = null;
+        try {
+            reader = new FileReader(jsonFile);
+            JsonParser parser = new JsonParser();
+            Object obj = parser.parse(reader);
+            JsonObject jsonObject =  (JsonObject) obj;
+            List<Configuration> configurations = new ArrayList<Configuration>();
+            Configuration configuration = new Configuration();
+            Properties properties = new Properties();
+            Set<Entry<String,JsonElement>> entrySet = jsonObject.entrySet();
+            for (Entry<String, JsonElement> entry : entrySet) {
+                JsonElement value = entry.getValue();
+                JsonObject asJsonObject = value.getAsJsonObject();
+                Set<Entry<String,JsonElement>> entrySet2 = asJsonObject.entrySet();
+                for (Entry<String, JsonElement> entry2 : entrySet2) {
+                    JsonElement value2 = entry2.getValue();
+                    JsonObject asJsonObject1 = value2.getAsJsonObject();
+                    Set<Entry<String,JsonElement>> entrySet3 = asJsonObject1.entrySet();
+                    for (Entry<String, JsonElement> entry3 : entrySet3) {
+                        String key = entry3.getKey();
+                        JsonElement value3 = entry3.getValue();
+                        properties.setProperty(key, value3.getAsString());
+                    }
+                }
+                configuration.setProperties(properties);
+                configurations.add(configuration);
+                return configurations;
+            }
+        } catch (Exception e) {
+            throw new PhrescoException(e);
+        } finally {
+            try {
+                reader.close();
+            } catch (IOException e) {
+               throw new PhrescoException(e);
+            }
+        }
+        
+        return null;
+    }
+
+	private List<Configuration> getConfiguration(File jsonFile, String envName) throws PhrescoException {
+	    FileReader reader = null;
+	    try {
+	        reader = new FileReader(jsonFile);
+	        JsonParser parser = new JsonParser();
+	        Object obj = parser.parse(reader);
+	        JsonObject jsonObject =  (JsonObject) obj;
+	        List<Configuration> configurations = new ArrayList<Configuration>();
+	        Configuration configuration = new Configuration();
+	        Properties properties = new Properties();
+	        Set<Entry<String,JsonElement>> entrySet = jsonObject.entrySet();
+	        for (Entry<String, JsonElement> entry : entrySet) {
+	            JsonElement value = entry.getValue();
+	            JsonArray jsonArray = value.getAsJsonArray();
+	            for (JsonElement jsonElement : jsonArray) {
+	                JsonObject asJsonObject = jsonElement.getAsJsonObject();
+	                JsonElement name = asJsonObject.get("name");
+	                if (name.getAsString().equals(envName)) {
+	                    JsonElement components = asJsonObject.get("components");
+	                    JsonObject asJsonObj = components.getAsJsonObject();
+	                    Set<Entry<String,JsonElement>> parentEntrySet = asJsonObj.entrySet();
+	                    for (Entry<String, JsonElement> entry1 : parentEntrySet) {
+	                        JsonObject valueJsonObj = entry1.getValue().getAsJsonObject();
+	                        Set<Entry<String,JsonElement>> valueEntrySet = valueJsonObj.entrySet();
+	                        for (Entry<String, JsonElement> valueEntry : valueEntrySet) {
+	                            String key1 = valueEntry.getKey();
+	                            JsonElement value1 = valueEntry.getValue();
+	                            properties.setProperty(key1, value1.getAsString());
+	                        }
+	                    }
+	                    configuration.setProperties(properties);
+	                    configurations.add(configuration);
+	                    return configurations;
+	                }
+	            }
+	        }
+	    } catch (Exception e) {
+	        throw new PhrescoException(e);
+	    } finally {
+	        try {
+                reader.close();
+            } catch (IOException e) {
+               throw new PhrescoException(e);
+            }
+	    }
+	    
+        return null;
+	}
+	
 	private void readConfigJson(ApplicationInfo appInfo) throws PhrescoException {
-		FileReader reader;
+		FileReader reader = null;
 		try {
 			File componentDir = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + getFeaturePath(appInfo) + File.separator);
 			File[] listFiles = componentDir.listFiles();
@@ -236,7 +274,7 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 					JsonElement jsonElement = jsonObject.get(Constants.COMPONENTS);
 					jsonElements.add(jsonElement);
 				}
-				writeJson(appInfo, jsonElements,"Production", Constants.COMPONENTS);
+				writeJson(appInfo, jsonElements, "Production", Constants.COMPONENTS);
 			}
 		} catch (IOException e) {
 			throw new PhrescoException(e);
@@ -246,90 +284,86 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 	}
 	
 	private void writeJson(ApplicationInfo appInfo, List<JsonElement> compJsonElements, String environment, String type) throws PhrescoException {
-		
-		File jsonDir = new File(Utility.getProjectHome() + 
-				appInfo.getAppDirName() + File.separator + "src/main/webapp/json");
-		if(!jsonDir.exists()) {
-			return;
-		}
-		File configFile = new File(Utility.getProjectHome() + 
-				appInfo.getAppDirName() + File.separator + "src/main/webapp/json" + File.separator + 
-				Constants.CONFIG_JSON);
+	    File jsonDir = new File(Utility.getProjectHome() + 
+	            appInfo.getAppDirName() + File.separator + "src/main/webapp/json");
+	    if (!jsonDir.exists()) {
+	        return;
+	    }
+	    File configFile = new File(Utility.getProjectHome() + 
+	            appInfo.getAppDirName() + File.separator + "src/main/webapp/json" + File.separator + 
+	            Constants.CONFIG_JSON);
 
-		JsonParser parser = new JsonParser();
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		JsonObject jsonObject = new JsonObject();
-		JsonObject envObject = new JsonObject();
+	    JsonParser parser = new JsonParser();
+	    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	    JsonObject jsonObject = new JsonObject();
+	    JsonObject envObject = new JsonObject();
+	    if (!configFile.exists()) {
+	        jsonObject.addProperty("name", environment);
+	        StringBuilder sb = new StringBuilder();
+	        sb.append("{");
+	        for (JsonElement jsonElement : compJsonElements) {
+	            String jsonString = jsonElement.toString();
+	            sb.append(jsonString.substring(1, jsonString.length() - 1));
+	            sb.append(",");
+	        }
+	        String compConfig = sb.toString();
+	        compConfig = compConfig.substring(0, compConfig.length() - 1) + "}";
+	        jsonObject.add(type, parser.parse(compConfig));
+	        envObject.add("environments", parser.parse(Collections.singletonList(jsonObject).toString()));
+	    } else {
+	        FileReader reader = null;
+	        try {
+	            reader = new FileReader(configFile);
+	            Object obj = parser.parse(reader);
+	            envObject =  (JsonObject) obj;
+	            JsonArray environments = (JsonArray) envObject.get("environments");
+	            jsonObject = getProductionEnv(environments, environment);
+	            JsonElement components = jsonObject.get(type);
 
-		if (!configFile.exists()) {
-			jsonObject.addProperty("name", environment);
-			StringBuilder sb = new StringBuilder();
-			sb.append("{");
-			for (JsonElement jsonElement : compJsonElements) {
-				String jsonString = jsonElement.toString();
-				sb.append(jsonString.substring(1, jsonString.length() - 1));
-				sb.append(",");
-			}
-			String compConfig = sb.toString();
-			compConfig = compConfig.substring(0, compConfig.length() - 1) + "}";
-			jsonObject.add(type, parser.parse(compConfig));
-			envObject.add("environments", parser.parse(Collections.singletonList(jsonObject).toString()));
-		} else {
-			FileReader reader = null;
-			try {
-				reader = new FileReader(configFile);
-				Object obj = parser.parse(reader);
-				envObject =  (JsonObject) obj;
-				JsonArray environments = (JsonArray) envObject.get("environments");
-				jsonObject = getProductionEnv(environments, environment);
-				JsonElement components = jsonObject.get(type);
-				
-				for (JsonElement compJsonElement : compJsonElements) {
-					JsonObject allComponents = null;
-					if(components == null) {
-						jsonObject.add(type, compJsonElement);
-					} else {
-					allComponents = components.getAsJsonObject();
-					Set<Entry<String,JsonElement>> entrySet = compJsonElement.getAsJsonObject().entrySet();
-					Entry<String, JsonElement> entry = entrySet.iterator().next();
-					String key = entry.getKey();
-					if (allComponents.get(key) == null) {
-						allComponents.add(key, entry.getValue());
-					}
-					}
-				}
-				
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} finally {
-				if (reader != null) {
-					try {
-						reader.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
+	            for (JsonElement compJsonElement : compJsonElements) {
+	                JsonObject allComponents = null;
+	                if(components == null) {
+	                    jsonObject.add(type, compJsonElement);
+	                } else {
+	                    allComponents = components.getAsJsonObject();
+	                    Set<Entry<String,JsonElement>> entrySet = compJsonElement.getAsJsonObject().entrySet();
+	                    Entry<String, JsonElement> entry = entrySet.iterator().next();
+	                    String key = entry.getKey();
+	                    if (allComponents.get(key) == null) {
+	                        allComponents.add(key, entry.getValue());
+	                    }
+	                }
+	            }
 
-		}
+	        } catch (FileNotFoundException e) {
+	            throw new PhrescoException(e);
+	        } finally {
+	            if (reader != null) {
+	                try {
+	                    reader.close();
+	                } catch (IOException e) {
+	                    throw new PhrescoException(e);
+	                }
+	            }
+	        }
+	    }
 
-		FileWriter writer = null;
-		String json = gson.toJson(envObject);
-		try {
-			writer = new FileWriter(configFile);
-			writer.write(json);
-			writer.flush();
-		} catch (IOException e) {
-		} finally {
-			try {
-				if (writer != null) {
-					writer.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-				throw new PhrescoException(e);
-			}
-		}
+	    FileWriter writer = null;
+	    String json = gson.toJson(envObject);
+	    try {
+	        writer = new FileWriter(configFile);
+	        writer.write(json);
+	        writer.flush();
+	    } catch (IOException e) {
+	    } finally {
+	        try {
+	            if (writer != null) {
+	                writer.close();
+	            }
+	        } catch (IOException e) {
+	            throw new PhrescoException(e);
+	        }
+	    }
 	}
 	
 	private JsonObject getProductionEnv(JsonArray environments, String environment) {
@@ -345,25 +379,37 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 	@Override
 	public void postFeatureConfiguration(ApplicationInfo appInfo, List<Configuration> configs, String featureName)
 	    throws PhrescoException {
+	    FileWriter writer = null;
 	    StringBuilder sb = new StringBuilder(Utility.getProjectHome())
 	    .append(appInfo.getAppDirName())
-	    .append(File.separator)
 	    .append(getFeaturePath(appInfo))
 	    .append(File.separator)
 	    .append(featureName)
 	    .append(File.separator)
-	    .append("config/");
-	    Gson gson = new Gson();
-	    java.lang.reflect.Type jsonType = new TypeToken<Collection<Configuration>>(){}.getType();
-	    String json = gson.toJson(configs, jsonType);
-	    if(new File(sb.toString()).exists()) {
+	    .append("config");
+	    if (new File(sb.toString()).exists()) {
 	        try {
-	            //write converted json data to a file named "info.json"
-	            FileWriter writer = new FileWriter(sb.toString() + "config.json");
-	            writer.write(json);
-	            writer.close();
+	            Gson gson = new Gson();
+	            String jsonFile = sb.toString() + File.separator + Constants.CONFIG_JSON;
+	            String json = gson.toJson(configs.get(0).getProperties());
+	            JsonParser parser = new JsonParser();
+	            JsonElement propertyJsonElement = parser.parse(json);
+	            JsonObject propJsonObject = new JsonObject();
+                propJsonObject.add(featureName, propertyJsonElement);
+	            JsonObject jsonObject = new JsonObject();
+	            jsonObject.add("components", propJsonObject);
+                writer = new FileWriter(jsonFile);
+                json = gson.toJson(jsonObject);
+                writer.write(json);
+                writer.flush();
 	        } catch (IOException e) {
 	            throw new PhrescoException(e);
+	        } finally {
+	            try {
+                    writer.close();
+                } catch (IOException e) {
+                    throw new PhrescoException(e);
+                }
 	        }
 	    }
 	}

@@ -219,4 +219,11 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 		}
 		return dependencies;
 	}
+
+    @Override
+    public List<Configuration> preConfiguration(ApplicationInfo appInfo,
+            String featureName, String envName) throws PhrescoException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

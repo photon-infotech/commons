@@ -38,6 +38,13 @@ public interface ApplicationProcessor {
 	void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroup) throws PhrescoException;
 	
 	/**
+     * 
+     * @param appInfo
+     * @throws PhrescoException
+     */
+	List<Configuration> preConfiguration(ApplicationInfo appInfo, String featureName, String envName) throws PhrescoException;
+	
+	/**
 	 * 
 	 * @param appInfo
 	 * @throws PhrescoException

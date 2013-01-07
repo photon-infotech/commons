@@ -107,4 +107,11 @@ public class WordPressApplicationProcessor implements ApplicationProcessor{
 		
 	}
 
+    @Override
+    public List<Configuration> preConfiguration(ApplicationInfo appInfo,
+            String featureName, String envName) throws PhrescoException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
