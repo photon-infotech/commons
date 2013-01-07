@@ -151,7 +151,7 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 	}
 
 	@Override
-	public void postConfiguration(ApplicationInfo appInfo)
+	public void postConfiguration(ApplicationInfo appInfo, List<Configuration> configurations)
 			throws PhrescoException {
 		// TODO Auto-generated method stub
 		

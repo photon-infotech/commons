@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -35,10 +36,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.opensymphony.xwork2.util.ArrayUtils;
 import com.photon.phresco.api.ApplicationProcessor;
+import com.photon.phresco.api.ConfigManager;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.configuration.Configuration;
+import com.photon.phresco.exception.ConfigurationException;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.plugins.model.Assembly.FileSets.FileSet;
 import com.photon.phresco.plugins.model.Assembly.FileSets.FileSet.Includes;
@@ -96,12 +101,30 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 	}
 
 	@Override
-	public void postConfiguration(ApplicationInfo appInfo)
-			throws PhrescoException {
-		// TODO Auto-generated method stub
-		
+	public void postConfiguration(ApplicationInfo appInfo, List<Configuration> configurations)
+	throws PhrescoException {
+		Configuration configuration = configurations.get(0);
+		JsonParser parser = new JsonParser();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		List<JsonElement> jsonElements = new ArrayList<JsonElement>();
+		String envName = configuration.getEnvName();
+		String configType = configuration.getType().toLowerCase();
+		String configName = "";
+		if(configuration.getType().equalsIgnoreCase("components")) {
+			configName = configuration.getProperties().getProperty("featureName");
+		} else {
+			configName = configuration.getName();
+		}
+		String json = gson.toJson(configuration.getProperties());
+		JsonElement propertyJsonElement = parser.parse(json);
+		JsonObject propJsonObject = new JsonObject();
+		propJsonObject.add(configName, propertyJsonElement);
+		JsonObject typeJsonObject = new JsonObject();
+		typeJsonObject.add(configType, propJsonObject);
+		jsonElements.add(propJsonObject);
+		writeJson(appInfo, jsonElements, envName, configType);
 	}
-
+	
 	@Override
 	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo,
 			String featureName) throws PhrescoException {
@@ -199,6 +222,9 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 		try {
 			File componentDir = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + getFeaturePath(appInfo) + File.separator);
 			File[] listFiles = componentDir.listFiles();
+			if(ArrayUtils.isEmpty(listFiles)) {
+				return;
+			}
 			List<JsonElement> jsonElements = new ArrayList<JsonElement>();
 			if(listFiles.length > 0) {
 				for (File file : listFiles) {
@@ -210,7 +236,7 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 					JsonElement jsonElement = jsonObject.get(Constants.COMPONENTS);
 					jsonElements.add(jsonElement);
 				}
-				writeJson(appInfo, jsonElements);
+				writeJson(appInfo, jsonElements,"Production", Constants.COMPONENTS);
 			}
 		} catch (IOException e) {
 			throw new PhrescoException(e);
@@ -219,7 +245,7 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 		}
 	}
 	
-	private void writeJson(ApplicationInfo appInfo, List<JsonElement> compJsonElements) throws PhrescoException {
+	private void writeJson(ApplicationInfo appInfo, List<JsonElement> compJsonElements, String environment, String type) throws PhrescoException {
 		
 		File jsonDir = new File(Utility.getProjectHome() + 
 				appInfo.getAppDirName() + File.separator + "src/main/webapp/json");
@@ -236,7 +262,7 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 		JsonObject envObject = new JsonObject();
 
 		if (!configFile.exists()) {
-			jsonObject.addProperty("name", "Production");
+			jsonObject.addProperty("name", environment);
 			StringBuilder sb = new StringBuilder();
 			sb.append("{");
 			for (JsonElement jsonElement : compJsonElements) {
@@ -246,7 +272,7 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 			}
 			String compConfig = sb.toString();
 			compConfig = compConfig.substring(0, compConfig.length() - 1) + "}";
-			jsonObject.add(Constants.COMPONENTS, parser.parse(compConfig));
+			jsonObject.add(type, parser.parse(compConfig));
 			envObject.add("environments", parser.parse(Collections.singletonList(jsonObject).toString()));
 		} else {
 			FileReader reader = null;
@@ -255,16 +281,21 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 				Object obj = parser.parse(reader);
 				envObject =  (JsonObject) obj;
 				JsonArray environments = (JsonArray) envObject.get("environments");
-				jsonObject = getProductionEnv(environments);
-				JsonElement components = jsonObject.get(Constants.COMPONENTS);
+				jsonObject = getProductionEnv(environments, environment);
+				JsonElement components = jsonObject.get(type);
 				
 				for (JsonElement compJsonElement : compJsonElements) {
-					JsonObject allComponents = components.getAsJsonObject();
+					JsonObject allComponents = null;
+					if(components == null) {
+						jsonObject.add(type, compJsonElement);
+					} else {
+					allComponents = components.getAsJsonObject();
 					Set<Entry<String,JsonElement>> entrySet = compJsonElement.getAsJsonObject().entrySet();
 					Entry<String, JsonElement> entry = entrySet.iterator().next();
 					String key = entry.getKey();
 					if (allComponents.get(key) == null) {
 						allComponents.add(key, entry.getValue());
+					}
 					}
 				}
 				
@@ -295,15 +326,16 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 					writer.close();
 				}
 			} catch (IOException e) {
+				e.printStackTrace();
 				throw new PhrescoException(e);
 			}
 		}
 	}
 	
-	private JsonObject getProductionEnv(JsonArray environments) {
+	private JsonObject getProductionEnv(JsonArray environments, String environment) {
 		for (JsonElement jsonElement : environments) {
 			JsonElement envName = ((JsonObject)jsonElement).get("name");
-			if ("Production".equals(envName.getAsString())) {
+			if (environment.equals(envName.getAsString())) {
 				return (JsonObject) jsonElement;
 			}
 		}
