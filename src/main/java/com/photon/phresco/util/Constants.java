@@ -58,6 +58,8 @@ public interface Constants {
 	String SETTINGS_XML = "settings.xml";
 	String PHRESCO_HYPEN = "phresco-";	
 	String INFO_XML = "-info.xml";
+	String NAME = "name";
+	String ENVIRONMENTS = "environments";
 	/*String FILE_SEPARATOR = "/";
 	String BUILD_INFO_FILE_NAME = "build.info";
 	String DO_NOT_CHECKIN_DIR = "do_not_checkin";

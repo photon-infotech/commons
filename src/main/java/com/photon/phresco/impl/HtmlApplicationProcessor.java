@@ -222,9 +222,9 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 	            JsonArray jsonArray = value.getAsJsonArray();
 	            for (JsonElement jsonElement : jsonArray) {
 	                JsonObject asJsonObject = jsonElement.getAsJsonObject();
-	                JsonElement name = asJsonObject.get("name");
+	                JsonElement name = asJsonObject.get(Constants.NAME);
 	                if (name.getAsString().equals(envName)) {
-	                    JsonElement components = asJsonObject.get("components");
+	                    JsonElement components = asJsonObject.get(Constants.COMPONENTS);
 	                    JsonObject asJsonObj = components.getAsJsonObject();
 	                    Set<Entry<String,JsonElement>> parentEntrySet = asJsonObj.entrySet();
 	                    for (Entry<String, JsonElement> entry1 : parentEntrySet) {
@@ -284,91 +284,101 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 	}
 	
 	private void writeJson(ApplicationInfo appInfo, List<JsonElement> compJsonElements, String environment, String type) throws PhrescoException {
-	    File jsonDir = new File(Utility.getProjectHome() + 
-	            appInfo.getAppDirName() + File.separator + "src/main/webapp/json");
-	    if (!jsonDir.exists()) {
-	        return;
-	    }
-	    File configFile = new File(Utility.getProjectHome() + 
-	            appInfo.getAppDirName() + File.separator + "src/main/webapp/json" + File.separator + 
-	            Constants.CONFIG_JSON);
+		File jsonDir = new File(Utility.getProjectHome() + 
+				appInfo.getAppDirName() + File.separator + "src/main/webapp/json");
+		if (!jsonDir.exists()) {
+			return;
+		}
+		File configFile = new File(Utility.getProjectHome() + 
+				appInfo.getAppDirName() + File.separator + "src/main/webapp/json" + File.separator + 
+				Constants.CONFIG_JSON);
 
-	    JsonParser parser = new JsonParser();
-	    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-	    JsonObject jsonObject = new JsonObject();
-	    JsonObject envObject = new JsonObject();
-	    if (!configFile.exists()) {
-	        jsonObject.addProperty("name", environment);
-	        StringBuilder sb = new StringBuilder();
-	        sb.append("{");
-	        for (JsonElement jsonElement : compJsonElements) {
-	            String jsonString = jsonElement.toString();
-	            sb.append(jsonString.substring(1, jsonString.length() - 1));
-	            sb.append(",");
-	        }
-	        String compConfig = sb.toString();
-	        compConfig = compConfig.substring(0, compConfig.length() - 1) + "}";
-	        jsonObject.add(type, parser.parse(compConfig));
-	        envObject.add("environments", parser.parse(Collections.singletonList(jsonObject).toString()));
-	    } else {
-	        FileReader reader = null;
-	        try {
-	            reader = new FileReader(configFile);
-	            Object obj = parser.parse(reader);
-	            envObject =  (JsonObject) obj;
-	            JsonArray environments = (JsonArray) envObject.get("environments");
-	            jsonObject = getProductionEnv(environments, environment);
-	            JsonElement components = jsonObject.get(type);
+		JsonParser parser = new JsonParser();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonObject jsonObject = new JsonObject();
+		JsonObject envObject = new JsonObject();
+		if (!configFile.exists()) {
+			jsonObject.addProperty(Constants.NAME, environment);
+			StringBuilder sb = new StringBuilder();
+			sb.append("{");
+			for (JsonElement jsonElement : compJsonElements) {
+				String jsonString = jsonElement.toString();
+				sb.append(jsonString.substring(1, jsonString.length() - 1));
+				sb.append(",");
+			}
+			String compConfig = sb.toString();
+			compConfig = compConfig.substring(0, compConfig.length() - 1) + "}";
+			jsonObject.add(type, parser.parse(compConfig));
+			envObject.add(Constants.ENVIRONMENTS, parser.parse(Collections.singletonList(jsonObject).toString()));
+		} else {
+			FileReader reader = null;
+			try {
+				reader = new FileReader(configFile);
+				Object obj = parser.parse(reader);
+				envObject =  (JsonObject) obj;
+				JsonArray environments = (JsonArray) envObject.get(Constants.ENVIRONMENTS);
+				jsonObject = getProductionEnv(environments, environment);
+				JsonElement components = null;
+				for (JsonElement compJsonElement : compJsonElements) {
+					JsonObject allComponents = null;
+					if(jsonObject == null) {
+						jsonObject = new JsonObject();
+						JsonElement jsonElement = envObject.get(Constants.ENVIRONMENTS);
+						String oldObj = jsonElement.toString().substring(1, jsonElement.toString().length()-1).concat(",");
+						jsonObject.addProperty(Constants.NAME, environment);
+						jsonObject.add(type, compJsonElement);
+						String newObj = jsonObject.toString();
+						envObject.add(Constants.ENVIRONMENTS, parser.parse(Collections.singletonList(oldObj + newObj).toString()));
+					} else {
+						components = jsonObject.get(type);
+					}
+					if(components == null) {
+						jsonObject.add(type, compJsonElement);
+					} else {
+						allComponents = components.getAsJsonObject();
+						Set<Entry<String,JsonElement>> entrySet = compJsonElement.getAsJsonObject().entrySet();
+						Entry<String, JsonElement> entry = entrySet.iterator().next();
+						String key = entry.getKey();
+						if (allComponents.get(key) == null) {
+							allComponents.add(key, entry.getValue());
+						}
+					}
+				}
 
-	            for (JsonElement compJsonElement : compJsonElements) {
-	                JsonObject allComponents = null;
-	                if(components == null) {
-	                    jsonObject.add(type, compJsonElement);
-	                } else {
-	                    allComponents = components.getAsJsonObject();
-	                    Set<Entry<String,JsonElement>> entrySet = compJsonElement.getAsJsonObject().entrySet();
-	                    Entry<String, JsonElement> entry = entrySet.iterator().next();
-	                    String key = entry.getKey();
-	                    if (allComponents.get(key) == null) {
-	                        allComponents.add(key, entry.getValue());
-	                    }
-	                }
-	            }
+			} catch (FileNotFoundException e) {
+				throw new PhrescoException(e);
+			} finally {
+				if (reader != null) {
+					try {
+						reader.close();
+					} catch (IOException e) {
+						throw new PhrescoException(e);
+					}
+				}
+			}
+		}
 
-	        } catch (FileNotFoundException e) {
-	            throw new PhrescoException(e);
-	        } finally {
-	            if (reader != null) {
-	                try {
-	                    reader.close();
-	                } catch (IOException e) {
-	                    throw new PhrescoException(e);
-	                }
-	            }
-	        }
-	    }
-
-	    FileWriter writer = null;
-	    String json = gson.toJson(envObject);
-	    try {
-	        writer = new FileWriter(configFile);
-	        writer.write(json);
-	        writer.flush();
-	    } catch (IOException e) {
-	    } finally {
-	        try {
-	            if (writer != null) {
-	                writer.close();
-	            }
-	        } catch (IOException e) {
-	            throw new PhrescoException(e);
-	        }
-	    }
+		FileWriter writer = null;
+		String json = gson.toJson(envObject);
+		try {
+			writer = new FileWriter(configFile);
+			writer.write(json);
+			writer.flush();
+		} catch (IOException e) {
+		} finally {
+			try {
+				if (writer != null) {
+					writer.close();
+				}
+			} catch (IOException e) {
+				throw new PhrescoException(e);
+			}
+		}
 	}
 	
 	private JsonObject getProductionEnv(JsonArray environments, String environment) {
 		for (JsonElement jsonElement : environments) {
-			JsonElement envName = ((JsonObject)jsonElement).get("name");
+			JsonElement envName = ((JsonObject)jsonElement).get(Constants.NAME);
 			if (environment.equals(envName.getAsString())) {
 				return (JsonObject) jsonElement;
 			}
@@ -397,7 +407,7 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 	            JsonObject propJsonObject = new JsonObject();
                 propJsonObject.add(featureName, propertyJsonElement);
 	            JsonObject jsonObject = new JsonObject();
-	            jsonObject.add("components", propJsonObject);
+	            jsonObject.add(Constants.COMPONENTS, propJsonObject);
                 writer = new FileWriter(jsonFile);
                 json = gson.toJson(jsonObject);
                 writer.write(json);
