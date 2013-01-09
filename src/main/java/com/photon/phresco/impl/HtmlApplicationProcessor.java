@@ -106,7 +106,7 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
         .append(File.separator)
         .append("json")
         .append(File.separator)
-        .append("config.json");
+        .append(Constants.CONFIG_JSON);
         
         File jsonFile = new File(sb.toString());
         if(!jsonFile.exists()) {
@@ -152,7 +152,7 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 	        .append(File.separator)
 	        .append("config")
 	        .append(File.separator)
-            .append("config.json");
+            .append(Constants.CONFIG_JSON);
 		    
 			File jsonFile = new File(sb.toString());
 			if(!jsonFile.exists()) {
@@ -289,9 +289,7 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 		if (!jsonDir.exists()) {
 			return;
 		}
-		File configFile = new File(Utility.getProjectHome() + 
-				appInfo.getAppDirName() + File.separator + "src/main/webapp/json" + File.separator + 
-				Constants.CONFIG_JSON);
+		File configFile = new File(getAppLevelConfigJson(appInfo.getAppDirName()));
 
 		JsonParser parser = new JsonParser();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -436,30 +434,24 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 
 	@Override
 	public void preBuild(ApplicationInfo appInfo) throws PhrescoException {
+	    FileReader reader = null;
+	    FileWriter writer = null;
 	    try {
 	        String baseDir = Utility.getProjectHome() + appInfo.getAppDirName();    
 	        File pluginInfoFile = new File(baseDir + File.separator + Constants.PACKAGE_INFO_FILE);
 	        MojoProcessor mojoProcessor = new MojoProcessor(pluginInfoFile);
 	        Parameter defaultThemeParameter = mojoProcessor.getParameter(Constants.MVN_GOAL_PACKAGE, Constants.MOJO_KEY_DEFAULT_THEME);
-	        if (defaultThemeParameter != null) {
-	            StringBuilder json = new StringBuilder();
-	            if (defaultThemeParameter != null) {
-	                json.append("{\"theme\"")
-	                .append(":")
-	                .append("{")
-	                .append("\"deafultTheme\"")
-	                .append(":")
-	                .append("\""+defaultThemeParameter.getValue()+"\"")
-	                .append("}}");
-	            }
-	            StringBuilder sb = new StringBuilder(baseDir)
-	            .append(File.separator)
-	            .append("src")
-	            .append(File.separator)
-	            .append("config.json");
-	            storeConfigObjAsJson(json.toString(), sb.toString());
-	        }
-	        
+	        String appLevelConfigJson = getAppLevelConfigJson(appInfo.getAppDirName());
+            reader = new FileReader(appLevelConfigJson);
+            JsonParser parser = new JsonParser();
+            Object obj = parser.parse(reader);
+            JsonObject jsonObject =  (JsonObject) obj;
+            jsonObject.addProperty(Constants.MOJO_KEY_DEFAULT_THEME, defaultThemeParameter.getValue());
+            Gson gson = new Gson();
+            String json = gson.toJson(jsonObject);
+            writer = new FileWriter(appLevelConfigJson);
+            writer.write(json);
+            
 	        Parameter themesParameter = mojoProcessor.getParameter(Constants.MVN_GOAL_PACKAGE, Constants.MOJO_KEY_THEMES);
 	        if (themesParameter != null) {
 	            StringBuilder warConfigFilePath = new StringBuilder(baseDir)
@@ -482,7 +474,31 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
             throw new PhrescoException(e);
         } catch (IOException e) {
             throw new PhrescoException(e);
+        } finally {
+            try {
+                reader.close();
+                writer.close();
+            } catch (IOException e) {
+               throw new PhrescoException(e);
+            }
         }
+	}
+	
+	private String getAppLevelConfigJson(String appDirName) {
+	    StringBuilder sb =  new StringBuilder(Utility.getProjectHome())
+        .append(appDirName)
+        .append(File.separator)
+        .append("src")
+        .append(File.separator)
+        .append("main")
+        .append(File.separator)
+        .append("webapp")
+        .append(File.separator)
+        .append("json")
+        .append(File.separator)
+        .append(Constants.CONFIG_JSON);
+	    
+	    return sb.toString();
 	}
 	
 	private void setFileSetIncludes(WarConfigProcessor warConfigProcessor, String fileSetId, List<String> toBeIncluded) throws PhrescoException {
@@ -517,16 +533,5 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 	public void postBuild(ApplicationInfo appInfo) throws PhrescoException {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	private void storeConfigObjAsJson(String json, String jsonFile) throws PhrescoException {
-	    try {
-	        Gson gson = new Gson();
-	        FileWriter writer = new FileWriter(jsonFile);
-	        writer.write(json);
-	        writer.close();
-	    } catch (Exception e) {
-	        throw new PhrescoException(e);
-	    }
 	}
 }

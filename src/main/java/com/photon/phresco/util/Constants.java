@@ -99,7 +99,7 @@ public interface Constants {
     // Constants for Info File
     String MOJO_KEY_ENVIRONMENT_NAME = "environmentName";
     String MOJO_KEY_THEME = "theme";
-    String MOJO_KEY_DEFAULT_THEME = "deafultTheme";
+    String MOJO_KEY_DEFAULT_THEME = "defaultTheme";
     String MOJO_KEY_THEMES = "themes";
     
     // Constants for Server
