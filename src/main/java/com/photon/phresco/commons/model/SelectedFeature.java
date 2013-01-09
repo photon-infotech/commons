@@ -11,6 +11,7 @@ public class SelectedFeature {
 	private String type;
 	private String moduleId;
 	private boolean canConfigure = false;
+	private boolean defaultModule = false;
 	
 	public String getDispName() {
 		return dispName;
@@ -60,7 +61,15 @@ public class SelectedFeature {
         this.canConfigure = canConfigure;
     }
 
-    @Override
+    public boolean isDefaultModule() {
+		return defaultModule;
+	}
+
+	public void setDefaultModule(boolean defaultModule) {
+		this.defaultModule = defaultModule;
+	}
+
+	@Override
     public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
@@ -71,6 +80,7 @@ public class SelectedFeature {
                 .append("type", getType())
                 .append("moduleId", getModuleId())
                 .append("canConfigure", isCanConfigure())
+                .append("defaultModule", isDefaultModule())
                 .toString();
     }
 }
