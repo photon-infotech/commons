@@ -15,6 +15,8 @@ import com.photon.phresco.plugins.model.Mojos.ApplicationHandler;
 import com.photon.phresco.plugins.model.Mojos.Mojo;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter;
+import com.photon.phresco.plugins.model.Mojos.Mojo.Implementation;
+import com.photon.phresco.plugins.model.Mojos.Mojo.Implementation.Dependency;
 
 /**
  * 
@@ -76,16 +78,16 @@ public class MojoProcessor {
 	 * @param goal
 	 * @return
 	 */
-	public String getImplementationClassName(String goal) {
+	public Dependency getImplementationDependency(String goal) {
 		if(mojos.getMojo() != null) {
 			List<Mojo> mojoList = mojos.getMojo();
 			for (Mojo mojo : mojoList) {
 				if(mojo.getGoal().equals(goal)) {
-				return mojo.getImplementation();
+				return mojo.getImplementation().getDependency();
 				}
 			}
 		}
-		return "";
+		return null;
 	}
 	
 	/**
