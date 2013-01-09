@@ -1,10 +1,7 @@
 package com.photon.phresco.impl;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 import javax.xml.bind.JAXBException;
 
@@ -13,6 +10,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
+import org.jdom.output.*;
 
 import com.photon.phresco.api.ApplicationProcessor;
 import com.photon.phresco.commons.model.ApplicationInfo;
@@ -24,10 +22,16 @@ import com.photon.phresco.util.Constants;
 import com.photon.phresco.util.ProjectUtils;
 import com.photon.phresco.util.Utility;
 import com.phresco.pom.exception.PhrescoPomException;
+import com.phresco.pom.model.*;
 import com.phresco.pom.util.PomProcessor;
 
 public class AndroidApplicationProcessor implements ApplicationProcessor {
 
+	private static final String NODE_APP_NAME = "app_name";
+	private static final String PATH_STRINGS_XML = "/values/strings.xml";
+	private static final String HYPHEN_SPLIT = "-";
+	private static final String NAME = "name";
+	private static final String NODE_STRING = "string";
 	private static final String UNIT_TEST_POM_XML = "/test/unit/pom.xml";
 	private static final String PERFORMANCE_TEST_POM_XML = "/test/performance/pom.xml";
 	private static final String FUNCTIONAL_TEST_POM_XML = "/test/functional/pom.xml";
@@ -52,7 +56,11 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 			String projectHome = Utility.getProjectHome() + appInfo.getAppDirName();
 			File path = new File(projectHome);
 			updateAndroidVersion(path, appInfo);
-			updatePOM( new File(projectHome));
+			File projHome = new File(projectHome);
+			updatePOM(projHome);
+			
+			// update String.xml app_name with user defined name
+			updateAppName(projHome, appInfo.getName());
 		} catch (Exception e) {
 			throw new PhrescoException(e);
 		}
@@ -78,7 +86,11 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 		} catch (IOException e) {
 			throw new PhrescoException(e);
 		}
-		updatePOM( new File(projectHome));
+		File projHome = new File(projectHome);
+		updatePOM(projHome);
+		
+		// update String.xml app_name with user defined name
+		updateAppName(projHome, appInfo.getName());
 	}
 
 	public void updateAndroidVersion(File path, ApplicationInfo appInfo) throws PhrescoException {
@@ -138,6 +150,56 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 	public void postBuild(ApplicationInfo appInfo) throws PhrescoException {
 		// TODO Auto-generated method stub
 
+	}
+	
+	private boolean updateAppName(File appPath, String appName) throws PhrescoException {
+		try {
+			File projectHomePOM = new File(appPath, POM);
+			PomProcessor processor = new PomProcessor(projectHomePOM);
+			List<Resource> resources = processor.getModel().getBuild().getResources().getResource();
+			String directory = "";
+			if (resources != null) {
+				Resource resource = resources.get(0);
+				directory = resource.getDirectory();
+			} 
+			File stringsXml = new File(appPath, directory + PATH_STRINGS_XML);
+			List<String> appNames = Arrays.asList(appName.split(HYPHEN_SPLIT));
+			return updateAppName(stringsXml, NODE_APP_NAME, appNames.get(0));
+		} catch (Exception e) {
+			throw new PhrescoException(e);
+		}
+	}
+	
+	/**
+	 * @param stringsXml file path where the strings.xml present.
+	 * @return 
+	 * @throws PhrescoException
+	 */
+	private boolean updateAppName(File stringsXml, String stringId, String appName) throws PhrescoException {
+		try {
+			if (stringsXml.isFile()) {
+				SAXBuilder builder = new SAXBuilder();
+				Document document = (Document) builder.build(stringsXml);
+				Element rootNode = document.getRootElement();
+				List list = rootNode.getChildren(NODE_STRING);
+				for (int i = 0; i < list.size(); i++) {
+					Element node = (Element) list.get(i);
+					String name = node.getAttributeValue(NAME);
+					if (stringId.equals(name)) { // "app_name"
+						node.setText(appName); //Shopping Cart
+						XMLOutputter xmlOutput = new XMLOutputter();
+						// display nice nice
+						xmlOutput.setFormat(Format.getPrettyFormat());
+						xmlOutput.output(document, new FileWriter(stringsXml));
+						break;
+					}
+				}
+				return true;
+			}
+		} catch (Exception e) {
+			throw new PhrescoException(e);
+		}
+		return false;
 	}
 	
 	/**
