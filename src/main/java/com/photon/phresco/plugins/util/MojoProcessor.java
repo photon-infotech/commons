@@ -78,12 +78,12 @@ public class MojoProcessor {
 	 * @param goal
 	 * @return
 	 */
-	public Dependency getImplementationDependency(String goal) {
+	public Implementation getImplementationDependency(String goal) {
 		if(mojos.getMojo() != null) {
 			List<Mojo> mojoList = mojos.getMojo();
 			for (Mojo mojo : mojoList) {
 				if(mojo.getGoal().equals(goal)) {
-				return mojo.getImplementation().getDependency();
+				return mojo.getImplementation();
 				}
 			}
 		}
