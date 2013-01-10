@@ -47,6 +47,7 @@ public class Technology extends CustomerBasedElement implements Cloneable, Seria
 	private List<String> options;
 	private String techGroupId;
 	private List<String> reports;
+	private List<String> archetypeFeatures; 
 	
 	public Technology() {
         super();
@@ -112,6 +113,14 @@ public class Technology extends CustomerBasedElement implements Cloneable, Seria
 		return reports;
 	}
 	
+	public List<String> getArchetypeFeatures() {
+		return archetypeFeatures;
+	}
+
+	public void setArchetypeFeatures(List<String> archetypeFeatures) {
+		this.archetypeFeatures = archetypeFeatures;
+	}
+
 	public String toString() {
         return new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)
                 .append(super.toString())
