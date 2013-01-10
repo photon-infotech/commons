@@ -39,6 +39,7 @@ public class ApplicationInfo extends CustomerBasedElement {
     private Element pilotInfo;
     
     private String version;
+    private String embedAppId;
     private List<String> selectedModules;
     private List<String> selectedJSLibs;
     private List<ArtifactGroup> selectedFrameworks;
@@ -49,7 +50,7 @@ public class ApplicationInfo extends CustomerBasedElement {
     private boolean emailSupported;
     private boolean phoneEnabled;
     private boolean tabletEnabled;
-    private boolean isPilot;
+    private boolean pilot;
 
     //Information about where the pilot project is stored in repository
     private ArtifactGroup pilotContent;
@@ -166,6 +167,14 @@ public class ApplicationInfo extends CustomerBasedElement {
 		this.version = version;
 	}
 	
+	public String getEmbedAppId() {
+        return embedAppId;
+    }
+
+    public void setEmbedAppId(String embedAppId) {
+        this.embedAppId = embedAppId;
+    }
+	
 	public boolean isPhoneEnabled() {
         return phoneEnabled;
     }
@@ -182,13 +191,13 @@ public class ApplicationInfo extends CustomerBasedElement {
         this.tabletEnabled = tabletSupported;
     }
     
-    public void setPilot(boolean isPilot) {
-		this.isPilot = isPilot;
-	}
+    public boolean isPilot() {
+        return pilot;
+    }
 
-	public boolean isPilot() {
-		return isPilot;
-	}
+    public void setPilot(boolean pilot) {
+        this.pilot = pilot;
+    }
 	
 	public String toString() {
         return new ToStringBuilder(this,
@@ -209,7 +218,8 @@ public class ApplicationInfo extends CustomerBasedElement {
                 .append("version", getVersion())
                 .append("phoneEnabled", isPhoneEnabled())
                 .append("tabletEnabled", isTabletEnabled())
-                .append("isPilot", isPilot)
+                .append("pilot", isPilot())
+                .append("embedAppId", getEmbedAppId())
                 .toString();
     }
 

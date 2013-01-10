@@ -85,7 +85,9 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 				throw new PhrescoException(e);
 			} finally {
 			    try {
-                    breader.close();
+			        if (breader != null) {
+			            breader.close();
+			        }
                 } catch (IOException e) {
                     throw new PhrescoException(e);
                 }
@@ -112,7 +114,7 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
         if(!jsonFile.exists()) {
             return null;
         }
-        return getConfiguration(jsonFile, envName);
+        return getConfiguration(jsonFile, envName, componentName);
     }
 
 	@Override
@@ -158,13 +160,13 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 			if(!jsonFile.exists()) {
 				return null;
 			}
-			return getConfiguration(jsonFile);
+			return getConfiguration(jsonFile, componentName);
 		} catch (Exception e) {
 			throw new PhrescoException(e);
 		}
 	}
 	
-	private List<Configuration> getConfiguration(File jsonFile) throws PhrescoException {
+	private List<Configuration> getConfiguration(File jsonFile, String componentName) throws PhrescoException {
         FileReader reader = null;
         try {
             reader = new FileReader(jsonFile);
@@ -197,7 +199,9 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
             throw new PhrescoException(e);
         } finally {
             try {
-                reader.close();
+                if (reader != null) {
+                    reader.close();
+                }
             } catch (IOException e) {
                throw new PhrescoException(e);
             }
@@ -206,7 +210,7 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
         return null;
     }
 
-	private List<Configuration> getConfiguration(File jsonFile, String envName) throws PhrescoException {
+	private List<Configuration> getConfiguration(File jsonFile, String envName, String componentName) throws PhrescoException {
 	    FileReader reader = null;
 	    try {
 	        reader = new FileReader(jsonFile);
@@ -226,14 +230,17 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 	                if (name.getAsString().equals(envName)) {
 	                    JsonElement components = asJsonObject.get(Constants.COMPONENTS);
 	                    JsonObject asJsonObj = components.getAsJsonObject();
-	                    Set<Entry<String,JsonElement>> parentEntrySet = asJsonObj.entrySet();
+	                    Set<Entry<String, JsonElement>> parentEntrySet = asJsonObj.entrySet();
 	                    for (Entry<String, JsonElement> entry1 : parentEntrySet) {
-	                        JsonObject valueJsonObj = entry1.getValue().getAsJsonObject();
-	                        Set<Entry<String,JsonElement>> valueEntrySet = valueJsonObj.entrySet();
-	                        for (Entry<String, JsonElement> valueEntry : valueEntrySet) {
-	                            String key1 = valueEntry.getKey();
-	                            JsonElement value1 = valueEntry.getValue();
-	                            properties.setProperty(key1, value1.getAsString());
+	                        String key = entry1.getKey();
+	                        if (key.equalsIgnoreCase(componentName)) {
+	                            JsonObject valueJsonObj = entry1.getValue().getAsJsonObject();
+	                            Set<Entry<String,JsonElement>> valueEntrySet = valueJsonObj.entrySet();
+	                            for (Entry<String, JsonElement> valueEntry : valueEntrySet) {
+	                                String key1 = valueEntry.getKey();
+	                                JsonElement value1 = valueEntry.getValue();
+	                                properties.setProperty(key1, value1.getAsString());
+	                            }
 	                        }
 	                    }
 	                    configuration.setProperties(properties);
@@ -246,7 +253,9 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 	        throw new PhrescoException(e);
 	    } finally {
 	        try {
-                reader.close();
+	            if (reader != null) {
+	                reader.close();
+	            }
             } catch (IOException e) {
                throw new PhrescoException(e);
             }
@@ -290,7 +299,7 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 			return;
 		}
 		File configFile = new File(getAppLevelConfigJson(appInfo.getAppDirName()));
-
+		
 		JsonParser parser = new JsonParser();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		JsonObject jsonObject = new JsonObject();
@@ -330,16 +339,16 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 					} else {
 						components = jsonObject.get(type);
 					}
-					if(components == null) {
+					if (components == null) {
 						jsonObject.add(type, compJsonElement);
 					} else {
 						allComponents = components.getAsJsonObject();
 						Set<Entry<String,JsonElement>> entrySet = compJsonElement.getAsJsonObject().entrySet();
 						Entry<String, JsonElement> entry = entrySet.iterator().next();
 						String key = entry.getKey();
-						if (allComponents.get(key) == null) {
+//						if (allComponents.get(key) == null) {
 							allComponents.add(key, entry.getValue());
-						}
+//						}
 					}
 				}
 
@@ -414,7 +423,9 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 	            throw new PhrescoException(e);
 	        } finally {
 	            try {
-                    writer.close();
+	                if (writer != null) {
+	                    writer.close();
+	                }
                 } catch (IOException e) {
                     throw new PhrescoException(e);
                 }
@@ -442,15 +453,17 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 	        MojoProcessor mojoProcessor = new MojoProcessor(pluginInfoFile);
 	        Parameter defaultThemeParameter = mojoProcessor.getParameter(Constants.MVN_GOAL_PACKAGE, Constants.MOJO_KEY_DEFAULT_THEME);
 	        String appLevelConfigJson = getAppLevelConfigJson(appInfo.getAppDirName());
-            reader = new FileReader(appLevelConfigJson);
-            JsonParser parser = new JsonParser();
-            Object obj = parser.parse(reader);
-            JsonObject jsonObject =  (JsonObject) obj;
-            jsonObject.addProperty(Constants.MOJO_KEY_DEFAULT_THEME, defaultThemeParameter.getValue());
-            Gson gson = new Gson();
-            String json = gson.toJson(jsonObject);
-            writer = new FileWriter(appLevelConfigJson);
-            writer.write(json);
+	        if (new File(appLevelConfigJson).exists()) {
+	            reader = new FileReader(appLevelConfigJson);
+	            JsonParser parser = new JsonParser();
+	            Object obj = parser.parse(reader);
+	            JsonObject jsonObject =  (JsonObject) obj;
+	            jsonObject.addProperty(Constants.MOJO_KEY_DEFAULT_THEME, defaultThemeParameter.getValue());
+	            Gson gson = new Gson();
+	            String json = gson.toJson(jsonObject);
+	            writer = new FileWriter(appLevelConfigJson);
+	            writer.write(json);
+	        }
             
 	        Parameter themesParameter = mojoProcessor.getParameter(Constants.MVN_GOAL_PACKAGE, Constants.MOJO_KEY_THEMES);
 	        if (themesParameter != null) {
@@ -476,8 +489,12 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
             throw new PhrescoException(e);
         } finally {
             try {
-                reader.close();
-                writer.close();
+                if (reader != null) {
+                    reader.close();
+                }
+                if (writer != null) {
+                    writer.close();
+                }
             } catch (IOException e) {
                throw new PhrescoException(e);
             }
