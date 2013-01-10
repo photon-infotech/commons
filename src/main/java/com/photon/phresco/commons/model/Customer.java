@@ -45,9 +45,9 @@ public class Customer extends Element {
 	private LicenseType type;
 	private RepoInfo repoInfo;
 	private String icon;
-	private String brandingColor;
 	private List<String> applicableTechnologies;
 	private List<ApplicationType> applicableAppTypes;
+	private FrameWorkTheme frameworkTheme;
 	
 	public enum LicenseType {
         TYPE_GOLD, TYPE_SILVER, TYPE_BRONZE
@@ -228,14 +228,6 @@ public class Customer extends Element {
 		this.icon = icon;
 	}
 
-	public String getBrandingColor() {
-		return brandingColor;
-	}
-
-	public void setBrandingColor(String brandingColor) {
-		this.brandingColor = brandingColor;
-	}
-
 	public List<ApplicationType> getApplicableAppTypes() {
 		return applicableAppTypes;
 	}
@@ -252,6 +244,14 @@ public class Customer extends Element {
 		this.applicableTechnologies = applicableTechnologies;
 	}
 
+
+	public FrameWorkTheme getFrameworkTheme() {
+		return frameworkTheme;
+	}
+
+	public void setFrameworkTheme(FrameWorkTheme frameworkTheme) {
+		this.frameworkTheme = frameworkTheme;
+	}
 
 	public String toString() {
         return new ToStringBuilder(this,
