@@ -64,35 +64,35 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 
 	@Override
 	public void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroups) throws PhrescoException {
-		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator
-				+ Constants.POM_NAME);
-		ProjectUtils projectUtils = new ProjectUtils();
-		projectUtils.deletePluginExecutionFromPom(pomFile);
-		if (CollectionUtils.isNotEmpty(artifactGroups)) {
-		    BufferedReader breader = null;
-			try {
-				projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
-				projectUtils.deletePluginFromPom(pomFile);
-				projectUtils.addServerPlugin(appInfo, pomFile);
-				breader = projectUtils.ExtractFeature(appInfo);
-			String line = "";
-				while ((line = breader.readLine()) != null) {
-					if (line.startsWith("[INFO] BUILD SUCCESS")) {
-						readConfigJson(appInfo);
-					}
-				}
-			} catch (IOException e) {
-				throw new PhrescoException(e);
-			} finally {
-			    try {
-			        if (breader != null) {
-			            breader.close();
-			        }
-                } catch (IOException e) {
-                    throw new PhrescoException(e);
-                }
-			}
-		}
+	    File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator
+	            + Constants.POM_NAME);
+	    ProjectUtils projectUtils = new ProjectUtils();
+	    projectUtils.deletePluginExecutionFromPom(pomFile);
+	    if (CollectionUtils.isNotEmpty(artifactGroups)) {
+	        BufferedReader breader = null;
+	        try {
+	            projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
+	            projectUtils.deletePluginFromPom(pomFile);
+	            projectUtils.addServerPlugin(appInfo, pomFile);
+	            breader = projectUtils.ExtractFeature(appInfo);
+	            String line = "";
+	            while ((line = breader.readLine()) != null) {
+	                if (line.startsWith("[INFO] BUILD SUCCESS")) {
+	                    readConfigJson(appInfo);
+	                }
+	            }
+	        } catch (IOException e) {
+	            throw new PhrescoException(e);
+	        } finally {
+	            try {
+	                if (breader != null) {
+	                    breader.close();
+	                }
+	            } catch (IOException e) {
+	                throw new PhrescoException(e);
+	            }
+	        }
+	    }
 	}
 	
 	@Override
@@ -276,12 +276,14 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 			if(listFiles.length > 0) {
 				for (File file : listFiles) {
 					String jsonFile = file.getPath() + File.separator + "config" + File.separator + Constants.CONFIG_JSON;
-					reader = new FileReader(jsonFile);
-					JsonParser parser = new JsonParser();
-					Object obj = parser.parse(reader);
-					JsonObject jsonObject =  (JsonObject) obj;
-					JsonElement jsonElement = jsonObject.get(Constants.COMPONENTS);
-					jsonElements.add(jsonElement);
+					if (new File(jsonFile).exists()) {
+					    reader = new FileReader(jsonFile);
+					    JsonParser parser = new JsonParser();
+					    Object obj = parser.parse(reader);
+					    JsonObject jsonObject =  (JsonObject) obj;
+					    JsonElement jsonElement = jsonObject.get(Constants.COMPONENTS);
+					    jsonElements.add(jsonElement);
+					}
 				}
 				writeJson(appInfo, jsonElements, "Production", Constants.COMPONENTS);
 			}
