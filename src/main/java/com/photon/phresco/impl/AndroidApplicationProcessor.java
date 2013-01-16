@@ -247,7 +247,11 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 			Element group = getNode(projectRootNode, POMConstants.GROUP_ID);
 			Element artifact = getNode(projectRootNode, POMConstants.ARTIFACT_ID);
 			Element version = getNode(projectRootNode, POMConstants.VERSION);
+			Element name = getNode(projectRootNode, POMConstants.NAME);
 			PomProcessor processor = new PomProcessor(projectPom);
+			processor.setArtifactId(artifact.getText());
+			processor.setName(name.getText());
+			
 			processor.addDependency(group.getText(), artifact.getText(),  version.getText() , POMConstants.PROVIDED , POMConstants.JAR, "");
 			processor.addDependency(group.getText(), artifact.getText(),  version.getText() , POMConstants.PROVIDED , POMConstants.APK, "");
 			processor.save();
