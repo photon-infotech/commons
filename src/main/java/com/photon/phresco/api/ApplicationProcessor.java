@@ -35,7 +35,7 @@ public interface ApplicationProcessor {
 	 * @param appInfo
 	 * @throws PhrescoException
 	 */
-	void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroup) throws PhrescoException;
+	void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroup, List<ArtifactGroup> deletedFeatures) throws PhrescoException;
 	
 	/**
      * 

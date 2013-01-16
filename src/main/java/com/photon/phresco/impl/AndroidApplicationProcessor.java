@@ -67,13 +67,16 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 	}
 
 	@Override
-	public void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroups) throws PhrescoException {
+	public void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroups, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
 		//		extractPilots(info, path, technology);
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 		String projectHome = Utility.getProjectHome() + appInfo.getAppDirName();
 		ProjectUtils projectUtils = new ProjectUtils();
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
+		}
+		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
+			projectUtils.deleteFeatureDependencies(appInfo, deletedFeatures);
 		}
 		BufferedReader breader = projectUtils.ExtractFeature(appInfo);
 		try {
@@ -112,7 +115,6 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 					processor.setProperty(ANDROID_VERSION, selectedVersion);
 					processor.save();
 				} catch (Exception e) {
-					e.printStackTrace();
 					throw new PhrescoException(e);
 				}
 			}

@@ -30,7 +30,7 @@ public class DotNetApplicationProcessor implements ApplicationProcessor {
 
 	@Override
 	public void postUpdate(ApplicationInfo appInfo,
-			List<ArtifactGroup> artifactGroup) throws PhrescoException {
+			List<ArtifactGroup> artifactGroup, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
 		// TODO Auto-generated method stub
 		
 	}

@@ -59,7 +59,7 @@ public class WindowsApplicationProcessor implements ApplicationProcessor, Consta
 
 	@Override
 	public void postUpdate(ApplicationInfo appInfo,
-			List<ArtifactGroup> artifactGroups) throws PhrescoException {
+			List<ArtifactGroup> artifactGroups, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 		ProjectUtils projectUtils = new ProjectUtils();
 		File path = new File(Utility.getProjectHome() + appInfo.getAppDirName());

@@ -298,18 +298,14 @@ public class ProjectUtils implements Constants {
 		}
 	}
 	
-	public void removeFeatureDependencies(ApplicationInfo appInfo, List<ArtifactGroup> removedFeatures) throws PhrescoException {
+	public void deleteFeatureDependencies(ApplicationInfo appInfo, List<ArtifactGroup> removedFeatures) throws PhrescoException {
 		String pomDir = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + POM_NAME;
 		try {
 			PomProcessor processor = new PomProcessor(new File(pomDir));
 			List<Dependency> dependencies = processor.getModel().getDependencies().getDependency();
 			if(CollectionUtils.isNotEmpty(dependencies)) {
-				for (Dependency dependency : dependencies) {
-					for (ArtifactGroup artifactGroup : removedFeatures) {
-						if(dependency.getGroupId().equals(artifactGroup.getGroupId()) && dependency.getArtifactId().equals(artifactGroup.getArtifactId())) {
-							processor.deleteDependency(dependency.getGroupId(), dependency.getArtifactId());
-						}
-					}
+				for (ArtifactGroup artifactGroup : removedFeatures) {
+					processor.deleteDependency(artifactGroup.getGroupId(), artifactGroup.getArtifactId());
 				}
 			}
 			processor.save();
