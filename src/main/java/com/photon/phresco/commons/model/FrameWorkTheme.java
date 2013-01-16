@@ -15,7 +15,7 @@ public class FrameWorkTheme extends Element {
 	private String accordionBackGroundColor;
 	private String menuBackGround;
 	private String menufontColor;
-	private String backGroundGradientColor;
+	private String pageHeaderColor;
 	private String labelColor;
 	private String copyRightColor;
 	private String buttonColor;
@@ -42,10 +42,6 @@ public class FrameWorkTheme extends Element {
 
 	public String getMenufontColor() {
 		return menufontColor;
-	}
-
-	public String getBackGroundGradientColor() {
-		return backGroundGradientColor;
 	}
 
 	public String getLabelColor() {
@@ -80,10 +76,6 @@ public class FrameWorkTheme extends Element {
 		this.menufontColor = menufontColor;
 	}
 
-	public void setBackGroundGradientColor(String backGroundGradientColor) {
-		this.backGroundGradientColor = backGroundGradientColor;
-	}
-
 	public void setLabelColor(String labelColor) {
 		this.labelColor = labelColor;
 	}
@@ -96,6 +88,14 @@ public class FrameWorkTheme extends Element {
 		this.buttonColor = buttonColor;
 	}
 
+	public String getPageHeaderColor() {
+		return pageHeaderColor;
+	}
+
+	public void setPageHeaderColor(String pageHeaderColor) {
+		this.pageHeaderColor = pageHeaderColor;
+	}
+
 	@Override
 	public String toString() {
 		return "FrameWorkTheme [brandingColor=" + brandingColor
@@ -103,7 +103,7 @@ public class FrameWorkTheme extends Element {
 				+ ", accordionBackGroundColor=" + accordionBackGroundColor
 				+ ", menuBackGround=" + menuBackGround + ", menufontColor="
 				+ menufontColor + ", buttonColor=" + buttonColor
-				+ ", buttonGradientColor=" + backGroundGradientColor
+				+ ", pageHeaderColor=" + pageHeaderColor
 				+ ", labelColor=" + labelColor + ", copyRightColor="
 				+ copyRightColor + "]";
 	}
