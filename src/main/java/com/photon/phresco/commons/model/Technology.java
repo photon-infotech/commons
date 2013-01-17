@@ -20,6 +20,7 @@
 package com.photon.phresco.commons.model;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -130,5 +131,16 @@ public class Technology extends CustomerBasedElement implements Cloneable, Seria
                 .append("reports", getReports())
                 .toString();
     }
+
+	public static Comparator<Technology> TECHNAME_COMPARATOR  = new Comparator<Technology>() {
+
+		public int compare(Technology techFirst, Technology techSecond) {
+			String techNameFirst = techFirst.getName().toUpperCase();
+			String techNameSecond = techSecond.getName().toUpperCase();
+			//ascending order
+			return techNameFirst.compareTo(techNameSecond);
+		}
+
+	};
 
 }
