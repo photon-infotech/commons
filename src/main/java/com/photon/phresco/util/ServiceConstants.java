@@ -100,6 +100,7 @@ public interface ServiceConstants {
 	String REST_SKIP_VALUE = "skipValue";
 	String REST_QUERY_PROJECTID = "projectId";
 	String REST_QUERY_TYPE = "type";
+	String REST_QUERY_PLATFORM = "platform";
 	String REST_QUERY_TYPE_MODULE = "module";
 	String REST_QUERY_TYPE_COMPONENT = "component";
 	String REST_QUERY_TYPE_JS = "js";
@@ -164,6 +165,7 @@ public interface ServiceConstants {
     String DB_COLUMN_APPLIESTOTECHID = "appliesTo.techId";
 	String DB_COLUMN_CREATIONDATE = "creationDate";
 	String DB_COLUMN_VIDEOINFOID = "videoInfoId";
+	String DB_COLUMN_PLATFORM = "platformTypeIds";
 
 	
 	/*
