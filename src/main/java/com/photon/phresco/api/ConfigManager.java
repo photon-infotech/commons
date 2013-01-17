@@ -19,6 +19,7 @@
  */
 package com.photon.phresco.api;
 
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -139,4 +140,12 @@ public interface ConfigManager {
 	 * @throws ConfigurationException
 	 */
 	void deleteConfigurations(Map<String, List<String>> configurations) throws ConfigurationException;
+	
+	/**
+	 * Write xml.
+	 *
+	 * @param fos the fos
+	 * @throws ConfigurationException the configuration exception
+	 */
+	void writeXml(OutputStream fos) throws ConfigurationException;
 }

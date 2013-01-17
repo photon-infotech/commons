@@ -184,7 +184,7 @@ public class ConfigManagerImpl implements ConfigManager {
 		}
 	}
 	
-	private void writeXml(OutputStream fos) throws ConfigurationException {
+	public void writeXml(OutputStream fos) throws ConfigurationException {
 		TransformerFactory tFactory = TransformerFactory.newInstance();
 		Transformer transformer;
 		try {
