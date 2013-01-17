@@ -17,25 +17,24 @@
  * limitations under the License.
  * ###
  */
-package com.photon.phresco.model;
+package com.photon.phresco.commons.model;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
+
 @SuppressWarnings("restriction")
 @XmlRootElement
-public class PropertyTemplate implements Serializable {
+public class PropertyTemplate extends Element {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String id;
 	private String key;
-	private I18NString name;
-	private I18NString description;
 	private String type;
-	private String helpText;
 	private boolean required;
 	private boolean multiple;
 	private List<String> possibleValues;
@@ -58,14 +57,6 @@ public class PropertyTemplate implements Serializable {
 		this.type = type;
 		this.required = required;
 	}
-	
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getKey() {
 		return key;
@@ -73,22 +64,6 @@ public class PropertyTemplate implements Serializable {
 
 	public void setKey(String key) {
 		this.key = key;
-	}
-
-	public I18NString getName() {
-		return name;
-	}
-
-	public void setName(I18NString name) {
-		this.name = name;
-	}
-
-	public I18NString getDescription() {
-		return description;
-	}
-
-	public void setDescription(I18NString description) {
-		this.description = description;
 	}
 
 	public String getType() {
@@ -115,14 +90,6 @@ public class PropertyTemplate implements Serializable {
 		this.propertyTemplates = propertyTemplates;
 	}
 	
-	public String getHelpText() {
-		return helpText;
-	}
-
-	public void setHelpText(String helpText) {
-		this.helpText = helpText;
-	}
-	
 	public boolean isRequired() {
 		return required;
 	}
@@ -138,14 +105,18 @@ public class PropertyTemplate implements Serializable {
 	public void setMultiple(boolean multiple) {
 		this.multiple = multiple;
 	}
-	
-	@Override
-	public String toString() {
-		return "PropertyTemplate [id=" + id + ", key=" + key + ", name=" + name
-				+ ", description=" + description + ", type=" + type
-				+ ", helpText=" + helpText + ", required=" + required
-				+ ", multiple=" + multiple + ", possibleValues="
-				+ possibleValues + ", propertyTemplates=" + propertyTemplates
-				+ "]";
-	}
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this,
+                ToStringStyle.DEFAULT_STYLE)
+                .append(super.toString())
+                .append("type", getType())
+                .append("key", getKey())
+                .append("possibleValues", getPossibleValues())
+                .append("required", isRequired())
+                .append("multiple", isMultiple())
+                .toString();
+    }
+    
 }

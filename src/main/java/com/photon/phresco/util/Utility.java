@@ -30,18 +30,21 @@ import java.io.Reader;
 import java.io.SequenceInputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.codehaus.plexus.util.cli.CommandLineUtils;
+import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import com.photon.phresco.exception.PhrescoWebServiceException;
 
 public final class Utility implements Constants {
 
     private static String systemTemp = null;
+	private static final ArrayList<String> ERRORIDENTIFIERS = new ArrayList<String>();
     private static final Logger S_LOGGER  = Logger.getLogger(PhrescoWebServiceException.class);
     private static Boolean isDebugEnabled = S_LOGGER.isDebugEnabled();
 
@@ -232,4 +235,53 @@ public final class Utility implements Constants {
 
 		return bufferedReader;
 	}
+	
+	  public static void executeStreamconsumer(String command) {
+    	BufferedReader in = null;
+    	fillErrorIdentifiers();
+    	try {
+    	final StringBuffer bufferErrBuffer = new StringBuffer();
+		final StringBuffer bufferOutBuffer = new StringBuffer();
+		Commandline commandLine = new Commandline(command);
+		CommandLineUtils.executeCommandLine(commandLine, new StreamConsumer() {
+			public void consumeLine(String line) {
+				System.out.println(line);
+				if (isError(line) == true) {
+					bufferErrBuffer.append(line);
+				}
+				bufferOutBuffer.append(line);
+			}
+		}, new StreamConsumer() {
+			public void consumeLine(String line) {
+				System.out.println(line);
+				bufferErrBuffer.append(line);
+			}
+		});
+	} catch (CommandLineException e) {
+		e.printStackTrace();
+	} finally {
+		Utility.closeStream(in);
+	}
+    }
+    
+	public static boolean isError(String line) {
+		line = line.trim();
+		for (int i = 0; i < ERRORIDENTIFIERS.size(); i++) {
+			if (line.startsWith((String) ERRORIDENTIFIERS.get(i) + ":")
+					|| line.startsWith("<b>" + (String) ERRORIDENTIFIERS.get(i)
+							+ "</b>:")) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private static void fillErrorIdentifiers() {
+		ERRORIDENTIFIERS.add("Error");
+		ERRORIDENTIFIERS.add("Parse error");
+		ERRORIDENTIFIERS.add("Warning");
+		ERRORIDENTIFIERS.add("Fatal error");
+		ERRORIDENTIFIERS.add("Notice");
+	}
+    
 }

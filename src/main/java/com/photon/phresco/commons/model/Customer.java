@@ -37,15 +37,12 @@ public class Customer extends Element {
     private String zipcode;
     private String contactNumber;
     private String fax;
-    private String helpText;
 	Date validFrom;
 	Date validUpto;
-	private CustomerStatus status;
-	private int type;
-	private String repoURL;
+	private LicenseType type;
 	private RepoInfo repoInfo;
 	
-	public enum CustomerStatus {
+	public enum LicenseType {
         TYPE_GOLD, TYPE_SILVER, TYPE_BRONZE
     }
 	
@@ -175,20 +172,6 @@ public class Customer extends Element {
     /**
      * @return
      */
-    public String getHelpText() {
-        return helpText;
-    }
-
-    /**
-     * @param helpText
-     */
-    public void setHelpText(String helpText) {
-        this.helpText = helpText;
-    }
-    
-    /**
-     * @return
-     */
     public Date getValidFrom() {
         return validFrom;
     }
@@ -214,31 +197,18 @@ public class Customer extends Element {
         this.validUpto = validUpto;
     }
     
-    /**
-     * @return
-     */
-    public CustomerStatus getStatus() {
-        return status;
-    }
-
-    /**
-     * @param status
-     */
-    public void setStatus(CustomerStatus status) {
-        this.status = status;
-    }
     
     /**
      * @return
      */
-    public int getType() {
+    public LicenseType getType() {
         return type;
     }
 
     /**
      * @param type
      */
-    public void setType(int type) {
+    public void setType(LicenseType type) {
         this.type = type;
     }
 
@@ -256,20 +226,6 @@ public class Customer extends Element {
         this.repoInfo = repoInfo;
     }
 
-    /**
-     * @return
-     */
-    public String getRepoURL() {
-        return repoURL;
-    }
-
-    /**
-     * @param repoURL
-     */
-    public void setRepoURL(String repoURL) {
-        this.repoURL = repoURL;
-    }
-
     public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
@@ -281,10 +237,8 @@ public class Customer extends Element {
                 .append("zipcode", zipcode)
                 .append("contactNumber", contactNumber)
                 .append("fax", fax)
-                .append("helpText", helpText)
                 .append("validFrom", validFrom)
                 .append("validUpto", validUpto)
-                .append("status", status)
                 .append("type", type)
                 .append("repoInfo", repoInfo)
                 .toString();

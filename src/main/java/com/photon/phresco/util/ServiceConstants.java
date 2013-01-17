@@ -148,6 +148,8 @@ public interface ServiceConstants {
 	String COLON_DOUBLE_SLASH = "://";
 	String COLON = ":";
 	String SLASH_REST_SLASH_API = "/rest/api";
+	String OPEN_PHRASE = "{";
+	String CLOSE_PHRASE = "}";
 	
 	/*
      * Constants for Fields
@@ -169,4 +171,26 @@ public interface ServiceConstants {
      */
 	int RES_CODE_200 = 200;
 	int RES_CODE_201 = 201;
+	
+	/*
+     * Constants for Media Type
+     */
+	String REPOTYPE_RELEASE = "RELEASE";
+	String REPOTYPE_SNAPSHOT = "SNAPSHOT";
+	String REPOTYPE_GROUP = "group";
+	String REPO_GROUP_PATH = "/service/local/repo_groups?undefined";
+	String REPO_GROUP_CONTENT = "/content/groups/";
+	String REPO_HOSTED_PATH = "/service/local/repositories?undefined";
+	String REPO_HOSTED_CONTENT = "/content/repositories/";
+	String REPO_PROVIDER = "maven2";
+	String REPO_PROVIDER_ROLE = "org.sonatype.nexus.proxy.repository.Repository";
+	String REPO_ALLOW_WRITE = "ALLOW_WRITE";
+	int NOT_FOUND_CACHE = 1440;
+	String REPO_HOSTED = "hosted";
+	String SLASH = "\"";
+	String LOCAL_REPO_GROUP = "/service/local/repo_groups/";
+	String REPO_RELEASE_NAME = "release";
+	String REPO_SNAPSHOT_NAME = "snapshot";
+	String REPO_OBJECT_ID = "data";
+	String REPO_FAILURE_MSG = "Repository Creation Failed......";
 }

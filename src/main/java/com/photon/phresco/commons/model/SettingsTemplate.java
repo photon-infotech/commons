@@ -17,7 +17,7 @@
  * limitations under the License.
  * ###
  */
-package com.photon.phresco.model;
+package com.photon.phresco.commons.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,32 +25,32 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.photon.phresco.commons.model.Element;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 import com.photon.phresco.util.SizeConstants;
 
 @SuppressWarnings("restriction")
 @XmlRootElement
-public class SettingsTemplate extends Element implements Serializable {
+public class SettingsTemplate extends CustomerBasedElement {
+    
     private static final long serialVersionUID = 1L;
-
+    
     //Database, Server, Email
     private String type;
+    
     //List of properties available for the template
     private List<PropertyTemplate> properties = new ArrayList<PropertyTemplate>(SizeConstants.SIZE_PROPERTIES_MAP);
     //List of technology ids
-    private List<String> appliesTo;
-    private String customerId;
-    private boolean system;
+    private List<Element> appliesToTechs;
     
     public SettingsTemplate() {
         super();
     }
 
-    public SettingsTemplate(String type, List<PropertyTemplate> properties,
-            List<String> appliesTo) {
+    public SettingsTemplate(String type, List<PropertyTemplate> properties) {
         this.type = type;
         this.properties = properties;
-        this.appliesTo = appliesTo;
     }
 
 	public String getType() {
@@ -69,34 +69,23 @@ public class SettingsTemplate extends Element implements Serializable {
         this.properties = properties;
     }
 
-    public List<String> getAppliesTo() {
-        return appliesTo;
+    public List<Element> getAppliesToTechs() {
+        return appliesToTechs;
     }
 
-    public void setAppliesTo(List<String> appliesTo) {
-        this.appliesTo = appliesTo;
+    public void setAppliesToTechs(List<Element> appliesTo) {
+        this.appliesToTechs = appliesTo;
     }
-
-	public String getCustomerId() {
-		return customerId;
-	}
-
-	public void setCustomerId(String customerId) {
-		this.customerId = customerId;
-	}
-
-	public boolean isSystem() {
-        return system;
-    }
-
-    public void setSystem(boolean system) {
-        this.system = system;
-    }
-
+    
     @Override
-	public String toString() {
-		return "SettingsTemplate [type=" + type
-				+ ", properties=" + properties + ", appliesTo=" + appliesTo
-				+ ", customerId=" + customerId + "]";
-	}
+    public String toString() {
+        return new ToStringBuilder(this,
+                ToStringStyle.DEFAULT_STYLE)
+                .append(super.toString())
+                .append("type", getType())
+                .append("properties", getProperties())
+                .append("appliesToTechs", getAppliesToTechs())
+                .toString();
+    }
+
 }
