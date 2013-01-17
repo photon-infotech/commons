@@ -1,14 +1,12 @@
 package com.photon.phresco.param.impl;
 
-import java.util.Collection;
-
+import com.photon.phresco.model.ProjectInfo;
 import com.photon.phresco.param.api.DynamicParameter;
-import com.photon.phresco.plugins.model.Mojos;
+import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter.PossibleValues;
 
 public class EnvironmentParameter implements DynamicParameter {
 
-    public Collection<Mojos.Mojo.Configuration.Parameters.Parameter.Possiblevalues> getValues() {
-        return null;
-    }
-
+	public PossibleValues getValues(ProjectInfo projectInfo) {
+		return null;
+	}
 }
