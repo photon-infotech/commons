@@ -288,13 +288,14 @@ public final class Utility implements Constants {
 		return bufferedReader;
 	}
 	
-	public static void executeStreamconsumer(String command) {
+	public static void executeStreamconsumer(String command, String workingDir) {
 		BufferedReader in = null;
 		fillErrorIdentifiers();
 		try {
 			final StringBuffer bufferErrBuffer = new StringBuffer();
 			final StringBuffer bufferOutBuffer = new StringBuffer();
 			Commandline commandLine = new Commandline(command);
+			commandLine.setWorkingDirectory(workingDir);
 			CommandLineUtils.executeCommandLine(commandLine, new StreamConsumer() {
 				public void consumeLine(String line) {
 					System.out.println(line);
