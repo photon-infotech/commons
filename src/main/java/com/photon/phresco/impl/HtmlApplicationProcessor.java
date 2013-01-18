@@ -455,7 +455,7 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 	        MojoProcessor mojoProcessor = new MojoProcessor(pluginInfoFile);
 	        Parameter defaultThemeParameter = mojoProcessor.getParameter(Constants.MVN_GOAL_PACKAGE, Constants.MOJO_KEY_DEFAULT_THEME);
 	        String appLevelConfigJson = getAppLevelConfigJson(appInfo.getAppDirName());
-	        if (new File(appLevelConfigJson).exists()) {
+	        if (defaultThemeParameter != null && new File(appLevelConfigJson).exists()) {
 	            reader = new FileReader(appLevelConfigJson);
 	            JsonParser parser = new JsonParser();
 	            Object obj = parser.parse(reader);
