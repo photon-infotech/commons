@@ -43,6 +43,7 @@ public interface Constants {
     String PROJECTS_TEMP = "temp";
     String ARCHIVE_HOME = "workspace/archive";
     String PROJECT_INFO_FILE = "project.info";
+    String PROJECT_INFO_BACKUP_FILE = "projectinfo.backup";
     String TOOLS_DIR = "tools";
     String JENKINS_DIR = "jenkins";
     String PLUGIN_DIR = "plugins";

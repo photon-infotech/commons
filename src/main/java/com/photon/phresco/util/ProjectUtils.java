@@ -305,7 +305,7 @@ public class ProjectUtils implements Constants {
 			List<Dependency> dependencies = processor.getModel().getDependencies().getDependency();
 			if(CollectionUtils.isNotEmpty(dependencies)) {
 				for (ArtifactGroup artifactGroup : removedFeatures) {
-					processor.deleteDependency(artifactGroup.getGroupId(), artifactGroup.getArtifactId());
+					processor.deleteDependency(artifactGroup.getGroupId(), artifactGroup.getArtifactId(), artifactGroup.getPackaging());
 				}
 			}
 			processor.save();

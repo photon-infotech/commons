@@ -6,19 +6,24 @@ import java.util.*;
 import javax.xml.bind.JAXBException;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.*;
 
+import com.google.gson.Gson;
 import com.photon.phresco.api.ApplicationProcessor;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
+import com.photon.phresco.commons.model.ProjectInfo;
 import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.service.pom.POMConstants;
 import com.photon.phresco.util.Constants;
+import com.photon.phresco.util.FileUtil;
 import com.photon.phresco.util.ProjectUtils;
 import com.photon.phresco.util.Utility;
 import com.phresco.pom.exception.PhrescoPomException;
@@ -212,7 +217,7 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 	 * @throws PhrescoPomException 
 	 * @throws JAXBException 
 	 */
-	private static boolean updatePOM(File path) throws PhrescoException {
+	private boolean updatePOM(File path) throws PhrescoException {
 		File projectHome = new File(path, POM);
 		File testFunctionalPom = new File(path, FUNCTIONAL_TEST_POM_XML);
 		File testUnitPom = new File(path, UNIT_TEST_POM_XML);
@@ -238,22 +243,31 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 	 * @throws JAXBException 
 	 * @throws PhrescoPomException 
 	 */
-	private static boolean updateTestPom(File projectPom, File projectHome) throws PhrescoException {
+	private boolean updateTestPom(File projectPom, File projectHome) throws PhrescoException {
 		SAXBuilder builder = new SAXBuilder();
 		if(!projectPom.exists()) {
 			return false;
 		}
 		try {
+			String oldArtifactId = getOldArtifactId(projectHome.getParent());
 			Document projectDoc = builder.build(projectHome);
 			Element projectRootNode = projectDoc.getRootElement();
-			Element group = getNode(projectRootNode, POMConstants.GROUP_ID);
 			Element artifact = getNode(projectRootNode, POMConstants.ARTIFACT_ID);
+			if(StringUtils.isNotEmpty(oldArtifactId)) {
+				if(oldArtifactId.equals(artifact.getText())) {
+					return true;
+				}
+			}
+			Element group = getNode(projectRootNode, POMConstants.GROUP_ID);
 			Element version = getNode(projectRootNode, POMConstants.VERSION);
 			Element name = getNode(projectRootNode, POMConstants.NAME);
 			PomProcessor processor = new PomProcessor(projectPom);
 			processor.setArtifactId(artifact.getText());
 			processor.setName(name.getText());
-			
+			if(StringUtils.isNotEmpty(oldArtifactId)) {
+				processor.deleteDependency(group.getText(), oldArtifactId, POMConstants.JAR);
+				processor.deleteDependency(group.getText(), oldArtifactId, POMConstants.APK);
+			}
 			processor.addDependency(group.getText(), artifact.getText(),  version.getText() , POMConstants.PROVIDED , POMConstants.JAR, "");
 			processor.addDependency(group.getText(), artifact.getText(),  version.getText() , POMConstants.PROVIDED , POMConstants.APK, "");
 			processor.save();
@@ -266,6 +280,23 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 			throw new PhrescoException(e);
 		}
 		return true;
+	}
+
+	private String getOldArtifactId(String projectHome) throws PhrescoException {
+		File backupFile = new File(projectHome + File.separator + Constants.DOT_PHRESCO_FOLDER +File.separator + Constants.PROJECT_INFO_BACKUP_FILE);
+		if(!backupFile.exists()) {
+			return null;
+		}
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new FileReader(backupFile));
+			ProjectInfo projectInfo = new Gson().fromJson(reader, ProjectInfo.class);
+			return projectInfo.getAppInfos().get(0).getCode();
+		} catch (FileNotFoundException e) {
+			throw new PhrescoException(e);
+		} finally {
+			Utility.closeReader(reader);
+		}
 	}
 
 	/**
