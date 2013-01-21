@@ -80,13 +80,14 @@ public class PhrescoDynamicLoader {
 	
 	public InputStream getResourceAsStream(String fileName) throws PhrescoException {
 		List<Artifact> artifacts = new ArrayList<Artifact>();
+		Artifact foundArtifact = null;
 		String destFile = "";
 		JarFile jarfile = null; 
 		for (ArtifactGroup plugin : plugins) {
 			List<ArtifactInfo> versions = plugin.getVersions();
 			for (ArtifactInfo artifactInfo : versions) {
-				Artifact artifact = new DefaultArtifact(plugin.getGroupId(), plugin.getArtifactId(), "jar", artifactInfo.getVersion());
-				artifacts.add(artifact);
+				foundArtifact = new DefaultArtifact(plugin.getGroupId(), plugin.getArtifactId(), "jar", artifactInfo.getVersion());
+				artifacts.add(foundArtifact);
 			}
 		}
 		try {
@@ -94,14 +95,16 @@ public class PhrescoDynamicLoader {
 					repoInfo.getRepoPassword(), artifacts);
 			for (URL url : artifactURLs) {
 				File jarFile = new File(url.toURI());
-				jarfile = new JarFile(jarFile);
-	            for (Enumeration<JarEntry> em = jarfile.entries(); em
-	                    .hasMoreElements();) {
-	                JarEntry jarEntry = em.nextElement();
-	                if (jarEntry.getName().endsWith(fileName)) {
-	                	destFile = jarEntry.getName();
-	                }
-	            }
+				if(jarFile.getName().equals(foundArtifact.getArtifactId() + "-" + foundArtifact.getVersion() + "." + foundArtifact.getExtension())) {
+					jarfile = new JarFile(jarFile);
+		            for (Enumeration<JarEntry> em = jarfile.entries(); em
+		                    .hasMoreElements();) {
+		                JarEntry jarEntry = em.nextElement();
+		                if (jarEntry.getName().endsWith(fileName)) {
+		                	destFile = jarEntry.getName();
+		                }
+		            }
+				}
 			}
 			if(StringUtils.isNotEmpty(destFile)) {
 				ZipEntry entry = jarfile.getEntry(destFile);
