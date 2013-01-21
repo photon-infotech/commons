@@ -32,6 +32,8 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.SequenceInputStream;
 import java.lang.reflect.Type;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -413,4 +415,16 @@ public final class Utility implements Constants {
 
 	    return null;
 	}
+	
+	public static boolean isConnectionAlive(String protocol, String host, int port) {
+        boolean isAlive = true;
+        try {
+            URL url = new URL(protocol, host, port, "");
+            URLConnection connection = url.openConnection();
+            connection.connect();
+        } catch (Exception e) {
+            isAlive = false;
+        }
+        return isAlive;
+    }
 }
