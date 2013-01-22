@@ -253,11 +253,6 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 			Document projectDoc = builder.build(projectHome);
 			Element projectRootNode = projectDoc.getRootElement();
 			Element artifact = getNode(projectRootNode, POMConstants.ARTIFACT_ID);
-			if(StringUtils.isNotEmpty(oldArtifactId)) {
-				if(oldArtifactId.equals(artifact.getText())) {
-					return true;
-				}
-			}
 			Element group = getNode(projectRootNode, POMConstants.GROUP_ID);
 			Element version = getNode(projectRootNode, POMConstants.VERSION);
 			Element name = getNode(projectRootNode, POMConstants.NAME);
