@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang.StringUtils;
 import org.xml.sax.SAXException;
 
 import com.photon.phresco.api.ConfigManager;
@@ -16,8 +17,10 @@ import com.photon.phresco.commons.model.BuildInfo;
 import com.photon.phresco.configuration.Environment;
 import com.photon.phresco.exception.ConfigurationException;
 import com.photon.phresco.exception.PhrescoException;
+import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter.PossibleValues;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter.PossibleValues.Value;
+import com.photon.phresco.plugins.util.MojoProcessor;
 import com.photon.phresco.util.Constants;
 import com.photon.phresco.util.Utility;
 
@@ -33,7 +36,10 @@ public class FunctionalTestEnvironmentImpl implements DynamicParameter, Constant
 		String buildNumber = (String) paramsMap.get(KEY_BUILD_NO);
 		String customer = (String) paramsMap.get(KEY_CUSTOMER_ID);
 		String testAgainst = (String) paramsMap.get(KEY_TEST_AGAINST);
-
+		MojoProcessor mojo = (MojoProcessor) paramsMap.get(KEY_MOJO);
+    	String goal = (String) paramsMap.get(KEY_GOAL);
+    	Parameter parameter = mojo.getParameter(goal, KEY_ENVIRONMENT);
+    	String updateDefaultEnv = "";
 		if (KEY_SERVER.equalsIgnoreCase(testAgainst)) {
 			if (paramsMap != null) {
 				String showSettings = (String) paramsMap.get(KEY_SHOW_SETTINGS);
@@ -56,7 +62,14 @@ public class FunctionalTestEnvironmentImpl implements DynamicParameter, Constant
 				Value value = new Value();
 				value.setValue(environment.getName());
 				possibleValues.getValue().add(value);
+				if(environment.isDefaultEnv()) {
+	    			updateDefaultEnv = environment.getName();
+	    		}
 			}
+			if (parameter != null && StringUtils.isEmpty(parameter.getValue())) {
+	    		parameter.setValue(updateDefaultEnv);
+	        	mojo.save();
+	    	}
 		} else {
 			BuildInfo buildInfo = Utility.getBuildInfo(Integer.parseInt(buildNumber), getBuildInfoPath(applicationInfo.getAppDirName()).toString());
 			List<String> environments = buildInfo.getEnvironments();
