@@ -61,7 +61,11 @@ public class PhrescoWebServiceException extends WebApplicationException {
 	public PhrescoWebServiceException(String errorNum, String type) {
         this(null, errorNum, type);
     }
-
+	
+	public PhrescoWebServiceException(Response response) {
+		super(response);
+	}
+	
 	public PhrescoWebServiceException(Throwable cause, String errorNum, String type) {
         super(cause, Response.status(Response.Status.NOT_FOUND).
         		type(MediaType.TEXT_PLAIN).entity(MessageFormat.
