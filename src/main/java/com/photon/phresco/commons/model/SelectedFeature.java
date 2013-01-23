@@ -12,6 +12,7 @@ public class SelectedFeature {
 	private String moduleId;
 	private boolean canConfigure = false;
 	private boolean defaultModule = false;
+	private String artifactGroupId;
 	
 	public String getDispName() {
 		return dispName;
@@ -69,6 +70,14 @@ public class SelectedFeature {
 		this.defaultModule = defaultModule;
 	}
 
+	public String getArtifactGroupId() {
+		return artifactGroupId;
+	}
+
+	public void setArtifactGroupId(String artifactGroupId) {
+		this.artifactGroupId = artifactGroupId;
+	}
+
 	@Override
     public String toString() {
         return new ToStringBuilder(this,
@@ -78,6 +87,7 @@ public class SelectedFeature {
                 .append("dispValue", getDispValue())
                 .append("versionID", getVersionID())
                 .append("type", getType())
+                .append("artifactGroupId", getArtifactGroupId())
                 .append("moduleId", getModuleId())
                 .append("canConfigure", isCanConfigure())
                 .append("defaultModule", isDefaultModule())
