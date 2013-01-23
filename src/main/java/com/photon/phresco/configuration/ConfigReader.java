@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -45,7 +45,7 @@ import com.photon.phresco.exception.ConfigurationException;
 public class ConfigReader {
 
 	//envname, env dom element
-	private static final Map<String, Element> ENV_MAP = new HashMap<String, Element>();
+	private static final Map<String, Element> ENV_MAP = new LinkedHashMap<String, Element>();
 	private static String defaultEnvironment = null;
 	private Document document = null;
 	private File configFile = null;
