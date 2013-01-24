@@ -27,7 +27,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class ArtifactGroup extends CustomerBasedElement {
 	
 	public enum Type {
-		ARCHETYPE, FEATURE, JAVASCRIPT, COMPONENT
+		ARCHETYPE, FEATURE, JAVASCRIPT, COMPONENT, ICON
 	}
     
 	private String groupId;
