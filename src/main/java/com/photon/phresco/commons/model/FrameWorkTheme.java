@@ -20,6 +20,7 @@ public class FrameWorkTheme extends Element {
 	private String copyRightColor;
 	private String buttonColor;
 	private String customerId;
+	private String disabledLabelColor;
 	
 	public FrameWorkTheme() {
 		super();
@@ -105,15 +106,24 @@ public class FrameWorkTheme extends Element {
 		this.customerId = customerId;
 	}
 
+	public String getDisabledLabelColor() {
+		return disabledLabelColor;
+	}
+
+	public void setDisabledLabelColor(String disabledLabelColor) {
+		this.disabledLabelColor = disabledLabelColor;
+	}
+
 	@Override
 	public String toString() {
 		return "FrameWorkTheme [brandingColor=" + brandingColor
 				+ ", bodyBackGroundColor=" + bodyBackGroundColor
 				+ ", accordionBackGroundColor=" + accordionBackGroundColor
 				+ ", menuBackGround=" + menuBackGround + ", menufontColor="
-				+ menufontColor + ", buttonColor=" + buttonColor
-				+ ", pageHeaderColor=" + pageHeaderColor
+				+ menufontColor + ", pageHeaderColor=" + pageHeaderColor
 				+ ", labelColor=" + labelColor + ", copyRightColor="
-				+ copyRightColor + "]";
+				+ copyRightColor + ", buttonColor=" + buttonColor
+				+ ", customerId=" + customerId + ", disabledLabelColor="
+				+ disabledLabelColor + "]";
 	}
 }
