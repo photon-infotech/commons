@@ -19,6 +19,7 @@ public class FrameWorkTheme extends Element {
 	private String labelColor;
 	private String copyRightColor;
 	private String buttonColor;
+	private String customerId;
 	
 	public FrameWorkTheme() {
 		super();
@@ -94,6 +95,14 @@ public class FrameWorkTheme extends Element {
 
 	public void setPageHeaderColor(String pageHeaderColor) {
 		this.pageHeaderColor = pageHeaderColor;
+	}
+
+	public String getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
 	}
 
 	@Override
