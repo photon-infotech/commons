@@ -96,7 +96,7 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 		}
 		File projHome = new File(projectHome);
 		updatePOM(projHome);
-		
+		updateAndroidVersion(projHome, appInfo);
 		// update String.xml app_name with user defined name
 		updateAppName(projHome, appInfo.getName());
 	}
