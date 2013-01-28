@@ -31,6 +31,8 @@ public interface Constants {
     String STR_HYPHEN = "-";
 	String REM_DELIMETER = "REM";
     String PROJECT_FOLDER = "project";
+    String DEFAULT_ENVIRONMENT = "Production";
+    String FEATURE_NAME = "featureName";
     String OSNAME  = "os.name";
     String WINDOWS = "Windows";
     String DOT_JSON = ".json";

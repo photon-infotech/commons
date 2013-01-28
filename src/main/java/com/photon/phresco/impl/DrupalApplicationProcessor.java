@@ -1,15 +1,33 @@
 package com.photon.phresco.impl;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileReader;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Properties;
 
-import javax.xml.parsers.*;
-import javax.xml.xpath.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.io.*;
-import org.apache.commons.lang.*;
-import org.w3c.dom.*;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.photon.phresco.api.ApplicationProcessor;
 import com.photon.phresco.commons.model.ApplicationInfo;
@@ -37,7 +55,8 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 	private static final String SINGLE_QUOTE = "'";
 	private static final String LINE_BREAK = "\n";
 	private static final String EQUAL = "=";
-	private static final String CONFIGURATION_SQL = "configuration.sql";
+	private static final String CONFIGURATION = "configuration-";
+	private static final String DOT_SQL = ".sql";
 	private static final String MYSQL = "mysql";
 	private static final String NAME = NAME_FIELD;
 	private static final String CONFIG_TAG = "configuration";
@@ -153,8 +172,12 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 	@Override
 	public void postConfiguration(ApplicationInfo appInfo, List<Configuration> configurations)
 			throws PhrescoException {
-		// TODO Auto-generated method stub
-		
+		String envName = configurations.get(0).getEnvName();
+		String featureName = configurations.get(0).getProperties().getProperty(Constants.FEATURE_NAME);
+		String propertyValue = getPropertyValue(appInfo, Constants.POM_PROP_KEY_SQL_FILE_DIR);
+		File featureManifest = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + XML);
+		File featureSqlDir = new File(Utility.getProjectHome() + appInfo.getAppDirName() + propertyValue);
+		storeConfigObj(configurations, featureManifest, featureSqlDir, envName);
 	}
 
 	@Override
@@ -162,6 +185,7 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 			String featureName) throws PhrescoException {
 		File featureManifest = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + XML);
 		List<Configuration> configs = getConfigObjFromXml(featureManifest.getPath());
+
 		return configs;
 	}
 	
@@ -218,6 +242,7 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 			    }
 			}
 		}
+		
 		return tagValue;
 	  }
 	
@@ -232,24 +257,25 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 		} catch (PhrescoPomException e) {
 			throw new PhrescoException(e);
 		}
+		
 		return "";
 	}
 	
 	@Override
-	public void postFeatureConfiguration(ApplicationInfo appInfo,
+	public void postFeatureConfiguration(ApplicationInfo appInfo, 
 			List<Configuration> configs, String featureName)
 			throws PhrescoException {
 		try {
 			String propertyValue = getPropertyValue(appInfo, Constants.POM_PROP_KEY_SQL_FILE_DIR);
 			File featureManifest = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + XML);
 			File featureSqlDir = new File(Utility.getProjectHome() + appInfo.getAppDirName() + propertyValue);
-			storeConfigObj(configs, featureManifest, featureSqlDir);
+			storeConfigObj(configs, featureManifest, featureSqlDir, Constants.DEFAULT_ENVIRONMENT);
 		} catch (Exception e) {
 			throw new PhrescoException(e);
 		}
 	}
 	
-	private void storeConfigObj(List<Configuration> configs, File featureManifestXmlFile, File featureSqlDir) throws PhrescoException { 
+	private void storeConfigObj(List<Configuration> configs, File featureManifestXmlFile, File featureSqlDir, String environmentName) throws PhrescoException { 
 		try {
 			if (!featureManifestXmlFile.isFile()) {
 				throw new PhrescoException("manifest file is not available ");
@@ -284,7 +310,7 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 			        Object object = properties.get(key);
 			        
 			        // get config object for this key
-			        String xPathQuery= CONFIG_XPATH + key + CONFIG_XPATH_END_TAG;			        
+			        String xPathQuery= CONFIG_XPATH + key + CONFIG_XPATH_END_TAG;	
 			        XPathExpression xPathExpression = xPathInstance.compile(xPathQuery);
 			        //evalute the xpath query in the entire xml document and define the return type
 		            Object results = xPathExpression.evaluate(doc, XPathConstants.NODESET);
@@ -323,7 +349,7 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 			        
 					List<File> sqlFolders = getSqlFolders(featureSqlDir);
 					for (File sqlFolder : sqlFolders) {
-						replaceSqlBlock(sqlFolder, CONFIGURATION_SQL, key, constructedQuery);
+						replaceSqlBlock(sqlFolder, CONFIGURATION + environmentName + DOT_SQL, key, constructedQuery);
 					}
 			    }
 			}
@@ -423,6 +449,7 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 		} catch (PhrescoPomException e) {
 			throw new PhrescoException(e);
 		}
+		
 		return "";
 	}
 	
@@ -439,9 +466,11 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 	}
 
     @Override
-    public List<Configuration> preConfiguration(ApplicationInfo appInfo,
-            String featureName, String envName) throws PhrescoException {
-        // TODO Auto-generated method stub
-        return null;
+    public List<Configuration> preConfiguration(ApplicationInfo appInfo, String featureName, String envName) throws PhrescoException {
+        File featureManifest = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + XML);
+		List<Configuration> configs = getConfigObjFromXml(featureManifest.getPath());
+
+		return configs;
     }
+
 }
