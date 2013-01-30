@@ -34,6 +34,7 @@ public class ArtifactInfo extends Element {
     private List<String> dependencyIds;
     private List<RequiredOption> appliesTo;
     private String downloadURL;
+    private String scope;
     
     public ArtifactInfo() {
 		// TODO Auto-generated constructor stub
@@ -95,6 +96,14 @@ public class ArtifactInfo extends Element {
 		this.downloadURL = downloadURL;
 	}
 
+	public String getScope() {
+		return scope;
+	}
+
+	public void setScope(String scope) {
+		this.scope = scope;
+	}
+
 	@Override
     public String toString() {
         return new ToStringBuilder(this,
@@ -107,6 +116,7 @@ public class ArtifactInfo extends Element {
                 .append("dependencies", getDependencyIds())
                 .append("appliesTo", getAppliesTo())
                 .append("downloadURL", getDownloadURL())
+                .append("scope", getScope())
                 .toString();
     }
     

@@ -1,6 +1,6 @@
 /*
  * ###
- * Phresco Commons
+* Phresco Commons
  * 
  * Copyright (C) 1999 - 2012 Photon Infotech Inc.
  * 
@@ -412,8 +412,8 @@ public class ProjectUtils implements Constants {
 			PomProcessor processor = new PomProcessor(pomFile);
 			for (com.photon.phresco.commons.model.ArtifactGroup module : modules) {
 				if (module != null) {
-					processor.addDependency(module.getGroupId(), module.getArtifactId(), module.getVersions().get(0).getVersion(), "",
-							module.getPackaging(), "");
+					processor.addDependency(module.getGroupId(), module.getArtifactId(), module.getVersions().get(0).getVersion(), 
+							module.getVersions().get(0).getScope(), module.getPackaging(), "");
 				}
 			}
 			processor.save();
