@@ -68,12 +68,12 @@ public class HtmlApplicationProcessor implements ApplicationProcessor {
 	            + Constants.POM_NAME);
 	    ProjectUtils projectUtils = new ProjectUtils();
 	    projectUtils.deletePluginExecutionFromPom(pomFile);
+	    projectUtils.deletePluginFromPom(pomFile);
+        projectUtils.addServerPlugin(appInfo, pomFile);
 	    if (CollectionUtils.isNotEmpty(artifactGroups)) {
 	        BufferedReader breader = null;
 	        try {
 	            projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
-	            projectUtils.deletePluginFromPom(pomFile);
-	            projectUtils.addServerPlugin(appInfo, pomFile);
 	            breader = projectUtils.ExtractFeature(appInfo);
 	            String line = "";
 	            while ((line = breader.readLine()) != null) {

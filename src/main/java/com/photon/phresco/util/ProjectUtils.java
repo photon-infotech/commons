@@ -212,7 +212,7 @@ public class ProjectUtils implements Constants {
 		List<ArtifactGroup> dependencies = new ArrayList<ArtifactGroup>();
 		List<ArtifactGroup> artifacts = new ArrayList<ArtifactGroup>();
 		for (ArtifactGroup artifactGroup : artifactGroups) {
-			if(artifactGroup.getPackaging().equals("zip")) {
+			if(artifactGroup.getPackaging().equals("zip") || artifactGroup.getPackaging().equals("war")) {
 				artifacts.add(artifactGroup);
 			} else {
 				dependencies.add(artifactGroup);
