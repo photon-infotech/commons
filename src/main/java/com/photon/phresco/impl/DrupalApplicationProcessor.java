@@ -3,6 +3,7 @@ package com.photon.phresco.impl;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -15,6 +16,10 @@ import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -34,6 +39,7 @@ import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.commons.model.CoreOption;
 import com.photon.phresco.configuration.Configuration;
+import com.photon.phresco.configuration.Environment;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.util.Constants;
 import com.photon.phresco.util.ProjectUtils;
@@ -71,6 +77,8 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 	private static final String DELETE_FROM = "DELETE FROM ";
 	private static final String WHERE = " WHERE ";
 	private static final String DEFAULT_VALUE = "defaultValue";
+	private static final String DEFAULT_ENVIRONMENT = "defaultEnvironment";
+	private static final String CURRENT_VALUE = "currentValue";
 	private static final String VARIABLE_NAME = "variableName";
 	private static final String TABLE_NAME = "tableName";
 	private static final String XML = "feature-manifest.xml";
@@ -106,7 +114,7 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 		}
 		BufferedReader breader = projectUtils.ExtractFeature(appInfo);
 		try {
-		String line = "";
+			String line = "";
 			while ((line = breader.readLine()) != null) {
 				if (line.startsWith("[ERROR]")) {
 					System.out.println(line);
@@ -177,7 +185,9 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 		String propertyValue = getPropertyValue(appInfo, Constants.POM_PROP_KEY_SQL_FILE_DIR);
 		File featureManifest = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + XML);
 		File featureSqlDir = new File(Utility.getProjectHome() + appInfo.getAppDirName() + propertyValue);
-		storeConfigObj(configurations, featureManifest, featureSqlDir, envName);
+		if(StringUtils.isNotEmpty(featureName)) {
+			storeConfigObj(configurations, featureManifest, featureSqlDir, envName);
+		}
 	}
 
 	@Override
@@ -193,8 +203,8 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 		List<Configuration> configs = new ArrayList<Configuration>();
 		try {
 			File featureManifestXmlFile = new File(featureManifestXml);
-			
-	        Configuration config = null;
+
+			Configuration config = null;
 	        if (featureManifestXmlFile.isFile()) {
 	            config = new Configuration(featureManifestXmlFile.getName(), FEATURES);
 	        } else {
@@ -217,11 +227,12 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 				   if (name != null) {
 					   Element eElement = (Element) nNode;
 					   String defaultValue = getTagValue(DEFAULT_VALUE, eElement);
-					   properties.put(name.getNodeValue(), defaultValue);
+					   String currentValue = getTagValue(CURRENT_VALUE, eElement);
+					   String value = StringUtils.isNotEmpty(currentValue)? currentValue : defaultValue;
+					   properties.put(name.getNodeValue(), value);
 				   }
 			   }
 			}
-	        
 	        config.setProperties(properties);
 	        configs.add(config);
 		} catch (Exception e) {
@@ -269,7 +280,10 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 			String propertyValue = getPropertyValue(appInfo, Constants.POM_PROP_KEY_SQL_FILE_DIR);
 			File featureManifest = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + XML);
 			File featureSqlDir = new File(Utility.getProjectHome() + appInfo.getAppDirName() + propertyValue);
-			storeConfigObj(configs, featureManifest, featureSqlDir, Constants.DEFAULT_ENVIRONMENT);
+			if (CollectionUtils.isNotEmpty(configs)) {
+				String envName = configs.get(0).getEnvName();
+				storeConfigObj(configs, featureManifest, featureSqlDir, envName);
+			}
 		} catch (Exception e) {
 			throw new PhrescoException(e);
 		}
@@ -278,7 +292,7 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 	private void storeConfigObj(List<Configuration> configs, File featureManifestXmlFile, File featureSqlDir, String environmentName) throws PhrescoException { 
 		try {
 			if (!featureManifestXmlFile.isFile()) {
-				throw new PhrescoException("manifest file is not available ");
+				throw new PhrescoException("manifest file is not available");
 			}
 			
 			// Document
@@ -303,7 +317,7 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 					
 					String tableName = "";
 					String variableName = "";
-					String dafaultValue = "";
+					String defaultValue = "";
 					
 					String constructedQuery = "";
 			        String key = (String) em.nextElement();
@@ -336,10 +350,11 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 							        } else if (VARIABLE_NAME.equals(childNode.getNodeName())) {
 							        	variableName = childNode.getTextContent();
 							        	deleteFieldQuery = SINGLE_QUOTE + childNode.getTextContent() + SINGLE_QUOTE + SEMI_COLON + LINE_BREAK;
-							        } else if (DEFAULT_VALUE.equals(childNode.getNodeName())) {
-							        	dafaultValue = object.toString();
+							        } else if (CURRENT_VALUE.equals(childNode.getNodeName())) {
+							        	childNode.setTextContent(object.toString());
 							        }
-								   	insertFieldQuery = variableName + SQL_VALUE_SEP + dafaultValue + VALUES_END_TAG;
+						        	defaultValue = object.toString();
+								   	insertFieldQuery = variableName + SQL_VALUE_SEP + defaultValue + VALUES_END_TAG;
 							   }
 						   }
 		 			   }
@@ -353,6 +368,9 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 					}
 			    }
 			}
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        	Transformer transformer = transformerFactory.newTransformer();
+        	transformer.transform(new DOMSource(doc), new StreamResult(featureManifestXmlFile.getPath()));
 		} catch (Exception e) {
 			throw new PhrescoException(e);
 		}

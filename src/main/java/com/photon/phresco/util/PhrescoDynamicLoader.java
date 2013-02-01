@@ -23,6 +23,7 @@ import org.xml.sax.SAXException;
 import com.photon.phresco.api.ApplicationProcessor;
 import com.photon.phresco.api.DynamicPageParameter;
 import com.photon.phresco.api.DynamicParameter;
+import com.photon.phresco.api.DynamicParameterForModule;
 import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.commons.model.ArtifactInfo;
 import com.photon.phresco.commons.model.RepoInfo;
@@ -45,7 +46,18 @@ public class PhrescoDynamicLoader {
 					.forName(className, true, getURLClassLoader());
 			dynamicParameter = (DynamicParameter) apiClass.newInstance();
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new PhrescoException(e);
+		}
+		return dynamicParameter;
+	}
+	
+	public DynamicParameterForModule getDynamicParameterModule(String className) throws PhrescoException {
+		DynamicParameterForModule dynamicParameter;
+		try {
+			Class<DynamicParameterForModule> apiClass = (Class<DynamicParameterForModule>) Class
+					.forName(className, true, getURLClassLoader());
+			dynamicParameter = (DynamicParameterForModule) apiClass.newInstance();
+		} catch (Exception e) {
 			throw new PhrescoException(e);
 		}
 		return dynamicParameter;
