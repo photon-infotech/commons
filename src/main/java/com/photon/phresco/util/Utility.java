@@ -369,7 +369,7 @@ public final class Utility implements Constants {
             commandLine.setWorkingDirectory(workingDir);
             CommandLineUtils.executeCommandLine(commandLine, new StreamConsumer() {
                 public void consumeLine(String line) {
-                    System.out.println(line);
+//                    System.out.println(line);
                     try {
                         fos.write(line.getBytes());
                         fos.write("\n".getBytes());
@@ -383,7 +383,7 @@ public final class Utility implements Constants {
                 }
             }, new StreamConsumer() {
                 public void consumeLine(String line) {
-                    System.out.println(line);
+//                    System.out.println(line);
                     try {
                         fos.write(line.getBytes());
                         fos.write("\n".getBytes());
