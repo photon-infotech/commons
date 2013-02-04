@@ -45,6 +45,7 @@ public class SettingsTemplate extends CustomerBasedElement {
     //List of technology ids
     private List<Element> appliesToTechs;
     private List<Element> possibleTypes;
+    private String displayName;
     
     public SettingsTemplate() {
         super();
@@ -90,6 +91,14 @@ public class SettingsTemplate extends CustomerBasedElement {
 		this.customProp = customProp;
 	}
 
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+	
 	@Override
     public String toString() {
         return new ToStringBuilder(this,
