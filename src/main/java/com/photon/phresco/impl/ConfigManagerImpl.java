@@ -30,6 +30,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -129,15 +130,27 @@ public class ConfigManagerImpl implements ConfigManager {
 		Element envNode = document.createElement("environment");
 		envNode.setAttribute("name", environment.getName());
 		envNode.setAttribute("desc", environment.getDesc());
+		List<String> appliesTo = environment.getAppliesTo();
+		if (CollectionUtils.isNotEmpty(appliesTo)) {
+			String appliesToAsStr = getAppliesToAsStr(appliesTo);
+			envNode.setAttribute("appliesTo", appliesToAsStr);
+		}
 		envNode.setAttribute("default", Boolean.toString(environment.isDefaultEnv()));
 		for (Configuration configuration : environment.getConfigurations()) {
 			Element configNode = document.createElement(configuration.getType());
 			configNode.setAttribute("name", configuration.getName());
-//			configNode.setAttribute("appliesTo", configuration.getAppliesTo());
 			createProperties(configNode, configuration.getProperties());
 			envNode.appendChild(configNode);
 		}
 		return envNode;
+	}
+	
+	private String getAppliesToAsStr(List<String> appliesTo) {
+		String appliesToStr = "";
+		for (String applies : appliesTo) {
+			appliesToStr += applies + ",";
+		}
+		return appliesToStr.substring(0, appliesToStr.length() - 1);
 	}
 	
 	private void createProperties(Element configNode, Properties properties) {
@@ -289,9 +302,6 @@ public class ConfigManagerImpl implements ConfigManager {
 		Element configNode = document.createElement(configuration.getType());
 		configNode.setAttribute("name", configuration.getName());
 		configNode.setAttribute("desc", configuration.getDesc());
-		if(StringUtils.isNotEmpty(configuration.getAppliesTo())) {
-			configNode.setAttribute("appliesTo", configuration.getAppliesTo());
-		}
 		createProperties(configNode, configuration.getProperties());
 		return configNode;
 	}

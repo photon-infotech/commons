@@ -33,14 +33,16 @@ public class Environment {
     private boolean defaultEnv;
     private boolean delete;
     private List<Configuration> configurations = new ArrayList<Configuration>(8);
+    private List<String> appliesTo;
     
 	public Environment() {
 	}
 
-	public Environment(String name, String desc, boolean defaultEnv) {
+	public Environment(String name, String desc, boolean defaultEnv, List<String> appliesTo) {
 		this.name = name;
 		this.desc = desc;
 		this.defaultEnv = defaultEnv;
+		this.appliesTo = appliesTo;
 	}
 
 	public String getName() {
@@ -79,6 +81,14 @@ public class Environment {
 		return delete;
 	}
 
+	public List<String> getAppliesTo() {
+		return appliesTo;
+	}
+
+	public void setAppliesTo(List<String> appliesTo) {
+		this.appliesTo = appliesTo;
+	}
+	
 	public List<Configuration> getConfigurations() {
 		return configurations;
 	}
@@ -89,6 +99,6 @@ public class Environment {
 
 	public String toString() {
 		return "Environment [name=" + name + ", description=" + desc  +
-				", default=" + defaultEnv + ", configurations=" + configurations + "]";
+				", default=" + defaultEnv + ", appliesTo=" + appliesTo + ", configurations=" + configurations + "]";
 	}
 }

@@ -28,24 +28,22 @@ public class Configuration {
 	private String type;
 	private String envName;
 	private Properties properties;
-	private String appliesTo;
 
 	public Configuration() { // Added for Action class to get Configuration as json from jsp
 		super();
 	}
 	
-	public Configuration(String name, String desc, String envName, String type, Properties properties, String configAppliesTo) {
+	public Configuration(String name, String desc, String envName, String type, Properties properties) {
 		super();
 		this.name = name;
 		this.desc = desc;
 		this.envName = envName;
 		this.type = type;
-		this.appliesTo = configAppliesTo;
 		this.properties = properties;
 	}
 
-	public Configuration(String name, String desc, String type, Properties properties, String configAppliesTo) {
-		this (name, desc, null, type, properties, configAppliesTo);
+	public Configuration(String name, String desc, String type, Properties properties) {
+		this (name, desc, null, type, properties);
 	}
 
 	public Configuration(String name, String type) {
@@ -53,7 +51,6 @@ public class Configuration {
 		this.name = name;
 		this.type = type;
 	}
-
 
 	public String getName() {
 		return name;
@@ -95,18 +92,10 @@ public class Configuration {
 		this.properties = properties;
 	}
 
-	public void setAppliesTo(String configAppliesTo) {
-		this.appliesTo = configAppliesTo;
-	}
-
-	public String getAppliesTo() {
-		return appliesTo;
-	}
-
 	@Override
 	public String toString() {
 		return "Configuration [name=" + name + ", type=" + type
-				+ ", properties=" + properties + ", appliesTo=" + appliesTo + "]";
+				+ ", properties=" + properties + "]";
 	}
 
 }

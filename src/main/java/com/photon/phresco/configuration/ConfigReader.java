@@ -25,6 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -106,9 +107,8 @@ public class ConfigReader {
 					String configType = configNode.getNodeName();
 					String configName = configNode.getAttribute("name");
 					String configDesc = configNode.getAttribute("desc");
-					String configAppliesTo = configNode.getAttribute("appliesTo");
 					Properties properties = getProperties(configNode);
-					Configuration config = new Configuration(configName, configDesc, envName, configType, properties, configAppliesTo);
+					Configuration config = new Configuration(configName, configDesc, envName, configType, properties);
 					configurations.add(config);
 				}
 			}
@@ -282,8 +282,9 @@ public class ConfigReader {
 			String envName = envElement.getAttribute("name");
 			String envDesc = envElement.getAttribute("desc");
 			String defaultEnv = envElement.getAttribute("default");
+			String envAppliesTo = envElement.getAttribute("appliesTo");
 			List<Configuration> configurations = getConfigByEnv(envName);
-			Environment environment = new Environment(envName, envDesc, Boolean.parseBoolean(defaultEnv));
+			Environment environment = new Environment(envName, envDesc, Boolean.parseBoolean(defaultEnv), csvStringToList(envAppliesTo));
 			environment.setConfigurations(configurations);
 			environment.setDelete(canDelete(envElement));
 			envs.add(environment);
@@ -306,11 +307,17 @@ public class ConfigReader {
 			String envName = envElement.getAttribute("name");
 			String envDesc = envElement.getAttribute("desc");
 			String defaultEnv = envElement.getAttribute("default");
-			Environment environment = new Environment(envName, envDesc, Boolean.parseBoolean(defaultEnv));
+			String envAppliesTo = envElement.getAttribute("appliesTo");
+			Environment environment = new Environment(envName, envDesc, Boolean.parseBoolean(defaultEnv), csvStringToList(envAppliesTo));
 			environment.setDelete(canDelete(envElement));
 			environment.setConfigurations(getConfigByEnv(envName));
 			envs.add(environment);
 		}
 		return envs;
+	}
+	
+	private List<String> csvStringToList(String csvStr) {
+		String[] split = csvStr.split(",");
+		return Arrays.asList(split);
 	}
 }

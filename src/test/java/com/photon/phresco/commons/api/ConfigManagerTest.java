@@ -33,13 +33,16 @@ public class ConfigManagerTest {
 			FileUtil.delete(configFile);
 		}
 		List<Environment> environments = new ArrayList<Environment>();
-		Environment environment = new Environment("Production", "Test For Production", true);
+		List<String> appliestolist = new ArrayList<String>();
+		appliestolist.add("php");
+		appliestolist.add("drupal");
+		Environment environment = new Environment("Production", "Test For Production", true, appliestolist);
 		List<Configuration> configurations = new ArrayList<Configuration>();
 		Properties properties = new Properties();
 		properties.put("host", "1010");
 		properties.put("port", "1010");
-		Configuration serverConfig  = new Configuration("Server", "server", "TestServer", properties , "php,drupl");
-		Configuration dbConfig  = new Configuration("Database", "database", "TestDatabase", properties , "php,drupl");
+		Configuration serverConfig  = new Configuration("Server", "server", "TestServer", properties );
+		Configuration dbConfig  = new Configuration("Database", "database", "TestDatabase", properties);
 		configurations.add(serverConfig);
 		configurations.add(dbConfig);
 		environment.setConfigurations(configurations);
@@ -55,13 +58,16 @@ public class ConfigManagerTest {
 
 //	@Test
 	public void testUpdateEnvironment() throws ConfigurationException {
-		Environment environment = new Environment("Production", "Test For Production", true);
+		List<String> appliestolist = new ArrayList<String>();
+		appliestolist.add("php");
+		appliestolist.add("drupal");
+		Environment environment = new Environment("Production", "Test For Production", true, appliestolist);
 		List<Configuration> configurations = new ArrayList<Configuration>();
 		Properties properties = new Properties();
 		properties.put("host", "2020");
 		properties.put("port", "2020");
-		Configuration serverConfig  = new Configuration("Server", "server", "TestServer", properties , "php,drupl");
-		Configuration dbConfig  = new Configuration("Database", "database", "TestDatabase", properties , "php,drupl");
+		Configuration serverConfig  = new Configuration("Server", "server", "TestServer", properties);
+		Configuration dbConfig  = new Configuration("Database", "database", "TestDatabase", properties);
 		configurations.add(serverConfig);
 		configurations.add(dbConfig);
 		environment.setConfigurations(configurations);

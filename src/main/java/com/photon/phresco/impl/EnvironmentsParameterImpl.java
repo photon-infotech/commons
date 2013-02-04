@@ -39,13 +39,19 @@ public class EnvironmentsParameterImpl implements DynamicParameter, Constants {
     	if (paramsMap != null) {
     	    String showSettings = (String) paramsMap.get(KEY_SHOW_SETTINGS);
         	if (Boolean.parseBoolean(showSettings)) {
+        		String techId = applicationInfo.getTechInfo().getId();
             	String settingsPath = getSettingsPath(customer);
             	ConfigManager configManager = new ConfigManagerImpl(new File(settingsPath)); 
             	List<Environment> environments = configManager.getEnvironments();
             	for (Environment environment : environments) {
+            		List<String> appliesTos = environment.getAppliesTo();
             		Value value = new Value();
-            		value.setValue(environment.getName());
-            		possibleValues.getValue().add(value);
+            		for (String appliesTo : appliesTos) {
+	        			if(appliesTo.equals(techId)) {
+		            		value.setValue(environment.getName());
+		            		possibleValues.getValue().add(value);
+	        			}
+            		}
         		}
         	}
     	}
