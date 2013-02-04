@@ -23,8 +23,9 @@ package com.photon.phresco.commons.model;
 
 import java.util.List;
 
-public class ArtifactGroupInfo {
+public class ArtifactGroupInfo extends Element {
 	
+	private static final long serialVersionUID = 1L;
 	private String artifactGroupId;
 	private List<String> artifactInfoIds;
 	
