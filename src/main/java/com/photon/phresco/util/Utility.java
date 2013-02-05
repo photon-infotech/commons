@@ -59,7 +59,7 @@ public final class Utility implements Constants {
 	private static final ArrayList<String> ERRORIDENTIFIERS = new ArrayList<String>();
     private static final Logger S_LOGGER  = Logger.getLogger(PhrescoWebServiceException.class);
     private static Boolean isDebugEnabled = S_LOGGER.isDebugEnabled();
-
+    static boolean status = false;
 
     private Utility(){
         //prevent instantiation outside
@@ -290,7 +290,7 @@ public final class Utility implements Constants {
 		return bufferedReader;
 	}
 	
-	public static void executeStreamconsumer(String command, String workingDir) {
+	public static boolean executeStreamconsumer(String command, String workingDir) {
 		BufferedReader in = null;
 		fillErrorIdentifiers();
 		try {
@@ -301,8 +301,12 @@ public final class Utility implements Constants {
 			CommandLineUtils.executeCommandLine(commandLine, new StreamConsumer() {
 				public void consumeLine(String line) {
 					System.out.println(line);
-					if (isError(line) == true) {
+					status = true;
+					if (isError(line)) {
 						bufferErrBuffer.append(line);
+					}
+					if(line.startsWith("[ERROR]")) {
+						status = false;
 					}
 					bufferOutBuffer.append(line);
 				}
@@ -317,6 +321,7 @@ public final class Utility implements Constants {
 		} finally {
 			Utility.closeStream(in);
 		}
+		return status;
 	}
 	
 	public static void executeStreamconsumer(String command, final FileOutputStream fos) {

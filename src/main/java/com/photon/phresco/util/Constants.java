@@ -274,6 +274,10 @@ public interface Constants {
     String PHASE_PDF_REPORT = "pdf-report";
     String PHASE_CI = "ci";
     String PHASE_PROCESS_BUILD = "process-build";
+    String PHASE_THEME_CONVERTOR = "theme-convertor";
+    String PHASE_THEME_VALIDATOR = "theme-validator";
+    String PHASE_CONTENT_VALIDATOR = "content-validator";
+    String PHASE_CONTENT_CONVERTOR = "content-convertor";
     
     
     String JAVA_UNIX_PROCESS_KILL_CMD	= "kill -9 ";
@@ -325,6 +329,8 @@ public interface Constants {
     String SONAR_INFO_FILE 				= ".phresco/phresco-sonar-info.xml";
     String APPLICATION_HANDLER_INFO_FILE= "phresco-application-handler-info.xml";
     String PROCESS_BUILD_INFO_FILE 		= "phresco-process-build-info.xml";
+    String THEME_INFO_FILE				= "phresco-theme-info.xml";
+    String CONTENT_INFO_FILE 			= "phresco-content-info.xml";
     
 	/**
 	 * Feature Write in pom Constants
@@ -344,5 +350,5 @@ public interface Constants {
     String PHASE = "validate";
     String GOAL = "unpack";
     
-
+    String MOJO_ERROR_MESSAGE = "Please resolve above Errors...";
 }
