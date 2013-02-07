@@ -22,6 +22,7 @@ package com.photon.phresco.commons.model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -47,7 +48,7 @@ public class Customer extends Element {
 	private String icon;
 	private List<String> applicableTechnologies;
 	private List<ApplicationType> applicableAppTypes;
-	private FrameWorkTheme frameworkTheme;
+	private Map<String, String> frameworkTheme;
 	
 	public enum LicenseType {
         TYPE_GOLD, TYPE_SILVER, TYPE_BRONZE
@@ -245,11 +246,11 @@ public class Customer extends Element {
 	}
 
 
-	public FrameWorkTheme getFrameworkTheme() {
+	public Map<String, String> getFrameworkTheme() {
 		return frameworkTheme;
 	}
 
-	public void setFrameworkTheme(FrameWorkTheme frameworkTheme) {
+	public void setFrameworkTheme(Map<String, String> frameworkTheme) {
 		this.frameworkTheme = frameworkTheme;
 	}
 
