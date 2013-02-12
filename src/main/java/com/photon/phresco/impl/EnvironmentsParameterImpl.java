@@ -50,6 +50,9 @@ public class EnvironmentsParameterImpl implements DynamicParameter, Constants {
 	        			if(appliesTo.equals(techId)) {
 		            		value.setValue(environment.getName());
 		            		possibleValues.getValue().add(value);
+		            		if(environment.isDefaultEnv()) {
+		            			updateDefaultEnv = environment.getName();
+		            		}
 	        			}
             		}
         		}

@@ -59,7 +59,7 @@ public interface Constants {
 	String CONFIGURATION_INFO_FILE = "phresco-env-config.xml";
 	String DOT_PHRESCO_FOLDER = ".phresco";
 	String DOT_MARKER		= ".marker";
-	String SETTINGS_XML = "settings.xml";
+	String SETTINGS_XML = "-settings.xml";
 	String PHRESCO_HYPEN = "phresco-";	
 	String INFO_XML = "-info.xml";
 	String NAME = "name";

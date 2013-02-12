@@ -279,6 +279,7 @@ public class ConfigReader {
 	private List<Environment> getEnvironmentsByElements(List<Element> elements) {
 		List<Environment> envs = new ArrayList<Environment>(elements.size());
 		for (Element envElement : elements) {
+			if(envElement != null) {				
 			String envName = envElement.getAttribute("name");
 			String envDesc = envElement.getAttribute("desc");
 			String defaultEnv = envElement.getAttribute("default");
@@ -288,7 +289,8 @@ public class ConfigReader {
 			environment.setConfigurations(configurations);
 			environment.setDelete(canDelete(envElement));
 			envs.add(environment);
-		}
+			}
+		}		
 		return envs;
 	}
 	

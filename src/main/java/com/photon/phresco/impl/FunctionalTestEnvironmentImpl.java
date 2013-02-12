@@ -55,6 +55,9 @@ public class FunctionalTestEnvironmentImpl implements DynamicParameter, Constant
 							if(appliesTo.equals(techId)) {
 								value.setValue(environment.getName());
 								possibleValues.getValue().add(value);
+								if(environment.isDefaultEnv()) {
+					    			updateDefaultEnv = environment.getName();
+					    		}
 							}
 						}
 					}
