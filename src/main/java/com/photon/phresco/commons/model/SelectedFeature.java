@@ -5,7 +5,6 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 public class SelectedFeature {
 
-	private String name;
 	private String dispName;
 	private String dispValue;
 	private String versionID;
@@ -78,21 +77,12 @@ public class SelectedFeature {
 	public void setArtifactGroupId(String artifactGroupId) {
 		this.artifactGroupId = artifactGroupId;
 	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return name;
-	}
 
 	@Override
     public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
                 .append(super.toString())
-                .append("name", getName())
                 .append("dispName", getDispName())
                 .append("dispValue", getDispValue())
                 .append("versionID", getVersionID())

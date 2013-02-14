@@ -24,6 +24,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -62,7 +63,6 @@ public class Element implements Serializable {
     private String id;
     @NotEmpty(message = ServiceConstants.VAL_NAME_MSG)
 	private String name;
-    private String displayName;
 	private String description;
 	private String helpText;
 	private Date creationDate;
@@ -106,14 +106,6 @@ public class Element implements Serializable {
 	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-
-	public String getDisplayName() {
-		return displayName;
 	}
 
 	/**
@@ -174,12 +166,11 @@ public class Element implements Serializable {
                 ToStringStyle.DEFAULT_STYLE)
                 .append("id", getId())
                 .append("name", getName())
-                .append("displayName", getDisplayName())
                 .append("description", getDescription())
                 .append("helpText", getHelpText())
                 .append("creationDate", getCreationDate())
                 .append("system", isSystem())
                 .append("status", getStatus())
                 .toString();
-	}	
+	}
 }
