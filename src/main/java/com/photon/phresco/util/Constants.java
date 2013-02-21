@@ -254,6 +254,7 @@ public interface Constants {
 	String POM_PROP_KEY_VALIDATE_REPORT = "phresco.code.validate.report";
 	String POM_PROP_KEY_JAVA_STAND_ALONE_JAR_PATH = "Javastandalone.jarPath";
 	String POM_PROP_KEY_EMBED_APP_TARGET_DIR = "phresco.embed.app.target.dir";
+	String POM_PROP_KEY_LOG_FILE_PATH = "phresco.functional.logfile.path";
 	
 	/**
 	 * MVN Goal Constants
