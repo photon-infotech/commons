@@ -16,18 +16,15 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.photon.phresco.api.ApplicationProcessor;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.commons.model.ArtifactGroup.Type;
-import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.util.Constants;
 import com.photon.phresco.util.ProjectUtils;
@@ -37,25 +34,7 @@ import com.photon.phresco.util.Utility;
  * @author suresh_ma
  *
  */
-public class WindowsApplicationProcessor implements ApplicationProcessor, Constants {
-
-	@Override
-	public void preCreate(ApplicationInfo appInfo) throws PhrescoException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void preUpdate(ApplicationInfo appInfo) throws PhrescoException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void postCreate(ApplicationInfo appInfo) throws PhrescoException {
-		// TODO Auto-generated method stub
-		
-	}
+public class WindowsApplicationProcessor extends AbstractApplicationProcessor implements Constants {
 
 	@Override
 	public void postUpdate(ApplicationInfo appInfo,
@@ -64,30 +43,23 @@ public class WindowsApplicationProcessor implements ApplicationProcessor, Consta
 		ProjectUtils projectUtils = new ProjectUtils();
 		File path = new File(Utility.getProjectHome() + appInfo.getAppDirName());
 		projectUtils.deletePluginExecutionFromPom(pomFile);
-		if(CollectionUtils.isNotEmpty(artifactGroups)) {
+		if(!artifactGroups.isEmpty()) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
 			updateItemGroup(appInfo, path, artifactGroups);
 		}	
 		BufferedReader breader = projectUtils.ExtractFeature(appInfo);
 		try {
-		String line = "";
+			String line = "";
 			while ((line = breader.readLine()) != null) {
 				if (line.startsWith("[ERROR]")) {
-					System.out.println(line);
+					System.err.println(line);
 				}
 			}
 		} catch (IOException e) {
 			throw new PhrescoException(e);
 		}
 	}
-	
-	@Override
-	public void postConfiguration(ApplicationInfo appInfo, List<Configuration> configurations)
-			throws PhrescoException {
-		// TODO Auto-generated method stub
-		
-	}
-	
+
 	private static void updateItemGroup(ApplicationInfo appInfo, File path, List<ArtifactGroup> artifactGroups) throws PhrescoException {
 		try {
 			path = new File(path + File.separator + SOURCE_DIR + File.separator + SRC_DIR + File.separator + PROJECT_ROOT + File.separator + PROJECT_ROOT + CSPROJ_FILE);
@@ -121,12 +93,12 @@ public class WindowsApplicationProcessor implements ApplicationProcessor, Consta
 			throw new PhrescoException(e);
 		} 
 	}
-	
+
 	private static void updateItemGroups(Document doc, List<ArtifactGroup> artifactGroups) {
 		List<Node> itemGroup = getItemGroup(doc);
 		updateContent(doc, artifactGroups, itemGroup, REFERENCE);
 	}
-	
+
 	private static void createNewItemGroup(Document doc, List<ArtifactGroup> artifactGroups) {
 		Element project = doc.getDocumentElement();
 		Element itemGroup = doc.createElement(ITEMGROUP);
@@ -142,7 +114,7 @@ public class WindowsApplicationProcessor implements ApplicationProcessor, Consta
 		}
 		project.appendChild(itemGroup);
 	}
-	
+
 	private static List<Node> getItemGroup(Document doc) {
 		NodeList projects = doc.getElementsByTagName(PROJECT);
 		List<Node> itemGroupList = new ArrayList<Node>();
@@ -156,7 +128,7 @@ public class WindowsApplicationProcessor implements ApplicationProcessor, Consta
 		}
 		return itemGroupList;
 	}
-	
+
 	private static void updateContent(Document doc, List<ArtifactGroup> artifactGroups,	List<Node> itemGroup, String elementName) {
 		for (Node node : itemGroup) {
 			NodeList childNodes = node.getChildNodes();
@@ -205,38 +177,4 @@ public class WindowsApplicationProcessor implements ApplicationProcessor, Consta
 		}
 		return flag;
 	}
-
-	@Override
-	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo,
-			String featureName) throws PhrescoException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void postFeatureConfiguration(ApplicationInfo appInfo,
-			List<Configuration> configs, String featureName)
-			throws PhrescoException {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void preBuild(ApplicationInfo appInfo) throws PhrescoException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void postBuild(ApplicationInfo appInfo) throws PhrescoException {
-		// TODO Auto-generated method stub
-		
-	}
-
-    @Override
-    public List<Configuration> preConfiguration(ApplicationInfo appInfo,
-            String featureName, String envName) throws PhrescoException {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

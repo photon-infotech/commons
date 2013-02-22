@@ -1,36 +1,39 @@
 package com.photon.phresco.impl;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
-import org.jdom.output.*;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 import com.google.gson.Gson;
-import com.photon.phresco.api.ApplicationProcessor;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.commons.model.ProjectInfo;
-import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.service.pom.POMConstants;
 import com.photon.phresco.util.Constants;
-import com.photon.phresco.util.FileUtil;
 import com.photon.phresco.util.ProjectUtils;
 import com.photon.phresco.util.Utility;
 import com.phresco.pom.exception.PhrescoPomException;
-import com.phresco.pom.model.*;
+import com.phresco.pom.model.Resource;
 import com.phresco.pom.util.PomProcessor;
 
-public class AndroidApplicationProcessor implements ApplicationProcessor {
+public class AndroidApplicationProcessor extends AbstractApplicationProcessor {
 
 	private static final String NODE_APP_NAME = "app_name";
 	private static final String PATH_STRINGS_XML = "/values/strings.xml";
@@ -44,18 +47,6 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 	private String ANDROID_VERSION = "android.version";
 
 	@Override
-	public void preCreate(ApplicationInfo appInfo) throws PhrescoException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void preUpdate(ApplicationInfo appInfo) throws PhrescoException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void postCreate(ApplicationInfo appInfo) throws PhrescoException {
 		try {
 			String projectHome = Utility.getProjectHome() + appInfo.getAppDirName();
@@ -63,7 +54,7 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 			updateAndroidVersion(path, appInfo);
 			File projHome = new File(projectHome);
 			updatePOM(projHome);
-			
+
 			// update String.xml app_name with user defined name
 			updateAppName(projHome, appInfo.getName());
 		} catch (Exception e) {
@@ -77,18 +68,18 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 		String projectHome = Utility.getProjectHome() + appInfo.getAppDirName();
 		ProjectUtils projectUtils = new ProjectUtils();
-		if(CollectionUtils.isNotEmpty(artifactGroups)) {
+		if(!artifactGroups.isEmpty()) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
 		}
-		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
+		if(!deletedFeatures.isEmpty()) {
 			projectUtils.deleteFeatureDependencies(appInfo, deletedFeatures);
 		}
 		BufferedReader breader = projectUtils.ExtractFeature(appInfo);
 		try {
-		String line = "";
+			String line = "";
 			while ((line = breader.readLine()) != null) {
 				if (line.startsWith("[ERROR]")) {
-					System.out.println(line);
+					System.err.println(line);
 				}
 			}
 		} catch (IOException e) {
@@ -126,39 +117,6 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 		}
 	}
 
-	@Override
-	public void postConfiguration(ApplicationInfo appInfo, List<Configuration> configurations) throws PhrescoException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo,
-			String featureName) throws PhrescoException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void postFeatureConfiguration(ApplicationInfo appInfo,
-			List<Configuration> configs, String featureName)
-	throws PhrescoException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void preBuild(ApplicationInfo appInfo) throws PhrescoException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void postBuild(ApplicationInfo appInfo) throws PhrescoException {
-		// TODO Auto-generated method stub
-
-	}
-	
 	private boolean updateAppName(File appPath, String appName) throws PhrescoException {
 		try {
 			File projectHomePOM = new File(appPath, POM);
@@ -176,7 +134,7 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 			throw new PhrescoException(e);
 		}
 	}
-	
+
 	/**
 	 * @param stringsXml file path where the strings.xml present.
 	 * @return 
@@ -208,7 +166,7 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @param path
 	 *            file path where the pom.xml present.
@@ -231,7 +189,7 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 			return false;
 		}
 	}
-		
+
 	/**
 	 * @param testPom
 	 * @param projectPom
@@ -266,7 +224,7 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 			processor.addDependency(group.getText(), artifact.getText(),  version.getText() , POMConstants.PROVIDED , POMConstants.JAR, "");
 			processor.addDependency(group.getText(), artifact.getText(),  version.getText() , POMConstants.PROVIDED , POMConstants.APK, "");
 			processor.save();
-		
+
 		} catch (JDOMException e) {
 			throw new PhrescoException(e);
 		} catch (IOException e) {
@@ -313,11 +271,4 @@ public class AndroidApplicationProcessor implements ApplicationProcessor {
 		}
 		return dependencies;
 	}
-
-    @Override
-    public List<Configuration> preConfiguration(ApplicationInfo appInfo,
-            String featureName, String envName) throws PhrescoException {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

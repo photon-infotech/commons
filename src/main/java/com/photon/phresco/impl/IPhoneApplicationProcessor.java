@@ -16,7 +16,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.configuration.plist.XMLPropertyListConfiguration;
 import org.apache.commons.lang.StringUtils;
 
-import com.photon.phresco.api.ApplicationProcessor;
 import com.photon.phresco.api.ConfigManager;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
@@ -32,46 +31,31 @@ import com.photon.phresco.util.Utility;
 import com.phresco.pom.exception.PhrescoPomException;
 import com.phresco.pom.util.PomProcessor;
 
-public class IPhoneApplicationProcessor implements ApplicationProcessor {
+public class IPhoneApplicationProcessor extends AbstractApplicationProcessor {
 
 	private static final String PLIST = "feature-manifest.plist";
-    private static final String INFO_PLIST = "info.plist";
-    private static final String FEATURES = "features";
-    private static final String NAME = "name";
-    private static final String ENVIRONMENT_PLIST = "environment.plist";
-
-    @Override
-	public void preCreate(ApplicationInfo appInfo) throws PhrescoException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void preUpdate(ApplicationInfo appInfo) throws PhrescoException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void postCreate(ApplicationInfo appInfo) throws PhrescoException {
-		// TODO Auto-generated method stub
-		
-	}
+	private static final String INFO_PLIST = "info.plist";
+	private static final String FEATURES = "features";
+	private static final String NAME = "name";
+	private static final String ENVIRONMENT_PLIST = "environment.plist";
 
 	@Override
 	public void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroup, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 		ProjectUtils projectUtils = new ProjectUtils();
 		projectUtils.deletePluginExecutionFromPom(pomFile);
-		if(CollectionUtils.isNotEmpty(artifactGroup)) { 
+		if(!deletedFeatures.isEmpty()) {
+			projectUtils.removeExtractedFeatures(appInfo, deletedFeatures);
+		}
+		if(!artifactGroup.isEmpty()) { 
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
 		}
 		BufferedReader breader = projectUtils.ExtractFeature(appInfo);
 		try {
-		String line = "";
+			String line = "";
 			while ((line = breader.readLine()) != null) {
 				if (line.startsWith("[ERROR]")) {
-					System.out.println(line);
+					System.err.println(line);
 				}
 			}
 		} catch (IOException e) {
@@ -129,39 +113,39 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo, String featureName) throws PhrescoException {
 		File plistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + PLIST);
 		try {
-//		    if (!plistFile.exists()) {
-//		        throw new PhrescoException("feature-manifest.plist file does not exist");
-//		    }
+			//		    if (!plistFile.exists()) {
+			//		        throw new PhrescoException("feature-manifest.plist file does not exist");
+			//		    }
 			return getConfigFromPlist(plistFile.getPath());
 		} catch (Exception e) {
 			throw new PhrescoException(e);
 		}
 	}
-	
+
 	@Override
 	public void postFeatureConfiguration(ApplicationInfo appInfo, List<Configuration> configs, String featureName)
 	throws PhrescoException {
-	    try {
-	        String plistPath = Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + INFO_PLIST;
-	        storeConfigObjAsPlist(configs.get(0), plistPath);
-	    } catch (Exception e) {
-	        throw new PhrescoException(e);
-	    }
+		try {
+			String plistPath = Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + INFO_PLIST;
+			storeConfigObjAsPlist(configs.get(0), plistPath);
+		} catch (Exception e) {
+			throw new PhrescoException(e);
+		}
 
 	}
-	
+
 	public void storeConfigObjAsPlist(Configuration keyValueObj, String plistPath) throws Exception {
-	    XMLPropertyListConfiguration plist = new XMLPropertyListConfiguration();
-	    Properties properties = keyValueObj.getProperties();
-	    Enumeration em = properties.keys();
-	    while (em.hasMoreElements()) {
-	        String str = (String) em.nextElement();
-	        plist.addProperty(str, properties.get(str));
-	    }
-	    plist.save(plistPath);
+		XMLPropertyListConfiguration plist = new XMLPropertyListConfiguration();
+		Properties properties = keyValueObj.getProperties();
+		Enumeration em = properties.keys();
+		while (em.hasMoreElements()) {
+			String str = (String) em.nextElement();
+			plist.addProperty(str, properties.get(str));
+		}
+		plist.save(plistPath);
 
 	}
-	
+
 	private String getThirdPartyFolder(ApplicationInfo appInfo) throws PhrescoException { 
 		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 		try {
@@ -175,36 +159,36 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 		}
 		return "";
 	}
-	
+
 	private List<Configuration> getConfigFromPlist(String plistPath) throws PhrescoException {
-	    List<Configuration> configs = new ArrayList<Configuration>();
-	    try {
-	        Configuration config = null;
-	        File plistFile = new File(plistPath);
-	        if (plistFile.isFile()) {
-	            config = new Configuration(plistFile.getName(), FEATURES);
-	        } else {
-	            return Collections.EMPTY_LIST;
-	        }
-	        
-	        // get all the key and value pairs
-	        Properties properties = new Properties();
-	        XMLPropertyListConfiguration conf = new XMLPropertyListConfiguration(plistPath);
-	        Iterator it = conf.getKeys();
-	        while (it.hasNext()) {
-	            String key = (String) it.next();
-	            Object property = conf.getProperty(key);
-	            String value = property.toString();
-	            properties.setProperty(key, value);
-	        }
-	        config.setProperties(properties);
-	        configs.add(config);
-        } catch (org.apache.commons.configuration.ConfigurationException e) {
-            throw new PhrescoException(e);
-        }
-        return configs;
+		List<Configuration> configs = new ArrayList<Configuration>();
+		try {
+			Configuration config = null;
+			File plistFile = new File(plistPath);
+			if (plistFile.isFile()) {
+				config = new Configuration(plistFile.getName(), FEATURES);
+			} else {
+				return Collections.EMPTY_LIST;
+			}
+
+			// get all the key and value pairs
+			Properties properties = new Properties();
+			XMLPropertyListConfiguration conf = new XMLPropertyListConfiguration(plistPath);
+			Iterator it = conf.getKeys();
+			while (it.hasNext()) {
+				String key = (String) it.next();
+				Object property = conf.getProperty(key);
+				String value = property.toString();
+				properties.setProperty(key, value);
+			}
+			config.setProperties(properties);
+			configs.add(config);
+		} catch (org.apache.commons.configuration.ConfigurationException e) {
+			throw new PhrescoException(e);
+		}
+		return configs;
 	}
-	
+
 	@Override
 	public void preBuild(ApplicationInfo appInfo) throws PhrescoException {
 		Configuration configuration = new Configuration();
@@ -230,18 +214,12 @@ public class IPhoneApplicationProcessor implements ApplicationProcessor {
 	}
 
 	@Override
-	public void postBuild(ApplicationInfo appInfo) throws PhrescoException {
-		// TODO Auto-generated method stub
-		
-	}
-
-    @Override
-    public List<Configuration> preConfiguration(ApplicationInfo appInfo, String featureName, String envName) throws PhrescoException {
-        File plistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + PLIST);
-        try {
+	public List<Configuration> preConfiguration(ApplicationInfo appInfo, String featureName, String envName) throws PhrescoException {
+		File plistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + PLIST);
+		try {
 			return getConfigFromPlist(plistFile.getPath());
-        } catch (Exception e) {
-            throw new PhrescoException(e);
-        }
-    }
+		} catch (Exception e) {
+			throw new PhrescoException(e);
+		}
+	}
 }

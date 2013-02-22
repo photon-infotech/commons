@@ -3,7 +3,6 @@ package com.photon.phresco.impl;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -34,12 +33,10 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.photon.phresco.api.ApplicationProcessor;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.commons.model.CoreOption;
 import com.photon.phresco.configuration.Configuration;
-import com.photon.phresco.configuration.Environment;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.util.Constants;
 import com.photon.phresco.util.ProjectUtils;
@@ -47,7 +44,7 @@ import com.photon.phresco.util.Utility;
 import com.phresco.pom.exception.PhrescoPomException;
 import com.phresco.pom.util.PomProcessor;
 
-public class DrupalApplicationProcessor implements ApplicationProcessor{
+public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 	
 	private static final String VARIABLE_FIELD = "variable";
 	private static final String END_MODULE_END_TAG = "' ends";
@@ -83,23 +80,11 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 	private static final String TABLE_NAME = "tableName";
 	private static final String XML = "feature-manifest.xml";
 	private static final String FEATURES = "features";
-	@Override
-	public void preCreate(ApplicationInfo appInfo) throws PhrescoException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void preUpdate(ApplicationInfo appInfo) throws PhrescoException {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void postCreate(ApplicationInfo appInfo) throws PhrescoException {
 		File path = new File(Utility.getProjectHome() + appInfo.getAppDirName());
 		updateDrupalVersion(path, appInfo);
-		
 	}
 
 	@Override
@@ -108,7 +93,10 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 		ProjectUtils projectUtils = new ProjectUtils();
 		projectUtils.deletePluginExecutionFromPom(pomFile);
-		if(CollectionUtils.isNotEmpty(artifactGroups)) {
+		if(!deletedFeatures.isEmpty()) {
+			projectUtils.removeExtractedFeatures(appInfo, deletedFeatures);
+		}
+		if(!artifactGroups.isEmpty()) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
 			excludeModule(appInfo, artifactGroups);
 		}
@@ -117,7 +105,7 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 			String line = "";
 			while ((line = breader.readLine()) != null) {
 				if (line.startsWith("[ERROR]")) {
-					System.out.println(line);
+					System.err.println(line);
 				}
 			}
 		} catch (IOException e) {
@@ -471,18 +459,6 @@ public class DrupalApplicationProcessor implements ApplicationProcessor{
 		return "";
 	}
 	
-	@Override
-	public void preBuild(ApplicationInfo appInfo) throws PhrescoException {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void postBuild(ApplicationInfo appInfo) throws PhrescoException {
-		// TODO Auto-generated method stub
-		
-	}
-
     @Override
     public List<Configuration> preConfiguration(ApplicationInfo appInfo, String featureName, String envName) throws PhrescoException {
         File featureManifest = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + XML);
