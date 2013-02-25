@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.exception.PhrescoException;
@@ -19,7 +21,7 @@ public class NodejsApplicationProcessor extends AbstractApplicationProcessor{
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 		ProjectUtils projectUtils = new ProjectUtils();
 		projectUtils.deletePluginExecutionFromPom(pomFile);
-		if(!artifactGroup.isEmpty()) {
+		if(CollectionUtils.isNotEmpty(artifactGroup)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
 		}
 		BufferedReader breader = projectUtils.ExtractFeature(appInfo);

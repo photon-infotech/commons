@@ -21,10 +21,10 @@ public class JavaApplicationProcessor extends AbstractApplicationProcessor {
 			List<ArtifactGroup> artifactGroup, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 		ProjectUtils projectUtils = new ProjectUtils();
-		if(!artifactGroup.isEmpty()) {
+		if(CollectionUtils.isNotEmpty(artifactGroup)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
 		}
-		if(!deletedFeatures.isEmpty()) {
+		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
 			projectUtils.deleteFeatureDependencies(appInfo, deletedFeatures);
 		}
 		projectUtils.deletePluginFromPom(pomFile);

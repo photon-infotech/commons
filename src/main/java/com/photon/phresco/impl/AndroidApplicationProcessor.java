@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -68,10 +69,10 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor {
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 		String projectHome = Utility.getProjectHome() + appInfo.getAppDirName();
 		ProjectUtils projectUtils = new ProjectUtils();
-		if(!artifactGroups.isEmpty()) {
+		if(CollectionUtils.isNotEmpty(artifactGroups)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
 		}
-		if(!deletedFeatures.isEmpty()) {
+		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
 			projectUtils.deleteFeatureDependencies(appInfo, deletedFeatures);
 		}
 		BufferedReader breader = projectUtils.ExtractFeature(appInfo);

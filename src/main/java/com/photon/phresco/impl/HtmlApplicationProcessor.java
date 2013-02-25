@@ -51,7 +51,7 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 		projectUtils.deletePluginExecutionFromPom(pomFile);
 		projectUtils.deletePluginFromPom(pomFile);
 		projectUtils.addServerPlugin(appInfo, pomFile);
-		if (!artifactGroups.isEmpty()) {
+		if (CollectionUtils.isNotEmpty(artifactGroups)) {
 			BufferedReader breader = null;
 			try {
 				projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);

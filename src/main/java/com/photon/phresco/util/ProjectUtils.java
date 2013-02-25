@@ -264,6 +264,7 @@ public class ProjectUtils implements Constants {
 			PomProcessor processor = new PomProcessor(new File(baseDir + Constants.POM_NAME));
 			String modulePath = "";
 			if(CollectionUtils.isNotEmpty(removedArtifacts)) {
+				removeMarkerFiles(appInfo, removedArtifacts);
 				for (ArtifactGroup artifactGroup : removedArtifacts) {
 					if (artifactGroup != null) {
 						modulePath = getModulePath(artifactGroup, processor);

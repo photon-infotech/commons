@@ -16,6 +16,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -43,7 +44,7 @@ public class WindowsApplicationProcessor extends AbstractApplicationProcessor im
 		ProjectUtils projectUtils = new ProjectUtils();
 		File path = new File(Utility.getProjectHome() + appInfo.getAppDirName());
 		projectUtils.deletePluginExecutionFromPom(pomFile);
-		if(!artifactGroups.isEmpty()) {
+		if(CollectionUtils.isNotEmpty(artifactGroups)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
 			updateItemGroup(appInfo, path, artifactGroups);
 		}	

@@ -24,7 +24,7 @@ public class PhpApplicationProcessor extends AbstractApplicationProcessor {
 		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
 			projectUtils.removeExtractedFeatures(appInfo, deletedFeatures);
 		}	
-		if(!artifactGroup.isEmpty()) {
+		if(CollectionUtils.isNotEmpty(artifactGroup)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
 		}
 		BufferedReader breader = projectUtils.ExtractFeature(appInfo);

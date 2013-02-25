@@ -45,7 +45,10 @@ public class IPhonePhrescoApplicationProcessor extends AbstractApplicationProces
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
 		ProjectUtils projectUtils = new ProjectUtils();
 		projectUtils.deletePluginExecutionFromPom(pomFile);
-		if(!artifactGroup.isEmpty()) { 
+		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
+			projectUtils.removeExtractedFeatures(appInfo, deletedFeatures);
+		}
+		if(CollectionUtils.isNotEmpty(artifactGroup)) { 
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
 		}
 		BufferedReader breader = projectUtils.ExtractFeature(appInfo);
