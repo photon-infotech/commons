@@ -14,6 +14,8 @@ public class SelectedFeature {
 	private boolean canConfigure = false;
 	private boolean defaultModule = false;
 	private String artifactGroupId;
+	private String packaging;
+	private String scope;
 	
 	public String getDispName() {
 		return dispName;
@@ -85,6 +87,22 @@ public class SelectedFeature {
 
 	public String getName() {
 		return name;
+	}
+
+	public String getPackaging() {
+		return packaging;
+	}
+
+	public void setPackaging(String packaging) {
+		this.packaging = packaging;
+	}
+
+	public String getScope() {
+		return scope;
+	}
+
+	public void setScope(String scope) {
+		this.scope = scope;
 	}
 
 	@Override

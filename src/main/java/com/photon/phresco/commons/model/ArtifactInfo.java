@@ -26,6 +26,11 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 public class ArtifactInfo extends Element {
     
+	
+	public enum Scope {
+		COMPILE, PROVIDED, RUNTIME, TEST
+	}
+	
     private String artifactGroupId;
     private String version;
     private boolean used;
