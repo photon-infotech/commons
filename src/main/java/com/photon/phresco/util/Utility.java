@@ -363,7 +363,13 @@ public final class Utility implements Constants {
 			Utility.closeStream(in);
 		}
 	}
-	  
+
+	/**
+	 * To write the console output only in the file. The console output will not be printed
+	 * @param workingDir
+	 * @param command
+	 * @param fos
+	 */
 	public static void executeStreamconsumer(String workingDir, String command, final FileOutputStream fos) {
         BufferedReader in = null;
         fillErrorIdentifiers();
@@ -375,27 +381,31 @@ public final class Utility implements Constants {
             CommandLineUtils.executeCommandLine(commandLine, new StreamConsumer() {
                 public void consumeLine(String line) {
 //                    System.out.println(line);
-                    try {
-                        fos.write(line.getBytes());
-                        fos.write("\n".getBytes());
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if (fos != null) {
+                        try {
+                            fos.write(line.getBytes());
+                            fos.write("\n".getBytes());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        if (isError(line) == true) {
+                            bufferErrBuffer.append(line);
+                        }
+                        bufferOutBuffer.append(line);
                     }
-                    if (isError(line) == true) {
-                        bufferErrBuffer.append(line);
-                    }
-                    bufferOutBuffer.append(line);
                 }
             }, new StreamConsumer() {
                 public void consumeLine(String line) {
 //                    System.out.println(line);
-                    try {
-                        fos.write(line.getBytes());
-                        fos.write("\n".getBytes());
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if (fos != null) {
+                        try {
+                            fos.write(line.getBytes());
+                            fos.write("\n".getBytes());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        bufferErrBuffer.append(line);
                     }
-                    bufferErrBuffer.append(line);
                 }
             });
         } catch (CommandLineException e) {
