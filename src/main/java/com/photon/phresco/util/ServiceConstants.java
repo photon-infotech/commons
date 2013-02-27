@@ -115,6 +115,8 @@ public interface ServiceConstants {
 	String FEATURE_TYPE_JS = "JAVASCRIPT";
 	String JS_GROUP_ID = "jslibraries.files";
 	String ICON_EXT = "png";
+	String UPDATE_REPO_ID = "updateRepo";
+	String VIDEO_REPO_ID  = "videoRepo";
 	
 	 /*
      * Constants for MongoDB Collections
@@ -140,7 +142,6 @@ public interface ServiceConstants {
 	String ROLES_COLLECTION_NAME = "roles";
 	String PERMISSION_COLLECTION_NAME = "permissions";
 	String APPTYPESDAO_COLLECTION_NAME = "apptypedao";
-	String REPOINFO_COLLECTION_NAME = "repoinfo";
 	String CUSTOMERDAO_COLLECTION_NAME = "customers";
 	String CREATEDPROJECTS_COLLECTION_NAME = "createdprojects";
 	String ARCHETYPEINFO_COLLECTION_NAME = "archetypes";
@@ -155,6 +156,7 @@ public interface ServiceConstants {
 	String TECH_GROUP_COLLECTION_NAME = "techgroup";
 	String TECH_GROUP_ID = "techGroupIds";
 	String FRAMEWORK_THEME_COLLECTION_NAME = "frameworkTheme";
+	String REPOINFO_COLLECTION_NAME = "repoInfo";
 	
 	/*
 	 * DB query params
