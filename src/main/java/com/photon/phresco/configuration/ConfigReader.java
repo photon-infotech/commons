@@ -36,8 +36,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.jdom.Comment;
+import org.jdom.filter.ContentFilter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -102,7 +105,9 @@ public class ConfigReader {
 		if (environment != null) {
 			NodeList configNodes = environment.getChildNodes();
 			for (int i = 0; i < configNodes.getLength(); i++) {
-				if (configNodes.item(i).getNodeType() !=  Element.TEXT_NODE) {
+				Node node = configNodes.item(i);
+				if (configNodes.item(i).getNodeType() !=  Element.TEXT_NODE && configNodes.item(i).getNodeType() !=  Element.COMMENT_NODE
+						&& configNodes.item(i).getNodeType() !=  Element.CDATA_SECTION_NODE) {
 					Element configNode = (Element) configNodes.item(i);
 					String configType = configNode.getNodeName();
 					String configName = configNode.getAttribute("name");
@@ -197,7 +202,6 @@ public class ConfigReader {
 			//get the environment element
 			Element environment = (Element) environmentList.item(i);
 			String envName = environment.getAttribute("name");
-
 			boolean defaultEnv = Boolean.parseBoolean(environment.getAttribute("default"));
 			if (defaultEnv) {
 				defaultEnvironment = envName;
@@ -237,7 +241,8 @@ public class ConfigReader {
 		Properties props = new Properties();
 		NodeList propNodes = configNode.getChildNodes();
 		for(int i = 0 ; i < propNodes.getLength(); i++) {
-			if (propNodes.item(i).getNodeType() !=  Element.TEXT_NODE) {
+			if (propNodes.item(i).getNodeType() !=  Element.TEXT_NODE && propNodes.item(i).getNodeType() !=  Element.COMMENT_NODE
+					&& propNodes.item(i).getNodeType() !=  Element.CDATA_SECTION_NODE) {
 				//get the environment element
 				Element propNode = (Element) propNodes.item(i);
 				String propName = propNode.getNodeName();
