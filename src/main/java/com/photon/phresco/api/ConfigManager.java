@@ -19,12 +19,14 @@
  */
 package com.photon.phresco.api;
 
+import java.io.File;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
 import org.w3c.dom.Element;
 
+import com.photon.phresco.commons.model.CertificateInfo;
 import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.configuration.Environment;
 import com.photon.phresco.exception.ConfigurationException;
@@ -148,4 +150,8 @@ public interface ConfigManager {
 	 * @throws ConfigurationException the configuration exception
 	 */
 	void writeXml(OutputStream fos) throws ConfigurationException;
+
+	List<CertificateInfo> getCertificate(String host, int port) throws PhrescoException;
+
+	void addCertificate(CertificateInfo info, File file) throws PhrescoException;
 }
