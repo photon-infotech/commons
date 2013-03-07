@@ -281,6 +281,11 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 		if (!jsonDir.exists()) {
 			return;
 		}
+		
+		if(CollectionUtils.isEmpty(compJsonElements)) {
+			return;
+		}
+		
 		File configFile = new File(getAppLevelConfigJson(appInfo.getAppDirName()));
 
 		JsonParser parser = new JsonParser();
