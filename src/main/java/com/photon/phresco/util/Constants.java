@@ -74,6 +74,7 @@ public interface Constants {
     String MVN_GOAL_GENERATE = "generate";
     String MVN_GOAL_PACKAGE = "package";
     String MVN_GOAL_DEPLOY = "deploy";
+    String MVN_GOAL_ECLIPSE = "eclipse:eclipse";
     /*String MVN_PLUGIN_PHP_ID = "php:";
     String MVN_PLUGIN_DRUPAL_ID = "drupal:";
     String MVN_PLUGIN_ANDROID_ID = "android:";
