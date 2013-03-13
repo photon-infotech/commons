@@ -1,10 +1,13 @@
 package com.photon.phresco.commons.model;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-public class SelectedFeature {
+public class SelectedFeature implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private String dispName;
 	private String dispValue;
