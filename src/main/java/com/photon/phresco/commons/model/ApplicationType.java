@@ -24,7 +24,10 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 @XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ApplicationType extends CustomerBasedElement implements Serializable {
 
 	private static final long serialVersionUID = 1L;

@@ -1,5 +1,8 @@
 package com.photon.phresco.commons.model;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TechnologyOptions extends Element {
 	
 	private static final long serialVersionUID = 1L;

@@ -2,7 +2,9 @@ package com.photon.phresco.commons.model;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PlatformType extends Element {
     
 	private static final long serialVersionUID = 1L;
