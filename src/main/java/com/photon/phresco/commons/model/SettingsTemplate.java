@@ -27,11 +27,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.photon.phresco.util.SizeConstants;
 
 @SuppressWarnings("restriction")
 @XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SettingsTemplate extends CustomerBasedElement {
     
     private static final long serialVersionUID = 1L;

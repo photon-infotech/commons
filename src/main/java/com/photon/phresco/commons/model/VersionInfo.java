@@ -21,8 +21,11 @@ package com.photon.phresco.commons.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 @SuppressWarnings("restriction")
 @XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class VersionInfo extends Element {
     
 	private static final long serialVersionUID = 1L;

@@ -23,9 +23,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
 @XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Property extends Element {
 
 	private static final long serialVersionUID = 8809204276913498651L;

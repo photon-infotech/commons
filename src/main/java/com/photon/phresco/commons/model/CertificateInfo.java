@@ -2,6 +2,9 @@ package com.photon.phresco.commons.model;
 
 import java.security.cert.X509Certificate;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CertificateInfo {
 	
 	String displayName;

@@ -24,8 +24,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Tweet {
 
     private String id;

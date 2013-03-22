@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 /*
  * ###
@@ -48,6 +49,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * 
  */
 @XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TechnologyInfo extends Element {
     
     private static final long serialVersionUID = 2573493968812398251L;

@@ -23,6 +23,9 @@ package com.photon.phresco.commons.model;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ArtifactGroupInfo extends Element {
 	
 	private static final long serialVersionUID = 1L;
