@@ -43,6 +43,7 @@
 		<commons-collections.version>3.2.1</commons-collections.version>
 		<commons-configuration.version>1.8</commons-configuration.version>
 		<jdom.version>1.0</jdom.version>
+		<xalan.version>2.7.1</xalan.version>
 	 </properties>
 	
      <distributionManagement>
@@ -226,6 +227,12 @@
 			<version>${jdom.version}</version>
 		</dependency>
             
+		 <dependency>
+            <groupId>xalan</groupId>
+            <artifactId>xalan</artifactId>
+            <version>${xalan.version}</version>
+        </dependency>
+		
 
     </dependencies>
     

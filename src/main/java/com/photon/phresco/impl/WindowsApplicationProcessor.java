@@ -15,8 +15,13 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -44,21 +49,26 @@ public class WindowsApplicationProcessor extends AbstractApplicationProcessor im
 		ProjectUtils projectUtils = new ProjectUtils();
 		File path = new File(Utility.getProjectHome() + appInfo.getAppDirName());
 		projectUtils.deletePluginExecutionFromPom(pomFile);
+		
+		if (CollectionUtils.isNotEmpty(deletedFeatures)) {
+			deleteFeature(appInfo, deletedFeatures);
+		}
+		
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
 			updateItemGroup(appInfo, path, artifactGroups);
-		}	
-		BufferedReader breader = projectUtils.ExtractFeature(appInfo);
-		try {
-			String line = "";
-			while ((line = breader.readLine()) != null) {
-				if (line.startsWith("[ERROR]")) {
-					System.err.println(line);
+			BufferedReader breader = projectUtils.ExtractFeature(appInfo);
+			try {
+				String line = "";
+				while ((line = breader.readLine()) != null) {
+					if (line.startsWith("[ERROR]")) {
+						System.err.println(line);
+					}
 				}
+			} catch (IOException e) {
+				throw new PhrescoException(e);
 			}
-		} catch (IOException e) {
-			throw new PhrescoException(e);
-		}
+		}	
 	}
 
 	private static void updateItemGroup(ApplicationInfo appInfo, File path, List<ArtifactGroup> artifactGroups) throws PhrescoException {
@@ -177,5 +187,51 @@ public class WindowsApplicationProcessor extends AbstractApplicationProcessor im
 			}
 		}
 		return flag;
+	}
+	
+	private static void deleteFeature(ApplicationInfo appInfo , List<ArtifactGroup> deletedFeatures) throws PhrescoException {
+		try {
+			File path = new File(Utility.getProjectHome() + File.separator + appInfo.getAppDirName() + File.separator + SOURCE_DIR + File.separator + SRC_DIR + File.separator + PROJECT_ROOT + File.separator + PROJECT_ROOT + CSPROJ_FILE);
+			if(!path.exists() && CollectionUtils.isNotEmpty(deletedFeatures)) {
+				return;
+			}
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			docFactory.setNamespaceAware(false);
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+			Document doc = docBuilder.parse(path);
+			for (ArtifactGroup deleteFeature : deletedFeatures) {
+				String feature = deleteFeature.getName();
+				feature = "//Reference[@Include='" + feature + "']";
+				XPath xpath = XPathFactory.newInstance().newXPath();
+				javax.xml.xpath.XPathExpression expr = xpath.compile(feature);
+				Object result = expr.evaluate(doc, XPathConstants.NODESET);
+				NodeList nodes = (NodeList) result;
+				for (int i = 0; i < nodes.getLength(); i++) {
+					Node item = nodes.item(i).getParentNode();
+					item.getParentNode().removeChild(item);
+				}
+			}
+
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(doc);
+			StreamResult result = new StreamResult(path.toURI().getPath());
+			transformer.transform(source, result);
+
+		} catch (XPathExpressionException e) {
+			throw new PhrescoException(e);
+		} catch (DOMException e) {
+			throw new PhrescoException(e);
+		} catch (ParserConfigurationException e) {
+			throw new PhrescoException(e);
+		} catch (SAXException e) {
+			throw new PhrescoException(e);
+		} catch (IOException e) {
+			throw new PhrescoException(e);
+		} catch (TransformerConfigurationException e) {
+			throw new PhrescoException(e);
+		} catch (TransformerException e) {
+			throw new PhrescoException(e);
+		}
 	}
 }
