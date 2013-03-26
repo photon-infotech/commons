@@ -72,7 +72,7 @@ public class EnvironmentsParameterImpl implements DynamicParameter, Constants {
     		}
 		}
     	
-    	if (parameter != null && StringUtils.isEmpty(parameter.getValue())) {
+    	if (parameter != null) {
     		parameter.setValue(updateDefaultEnv);
         	mojo.save();
     	}
