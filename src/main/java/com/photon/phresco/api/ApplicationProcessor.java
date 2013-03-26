@@ -2,6 +2,8 @@ package com.photon.phresco.api;
 
 import java.util.List;
 
+import org.codehaus.jettison.json.JSONObject;
+
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.configuration.Configuration;
@@ -77,5 +79,16 @@ public interface ApplicationProcessor {
 	 * @throws PhrescoException
 	 */
 	void postBuild(ApplicationInfo appInfo) throws PhrescoException;
+	
 
+	/**
+	 * 
+	 * @param appInfo
+	 * @throws PhrescoException
+	 */
+	List<String> themeBuilderList(ApplicationInfo appInfo) throws PhrescoException;
+
+	JSONObject themeBuilderEdit(ApplicationInfo appInfo, String file) throws PhrescoException;
+	
+	boolean themeBuilderSave(ApplicationInfo appInfo, String cssJson) throws PhrescoException;
 }

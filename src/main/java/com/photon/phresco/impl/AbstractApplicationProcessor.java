@@ -3,6 +3,8 @@ package com.photon.phresco.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jettison.json.JSONObject;
+
 import com.photon.phresco.api.ApplicationProcessor;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
@@ -68,5 +70,22 @@ public abstract class AbstractApplicationProcessor implements
 	public void postBuild(ApplicationInfo appInfo) throws PhrescoException {
 
 	}
-
+	
+	@Override
+	public List<String> themeBuilderList(ApplicationInfo appInfo)  throws PhrescoException {
+		
+		return new ArrayList<String>();
+	}
+	
+	@Override
+	public JSONObject themeBuilderEdit(ApplicationInfo appInfo, String file) throws PhrescoException {
+		return new JSONObject();
+	}
+	
+	@Override
+	public boolean themeBuilderSave(ApplicationInfo appInfo, String cssJson) throws PhrescoException {
+		return true;
+	}
+	
+	
 }

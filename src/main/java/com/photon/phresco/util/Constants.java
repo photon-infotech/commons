@@ -260,6 +260,9 @@ public interface Constants {
 	String POM_PROP_KEY_LOG_FILE_PATH = "phresco.functional.logfile.path";
 	String POM_PROP_KEY_PHRESCO_ECLIPSE = "phresco.eclipse";
 	
+	/* theme builder path*/
+	String POM_PROP_KEY_THEME_BUILDER = "phresco.theme.builder.path";
+	
 	/**
 	 * MVN Goal Constants
 	 */

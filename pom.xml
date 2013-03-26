@@ -233,6 +233,12 @@
             <version>${xalan.version}</version>
         </dependency>
             
+ 		<!--  CSS Parser  -->
+         <dependency>
+			<groupId>com.phloc</groupId>
+			<artifactId>phloc-css</artifactId>
+			<version>3.3.0</version>
+		</dependency>	           
 
     </dependencies>
     
