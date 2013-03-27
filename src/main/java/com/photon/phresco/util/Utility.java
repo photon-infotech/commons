@@ -20,6 +20,7 @@ package com.photon.phresco.util;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -29,6 +30,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.SequenceInputStream;
+import java.lang.management.ManagementFactory;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.net.URLConnection;
@@ -44,6 +46,9 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -288,7 +293,7 @@ public final class Utility implements Constants {
 		return bufferedReader;
 	}
 	
-	public static boolean executeStreamconsumer(String command, String workingDir) {
+	public static boolean executeStreamconsumer(String command, String workingDir, String baseDir, String actionType){
 		BufferedReader in = null;
 		fillErrorIdentifiers();
 		try {
@@ -296,6 +301,10 @@ public final class Utility implements Constants {
 			final StringBuffer bufferOutBuffer = new StringBuffer();
 			Commandline commandLine = new Commandline(command);
 			commandLine.setWorkingDirectory(workingDir);
+			String processName = ManagementFactory.getRuntimeMXBean().getName();
+    		String[] split = processName.split("@");
+    		String processId = split[0].toString();
+    		Utility.writeProcessid(baseDir, actionType, processId);
 			CommandLineUtils.executeCommandLine(commandLine, new StreamConsumer() {
 				public void consumeLine(String line) {
 					System.out.println(line);
@@ -320,6 +329,72 @@ public final class Utility implements Constants {
 			Utility.closeStream(in);
 		}
 		return status;
+	}
+	
+	public static void writeProcessid(String baseDir, String key, String pid) {
+		if(StringUtils.isEmpty(baseDir) || StringUtils.isEmpty(key)) {
+			return;
+		}
+		File do_not_checkin = new File(baseDir + File.separator + DO_NOT_CHECKIN_DIRY);
+		if(!do_not_checkin.exists()) {
+			do_not_checkin.mkdirs();
+		}
+		File jsonFile = new File(do_not_checkin.getPath() + File.separator + "process.json");
+		JSONObject jsonObject = new JSONObject();
+		JSONParser parser = new JSONParser();
+		try {
+			if(jsonFile.exists()) {
+				FileReader reader = new FileReader(jsonFile);
+				jsonObject = (JSONObject)parser.parse(reader);
+			}
+			jsonObject.put(key, pid);
+			FileWriter  writer = new FileWriter(jsonFile);
+			writer.write(jsonObject.toString());
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void killProcess(String baseDir, String actionType) {
+		File do_not_checkin = new File(baseDir + File.separator + DO_NOT_CHECKIN_DIRY);
+		File jsonFile = new File(do_not_checkin.getPath() + File.separator + "process.json");
+		if(!jsonFile.exists()) {
+			return;
+		}
+		try {
+			JSONObject jsonObject = new JSONObject();
+			JSONParser parser = new JSONParser();
+			FileReader reader = new FileReader(jsonFile);
+			jsonObject = (JSONObject)parser.parse(reader);
+			Object processId = jsonObject.get(actionType);
+			if(processId != null) {
+				if (System.getProperty(Constants.OS_NAME).startsWith(Constants.WINDOWS_PLATFORM)) {
+					Runtime.getRuntime().exec("cmd /X /C taskkill /F /T /PID " + processId.toString());
+				} else if (System.getProperty(Constants.OS_NAME).startsWith("Mac")) {
+					Runtime.getRuntime().exec(Constants.JAVA_UNIX_PROCESS_KILL_CMD + processId.toString());
+				} else {
+					Runtime.getRuntime().exec(Constants.JAVA_UNIX_PROCESS_KILL_CMD + processId.toString());
+				}
+			}
+			jsonObject.remove(actionType);
+			FileWriter  writer = new FileWriter(jsonFile);
+			writer.write(jsonObject.toString());
+			writer.close();
+			reader.close();
+			if(jsonObject.size() <= 0) {
+				FileUtil.delete(jsonFile);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void executeStreamconsumer(String command, final FileOutputStream fos) {

@@ -44,6 +44,7 @@
 		<commons-configuration.version>1.8</commons-configuration.version>
 		<jdom.version>1.0</jdom.version>
 		<xalan.version>2.7.1</xalan.version>
+		<json-simple>1.1</json-simple>
 	 </properties>
 	
      <distributionManagement>
@@ -233,6 +234,11 @@
             <version>${xalan.version}</version>
         </dependency>
 		
+        <dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>${json-simple}</version>
+		</dependency>    
 
     </dependencies>
     
