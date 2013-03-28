@@ -121,6 +121,7 @@ public interface Constants {
 	String SITECORE_INST_PATH = "sitecoreInstPath";
     String SITE_NAME = "siteName";
     String APPLICATION_NAME = "applicationName";
+    String CERTIFICATE = "certificate";
 
 
     // Constants for Database
