@@ -46,15 +46,13 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.photon.phresco.commons.model.BuildInfo;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.exception.PhrescoWebServiceException;
+import com.phresco.pom.util.PomProcessor;
 
 public final class Utility implements Constants {
 
@@ -152,6 +150,21 @@ public final class Utility implements Constants {
 		}
         FileUtils.mkdir(phrescoHome);
         return phrescoHome;
+    }
+    
+    public static PomProcessor getPomProcessor(String appDirName) throws PhrescoException {
+    	try {
+    		StringBuilder builder = new StringBuilder(Utility.getProjectHome());
+    		builder.append(appDirName);
+    		builder.append(File.separatorChar);
+    		builder.append(POM_NAME);
+    		S_LOGGER.debug("builder.toString() " + builder.toString());
+    		File pomPath = new File(builder.toString());
+    		S_LOGGER.debug("file exists " + pomPath.exists());
+    		return new PomProcessor(pomPath);
+		} catch (Exception e) {
+			throw new PhrescoException(e);
+		}
     }
     
     public static String getLocalRepoPath() {

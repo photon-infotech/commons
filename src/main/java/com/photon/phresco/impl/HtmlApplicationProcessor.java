@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +36,8 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -43,6 +46,18 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.opensymphony.xwork2.util.ArrayUtils;
+import com.phloc.css.ECSSVersion;
+import com.phloc.css.ICSSWriterSettings;
+import com.phloc.css.decl.CSSDeclaration;
+import com.phloc.css.decl.CSSExpression;
+import com.phloc.css.decl.CSSSelector;
+import com.phloc.css.decl.CSSSelectorSimpleMember;
+import com.phloc.css.decl.CSSStyleRule;
+import com.phloc.css.decl.CascadingStyleSheet;
+import com.phloc.css.decl.ICSSExpressionMember;
+import com.phloc.css.decl.ICSSSelectorMember;
+import com.phloc.css.decl.ICSSTopLevelRule;
+import com.phloc.css.writer.CSSWriterSettings;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.configuration.Configuration;
@@ -54,6 +69,8 @@ import com.photon.phresco.plugins.util.MojoProcessor;
 import com.photon.phresco.plugins.util.WarConfigProcessor;
 import com.photon.phresco.util.Constants;
 import com.photon.phresco.util.ProjectUtils;
+import com.photon.phresco.util.ThemeBuilderReadCSS;
+import com.photon.phresco.util.ThemeBuilderWriteCSS;
 import com.photon.phresco.util.Utility;
 import com.phresco.pom.exception.PhrescoPomException;
 import com.phresco.pom.util.PomProcessor;
@@ -550,4 +567,158 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 			throw new PhrescoException();
 		} 
 	}
+	
+	@Override
+	public List<String> themeBuilderList(ApplicationInfo appInfo)  throws PhrescoException {
+		List<String> files = new ArrayList<String>();
+		String cssFilesPath = getThemeBuilderPath(appInfo);
+		File file = new File(cssFilesPath);
+        File[] cssFiles = file.listFiles(new CSSFileFilter("css"));
+        if(cssFiles != null && cssFiles.length > 0) {
+        	for (File cssFile : cssFiles) {
+        		files.add(cssFile.getName());
+			}
+        } 
+		
+		return files;
+
+	}
+	
+	@Override
+	public JSONObject themeBuilderEdit(ApplicationInfo appInfo, String file) throws PhrescoException {
+		JSONObject finalObj = new JSONObject();
+		try {
+			String cssFilePath = getThemeBuilderPath(appInfo);
+			StringBuilder filePath = new StringBuilder(cssFilePath);
+			filePath.append(File.separator)
+			.append(file);
+			
+			File cssFile = new File(filePath.toString());
+			CascadingStyleSheet css = ThemeBuilderReadCSS.readCSS30(cssFile);
+			JSONArray baseArray = new JSONArray();
+			String element = "";
+			if (css != null) {
+				List<ICSSTopLevelRule> allRules = css.getAllRules();
+				for (ICSSTopLevelRule icssTopLevelRule : allRules) {
+					JSONObject baseObj = new JSONObject();
+					JSONArray jsonarray = new JSONArray();
+					 if (icssTopLevelRule instanceof  CSSStyleRule) {
+						 CSSStyleRule styleRule = (CSSStyleRule) icssTopLevelRule;
+						 List<CSSDeclaration> allDeclarations = styleRule.getAllDeclarations();
+						 ICSSWriterSettings icssWriter = new CSSWriterSettings(ECSSVersion.CSS30);
+						 element = styleRule.getSelectorAtIndex(0).getAsCSSString(icssWriter, 0);
+				    	for (CSSDeclaration cssDeclaration : allDeclarations) {
+				    		JSONObject json = new JSONObject();
+							String property = cssDeclaration.getProperty();
+							StringBuilder sb = new StringBuilder();
+							CSSExpression expression = cssDeclaration.getExpression();
+							List<ICSSExpressionMember> allMembers = expression.getAllMembers();
+							String space = "";
+							for (ICSSExpressionMember icssExpressionMember : allMembers) {
+								sb.append(space);
+								sb.append(icssExpressionMember.getAsCSSString(icssWriter, 0));
+								space = " ";
+							}
+							json.put("property", property);
+							json.put("value", sb.toString().replace("\"", ""));
+							jsonarray.put(json);
+						}
+					 }
+					 baseObj.put("selector", element);
+					 baseObj.put("properties", jsonarray);
+					 baseArray.put(baseObj);
+				}
+				finalObj.put("css", baseArray);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return finalObj;
+	}
+	
+	private String getThemeBuilderPath (ApplicationInfo appInfo) throws PhrescoException {
+		StringBuilder sb =  new StringBuilder(Utility.getProjectHome());
+		try {
+			sb.append(appInfo.getAppDirName());
+			String themeBuilderPathFromPom = getThemeBuilderPathFromPom(appInfo);
+			sb.append(themeBuilderPathFromPom);
+		} catch (PhrescoPomException e) {
+		}
+		
+		return sb.toString();
+	}
+	
+	 public String getThemeBuilderPathFromPom(ApplicationInfo appinfo) throws PhrescoException, PhrescoPomException {
+	        return Utility.getPomProcessor(appinfo.getAppDirName()).getProperty(Constants.POM_PROP_KEY_THEME_BUILDER);
+	 }
+	 
+	 @Override
+	 public boolean themeBuilderSave(ApplicationInfo appInfo, String jsonString) throws PhrescoException {
+		 boolean success = true;
+		 try {
+			 StringBuilder sb =  new StringBuilder(Utility.getProjectHome());
+			 sb.append(appInfo.getAppDirName());
+			 String themeBuilderPathFromPom = getThemeBuilderPathFromPom(appInfo);
+			 sb.append(themeBuilderPathFromPom)
+			 .append(File.separator)
+			 .append("style.css");
+			 
+			 
+			 File cssFile = new File(sb.toString());
+			 if (!cssFile.exists()) {
+				 cssFile.createNewFile();
+			 }
+
+			 CascadingStyleSheet css = ThemeBuilderReadCSS.readCSS30(cssFile);
+
+			 if (css != null) {
+				List<ICSSTopLevelRule> allRules = css.getAllRules();
+				for (ICSSTopLevelRule icssTopLevelRule : allRules) {
+					css.removeRule(icssTopLevelRule);
+				}
+			 }		
+			 
+			 org.codehaus.jettison.json.JSONObject jsonObj = new org.codehaus.jettison.json.JSONObject(jsonString);
+			 JSONArray jsonArray = jsonObj.getJSONArray("css");
+
+			 for (int i=0; i < jsonArray.length(); i++) {
+				 CSSStyleRule styleRule = new CSSStyleRule();
+				 CSSSelector aSelector = new CSSSelector();
+
+				 org.codehaus.jettison.json.JSONObject item = jsonArray.getJSONObject(i);
+				 String selector = item.getString("selector");
+				 ICSSSelectorMember icssmm = new CSSSelectorSimpleMember(selector);
+				 aSelector.addMember(icssmm);
+				 styleRule.addSelector(aSelector);
+
+				 JSONArray propertiesArray = item.getJSONArray("properties");
+				 for (int j=0; j < propertiesArray.length() ; j++) {
+					 org.codehaus.jettison.json.JSONObject properties = propertiesArray.getJSONObject(j);
+					 String property = properties.getString("property");
+					 String value = properties.getString("value");
+					 CSSExpression aExpression = new CSSExpression();
+					 CSSDeclaration aDeclaration = new CSSDeclaration(property, aExpression, true);
+					 aExpression.addString(value);
+					 styleRule.addDeclaration(aDeclaration);
+				 }
+				 css.addRule(styleRule);
+			 }
+			 ThemeBuilderWriteCSS.writeCSS30(css, cssFile);
+		 } catch (Exception e) {
+			 success = false;
+		}
+		 return success;
+	 }
+	 
+	 public class CSSFileFilter implements FilenameFilter {
+	        private String filter_;
+	        public CSSFileFilter(String filter) {
+	            filter_ = filter;
+	        }
+
+	        public boolean accept(File dir, String name) {
+	            return name.endsWith(filter_);
+	        }
+	    }
 }
