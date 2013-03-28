@@ -233,6 +233,13 @@
             <artifactId>xalan</artifactId>
             <version>${xalan.version}</version>
         </dependency>
+		
+	  <dependency>
+		<groupId>com.googlecode.json-simple</groupId>
+		<artifactId>json-simple</artifactId>
+		<version>${json-simple}</version>
+		</dependency>    
+
 		<!--  CSS Parser  -->
          <dependency>
 			<groupId>com.phloc</groupId>
