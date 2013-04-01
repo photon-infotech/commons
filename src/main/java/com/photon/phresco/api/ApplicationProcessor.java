@@ -18,6 +18,7 @@
 package com.photon.phresco.api;
 
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jettison.json.JSONObject;
 
@@ -103,7 +104,7 @@ public interface ApplicationProcessor {
 	 * @param appInfo
 	 * @throws PhrescoException
 	 */
-	List<String> themeBuilderList(ApplicationInfo appInfo) throws PhrescoException;
+	Map<String, String> themeBuilderList(ApplicationInfo appInfo) throws PhrescoException;
 
 	JSONObject themeBuilderEdit(ApplicationInfo appInfo, String file) throws PhrescoException;
 	

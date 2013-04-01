@@ -18,7 +18,9 @@
 package com.photon.phresco.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jettison.json.JSONObject;
 
@@ -89,9 +91,9 @@ public abstract class AbstractApplicationProcessor implements
 	}
 	
 	@Override
-	public List<String> themeBuilderList(ApplicationInfo appInfo)  throws PhrescoException {
+	public Map<String, String> themeBuilderList(ApplicationInfo appInfo)  throws PhrescoException {
 		
-		return new ArrayList<String>();
+		return new HashMap<String, String>();
 	}
 	
 	@Override
