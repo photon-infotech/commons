@@ -581,28 +581,21 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 		String cssFilesPath = getThemeBuilderPath(appInfo);
 		File file = new File(cssFilesPath);
 		if (file.exists()) {
-			File[] childs = file.listFiles();
-			if(childs != null && childs.length > 0) {
-				for (File child : childs) {
-					if (child.isDirectory()) {
-						cssFilter(child, cssFileDetails);
-					} else {
-						if (child.getName().endsWith(Constants.DOT_CSS)) {
-							cssFileDetails.put(child.getName(), child.getPath());
-						}
-					}
-				}
-			}
+			cssFilter(file, cssFileDetails);
 		}
       
 		return cssFileDetails;
 	}
 	
 	private void cssFilter(File directory, Map<String, String> fileMap) {
-		File[] filters = directory.listFiles(new CSSFileFilter(Constants.THEME_CSS));
-		if (filters  != null && filters.length != 0) {
-			for (File filter : filters) {
-				fileMap.put(filter.getName(), filter.getPath());
+		File[] childs = directory.listFiles();
+		if (childs  != null && childs.length != 0) {
+			for (File child : childs) {
+				if (child.isDirectory()) {
+					cssFilter(child, fileMap);//recursive call if the child is a directory
+				} else if (child.getName().endsWith(Constants.DOT_CSS)) {
+					fileMap.put(child.getName(), child.getPath());
+				}
 			}
 		}
 	}
@@ -802,18 +795,6 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 		 return filesCopied;
 	 }
 	 
-	 public class CSSFileFilter implements FilenameFilter {
-	        private String filter_;
-	        public CSSFileFilter(String filter) {
-	            filter_ = filter;
-	        }
-
-	        public boolean accept(File dir, String name) {
-	            return name.endsWith(filter_);
-	        }
-	    }
-	 
-
 	 public String getThemeBuilderPathFromPom(ApplicationInfo appinfo) throws PhrescoException, PhrescoPomException {
 	        return Utility.getPomProcessor(appinfo.getAppDirName()).getProperty(Constants.POM_PROP_KEY_THEME_BUILDER);
 	 }
