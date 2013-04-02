@@ -258,9 +258,11 @@ public interface Constants {
 	String POM_PROP_KEY_EMBED_APP_TARGET_DIR = "phresco.embed.app.target.dir";
 	String POM_PROP_KEY_LOG_FILE_PATH = "phresco.functional.logfile.path";
 	String POM_PROP_KEY_PHRESCO_ECLIPSE = "phresco.eclipse";
+	String POM_PROP_KEY_THEME_EXT = "phresco.theme.file.extension";
 	
 	/* theme builder path*/
 	String POM_PROP_KEY_THEME_BUILDER = "phresco.theme.builder.path";
+	String POM_PROP_KEY_THEME_BUILDER_IMAGE = "phresco.theme.builder.image.path";
 	
 	/**
 	 * MVN Goal Constants
@@ -359,4 +361,19 @@ public interface Constants {
     String GOAL = "unpack";
     
     String MOJO_ERROR_MESSAGE = "Please resolve above Errors...";
+    
+    /**
+	 * Theme builder Constants
+	 */
+    String THEME_TYPE = "type";
+    String THEME_PROPERTY = "property";
+    String THEME_SELECTOR = "selector";
+    String THEME_VALUE = "value";
+    String THEME_IMAGE = "image";
+    String THEME_CSS = "css";
+    String THEME_NAME = "themeName";
+    String THEME_PATH = "themePath"; 
+    String THEME_PROPERTIES = "properties";
+    String SRC_MAIN_WEBAPP= "src/main/webapp/";
+    String DOT_CSS = ".css";
 }

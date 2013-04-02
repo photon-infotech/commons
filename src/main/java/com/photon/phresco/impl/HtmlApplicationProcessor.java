@@ -27,7 +27,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
@@ -35,6 +37,7 @@ import java.util.Set;
 import javax.xml.bind.JAXBException;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
@@ -568,67 +571,78 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 		} 
 	}
 	
+	/**
+	 * To get all available css files from the directory and sub directories specified in pom property
+	 */
 	@Override
-	public List<String> themeBuilderList(ApplicationInfo appInfo)  throws PhrescoException {
+	public Map<String, String> themeBuilderList(ApplicationInfo appInfo)  throws PhrescoException {
 		List<String> files = new ArrayList<String>();
+		Map<String, String> cssFileDetails = new HashMap<String, String>();
 		String cssFilesPath = getThemeBuilderPath(appInfo);
 		File file = new File(cssFilesPath);
-        File[] cssFiles = file.listFiles(new CSSFileFilter("css"));
-        if(cssFiles != null && cssFiles.length > 0) {
-        	for (File cssFile : cssFiles) {
-        		files.add(cssFile.getName());
-			}
-        } 
-		
-		return files;
-
+		if (file.exists()) {
+			cssFilter(file, cssFileDetails);
+		}
+      
+		return cssFileDetails;
 	}
 	
+	private void cssFilter(File directory, Map<String, String> fileMap) {
+		File[] childs = directory.listFiles();
+		if (childs  != null && childs.length != 0) {
+			for (File child : childs) {
+				if (child.isDirectory()) {
+					cssFilter(child, fileMap);//recursive call if the child is a directory
+				} else if (child.getName().endsWith(Constants.DOT_CSS)) {
+					fileMap.put(child.getName(), child.getPath());
+				}
+			}
+		}
+	}
+	
+	/**
+	 * To get selected css file's details and returns it as a json object
+	 */
 	@Override
 	public JSONObject themeBuilderEdit(ApplicationInfo appInfo, String file) throws PhrescoException {
 		JSONObject finalObj = new JSONObject();
 		try {
-			String cssFilePath = getThemeBuilderPath(appInfo);
-			StringBuilder filePath = new StringBuilder(cssFilePath);
-			filePath.append(File.separator)
-			.append(file);
-			
-			File cssFile = new File(filePath.toString());
+			File cssFile = new File(file);
 			CascadingStyleSheet css = ThemeBuilderReadCSS.readCSS30(cssFile);
 			JSONArray baseArray = new JSONArray();
 			String element = "";
 			if (css != null) {
-				List<ICSSTopLevelRule> allRules = css.getAllRules();
-				for (ICSSTopLevelRule icssTopLevelRule : allRules) {
+				List<ICSSTopLevelRule> allRules = css.getAllRules();//gets all rules
+				for (ICSSTopLevelRule icssTopLevelRule : allRules) {// iterate each rule
 					JSONObject baseObj = new JSONObject();
 					JSONArray jsonarray = new JSONArray();
 					 if (icssTopLevelRule instanceof  CSSStyleRule) {
 						 CSSStyleRule styleRule = (CSSStyleRule) icssTopLevelRule;
 						 List<CSSDeclaration> allDeclarations = styleRule.getAllDeclarations();
 						 ICSSWriterSettings icssWriter = new CSSWriterSettings(ECSSVersion.CSS30);
-						 element = styleRule.getSelectorAtIndex(0).getAsCSSString(icssWriter, 0);
+						 element = styleRule.getSelectorAtIndex(0).getAsCSSString(icssWriter, 0);//gets selector - for eg: .login,#widget, div
 				    	for (CSSDeclaration cssDeclaration : allDeclarations) {
 				    		JSONObject json = new JSONObject();
-							String property = cssDeclaration.getProperty();
+							String property = cssDeclaration.getProperty();//gets property - for eg: height,width
 							StringBuilder sb = new StringBuilder();
 							CSSExpression expression = cssDeclaration.getExpression();
-							List<ICSSExpressionMember> allMembers = expression.getAllMembers();
+							List<ICSSExpressionMember> allMembers = expression.getAllMembers();//gets member for current property
 							String space = "";
 							for (ICSSExpressionMember icssExpressionMember : allMembers) {
 								sb.append(space);
 								sb.append(icssExpressionMember.getAsCSSString(icssWriter, 0));
 								space = " ";
 							}
-							json.put("property", property);
-							json.put("value", sb.toString().replace("\"", ""));
+							json.put(Constants.THEME_PROPERTY, property);
+							json.put(Constants.THEME_VALUE, sb.toString().replace("\"", ""));
 							jsonarray.put(json);
 						}
 					 }
-					 baseObj.put("selector", element);
-					 baseObj.put("properties", jsonarray);
+					 baseObj.put(Constants.THEME_SELECTOR, element);
+					 baseObj.put(Constants.THEME_PROPERTIES, jsonarray);
 					 baseArray.put(baseObj);
 				}
-				finalObj.put("css", baseArray);
+				finalObj.put(Constants.THEME_CSS, baseArray);
 			}
 			
 		} catch (Exception e) {
@@ -648,77 +662,148 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 		
 		return sb.toString();
 	}
-	
-	 public String getThemeBuilderPathFromPom(ApplicationInfo appinfo) throws PhrescoException, PhrescoPomException {
-	        return Utility.getPomProcessor(appinfo.getAppDirName()).getProperty(Constants.POM_PROP_KEY_THEME_BUILDER);
-	 }
 	 
 	 @Override
 	 public boolean themeBuilderSave(ApplicationInfo appInfo, String jsonString) throws PhrescoException {
 		 boolean success = true;
 		 try {
-			 StringBuilder sb =  new StringBuilder(Utility.getProjectHome());
-			 sb.append(appInfo.getAppDirName());
-			 String themeBuilderPathFromPom = getThemeBuilderPathFromPom(appInfo);
-			 sb.append(themeBuilderPathFromPom)
-			 .append(File.separator)
-			 .append("style.css");
-			 
-			 
-			 File cssFile = new File(sb.toString());
-			 if (!cssFile.exists()) {
-				 cssFile.createNewFile();
-			 }
-
-			 CascadingStyleSheet css = ThemeBuilderReadCSS.readCSS30(cssFile);
-
-			 if (css != null) {
-				List<ICSSTopLevelRule> allRules = css.getAllRules();
-				for (ICSSTopLevelRule icssTopLevelRule : allRules) {
-					css.removeRule(icssTopLevelRule);
-				}
-			 }		
-			 
+			 String themeFileExtension = getThemeFileExtension(appInfo);
 			 org.codehaus.jettison.json.JSONObject jsonObj = new org.codehaus.jettison.json.JSONObject(jsonString);
-			 JSONArray jsonArray = jsonObj.getJSONArray("css");
-
-			 for (int i=0; i < jsonArray.length(); i++) {
-				 CSSStyleRule styleRule = new CSSStyleRule();
-				 CSSSelector aSelector = new CSSSelector();
-
-				 org.codehaus.jettison.json.JSONObject item = jsonArray.getJSONObject(i);
-				 String selector = item.getString("selector");
-				 ICSSSelectorMember icssmm = new CSSSelectorSimpleMember(selector);
-				 aSelector.addMember(icssmm);
-				 styleRule.addSelector(aSelector);
-
-				 JSONArray propertiesArray = item.getJSONArray("properties");
-				 for (int j=0; j < propertiesArray.length() ; j++) {
-					 org.codehaus.jettison.json.JSONObject properties = propertiesArray.getJSONObject(j);
-					 String property = properties.getString("property");
-					 String value = properties.getString("value");
-					 CSSExpression aExpression = new CSSExpression();
-					 CSSDeclaration aDeclaration = new CSSDeclaration(property, aExpression, true);
-					 aExpression.addString(value);
-					 styleRule.addDeclaration(aDeclaration);
+			 String themeName = jsonObj.getString(Constants.THEME_NAME);
+			 String themePath = jsonObj.getString(Constants.THEME_PATH);
+			 StringBuilder themeLocation =  new StringBuilder(themePath)
+			 .append(themeName + themeFileExtension);
+			 
+			 boolean filesCopied = fetchImageUrlsToCopy(appInfo, jsonObj);//move selected images to the path specified in pom property 
+			 if (filesCopied) {
+				 File cssFile = new File(themeLocation.toString());
+				 if (!cssFile.exists()) {
+					 cssFile.createNewFile();
 				 }
-				 css.addRule(styleRule);
+
+				 CascadingStyleSheet css = ThemeBuilderReadCSS.readCSS30(cssFile);
+
+				 if (css != null) {
+					 List<ICSSTopLevelRule> allRules = css.getAllRules();
+					 for (ICSSTopLevelRule icssTopLevelRule : allRules) {
+						 css.removeRule(icssTopLevelRule);
+					 }
+				 }		
+
+				 JSONArray jsonArray = jsonObj.getJSONArray(Constants.THEME_CSS);
+
+				 for (int i=0; i < jsonArray.length(); i++) {//iterate each rule from result json 
+					 CSSStyleRule styleRule = new CSSStyleRule();
+					 CSSSelector aSelector = new CSSSelector();
+
+					 org.codehaus.jettison.json.JSONObject item = jsonArray.getJSONObject(i);
+					 String selector = item.getString(Constants.THEME_SELECTOR);
+					 ICSSSelectorMember icssmm = new CSSSelectorSimpleMember(selector);
+					 aSelector.addMember(icssmm);
+					 styleRule.addSelector(aSelector);//set selector
+
+					 JSONArray propertiesArray = item.getJSONArray(Constants.THEME_PROPERTIES);
+					 for (int j=0; j < propertiesArray.length() ; j++) {
+						 CSSExpression aExpression = new CSSExpression();
+						 org.codehaus.jettison.json.JSONObject properties = propertiesArray.getJSONObject(j);
+						 String property = properties.getString(Constants.THEME_PROPERTY);
+						 String value = properties.getString(Constants.THEME_VALUE);
+						 String type = properties.getString(Constants.THEME_TYPE);
+						 if (Constants.THEME_IMAGE.equals(type)) {//if the type is image, then construct the url path
+							 String image = properties.getString(Constants.THEME_IMAGE);
+							 String imagePath = getThemeBuilderImagePath(appInfo);
+							 String[] splittedPath = themePath.split(Constants.SRC_MAIN_WEBAPP);
+							 int slashCount = StringUtils.countMatches(splittedPath[1], "/");
+							 StringBuilder sb = new StringBuilder();
+							 for (int k = 1; k <= slashCount; k++) {//append no of slashes based on the slashCount
+								 sb.append("../");
+							 }
+							 String[] appendImageLocation = imagePath.split(Constants.SRC_MAIN_WEBAPP);
+							 sb.append(appendImageLocation[1])//append image location after ../
+							 .append(File.separator)
+							 .append(image);
+							 value = sb.toString().replace(File.separator, "/");
+							 aExpression.addURI(value);
+						 } else {
+							 aExpression.addTermSimple(value);//set value
+						 }
+						 CSSDeclaration aDeclaration = new CSSDeclaration(property, aExpression, false);//declare property
+						 
+						 styleRule.addDeclaration(aDeclaration);//add declaration to CSSStyleRule object
+					 }
+					 css.addRule(styleRule);
+				 }
+
+				 ThemeBuilderWriteCSS.writeCSS30(css, cssFile);
+			 } else {
+				 success = false;
 			 }
-			 ThemeBuilderWriteCSS.writeCSS30(css, cssFile);
 		 } catch (Exception e) {
 			 success = false;
 		}
+		 
 		 return success;
 	 }
 	 
-	 public class CSSFileFilter implements FilenameFilter {
-	        private String filter_;
-	        public CSSFileFilter(String filter) {
-	            filter_ = filter;
-	        }
+	 private boolean fetchImageUrlsToCopy(ApplicationInfo appInfo, org.codehaus.jettison.json.JSONObject jsonObj) throws PhrescoException {
+		 boolean flag = true;
+		 try {
+			 JSONArray jsonArray = jsonObj.getJSONArray(Constants.THEME_CSS);
+			 StringBuilder destination =  new StringBuilder(Utility.getProjectHome());
+			 destination.append(appInfo.getAppDirName());
+			 String themeBuilderImagePathFromPom = getThemeBuilderImagePath(appInfo);
+			 destination.append(themeBuilderImagePathFromPom);//gets destination directory  from pom file to move images
+			 File destinationDir = new File(destination.toString());
+			 if (!destinationDir.isDirectory()) {
+				 destinationDir.mkdir();//create new directory if it doesn't exist already
+			 } 
+			 
+			 for (int i=0; i < jsonArray.length(); i++) {
+				 org.codehaus.jettison.json.JSONObject item = jsonArray.getJSONObject(i);
+				 JSONArray propertiesArray = item.getJSONArray(Constants.THEME_PROPERTIES);
+				 for (int j=0; j < propertiesArray.length() ; j++) {
+					 org.codehaus.jettison.json.JSONObject properties = propertiesArray.getJSONObject(j);
+					 String type = properties.getString(Constants.THEME_TYPE);
+					 if (Constants.THEME_IMAGE.equals(type)) {
+						 String srcImage = properties.getString(Constants.THEME_VALUE);
+						 flag = copyImagesToDestination(srcImage, destination.toString());//copies selected images to destination
+					 }
+				 }
+			 }
+		 } catch (Exception e) {
+			 flag = false;
+			 throw new PhrescoException(e);
+		 }
+		 
+		 return flag;
+	 }
+	 
+	 private boolean copyImagesToDestination(String sourceFile, String destinationFolder) throws PhrescoException {
+		 boolean filesCopied = true;
+		 try {
+			 File imageFile = new File(sourceFile);
+			 if (imageFile.exists() && new File(destinationFolder).exists()) {
+				 FileUtils.copyFileToDirectory(imageFile, new File(destinationFolder));
+			 } else {
+				 filesCopied = false;
+			 }
+		 } catch (Exception e) {
+			 filesCopied = false;
+			 throw new PhrescoException(e);
+		 }
 
-	        public boolean accept(File dir, String name) {
-	            return name.endsWith(filter_);
-	        }
-	    }
+		 return filesCopied;
+	 }
+	 
+	 public String getThemeBuilderPathFromPom(ApplicationInfo appinfo) throws PhrescoException, PhrescoPomException {
+	        return Utility.getPomProcessor(appinfo.getAppDirName()).getProperty(Constants.POM_PROP_KEY_THEME_BUILDER);
+	 }
+	 
+	 private String getThemeBuilderImagePath(ApplicationInfo appinfo) throws PhrescoException, PhrescoPomException {
+		 return Utility.getPomProcessor(appinfo.getAppDirName()).getProperty(Constants.POM_PROP_KEY_THEME_BUILDER_IMAGE);
+	 }
+	 
+	 public String getThemeFileExtension(ApplicationInfo appinfo) throws PhrescoException, PhrescoPomException {
+	        return Utility.getPomProcessor(appinfo.getAppDirName()).getProperty(Constants.POM_PROP_KEY_THEME_EXT);
+	 }
 }
