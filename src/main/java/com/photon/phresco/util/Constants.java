@@ -263,6 +263,7 @@ public interface Constants {
 	/* theme builder path*/
 	String POM_PROP_KEY_THEME_BUILDER = "phresco.theme.builder.path";
 	String POM_PROP_KEY_THEME_BUILDER_IMAGE = "phresco.theme.builder.image.path";
+	String POM_PROP_KEY_THEME_BUNDLE_UPLOAD_DIR = "phresco.theme.bundle.upload.dir";
 	
 	/**
 	 * MVN Goal Constants
@@ -376,4 +377,8 @@ public interface Constants {
     String THEME_PROPERTIES = "properties";
     String SRC_MAIN_WEBAPP= "src/main/webapp/";
     String DOT_CSS = ".css";
+    String DOT_BUNDLE = ".bundle";
+    String THEME_BUNDLE_SUCCESS_MSG = "Theme bundle uploaded successfully";
+    String THEME_BUNDLE_FAILURE_MSG = "Theme bundle upload failed";
+    String THEME_BUNDLE_INVALID_MSG = "Uploaded zip doesnot contain .bundle file";
 }

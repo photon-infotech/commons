@@ -105,6 +105,9 @@ public abstract class AbstractApplicationProcessor implements
 	public boolean themeBuilderSave(ApplicationInfo appInfo, String cssJson) throws PhrescoException {
 		return true;
 	}
-	
-	
+
+	@Override
+	public Map<Boolean, String>  themeBundleUpload(ApplicationInfo appInfo, byte[] byteArray, String fileName) throws PhrescoException {
+		return new HashMap<Boolean, String>();
+	}
 }
