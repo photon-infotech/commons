@@ -109,4 +109,6 @@ public interface ApplicationProcessor {
 	JSONObject themeBuilderEdit(ApplicationInfo appInfo, String file) throws PhrescoException;
 	
 	boolean themeBuilderSave(ApplicationInfo appInfo, String cssJson) throws PhrescoException;
+	
+	Map<Boolean, String> themeBundleUpload(ApplicationInfo appInfo, byte[] byteArray, String fileName) throws PhrescoException;
 }

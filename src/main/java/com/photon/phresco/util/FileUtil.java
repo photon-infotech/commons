@@ -18,6 +18,17 @@
 package com.photon.phresco.util;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import org.apache.commons.io.FileUtils;
+
+import com.photon.phresco.commons.model.ApplicationInfo;
+import com.photon.phresco.exception.PhrescoException;
+import com.phresco.pom.exception.PhrescoPomException;
 
 public final class FileUtil {
 	
@@ -46,5 +57,45 @@ public final class FileUtil {
 		}
 		return dir.delete();
 	}
+	
+	public static File writeFileFromInputStream(InputStream inputStream, String tempZip) throws IOException, FileNotFoundException {
+		File tempZipFile = new File(tempZip);
+		if (!tempZipFile.exists()) {
+			tempZipFile.createNewFile();
+		}
+		OutputStream out = new FileOutputStream(new File(tempZip));
+		int read = 0;
+		byte[] bytes = new byte[1024];
+		while ((read = inputStream.read(bytes)) != -1) {
+			out.write(bytes, 0, read);
+		}
+		
+		inputStream.close();
+		out.flush();
+		out.close();
+		return tempZipFile;
+	}
+	
+	public static void moveUploadedThemeBundle(File extractedFile, ApplicationInfo appInfo) throws PhrescoException {
+		StringBuilder bundlePath = new StringBuilder(Utility.getProjectHome());
+		try {
+			bundlePath.append(appInfo.getAppDirName())
+			.append(File.separator)
+			.append(getThemeBundleUploadDir(appInfo));
+			
+			File destination = new File(bundlePath.toString());
+			if (destination.exists()) {
+				FileUtils.copyDirectoryToDirectory(extractedFile, destination);
+			}
+		} catch (Exception e) {
+			throw new PhrescoException(e);
+		}
+		
+		
+	}
+	
+	private static String getThemeBundleUploadDir(ApplicationInfo appinfo) throws PhrescoException, PhrescoPomException {
+	        return Utility.getPomProcessor(appinfo.getAppDirName()).getProperty(Constants.POM_PROP_KEY_THEME_BUNDLE_UPLOAD_DIR);
+	 }
 
 }
