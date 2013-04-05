@@ -18,11 +18,13 @@
 package com.photon.phresco.impl;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -69,7 +71,9 @@ import com.photon.phresco.plugins.model.Assembly.FileSets.FileSet.Includes;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter;
 import com.photon.phresco.plugins.util.MojoProcessor;
 import com.photon.phresco.plugins.util.WarConfigProcessor;
+import com.photon.phresco.util.ArchiveUtil;
 import com.photon.phresco.util.Constants;
+import com.photon.phresco.util.FileUtil;
 import com.photon.phresco.util.ProjectUtils;
 import com.photon.phresco.util.ThemeBuilderReadCSS;
 import com.photon.phresco.util.ThemeBuilderWriteCSS;
@@ -582,7 +586,7 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 		if (file.exists()) {
 			cssFilter(file, cssFileDetails);
 		}
-      
+
 		return cssFileDetails;
 	}
 	
@@ -792,6 +796,50 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 		 }
 
 		 return filesCopied;
+	 }
+	 
+	 @Override
+	 public Map<Boolean, String> themeBundleUpload(ApplicationInfo appInfo, byte[] byteArray, String zipfileName) throws PhrescoException {
+		 Map<Boolean, String> resultMap = new HashMap<Boolean, String>();
+		 File tempDirectory;
+		 try {
+			 InputStream inputStream = new ByteArrayInputStream(byteArray);
+			 StringBuilder sb = new StringBuilder(Utility.getProjectHome());
+			 sb.append(appInfo.getAppDirName())
+			 .append(File.separator)
+			 .append(Constants.PROJECTS_TEMP);
+
+			 tempDirectory = new File(sb.toString());
+			 tempDirectory.mkdir(); //create temp dir
+
+			 String tempZipPath = tempDirectory.getPath() + File.separator + zipfileName;
+
+			 //create zip file from inputstream
+			 File tempZipFile = FileUtil.writeFileFromInputStream(inputStream, tempZipPath);
+
+			 //extract the zip file inside temp directory
+			 ArchiveUtil.unzip(tempZipPath, tempDirectory.getPath());
+
+			 //after extracting, delete that zip file
+			 FileUtil.delete(tempZipFile);
+
+			 File[] listFiles = tempDirectory.listFiles();
+			 File extractedFile = listFiles[0]; 
+			 //if true, then move extracted file to the path specified in the pom
+			 boolean moveThemeFlag = FileUtil.moveUploadedThemeBundle(extractedFile, appInfo);
+			 if (moveThemeFlag) {
+				 resultMap.put(true, Constants.THEME_BUNDLE_SUCCESS_MSG);
+			 } else {
+				 resultMap.put(false, Constants.THEME_BUNDLE_FAILURE_DESTINATION);
+			 }
+
+		 } catch (Exception e) {
+			 resultMap.put(false, Constants.THEME_BUNDLE_FAILURE_MSG);
+			 throw new PhrescoException(e);
+		 }
+		 FileUtil.delete(tempDirectory);
+
+		 return resultMap;
 	 }
 	 
 	 public String getThemeBuilderPathFromPom(ApplicationInfo appinfo) throws PhrescoException, PhrescoPomException {

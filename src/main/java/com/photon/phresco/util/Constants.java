@@ -380,5 +380,6 @@ public interface Constants {
     String DOT_BUNDLE = ".bundle";
     String THEME_BUNDLE_SUCCESS_MSG = "Theme bundle uploaded successfully";
     String THEME_BUNDLE_FAILURE_MSG = "Theme bundle upload failed";
+    String THEME_BUNDLE_FAILURE_DESTINATION = "Theme bundle upload failed. Destination missing";
     String THEME_BUNDLE_INVALID_MSG = "Uploaded zip doesnot contain .bundle file";
 }
