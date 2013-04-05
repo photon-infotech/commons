@@ -33,23 +33,21 @@ import com.photon.phresco.plugins.model.Mojos.Mojo;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Implementation;
-import com.photon.phresco.plugins.model.Mojos.Mojo.Implementation.Dependency;
 
 /**
- * 
- * @author suresh_ma
  *
+ * @author suresh_ma
  */
 public class MojoProcessor {
 
 	private Mojos mojos;
-	
 	private File file;
 	
 	/**
-	 * TO initialize the file
-	 * @param infoFile
-	 * @throws PhrescoException
+	 * TO initialize the file.
+	 *
+	 * @param infoFile the info file
+	 * @throws PhrescoException the phresco exception
 	 */
 	public MojoProcessor(File infoFile) throws PhrescoException {
         try {
@@ -69,14 +67,20 @@ public class MojoProcessor {
         }
 	}
 	
+	/**
+	 * Gets the application handler.
+	 *
+	 * @return the application handler
+	 */
 	public ApplicationHandler getApplicationHandler() {
 		return mojos.getApplicationHandler();
 		}
 	
 	/**
-	 * get the configuration from the file
+	 * get the configuration from the file.
+	 *
 	 * @param goal
-	 * @return
+	 * @return the configuration
 	 */
 	public Configuration getConfiguration(String goal) {
 		if(mojos.getMojo() != null) {
@@ -92,8 +96,9 @@ public class MojoProcessor {
 	
 	/**
 	 * get the implementation to the particular goal.
+	 *
 	 * @param goal
-	 * @return
+	 * @return the implementation dependency
 	 */
 	public Implementation getImplementationDependency(String goal) {
 		if(mojos.getMojo() != null) {
@@ -108,10 +113,11 @@ public class MojoProcessor {
 	}
 	
 	/**
-	 * 
+	 * Gets the parameter.
+	 *
 	 * @param goal
 	 * @param key
-	 * @return
+	 * @return the parameter
 	 */
 	public Parameter getParameter(String goal, String key) {
 		Configuration configuration = getConfiguration(goal);
@@ -127,9 +133,53 @@ public class MojoProcessor {
 	}
 	
 	/**
-	 * To check weather the goal is available or not
+	 * Gets the parameters.
+	 *
 	 * @param goal
-	 * @return
+	 * @return the parameters
+	 */
+	public List<Parameter> getParameters(String goal) {
+		Configuration configuration = getConfiguration(goal);
+		if (configuration != null) {
+			return configuration.getParameters().getParameter();
+		}
+		return null;
+	}
+
+	/**
+	 * Gets the parameters.
+	 *
+	 * @return the parameters
+	 */
+	public List<Parameter> getParameters() {
+		Configuration configuration = getConfiguration();
+		if (configuration != null) {
+			return configuration.getParameters().getParameter();
+		}
+		return null;
+	}
+	
+	
+	/**
+	 * Gets the configuration.
+	 *
+	 * @return the configuration
+	 */
+	public Configuration getConfiguration() {
+		if (mojos.getMojo() != null) {
+			List<Mojo> mojoList = mojos.getMojo();
+			for (Mojo mojo : mojoList) {
+				return mojo.getConfiguration();
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * To check weather the goal is available or not.
+	 *
+	 * @param goal the goal
+	 * @return true, if is goal available
 	 */
 	public boolean isGoalAvailable(String goal) {
 		List<Mojo> mojoList = mojos.getMojo();
@@ -144,8 +194,9 @@ public class MojoProcessor {
 	}
 	
 	/**
-	 * 
-	 * @throws PhrescoException
+	 * Save.
+	 *
+	 * @throws PhrescoException the phresco exception
 	 */
 	public void save() throws PhrescoException {
         try {
