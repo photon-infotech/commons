@@ -35,6 +35,7 @@ public interface Constants {
     String WINDOWS = "Windows";
     String DOT_JSON = ".json";
     String FOLDER_JSON = "json";
+    String KEY_ECLIPSE = "eclipse";
 
     String PHRESCO_HOME = "PHRESCO_HOME";
     String USER_HOME = "user.home";

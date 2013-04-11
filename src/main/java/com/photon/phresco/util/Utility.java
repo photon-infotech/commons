@@ -398,14 +398,8 @@ public final class Utility implements Constants {
 					Runtime.getRuntime().exec(Constants.JAVA_UNIX_PROCESS_KILL_CMD + processId.toString());
 				}
 			}
-			jsonObject.remove(actionType);
-			FileWriter  writer = new FileWriter(jsonFile);
-			writer.write(jsonObject.toString());
-			writer.close();
 			reader.close();
-			if(jsonObject.size() <= 0) {
-				FileUtil.delete(jsonFile);
-			}
+			FileUtil.delete(jsonFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ParseException e) {
