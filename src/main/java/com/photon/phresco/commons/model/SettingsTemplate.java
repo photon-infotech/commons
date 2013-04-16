@@ -17,7 +17,6 @@
  */
 package com.photon.phresco.commons.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +45,8 @@ public class SettingsTemplate extends CustomerBasedElement {
     private List<Element> appliesToTechs;
     private List<Element> possibleTypes;
     private String displayName;
+    private boolean favourite;
+    private boolean envSpecific;
     
     public SettingsTemplate() {
         super();
@@ -99,15 +100,35 @@ public class SettingsTemplate extends CustomerBasedElement {
 		this.displayName = displayName;
 	}
 	
+	public void setFavourite(boolean favourite) {
+		this.favourite = favourite;
+	}
+
+	public boolean isFavourite() {
+		return favourite;
+	}
+	
+	public void setEnvSpecific(boolean envSpecific) {
+		this.envSpecific = envSpecific;
+	}
+
+	public boolean isEnvSpecific() {
+		return envSpecific;
+	}
+	
 	@Override
     public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
                 .append(super.toString())
+                .append("displayName", getDisplayName())
                 .append("type", getType())
                 .append("properties", getProperties())
                 .append("appliesToTechs", getAppliesToTechs())
+                .append("customProp", isCustomProp())
+                .append("possibleTypes", getPossibleTypes())
+                .append("favourite", isFavourite())
+                .append("envSpecific", isEnvSpecific())
                 .toString();
     }
-
 }

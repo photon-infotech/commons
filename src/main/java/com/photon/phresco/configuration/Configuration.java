@@ -19,6 +19,9 @@ package com.photon.phresco.configuration;
 
 import java.util.Properties;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 public class Configuration {
 
 	private String name;
@@ -89,11 +92,16 @@ public class Configuration {
 	public void setProperties(Properties properties) {
 		this.properties = properties;
 	}
-
+	
 	@Override
-	public String toString() {
-		return "Configuration [name=" + name + ", type=" + type
-				+ ", properties=" + properties + "]";
-	}
-
+    public String toString() {
+        return new ToStringBuilder(this,
+                ToStringStyle.DEFAULT_STYLE)
+                .append("name", getName())
+                .append("desc", getDesc())
+                .append("type", getType())
+                .append("envName", getEnvName())
+                .append("properties", getProperties())
+                .toString();
+    }
 }

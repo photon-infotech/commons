@@ -37,6 +37,7 @@ public class PropertyTemplate extends Element {
 	private String type;
 	private boolean required;
 	private boolean multiple;
+	private String defaultValue;
 	private List<String> possibleValues;
 	private List<PropertyTemplate> propertyTemplates;
 	
@@ -72,6 +73,14 @@ public class PropertyTemplate extends Element {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
+	}
+
+	public String getDefaultValue() {
+		return defaultValue;
 	}
 
 	public List<String> getPossibleValues() {
@@ -113,10 +122,10 @@ public class PropertyTemplate extends Element {
                 .append(super.toString())
                 .append("type", getType())
                 .append("key", getKey())
+                .append("defaultValue", getDefaultValue())
                 .append("possibleValues", getPossibleValues())
                 .append("required", isRequired())
                 .append("multiple", isMultiple())
                 .toString();
     }
-    
 }
