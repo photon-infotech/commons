@@ -110,4 +110,8 @@ public abstract class AbstractApplicationProcessor implements
 	public Map<Boolean, String>  themeBundleUpload(ApplicationInfo appInfo, byte[] byteArray, String fileName) throws PhrescoException {
 		return new HashMap<Boolean, String>();
 	}
+	
+	@Override
+	public void adoptApplication(ApplicationInfo appInfo) throws PhrescoException {
+	}
 }

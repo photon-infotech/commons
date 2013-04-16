@@ -111,4 +111,6 @@ public interface ApplicationProcessor {
 	boolean themeBuilderSave(ApplicationInfo appInfo, String cssJson) throws PhrescoException;
 	
 	Map<Boolean, String> themeBundleUpload(ApplicationInfo appInfo, byte[] byteArray, String fileName) throws PhrescoException;
+	
+	void adoptApplication(ApplicationInfo appInfo) throws PhrescoException;
 }
