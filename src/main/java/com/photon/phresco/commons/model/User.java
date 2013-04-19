@@ -41,7 +41,6 @@ public class User extends Element {
 	private String lastName;
 	private List<String> roleIds;
 	private boolean phrescoEnabled;
-	private String displayName;
 	private List<Customer> customers;
 	private String token;
 	private boolean validLogin;
@@ -152,20 +151,6 @@ public class User extends Element {
     /**
      * @return
      */
-    public String getDisplayName() {
-        return displayName;
-    }
-    
-	/**
-	 * @param displayName
-	 */
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-
-    /**
-     * @return
-     */
     public String getToken() {
         return token;
     }
@@ -219,7 +204,6 @@ public class User extends Element {
                 .append("lastName", lastName)
                 .append("roleIds", roleIds)
                 .append("phrescoEnabled", phrescoEnabled)
-                .append("displayName", displayName)
                 .append("customers", customers)
                 .append("token", token)
                 .append("authType", authType)
