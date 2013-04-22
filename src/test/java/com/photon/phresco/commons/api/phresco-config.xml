@@ -1,0 +1,7 @@
+<configurations>
+    <test desc="configuration of test" name="test">
+        <prop3>properties3</prop3>
+        <prop2>properties2</prop2>
+        <prop1>properties1</prop1>
+    </test>
+</configurations>

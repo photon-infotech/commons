@@ -389,17 +389,24 @@ public final class Utility implements Constants {
 			FileReader reader = new FileReader(jsonFile);
 			jsonObject = (JSONObject)parser.parse(reader);
 			Object processId = jsonObject.get(actionType);
-			if(processId != null) {
-				if (System.getProperty(Constants.OS_NAME).startsWith(Constants.WINDOWS_PLATFORM)) {
-					Runtime.getRuntime().exec("cmd /X /C taskkill /F /T /PID " + processId.toString());
-				} else if (System.getProperty(Constants.OS_NAME).startsWith("Mac")) {
-					Runtime.getRuntime().exec(Constants.JAVA_UNIX_PROCESS_KILL_CMD + processId.toString());
-				} else {
-					Runtime.getRuntime().exec(Constants.JAVA_UNIX_PROCESS_KILL_CMD + processId.toString());
-				}
+			if (processId == null) {
+				return;
 			}
+			if (System.getProperty(Constants.OS_NAME).startsWith(Constants.WINDOWS_PLATFORM)) {
+				Runtime.getRuntime().exec("cmd /X /C taskkill /F /T /PID " + processId.toString());
+			} else if (System.getProperty(Constants.OS_NAME).startsWith("Mac")) {
+				Runtime.getRuntime().exec(Constants.JAVA_UNIX_PROCESS_KILL_CMD + processId.toString());
+			} else {
+				Runtime.getRuntime().exec(Constants.JAVA_UNIX_PROCESS_KILL_CMD + processId.toString());
+			}
+			jsonObject.remove(actionType);
+			FileWriter writer = new FileWriter(jsonFile);
+			writer.write(jsonObject.toString());
+			writer.close();
 			reader.close();
-			FileUtil.delete(jsonFile);
+			if(jsonObject.size() <= 0) {
+				FileUtil.delete(jsonFile);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ParseException e) {
