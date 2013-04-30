@@ -107,7 +107,7 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 	@Override
 	public void postUpdate(ApplicationInfo appInfo,
 			List<ArtifactGroup> artifactGroups, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
-		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
+		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
 		ProjectUtils projectUtils = new ProjectUtils();
 		projectUtils.deletePluginExecutionFromPom(pomFile);
 		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
@@ -132,7 +132,7 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 	
 	private void updateDrupalVersion(File path, ApplicationInfo info) throws PhrescoException {
 		try {
-			File xmlFile = new File(path, Constants.POM_NAME);
+			File xmlFile = new File(path, Utility.getPomFileName(info));
 			PomProcessor processor = new PomProcessor(xmlFile);
 			String selectedVersion = info.getTechInfo().getVersion();
 			processor.setProperty(Constants.DRUPAL_VERSION, selectedVersion);
@@ -144,7 +144,7 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 	
 	private void excludeModule(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroups) throws PhrescoException {
 		try {
-			File projectPath = new File(Utility.getProjectHome()+ File.separator + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
+			File projectPath = new File(Utility.getProjectHome()+ File.separator + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
 			PomProcessor processor = new PomProcessor(projectPath);
 			StringBuilder exclusionStringBuff = new StringBuilder();
 			StringBuilder exclusionValueBuff = new StringBuilder();
@@ -263,7 +263,7 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 	  }
 	
 	private String getThirdPartyFolder(ApplicationInfo appInfo) throws PhrescoException { 
-		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
+		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
 		try {
 			PomProcessor processor = new PomProcessor(pomPath);
 			String property = processor.getProperty(Constants.POM_PROP_KEY_MODULE_SOURCE_DIR);
@@ -462,7 +462,7 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 	}
 	
 	private String getPropertyValue(ApplicationInfo appInfo, String propertyKey) throws PhrescoException { 
-		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
+		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
 		try {
 			PomProcessor processor = new PomProcessor(pomPath);
 			String property = processor.getProperty(propertyKey);
