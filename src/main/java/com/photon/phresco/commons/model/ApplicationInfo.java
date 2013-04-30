@@ -50,6 +50,7 @@ public class ApplicationInfo extends CustomerBasedElement {
     private boolean phoneEnabled;
     private boolean tabletEnabled;
     private boolean pilot;
+    private String pomFile;
 
     //Information about where the pilot project is stored in repository
     private ArtifactGroup pilotContent;
@@ -197,6 +198,14 @@ public class ApplicationInfo extends CustomerBasedElement {
     public void setPilot(boolean pilot) {
         this.pilot = pilot;
     }
+    
+    public void setPomFile(String pomFile) {
+		this.pomFile = pomFile;
+	}
+
+	public String getPomFile() {
+		return pomFile;
+	}
 	
 	public String toString() {
         return new ToStringBuilder(this,
@@ -219,6 +228,7 @@ public class ApplicationInfo extends CustomerBasedElement {
                 .append("tabletEnabled", isTabletEnabled())
                 .append("pilot", isPilot())
                 .append("embedAppId", getEmbedAppId())
+                .append("pomFile", getPomFile())
                 .toString();
     }
 

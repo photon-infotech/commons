@@ -103,7 +103,7 @@ public final class FileUtil {
 	}
 
 	private static String getThemeBundleUploadDir(ApplicationInfo appinfo) throws PhrescoException, PhrescoPomException {
-		return Utility.getPomProcessor(appinfo.getAppDirName()).getProperty(Constants.POM_PROP_KEY_THEME_BUNDLE_UPLOAD_DIR);
+		return Utility.getPomProcessor(appinfo).getProperty(Constants.POM_PROP_KEY_THEME_BUNDLE_UPLOAD_DIR);
 	}
 
 }

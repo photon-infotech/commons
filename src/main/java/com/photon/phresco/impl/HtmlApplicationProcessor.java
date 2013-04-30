@@ -86,7 +86,7 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 	@Override
 	public void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroups, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator
-				+ Constants.POM_NAME);
+				+ Utility.getPomFileName(appInfo));
 		ProjectUtils projectUtils = new ProjectUtils();
 		projectUtils.deletePluginExecutionFromPom(pomFile);
 		projectUtils.deletePluginFromPom(pomFile);
@@ -462,7 +462,7 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 	}
 
 	private String getFeaturePath(ApplicationInfo appInfo) throws PhrescoException {
-		String pomPath = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME;
+		String pomPath = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo);
 		try {
 			PomProcessor processor = new PomProcessor(new File(pomPath));
 			return processor.getProperty(Constants.POM_PROP_KEY_COMPONENTS_SOURCE_DIR);
@@ -843,14 +843,14 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 	 }
 	 
 	 public String getThemeBuilderPathFromPom(ApplicationInfo appinfo) throws PhrescoException, PhrescoPomException {
-	        return Utility.getPomProcessor(appinfo.getAppDirName()).getProperty(Constants.POM_PROP_KEY_THEME_BUILDER);
+	        return Utility.getPomProcessor(appinfo).getProperty(Constants.POM_PROP_KEY_THEME_BUILDER);
 	 }
 	 
 	 private String getThemeBuilderImagePath(ApplicationInfo appinfo) throws PhrescoException, PhrescoPomException {
-		 return Utility.getPomProcessor(appinfo.getAppDirName()).getProperty(Constants.POM_PROP_KEY_THEME_BUILDER_IMAGE);
+		 return Utility.getPomProcessor(appinfo).getProperty(Constants.POM_PROP_KEY_THEME_BUILDER_IMAGE);
 	 }
 	 
 	 public String getThemeFileExtension(ApplicationInfo appinfo) throws PhrescoException, PhrescoPomException {
-	        return Utility.getPomProcessor(appinfo.getAppDirName()).getProperty(Constants.POM_PROP_KEY_THEME_EXT);
+	        return Utility.getPomProcessor(appinfo).getProperty(Constants.POM_PROP_KEY_THEME_EXT);
 	 }
 }

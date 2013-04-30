@@ -52,6 +52,7 @@ import org.json.simple.parser.ParseException;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.BuildInfo;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.exception.PhrescoWebServiceException;
@@ -155,12 +156,12 @@ public final class Utility implements Constants {
         return phrescoHome;
     }
     
-    public static PomProcessor getPomProcessor(String appDirName) throws PhrescoException {
+    public static PomProcessor getPomProcessor(ApplicationInfo appInfo) throws PhrescoException {
     	try {
     		StringBuilder builder = new StringBuilder(Utility.getProjectHome());
-    		builder.append(appDirName);
+    		builder.append(appInfo.getAppDirName());
     		builder.append(File.separatorChar);
-    		builder.append(POM_NAME);
+    		builder.append(getPomFileName(appInfo));
     		S_LOGGER.debug("builder.toString() " + builder.toString());
     		File pomPath = new File(builder.toString());
     		S_LOGGER.debug("file exists " + pomPath.exists());
@@ -168,6 +169,14 @@ public final class Utility implements Constants {
 		} catch (Exception e) {
 			throw new PhrescoException(e);
 		}
+    }
+    
+    public static String getPomFileName(ApplicationInfo appInfo) {
+    	File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + appInfo.getPomFile());
+    	if(pomFile.exists()) {
+    		return appInfo.getPomFile();
+    	}
+    	return Constants.POM_NAME;
     }
     
     public static String getLocalRepoPath() {

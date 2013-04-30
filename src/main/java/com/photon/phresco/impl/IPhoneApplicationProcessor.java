@@ -62,7 +62,7 @@ public class IPhoneApplicationProcessor extends AbstractApplicationProcessor {
 
 	@Override
 	public void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroup, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
-		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
+		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
 		ProjectUtils projectUtils = new ProjectUtils();
 		projectUtils.deletePluginExecutionFromPom(pomFile);
 		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
@@ -168,7 +168,7 @@ public class IPhoneApplicationProcessor extends AbstractApplicationProcessor {
 	}
 
 	private String getThirdPartyFolder(ApplicationInfo appInfo) throws PhrescoException { 
-		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
+		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
 		try {
 			PomProcessor processor = new PomProcessor(pomPath);
 			String property = processor.getProperty(Constants.POM_PROP_KEY_MODULE_SOURCE_DIR);
