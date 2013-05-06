@@ -57,7 +57,7 @@ public class Role extends Element {
 	/**
 	 * @param roles
 	 */
-	public void setPermissions(List<String> permissionIds) {
+	public void setPermissionIds(List<String> permissionIds) {
 		this.permissionIds = permissionIds;
 	}
 
