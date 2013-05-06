@@ -18,6 +18,7 @@
 package com.photon.phresco.commons.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -37,7 +38,9 @@ public class ProjectInfo extends CustomerBasedElement implements Serializable, C
     private String projectCode;
     private String version;
 	private List<ApplicationInfo> appInfos;
-    private int noOfApps;    
+    private int noOfApps;
+    private Date startDate;
+    private Date endDate;
     
 	public String getProjectCode() {
         return projectCode;
@@ -71,6 +74,22 @@ public class ProjectInfo extends CustomerBasedElement implements Serializable, C
 		this.noOfApps = noOfApps;
 	}
 	
+
+	public Date getStartDate() {
+		return startDate;
+	}
+	
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+	
+	public Date getEndDate() {
+		return endDate;
+	}
+	
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 	public ProjectInfo clone() {
 		try {
 			return (ProjectInfo)super.clone();
@@ -86,6 +105,8 @@ public class ProjectInfo extends CustomerBasedElement implements Serializable, C
                 .append("projectCode", getProjectCode())
                 .append("appInfos", getAppInfos())
                 .append("noOfApps", getNoOfApps())
+                .append("startDate",  getStartDate())
+                .append("endDate", getStartDate())
                 .toString();
     }
 

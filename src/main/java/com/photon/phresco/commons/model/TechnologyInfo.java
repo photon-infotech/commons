@@ -53,16 +53,18 @@ public class TechnologyInfo extends Element {
     
     private String appTypeId;
     private String version;
+    private String techGroupId;
     private List<String> techVersions;
 
     public TechnologyInfo() {
         super();
     }
 
-    public TechnologyInfo(String appTypeId, String version) {
+    public TechnologyInfo(String appTypeId, String version,  String techGroupId) {
         super();
         this.appTypeId = appTypeId;
         this.version = version;
+        this.techGroupId = techGroupId;
     }
 
     public String getAppTypeId() {
@@ -80,6 +82,15 @@ public class TechnologyInfo extends Element {
     public void setVersion(String version) {
         this.version = version;
     }
+    
+	public void setTechGroupId(String techGroupId) {
+		this.techGroupId = techGroupId;
+	}
+
+	public String getTechGroupId() {
+		return techGroupId;
+	}
+
 
 	public List<String> getTechVersions() {
 		return techVersions;
@@ -95,6 +106,7 @@ public class TechnologyInfo extends Element {
 	            .append("appTypeId", getAppTypeId())
                 .append("techVersion", getVersion())
                 .append("id", getId())
+                .append("techGroupId", getTechGroupId())
                 .append("techVersions", getTechVersions())
                 .toString();
 	}
