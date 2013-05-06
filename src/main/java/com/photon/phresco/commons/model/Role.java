@@ -57,7 +57,7 @@ public class Role extends Element {
 	/**
 	 * @param roles
 	 */
-	public void setPermissions(List<String> permissionIds) {
+	public void setPermissionIds(List<String> permissionIds) {
 		this.permissionIds = permissionIds;
 	}
 
@@ -65,7 +65,7 @@ public class Role extends Element {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
                 .append(super.toString())
-                .append("permissions", permissionIds)
+                .append("permissions", getPermissionIds())
                 .toString();
     }
 }
