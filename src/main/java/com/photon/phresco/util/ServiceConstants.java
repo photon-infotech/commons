@@ -38,6 +38,7 @@ public interface ServiceConstants {
 	String REST_API_WEBSERVICES = "/webservices";
 	String REST_API_REPORTS = "/reports";
 	String REST_API_OPTIONS = "/options";
+	String REST_API_OPTIONS_FUNCTIONAL = "/options/functional";
 	String REST_API_OPTIONS_CUSTOMER = "/options/customer";
 	String REST_API_TECHGROUPS = "/techgroups";
 	String REST_API_TECHNOLOGIES = "/technologies";
@@ -135,6 +136,7 @@ public interface ServiceConstants {
 	String REPORTS_COLLECTION_NAME = "reports";
 	String PROPERTIES_COLLECTION_NAME = "properties";
 	String OPTIONS_COLLECTION_NAME = "options";
+	String FUNCTIONAL_FRAMEWORK_COLLECTION_NAME = "functionalFrameworks";
 	String CUSTOMER_OPTIONS_COLLECTION_NAME = "customerOptions";
 	String LICENSE_COLLECTION_NAME ="Licenses";
 	String TECH_GROUP_COLLECTION_NAME = "techgroup";
