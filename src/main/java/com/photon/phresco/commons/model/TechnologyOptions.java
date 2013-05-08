@@ -17,6 +17,8 @@
  */
 package com.photon.phresco.commons.model;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -41,4 +43,10 @@ public class TechnologyOptions extends Element {
 		this.option = option;
 	}
 	
+	public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)
+                .append(super.toString())
+                .append("option", getOption())
+                .toString();
+    }
 }	
