@@ -65,7 +65,7 @@ public class Role extends Element {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
                 .append(super.toString())
-                .append("permissions", permissionIds)
+                .append("permissions", getPermissionIds())
                 .toString();
     }
 }
