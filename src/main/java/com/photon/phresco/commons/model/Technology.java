@@ -18,7 +18,6 @@
 package com.photon.phresco.commons.model;
 
 import java.io.Serializable;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -48,7 +47,8 @@ public class Technology extends CustomerBasedElement implements Cloneable, Seria
 	private List<String> options;
 	private String techGroupId;
 	private List<String> reports;
-	private List<String> archetypeFeatures; 
+	private List<String> archetypeFeatures;
+	private List<FunctionalFramework> functionalFrameworks;
 	
 	public Technology() {
         super();
@@ -121,6 +121,14 @@ public class Technology extends CustomerBasedElement implements Cloneable, Seria
 	public void setArchetypeFeatures(List<String> archetypeFeatures) {
 		this.archetypeFeatures = archetypeFeatures;
 	}
+	
+	public void setFunctionalFrameworks(List<FunctionalFramework> functionalFrameworks) {
+		this.functionalFrameworks = functionalFrameworks;
+	}
+
+	public List<FunctionalFramework> getFunctionalFrameworks() {
+		return functionalFrameworks;
+	}
 
 	public String toString() {
         return new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)
@@ -129,6 +137,11 @@ public class Technology extends CustomerBasedElement implements Cloneable, Seria
                 .append("archetypeInfo", getArchetypeInfo())
                 .append("techVersions", getTechVersions())
                 .append("reports", getReports())
+                .append("plugins", getPlugins())
+                .append("options", getOptions())
+                .append("techGroupId", getTechGroupId())
+                .append("archetypeFeatures", getArchetypeFeatures())
+                .append("functionalFrameworks", getFunctionalFrameworks())
                 .toString();
     }
 }
