@@ -24,6 +24,7 @@ public interface ServiceConstants {
 	String REST_API_PROJECT_UPDATE =  "/update";
 	String REST_APP_UPDATEDOCS = "/updatedocs";
 	String REST_API_COMPONENT =  "/components";
+	String REST_API_FRAMEWORK_COMPONENT = "/framwork/components";
 	String REST_API_ADMIN =  "/admin";
 	String REST_API_CUSTOMERS = "/customers";
 	String REST_API_ICON = "/icon";
@@ -31,6 +32,7 @@ public interface ServiceConstants {
 	String REST_API_PROPERTY = "/property";
 	String REST_API_CONFIG_TEMPLATES= "/configtemplates";
 	String REST_API_MODULES= "/modules";
+	String REST_API_MODULES_DESC= "/modules/desc";
 	String REST_API_PILOTS = "/pilots";
 	String REST_API_ARTIFACTINFO = "/artifactInfo";
 	String REST_API_SERVERS = "/servers";
@@ -143,6 +145,7 @@ public interface ServiceConstants {
 	String TECH_GROUP_ID = "techGroupIds";
 	String FRAMEWORK_THEME_COLLECTION_NAME = "frameworkTheme";
 	String REPOINFO_COLLECTION_NAME = "repoInfo";
+	String ARTIFACT_ELEMENT_COLLECTION_NAME = "artifactElement";
 	
 	/*
 	 * DB query params
