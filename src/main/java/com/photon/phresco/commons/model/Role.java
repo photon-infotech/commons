@@ -30,6 +30,8 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 public class Role extends Element {
 
     private List<String> permissionIds;
+    
+    private String appliesTo;
 
 	/**
 	 * 
@@ -60,12 +62,21 @@ public class Role extends Element {
 	public void setPermissionIds(List<String> permissionIds) {
 		this.permissionIds = permissionIds;
 	}
+	
+	public void setAppliesTo(String appliesTo) {
+		this.appliesTo = appliesTo;
+	}
+
+	public String getAppliesTo() {
+		return appliesTo;
+	}
 
 	public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
                 .append(super.toString())
                 .append("permissions", getPermissionIds())
+                .append("appliesTo", getAppliesTo())
                 .toString();
     }
 }

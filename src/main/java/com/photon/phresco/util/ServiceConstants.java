@@ -90,6 +90,7 @@ public interface ServiceConstants {
 	String REST_QUERY_TYPE_JS = "js";
 	String REST_QUERY_ID = "id";
 	String REST_QUERY_CUSTOMERID = "customerId";
+	String REST_QUERY_APPLIESTO = "appliesTo";
 	String REST_QUERY_APPTYPEID = "appTypeId";
 	String DEFAULT_CUSTOMER_NAME = "photon";
 	String PROJECT_NAME = "name";
