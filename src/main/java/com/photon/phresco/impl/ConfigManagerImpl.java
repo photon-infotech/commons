@@ -294,6 +294,12 @@ public class ConfigManagerImpl implements ConfigManager {
 		ConfigReader configReader = new ConfigReader(configFile);
 		return configReader.getAllEnvironments();
 	}
+	
+	@Override
+	public List<Environment> getEnvironmentsAlone() throws ConfigurationException {
+		ConfigReader configReader = new ConfigReader(configFile);
+		return configReader.getAllEnvironmentsAlone();
+	}
 
 	@Override
 	public List<Configuration> getConfigurations(String envName, String type)

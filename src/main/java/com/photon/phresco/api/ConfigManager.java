@@ -69,6 +69,13 @@ public interface ConfigManager {
 	List<Environment> getEnvironments() throws ConfigurationException;
 	
 	/**
+	 * Get All The Environments with out configuration
+	 * @return
+	 * @throws ConfigurationException
+	 */
+	List<Environment> getEnvironmentsAlone() throws ConfigurationException;
+	
+	/**
 	 * Returns the configuration list based on environment name and type
 	 * @param envName
 	 * @param type
