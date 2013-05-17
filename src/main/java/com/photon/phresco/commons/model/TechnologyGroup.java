@@ -24,7 +24,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TechnologyGroup extends Element {
+public class TechnologyGroup extends CustomerBasedElement {
 
 	private static final long serialVersionUID = 1L;
 	private String appTypeId;
