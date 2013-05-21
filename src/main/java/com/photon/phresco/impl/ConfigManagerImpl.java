@@ -134,7 +134,9 @@ public class ConfigManagerImpl implements ConfigManager {
 	public void deleteEnvironment(String envName) throws ConfigurationException {
 		String xpath = getXpathEnv(envName).toString();
 		Element envNode = (Element) getNode(xpath);
-		envNode.getParentNode().removeChild(envNode);
+		if(envNode != null) {
+			envNode.getParentNode().removeChild(envNode);
+		}
 		try {
 			writeXml(new FileOutputStream(configFile));
 		} catch (FileNotFoundException e) {
