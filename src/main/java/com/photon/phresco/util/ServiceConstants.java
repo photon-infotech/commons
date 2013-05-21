@@ -100,6 +100,7 @@ public interface ServiceConstants {
 	String APPTYPE = "appType";
 	String LOGIN = "login";
 	String ADMIN_CUSTOMER = "admin/customers";
+	String CUSTOMER_IMAGE= "admin/icon";
 	String FEATURE_TYPE_JS = "JAVASCRIPT";
 	String JS_GROUP_ID = "jslibraries.files";
 	String ICON_EXT = "png";
