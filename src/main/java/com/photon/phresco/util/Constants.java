@@ -326,6 +326,8 @@ public interface Constants {
     String DOUBLE_DOT  = "..";
     String HINTPATH = "HintPath";
     String COMMON = "\\Common";
+    String METRO_BUILD_SEPARATOR = "~";
+    
 
     /**
      * 
