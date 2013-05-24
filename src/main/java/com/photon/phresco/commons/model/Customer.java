@@ -49,6 +49,7 @@ public class Customer extends Element {
 	private List<ApplicationType> applicableAppTypes;
 	private Map<String, String> frameworkTheme;
 	private List<String> options;
+	private String context;
 	
 	public enum LicenseType {
         TYPE_GOLD, TYPE_SILVER, TYPE_BRONZE
@@ -79,6 +80,13 @@ public class Customer extends Element {
         this.emailId = emailId;
     }
     
+	public String getContext() {
+		return context;
+	}
+
+	public void setContext(String context) {
+		this.context = context;
+	}
 	
 	/**
 	 * @return
@@ -280,6 +288,7 @@ public class Customer extends Element {
                 .append("applicableTechnologies", applicableTechnologies)
                 .append("applicableAppTypes", applicableAppTypes)
                 .append("options", options)
+                .append("context", context)
                 .toString();
     }
 }

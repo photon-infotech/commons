@@ -28,6 +28,7 @@ public interface ServiceConstants {
 	String REST_API_ADMIN =  "/admin";
 	String REST_API_CUSTOMERS = "/customers";
 	String REST_API_ICON = "/icon";
+	String REST_CUSTOMER_PROPERTIES = "/customerproperties";
 	String REST_API_APPTYPES = "/apptypes";
 	String REST_API_PROPERTY = "/property";
 	String REST_API_CONFIG_TEMPLATES= "/configtemplates";
@@ -101,6 +102,7 @@ public interface ServiceConstants {
 	String LOGIN = "login";
 	String ADMIN_CUSTOMER = "admin/customers";
 	String CUSTOMER_IMAGE= "admin/icon";
+	String CUSTOMER_PROPERTIES= "admin/customerproperties";
 	String FEATURE_TYPE_JS = "JAVASCRIPT";
 	String JS_GROUP_ID = "jslibraries.files";
 	String ICON_EXT = "png";
