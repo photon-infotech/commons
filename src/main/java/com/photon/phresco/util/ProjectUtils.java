@@ -15,25 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * ###
-* Phresco Commons
- * 
- * Copyright (C) 1999 - 2012 Photon Infotech Inc.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ###
- */
+
 package com.photon.phresco.util;
 
 import java.io.BufferedReader;
@@ -278,7 +260,7 @@ public class ProjectUtils implements Constants {
 	public void removeExtractedFeatures(ApplicationInfo appInfo, List<ArtifactGroup> removedArtifacts) throws PhrescoException {
 		String baseDir = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator;
 		try {
-			PomProcessor processor = new PomProcessor(new File(baseDir + Constants.POM_NAME));
+			PomProcessor processor = new PomProcessor(new File(baseDir + Utility.getPomFileName(appInfo)));
 			String modulePath = "";
 			if(CollectionUtils.isNotEmpty(removedArtifacts)) {
 				removeMarkerFiles(appInfo, removedArtifacts);
@@ -317,7 +299,7 @@ public class ProjectUtils implements Constants {
 	}
 	
 	public void deleteFeatureDependencies(ApplicationInfo appInfo, List<ArtifactGroup> removedFeatures) throws PhrescoException {
-		String pomDir = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + POM_NAME;
+		String pomDir = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo);
 		try {
 			PomProcessor processor = new PomProcessor(new File(pomDir));
 			List<Dependency> dependencies = processor.getModel().getDependencies().getDependency();
@@ -535,10 +517,17 @@ public class ProjectUtils implements Constants {
 	
 	public BufferedReader ExtractFeature(ApplicationInfo appInfo) throws PhrescoException {
 		BufferedReader breader = null;
+		String pomFileName = Utility.getPomFileName(appInfo);
 		StringBuilder sb = new StringBuilder();
-		sb.append("mvn");
-		sb.append(" ");
-		sb.append("validate");
+		sb.append(MVN_COMMAND);
+		sb.append(STR_BLANK_SPACE);
+		sb.append(PHASE);
+		if(!POM_NAME.equals(pomFileName)) {
+			sb.append(STR_BLANK_SPACE);
+			sb.append(HYPHEN_F);
+			sb.append(STR_BLANK_SPACE);
+			sb.append(pomFileName);
+		}
 		breader = Utility.executeCommand(sb.toString(), Utility.getProjectHome() + appInfo.getAppDirName());
 		return breader;
 	}

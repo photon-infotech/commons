@@ -62,7 +62,7 @@ public class WindowsApplicationProcessor extends AbstractApplicationProcessor im
 	@Override
 	public void postUpdate(ApplicationInfo appInfo,
 			List<ArtifactGroup> artifactGroups, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
-		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
+		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
 		ProjectUtils projectUtils = new ProjectUtils();
 		File path = new File(Utility.getProjectHome() + appInfo.getAppDirName());
 		projectUtils.deletePluginExecutionFromPom(pomFile);

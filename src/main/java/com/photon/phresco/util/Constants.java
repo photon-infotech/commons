@@ -122,7 +122,7 @@ public interface Constants {
 	String SITECORE_INST_PATH = "sitecoreInstPath";
     String SITE_NAME = "siteName";
     String APPLICATION_NAME = "applicationName";
-    String CERTIFICATE = "certificate";
+	String CERTIFICATE = "certificate";
 
 
     // Constants for Database
@@ -227,6 +227,12 @@ public interface Constants {
 	String POM_PROP_KEY_UNITTEST_TESTSUITE_XPATH = "phresco.unitTest.testsuite.xpath";
 	String POM_PROP_KEY_UNITTEST_TESTCASE_PATH = "phresco.unitTest.testcase.path";
 	
+	String POM_PROP_KEY_COMPONENTTEST_DIR = "phresco.componentTest.dir";
+	String POM_PROP_KEY_COMPONENTTEST_RPT_DIR = "phresco.componentTest.report.dir";
+	String POM_PROP_KEY_COMPONENTTEST_ADAPT_CONFIG = "phresco.componentTest.adapt.config";
+	String POM_PROP_KEY_COMPONENTTEST_TESTSUITE_XPATH = "phresco.componentTest.testsuite.xpath";
+	String POM_PROP_KEY_COMPONENTTEST_TESTCASE_PATH = "phresco.componentTest.testcase.path";
+	
 	// Unit test report dir starting constant
 	String POM_PROP_KEY_UNITTEST_RPT_DIR_START = "phresco.unitTest.";
 	String POM_PROP_KEY_UNITTEST_TESTSUITE_XPATH_START = "phresco.unitTest.";
@@ -242,6 +248,7 @@ public interface Constants {
 	String POM_PROP_KEY_LOADTEST_RPT_DIR = "phresco.loadTest.report.dir";
 	String POM_PROP_KEY_FUNCTEST_SELENIUM_TOOL = "phresco.functionalTest.selenium.tool";
     String POM_PROP_KEY_FUNCTEST_RPT_DIR = "phresco.functionalTest.report.dir";
+    String POM_PROP_KEY_SCREENSHOT_DIR = "phresco.screenShot.dir";
     String POM_PROP_KEY_MANUAL_RPT_DIR = "phresco.manualTest.testcase.path";
     String POM_PROP_KEY_FUNCTEST_TESTSUITE_XPATH = "phresco.functionalTest.testsuite.xpath";
     String POM_PROP_KEY_FUNCTEST_TESTCASE_PATH = "phresco.functionalTest.testcase.path";
@@ -273,6 +280,7 @@ public interface Constants {
     String PHASE_DEPLOY = "deploy";
     String PHASE_VALIDATE_CODE = "validate-code";
     String PHASE_UNIT_TEST = "unit-test";
+    String PHASE_COMPONENT_TEST = "component-test";
     String PHASE_FUNCTIONAL_TEST = "functional-test";
     String PHASE_PERFORMANCE_TEST = "performance-test";
     String PHASE_LOAD_TEST = "load-test";
@@ -318,6 +326,8 @@ public interface Constants {
     String DOUBLE_DOT  = "..";
     String HINTPATH = "HintPath";
     String COMMON = "\\Common";
+    String METRO_BUILD_SEPARATOR = "~";
+    
 
     /**
      * 
@@ -327,6 +337,7 @@ public interface Constants {
     String DEPLOY_INFO_FILE				= ".phresco/phresco-deploy-info.xml";
     String VALIDATE_CODE_INFO_FILE		= ".phresco/phresco-validate-code-info.xml";
     String UNIT_TEST_INFO_FILE			= ".phresco/phresco-unit-test-info.xml";
+    String COMPONENT_TEST_INFO_FILE		= ".phresco/phresco-component-test-info.xml";
     String FUNCTIONAL_TEST_INFO_FILE	= ".phresco/phresco-functional-test-info.xml";
     String PERFORMANCE_TEST_INFO_FILE	= ".phresco/phresco-performance-test-info.xml";
     String LOAD_TEST_INFO_FILE			= ".phresco/phresco-load-test-info.xml";
@@ -361,6 +372,7 @@ public interface Constants {
     String EXECUTION_ID = "unpack-module";
     String PHASE = "validate";
     String GOAL = "unpack";
+    String HYPHEN_F = "-f";
     
     String MOJO_ERROR_MESSAGE = "Please resolve above Errors...";
     
@@ -381,7 +393,6 @@ public interface Constants {
     String DOT_BUNDLE = ".bundle";
     String THEME_BUNDLE_SUCCESS_MSG = "Theme bundle uploaded successfully";
     String THEME_BUNDLE_FAILURE_MSG = "Theme bundle upload failed";
+    String THEME_BUNDLE_FAILURE_DESTINATION = "Theme bundle upload failed. Destination missing";
     String THEME_BUNDLE_INVALID_MSG = "Uploaded zip doesnot contain .bundle file";
-    
-    String HYPHEN_F = "-f";
 }

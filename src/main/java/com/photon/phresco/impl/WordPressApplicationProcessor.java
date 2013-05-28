@@ -45,7 +45,7 @@ public class WordPressApplicationProcessor extends AbstractApplicationProcessor{
 	@Override
 	public void postUpdate(ApplicationInfo appInfo,
 			List<ArtifactGroup> artifactGroups, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
-		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
+		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
 		ProjectUtils projectUtils = new ProjectUtils();
 		projectUtils.deletePluginExecutionFromPom(pomFile);
 		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
@@ -69,7 +69,7 @@ public class WordPressApplicationProcessor extends AbstractApplicationProcessor{
 
 	private void updateWordpressVersion(File path, ApplicationInfo info) throws PhrescoException {
 		try {
-			File xmlFile = new File(path, Constants.POM_NAME);
+			File xmlFile = new File(path, Utility.getPomFileName(info));
 			PomProcessor processor = new PomProcessor(xmlFile);
 			String selectedVersion = info.getTechInfo().getVersion();
 			processor.setProperty(Constants.WORDPRESS_VERSION, selectedVersion);

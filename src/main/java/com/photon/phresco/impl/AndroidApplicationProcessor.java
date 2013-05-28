@@ -83,7 +83,7 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor {
 	@Override
 	public void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroups, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
 		//		extractPilots(info, path, technology);
-		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
+		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
 		String projectHome = Utility.getProjectHome() + appInfo.getAppDirName();
 		ProjectUtils projectUtils = new ProjectUtils();
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
@@ -111,13 +111,13 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor {
 	}
 
 	public void updateAndroidVersion(File path, ApplicationInfo appInfo) throws PhrescoException {
-		File pomPath = new File(path ,Constants.POM_NAME);
+		File pomPath = new File(path ,Utility.getPomFileName(appInfo));
 		if(!pomPath.exists()) {
 			return;
 		}
 		PomProcessor processor;
 		List<File> fileList = new ArrayList<File>();
-		fileList.add(new File(path, Constants.POM_NAME));
+		fileList.add(new File(path, Utility.getPomFileName(appInfo)));
 		fileList.add(new File(path, FUNCTIONAL_TEST_POM_XML));
 		fileList.add(new File(path, PERFORMANCE_TEST_POM_XML));
 		fileList.add(new File(path, UNIT_TEST_POM_XML));

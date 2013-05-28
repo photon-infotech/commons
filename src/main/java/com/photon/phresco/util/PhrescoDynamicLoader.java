@@ -119,6 +119,7 @@ public class PhrescoDynamicLoader {
 						.newInstance();
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new PhrescoException(e);
 		}
 		return dynamicPageParameter;

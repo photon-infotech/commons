@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-<!--    
-     <parent>
+    
+    <!-- <parent>
         <groupId>com.photon.phresco</groupId>
         <artifactId>phresco-parent</artifactId>
         <version>3.0.0.10001-SNAPSHOT</version>
         <relativePath>../</relativePath>
-    </parent>
--->
+    </parent> -->
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.photon.phresco.commons</groupId>
     <artifactId>phresco-commons</artifactId>
@@ -227,25 +227,25 @@
 			<artifactId>jdom</artifactId>
 			<version>${jdom.version}</version>
 		</dependency>
-            
-		 <dependency>
+		
+		<dependency>
             <groupId>xalan</groupId>
             <artifactId>xalan</artifactId>
             <version>${xalan.version}</version>
         </dependency>
-		
-	  <dependency>
-		<groupId>com.googlecode.json-simple</groupId>
-		<artifactId>json-simple</artifactId>
-		<version>${json-simple}</version>
+        
+ 		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>${json-simple}</version>
 		</dependency>    
-
-		<!--  CSS Parser  -->
+    
+ 		<!--  CSS Parser  -->
          <dependency>
 			<groupId>com.phloc</groupId>
 			<artifactId>phloc-css</artifactId>
 			<version>3.3.0</version>
-		</dependency>
+		</dependency>	           
 
     </dependencies>
     

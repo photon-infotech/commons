@@ -50,7 +50,8 @@ public class ApplicationInfo extends CustomerBasedElement {
     private boolean phoneEnabled;
     private boolean tabletEnabled;
     private boolean pilot;
-	private String functionalFramework;
+    private String pomFile;
+    private String functionalFramework;
 
     //Information about where the pilot project is stored in repository
     private ArtifactGroup pilotContent;
@@ -198,6 +199,15 @@ public class ApplicationInfo extends CustomerBasedElement {
     public void setPilot(boolean pilot) {
         this.pilot = pilot;
     }
+    
+    public void setPomFile(String pomFile) {
+		this.pomFile = pomFile;
+	}
+
+	public String getPomFile() {
+		return pomFile;
+	}
+	
 	public void setFunctionalFramework(String functionalFrameworkId) {
 		this.functionalFramework = functionalFrameworkId;
 	}
@@ -227,7 +237,8 @@ public class ApplicationInfo extends CustomerBasedElement {
                 .append("tabletEnabled", isTabletEnabled())
                 .append("pilot", isPilot())
                 .append("embedAppId", getEmbedAppId())
-				.append("functionalFramework", getFunctionalFramework())
+                .append("pomFile", getPomFile())
+                .append("functionalFramework", getFunctionalFramework())
                 .toString();
     }
 }

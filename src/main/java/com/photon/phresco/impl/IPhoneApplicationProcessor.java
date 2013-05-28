@@ -20,11 +20,8 @@ package com.photon.phresco.impl;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -38,7 +35,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.configuration.plist.XMLPropertyListConfiguration;
 import org.apache.commons.lang.StringUtils;
 
-import org.apache.commons.io.FileUtils;
 import com.photon.phresco.api.ConfigManager;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
@@ -66,7 +62,7 @@ public class IPhoneApplicationProcessor extends AbstractApplicationProcessor {
 
 	@Override
 	public void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroup, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
-		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
+		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
 		ProjectUtils projectUtils = new ProjectUtils();
 		projectUtils.deletePluginExecutionFromPom(pomFile);
 		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
@@ -172,7 +168,7 @@ public class IPhoneApplicationProcessor extends AbstractApplicationProcessor {
 	}
 
 	private String getThirdPartyFolder(ApplicationInfo appInfo) throws PhrescoException { 
-		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.POM_NAME);
+		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
 		try {
 			PomProcessor processor = new PomProcessor(pomPath);
 			String property = processor.getProperty(Constants.POM_PROP_KEY_MODULE_SOURCE_DIR);
@@ -258,21 +254,21 @@ public class IPhoneApplicationProcessor extends AbstractApplicationProcessor {
 			sb.append(appInfo.getAppDirName())
 			.append(File.separator)
 			.append(Constants.PROJECTS_TEMP);
-			
+
 			tempDirectory = new File(sb.toString());
 			tempDirectory.mkdir(); //create temp dir
-			
+
 			String tempZipPath = tempDirectory.getPath() + File.separator + zipfileName;
-			
+
 			//create zip file from inputstream
 			File tempZipFile = FileUtil.writeFileFromInputStream(inputStream, tempZipPath);
-			
+
 			//extract the zip file inside temp directory
 			ArchiveUtil.unzip(tempZipPath, tempDirectory.getPath());
-			
+
 			//after extracting, delete that zip file
 			FileUtil.delete(tempZipFile);
-			
+
 			//to validate the extract file contains .bundle extension
 			File[] listFiles = tempDirectory.listFiles();
 			File extractedFile = listFiles[0]; 
@@ -288,7 +284,7 @@ public class IPhoneApplicationProcessor extends AbstractApplicationProcessor {
 			throw new PhrescoException(e);
 		}
 		FileUtil.delete(tempDirectory);
-		
+
 		return resultMap;
 	}
 }

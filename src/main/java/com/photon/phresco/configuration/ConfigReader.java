@@ -322,20 +322,20 @@ public class ConfigReader {
 	}
 	
 	public List<Environment> getAllEnvironmentsAlone() {
-		Collection<Element> enviroments = ENV_MAP.values();
-		List<Environment> envs = new ArrayList<Environment>(enviroments.size());
-		for (Element envElement : enviroments) {
-			String envName = envElement.getAttribute("name");
-			String envDesc = envElement.getAttribute("desc");
-			String defaultEnv = envElement.getAttribute("default");
-			String envAppliesTo = envElement.getAttribute("appliesTo");
-			Environment environment = new Environment(envName, envDesc, Boolean.parseBoolean(defaultEnv), csvStringToList(envAppliesTo));
-			environment.setDelete(canDelete(envElement));
-			envs.add(environment);
-		}
-		return envs;
-	}
-	
+        Collection<Element> enviroments = ENV_MAP.values();
+        List<Environment> envs = new ArrayList<Environment>(enviroments.size());
+        for (Element envElement : enviroments) {
+            String envName = envElement.getAttribute("name");
+            String envDesc = envElement.getAttribute("desc");
+            String defaultEnv = envElement.getAttribute("default");
+            String envAppliesTo = envElement.getAttribute("appliesTo");
+            Environment environment = new Environment(envName, envDesc, Boolean.parseBoolean(defaultEnv), csvStringToList(envAppliesTo));
+            environment.setDelete(canDelete(envElement));
+            envs.add(environment);
+        }
+        return envs;
+    }
+
 	private List<String> csvStringToList(String csvStr) {
 		String[] split = csvStr.split(",");
 		return Arrays.asList(split);

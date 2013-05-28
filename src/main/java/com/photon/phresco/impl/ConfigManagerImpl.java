@@ -134,9 +134,7 @@ public class ConfigManagerImpl implements ConfigManager {
 	public void deleteEnvironment(String envName) throws ConfigurationException {
 		String xpath = getXpathEnv(envName).toString();
 		Element envNode = (Element) getNode(xpath);
-		if(envNode != null) {
-			envNode.getParentNode().removeChild(envNode);
-		}
+		envNode.getParentNode().removeChild(envNode);
 		try {
 			writeXml(new FileOutputStream(configFile));
 		} catch (FileNotFoundException e) {
@@ -298,10 +296,10 @@ public class ConfigManagerImpl implements ConfigManager {
 	}
 	
 	@Override
-	public List<Environment> getEnvironmentsAlone() throws ConfigurationException {
-		ConfigReader configReader = new ConfigReader(configFile);
-		return configReader.getAllEnvironmentsAlone();
-	}
+    public List<Environment> getEnvironmentsAlone() throws ConfigurationException {
+        ConfigReader configReader = new ConfigReader(configFile);
+        return configReader.getAllEnvironmentsAlone();
+    }
 
 	@Override
 	public List<Configuration> getConfigurations(String envName, String type)
