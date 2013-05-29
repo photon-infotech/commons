@@ -46,6 +46,7 @@ public class User extends Element {
 	private boolean validLogin;
 	private AuthType authType;
 	private String password;
+	private UserPermissions permissions;
 	
 	public User() {
 		super();
@@ -193,6 +194,14 @@ public class User extends Element {
 	public void setCustomers(List<Customer> customers) {
 		this.customers = customers;
 	}
+	
+	public void setPermissions(UserPermissions userPermissions) {
+		this.permissions = userPermissions;
+	}
+
+	public UserPermissions getPermissions() {
+		return permissions;
+	}
 
 	public String toString() {
         return new ToStringBuilder(this,
@@ -208,6 +217,7 @@ public class User extends Element {
                 .append("token", token)
                 .append("authType", authType)
                 .append("password", password)
+                .append("userPermissions", permissions)
                 .toString();
     }
 }
