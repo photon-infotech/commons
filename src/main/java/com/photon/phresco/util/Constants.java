@@ -267,6 +267,7 @@ public interface Constants {
 	String POM_PROP_KEY_LOG_FILE_PATH = "phresco.functional.logfile.path";
 	String POM_PROP_KEY_PHRESCO_ECLIPSE = "phresco.eclipse";
 	String POM_PROP_KEY_THEME_EXT = "phresco.theme.file.extension";
+	String PHRESCO_UNIT_TEST = "phresco.unitTest";
 	
 	/* theme builder path*/
 	String POM_PROP_KEY_THEME_BUILDER = "phresco.theme.builder.path";
