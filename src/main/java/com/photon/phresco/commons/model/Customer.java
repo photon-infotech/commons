@@ -49,6 +49,7 @@ public class Customer extends Element {
 	private List<ApplicationType> applicableAppTypes;
 	private Map<String, String> frameworkTheme;
 	private List<String> options;
+	private String context;
 	
 	public enum LicenseType {
         TYPE_GOLD, TYPE_SILVER, TYPE_BRONZE
@@ -262,6 +263,14 @@ public class Customer extends Element {
         return options;
     }
 
+	public void setContext(String context) {
+		this.context = context;
+	}
+
+	public String getContext() {
+		return context;
+	}
+
 	public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
@@ -280,6 +289,7 @@ public class Customer extends Element {
                 .append("applicableTechnologies", applicableTechnologies)
                 .append("applicableAppTypes", applicableAppTypes)
                 .append("options", options)
+                .append("context", context)
                 .toString();
     }
 }
