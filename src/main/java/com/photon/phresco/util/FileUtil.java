@@ -77,6 +77,7 @@ public final class FileUtil {
 		inputStream.close();
 		out.flush();
 		out.close();
+		
 		return tempZipFile;
 	}
 	
@@ -122,7 +123,10 @@ public final class FileUtil {
 				File srcFile = new File(src, file);
 				File destFile = new File(dest, file);
 				//recursive copy
-				copyFolder(srcFile,destFile);
+				
+				if (!Constants.MACOSX.equals(file)) {
+					copyFolder(srcFile,destFile);
+				}
 			}
 		} else {
 			//if file, then copy it

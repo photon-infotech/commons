@@ -160,10 +160,25 @@ public class ArchiveUtil {
 		au.say();
 	}
 	
-	public static boolean unzip(String zipFilePath, String destDirectory) throws IOException {
+	public static boolean unzip(String zipFilePath, String destDirectory, String folder) throws IOException {
 		ZipInputStream zipIn = null;
 		boolean success = true;
 		try {
+			File temp = new File(destDirectory);
+			if (!temp.exists()) {
+				temp.mkdir();
+			} 
+			
+			String folderName = "";
+			//if folder is not empty create a folder by the name and extract zip content into it
+			if (StringUtils.isNotEmpty(folder)) {
+				folderName = Constants.PROJECTS_TEMP + folder;
+			} else {//else extract zip to folder called extract
+				folderName = "extract";
+			}
+			
+			
+			destDirectory =destDirectory + File.separator + folderName;
 			File destDir = new File(destDirectory);
 			if (!destDir.exists()) {
 				destDir.mkdir();

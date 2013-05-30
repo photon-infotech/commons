@@ -817,7 +817,7 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 			 File tempZipFile = FileUtil.writeFileFromInputStream(inputStream, tempZipPath);
 
 			 //extract the zip file inside temp directory
-			 boolean unzipped = ArchiveUtil.unzip(tempZipPath, tempDirectory.getPath());
+			 boolean unzipped = ArchiveUtil.unzip(tempZipPath, tempDirectory.getPath(), "");
 
 			 //after extracting, delete that zip file
 			 FileUtil.delete(tempZipFile);
