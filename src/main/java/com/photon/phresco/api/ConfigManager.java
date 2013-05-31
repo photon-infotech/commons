@@ -88,6 +88,14 @@ public interface ConfigManager {
 	void createConfiguration(String envName, Configuration configuration) throws ConfigurationException;
 	
 	/**
+	 * Create a list configuration for a given environment name
+	 * @param envName
+	 * @param configurationlist
+	 * @throws ConfigurationException
+	 */
+	void createConfiguration(String envName, List<Configuration> configurationlist) throws ConfigurationException;
+	
+	/**
 	 * Updates configuration by given environment name and configuration
 	 * @param envName
 	 * @param oldConfigName
@@ -113,6 +121,14 @@ public interface ConfigManager {
 	 * @throws PhrescoException
 	 */
 	Configuration getConfiguration(String envName, String type, String configName) throws ConfigurationException;
+	
+	/**
+	 * Returns the configuration list based on environment name alone
+	 * @param envName
+	 * @return
+	 * @throws ConfigurationException
+	 */
+	List<Configuration> getConfigurations(String envName) throws ConfigurationException,PhrescoException;
 	
 	/**
 	 * @param configuration

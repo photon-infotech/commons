@@ -332,6 +332,30 @@ public class ConfigManagerImpl implements ConfigManager {
 		}
 	}
 	
+	@Override
+	public void createConfiguration(String envName,
+			List<Configuration> configurationlist)
+			throws ConfigurationException {
+		
+		ConfigReader configReader = new ConfigReader(configFile);
+		Element element = configReader.getEnviroments().get(envName);
+		Element imported = (Element)document.importNode(element, Boolean.TRUE);
+		
+		for(Configuration configuration : configurationlist) {
+			imported.appendChild(createConfigElement(configuration));	
+		}
+		Node oldNode = getNode(getXpathEnv(envName).toString());
+		rootElement.replaceChild(imported, oldNode);
+		try {
+			writeXml(new FileOutputStream(configFile));
+		} catch (FileNotFoundException e) {
+			throw new ConfigurationException(e);
+		}
+	
+		
+	}
+
+	
 	public Element createConfigElement(Configuration configuration) throws ConfigurationException {
 		Element configNode = document.createElement(configuration.getType());
 		configNode.setAttribute("name", configuration.getName());
@@ -412,6 +436,21 @@ public class ConfigManagerImpl implements ConfigManager {
 			throw new ConfigurationException(e);
 		}
 		return configurationFound;
+	}
+	
+	@Override
+	public List<Configuration> getConfigurations(String envName)
+			throws ConfigurationException, PhrescoException {
+		ConfigReader configReader = null;
+		try {
+			configReader = new ConfigReader(configFile);
+			if (envName == null || envName.isEmpty() ) {
+				throw new PhrescoException("Specified Environment Not found");
+			}
+		} catch (ConfigurationException e) {
+			throw new ConfigurationException(e);
+		}
+		return configReader.getConfigByEnv(envName);
 	}
 
 	@Override
