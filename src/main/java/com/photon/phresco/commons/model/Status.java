@@ -17,6 +17,23 @@
  */
 package com.photon.phresco.commons.model;
 
+/**
+ * Enum Phresco status object.
+ *
+ */
 public enum Status {
-    NEW, ACTIVE, SUSPENDED
+    /**
+     * new status 
+     */
+    NEW, 
+    
+    /**
+     * active status
+     */
+    ACTIVE,
+    
+    /**
+     * suspended status
+     */
+    SUSPENDED
 }

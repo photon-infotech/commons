@@ -30,30 +30,60 @@ import com.photon.phresco.util.ServiceConstants;
 @XmlRootElement
 public abstract class CustomerBasedElement extends Element {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 
+	 */
 	@NotEmpty(message = ServiceConstants.VAL_CUSID_MSG)
 	private List<String> customerIds;
+    
+	/**
+     * 
+     */
     private boolean used;
 
+	/**
+	 * 
+	 */
 	protected CustomerBasedElement() {
 		super();
 	}
 
+    /**
+     * @param id
+     */
     protected CustomerBasedElement(String id) {
         super(id);
     }
 
+    /**
+     * @return
+     */
     public List<String> getCustomerIds() {
         return customerIds;
     }
 
+    /**
+     * @param customerIds
+     */
     public void setCustomerIds(List<String> customerIds) {
         this.customerIds = customerIds;
     }
     
+    /**
+     * @return
+     */
     public boolean isUsed() {
         return used;
     }
 
+    /**
+     * @param used
+     */
     public void setUsed(boolean used) {
         this.used = used;
     }
@@ -65,5 +95,4 @@ public abstract class CustomerBasedElement extends Element {
                 .append("isUsed", isUsed())
                 .toString();
     }
-	
 }

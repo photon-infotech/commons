@@ -30,51 +30,97 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DownloadInfo extends CustomerBasedElement {
 
-    public enum Category {
-        SERVER, DATABASE, EDITOR, TOOLS, OTHERS
-    }
-    
+    /**
+	 * generated serial number 
+	 */
+	private static final long serialVersionUID = -1229697958518922019L;
+
+	/**
+	 * list of applications
+	 */
 	private List<String> appliesToTechIds;
+	
+	/**
+	 * list of supported platforms
+	 */
 	private List<String> platformTypeIds;
+	
+	/**
+	 * 
+	 */
 	private Category category;
+	
+	/**
+	 * 
+	 */
 	private ArtifactGroup artifactGroup;
 	
+	/**
+	 * 
+	 */
 	public DownloadInfo() {
 	    super();
 	}
 
+	/**
+	 * @param id
+	 */
 	public DownloadInfo(String id) {
 	    super(id);
 	}
 	
+    /**
+     * @return
+     */
     public List<String> getAppliesToTechIds() {
         return appliesToTechIds;
     }
 
+    /**
+     * @param appliesToTechs
+     */
     public void setAppliesToTechIds(List<String> appliesToTechs) {
         this.appliesToTechIds = appliesToTechs;
     }
 
+    /**
+     * @return
+     */
     public List<String> getPlatformTypeIds() {
         return platformTypeIds;
     }
 
+    /**
+     * @param platformTypeIds
+     */
     public void setPlatformTypeIds(List<String> platformTypeIds) {
         this.platformTypeIds = platformTypeIds;
     }
 
+    /**
+     * @return
+     */
     public Category getCategory() {
 		return category;
 	}
 
+	/**
+	 * @param category
+	 */
 	public void setCategory(Category category) {
 		this.category = category;
 	}
 
+	/**
+	 * @return
+	 */
 	public ArtifactGroup getArtifactGroup() {
 		return artifactGroup;
 	}
 
+	/**
+	 * @param artifactGroup
+	 */
 	public void setArtifactGroup(ArtifactGroup artifactGroup) {
 		this.artifactGroup = artifactGroup;
 	}

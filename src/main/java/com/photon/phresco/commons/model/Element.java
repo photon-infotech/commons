@@ -32,23 +32,60 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.photon.phresco.util.ServiceConstants;
 
 
+/**
+ * Basic Phresco element in the platform.
+ */
 @XmlRootElement
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Element implements Serializable {
 
     private static final long serialVersionUID = 2573493968812398251L;
     
+    /**
+     * id
+     */
     @NotEmpty(message = ServiceConstants.VAL_ID_MSG)
     private String id;
+    
+    /**
+     * name of the element
+     */
     @NotEmpty(message = ServiceConstants.VAL_NAME_MSG)
 	private String name;
+    
+    /**
+     * Display name of the element
+     */
     private String displayName;
+	
+    /**
+	 * Optional description
+	 */
 	private String description;
+	
+	/**
+	 * optional help text
+	 */
 	private String helpText;
+	
+	/**
+	 * Creation date of the element, usually system generated as now.
+	 */
 	private Date creationDate;
+	
+	/**
+	 * flag to know phresco internal element
+	 */
 	private boolean system;
+	
+	/**
+	 * Phresco status
+	 */
 	private Status status;
 
+	/**
+	 * 
+	 */
 	public Element() {
 		super();
 		this.id = UUID.randomUUID().toString();
@@ -60,65 +97,77 @@ public class Element implements Serializable {
         this.id = id;
     }
 
-	/**
-	 * @return
+    /**
+	 * @return the id
 	 */
 	public String getId() {
 		return id;
 	}
 
 	/**
-	 * @param id
+	 * @param id the id to set
 	 */
 	public void setId(String id) {
 		this.id = id;
 	}
 
 	/**
-	 * @return
+	 * @return the name
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param name
+	 * @param name the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
 
+	/**
+	 * @return the displayName
+	 */
 	public String getDisplayName() {
 		return displayName;
 	}
 
 	/**
-	 * @return
+	 * @param displayName the displayName to set
+	 */
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	/**
+	 * @return the helpText
+	 */
+	public String getHelpText() {
+		return helpText;
+	}
+
+	/**
+	 * @param helpText the helpText to set
+	 */
+	public void setHelpText(String helpText) {
+		this.helpText = helpText;
+	}
+
+	/**
+	 * @return the description
 	 */
 	public String getDescription() {
 		return description;
 	}
 
 	/**
-	 * @param description
+	 * @param description the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public void setHelpText(String helpText) {
-        this.helpText = helpText;
-    }
-
-    public String getHelpText() {
-        return helpText;
-    }
-
-    /**
+	/**
 	 * @return
 	 */
 	public Date getCreationDate() {
@@ -149,9 +198,13 @@ public class Element implements Serializable {
         this.status = status;
     }
 
+    /* 
+     * Custom toString Builder
+     * (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     public String toString() {
-	    return new ToStringBuilder(this,
-                ToStringStyle.DEFAULT_STYLE)
+	    return new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)
                 .append("id", getId())
                 .append("name", getName())
                 .append("displayName", getDisplayName())
