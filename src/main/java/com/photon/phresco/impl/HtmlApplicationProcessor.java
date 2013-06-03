@@ -674,7 +674,8 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 			 org.codehaus.jettison.json.JSONObject jsonObj = new org.codehaus.jettison.json.JSONObject(jsonString);
 			 String themeName = jsonObj.getString(Constants.THEME_NAME);
 			 String themePath = jsonObj.getString(Constants.THEME_PATH);
-			 StringBuilder themeLocation =  new StringBuilder(themePath).append(themeName + themeFileExtension);
+			 StringBuilder themeLocation =  new StringBuilder(themePath)
+			 .append(themeName + themeFileExtension);
 			 
 			 boolean filesCopied = fetchImageUrlsToCopy(appInfo, jsonObj);//move selected images to the path specified in pom property 
 			 if (filesCopied) {
@@ -684,7 +685,7 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 				 }
 
 				 CascadingStyleSheet css = ThemeBuilderReadCSS.readCSS30(cssFile);
-				 
+
 				 if (css != null) {
 					 List<ICSSTopLevelRule> allRules = css.getAllRules();
 					 for (ICSSTopLevelRule icssTopLevelRule : allRules) {
@@ -800,7 +801,7 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 	 @Override
 	 public Map<Boolean, String> themeBundleUpload(ApplicationInfo appInfo, byte[] byteArray, String zipfileName) throws PhrescoException {
 		 Map<Boolean, String> resultMap = new HashMap<Boolean, String>();
-		 File tempDirectory = null;
+		 File tempDirectory;
 		 try {
 			 InputStream inputStream = new ByteArrayInputStream(byteArray);
 			 StringBuilder sb = new StringBuilder(Utility.getProjectHome());
@@ -817,64 +818,30 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 			 File tempZipFile = FileUtil.writeFileFromInputStream(inputStream, tempZipPath);
 
 			 //extract the zip file inside temp directory
-			 boolean unzipped = ArchiveUtil.unzip(tempZipPath, tempDirectory.getPath(), "");
+			 ArchiveUtil.unzip(tempZipPath, tempDirectory.getPath());
 
 			 //after extracting, delete that zip file
 			 FileUtil.delete(tempZipFile);
-			 if (unzipped) {
-				 File[] listFiles = tempDirectory.listFiles();
-				 File extractedFile = listFiles[0]; 
-				 //if true, then move extracted file to the path specified in the pom
-				 boolean moveThemeFlag = moveUploadedThemeBundleToDonotCheckin(extractedFile, appInfo);
-				 if (moveThemeFlag) {
-					 resultMap.put(true, Constants.THEME_BUNDLE_SUCCESS_MSG);
-				 } else {
-					 resultMap.put(false, Constants.THEME_BUNDLE_FAILURE_DESTINATION);
-				 }
+
+			 File[] listFiles = tempDirectory.listFiles();
+			 File extractedFile = listFiles[0]; 
+			 //if true, then move extracted file to the path specified in the pom
+			 boolean moveThemeFlag = FileUtil.moveUploadedThemeBundle(extractedFile, appInfo);
+			 if (moveThemeFlag) {
+				 resultMap.put(true, Constants.THEME_BUNDLE_SUCCESS_MSG);
 			 } else {
-				 resultMap.put(false, Constants.THEME_BUNDLE_UNZIP_ERR);
+				 resultMap.put(false, Constants.THEME_BUNDLE_FAILURE_DESTINATION);
 			 }
+
 		 } catch (Exception e) {
 			 resultMap.put(false, Constants.THEME_BUNDLE_FAILURE_MSG);
 			 throw new PhrescoException(e);
-		 } finally {
-			 FileUtil.delete(tempDirectory);
 		 }
+		 FileUtil.delete(tempDirectory);
+
 		 return resultMap;
 	 }
 	 
-
-	 private boolean moveUploadedThemeBundleToDonotCheckin(File extractedFile, ApplicationInfo appInfo) throws PhrescoException {
-		 boolean flag = true;
-		 try {
-			 StringBuilder do_not_checkin = new StringBuilder(Utility.getProjectHome());
-			 do_not_checkin.append(appInfo.getAppDirName())
-			 .append(File.separator)
-			 .append(Constants.DO_NOT_CHECKIN_DIRY);
-			 
-			 //create do_not_checkin directory if doesnot exists
-			 File donotCheckinDir = new File(do_not_checkin.toString());
-			 if (!donotCheckinDir.exists()) {
-				 donotCheckinDir.mkdir();
-			 }
-			 
-			 //create themes folder inside do_not_checkin if doesnot exists
-			 String destFolder = do_not_checkin.append(File.separator).append("themes").toString();
-			 File themeUploadDir = new File(destFolder); 
-			 if (!themeUploadDir.exists()) {
-				 themeUploadDir.mkdir();
-			 }
-			 
-			 //move extracted file to do_not_checkin/themes directory
-			 FileUtils.copyDirectoryToDirectory(extractedFile, themeUploadDir);
-		 } catch (Exception e) {
-			 flag = false;
-			 throw new PhrescoException(e);
-		 }
-
-		 return flag;
-	 }
-		
 	 public String getThemeBuilderPathFromPom(ApplicationInfo appinfo) throws PhrescoException, PhrescoPomException {
 	        return Utility.getPomProcessor(appinfo).getProperty(Constants.POM_PROP_KEY_THEME_BUILDER);
 	 }

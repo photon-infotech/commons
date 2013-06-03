@@ -264,7 +264,7 @@ public class IPhoneApplicationProcessor extends AbstractApplicationProcessor {
 			File tempZipFile = FileUtil.writeFileFromInputStream(inputStream, tempZipPath);
 
 			//extract the zip file inside temp directory
-			ArchiveUtil.unzip(tempZipPath, tempDirectory.getPath(), "");
+			ArchiveUtil.unzip(tempZipPath, tempDirectory.getPath());
 
 			//after extracting, delete that zip file
 			FileUtil.delete(tempZipFile);
