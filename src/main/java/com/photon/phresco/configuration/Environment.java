@@ -22,7 +22,6 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@SuppressWarnings("restriction")
 @XmlRootElement
 public class Environment {
 

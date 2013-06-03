@@ -17,7 +17,6 @@
  */
 package com.photon.phresco.commons.model;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -28,7 +27,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @XmlRootElement
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Technology extends CustomerBasedElement implements Cloneable, Serializable {
+public class Technology extends CustomerBasedElement implements Cloneable {
 
     public enum Option {
     	BUILD_SUPPORTED, CODE_QULAITY_SUPPORTED, DEPLOY_SUPPORTED, 

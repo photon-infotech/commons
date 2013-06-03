@@ -21,7 +21,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-@SuppressWarnings("restriction")
 @XmlRootElement
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class VersionInfo extends Element {

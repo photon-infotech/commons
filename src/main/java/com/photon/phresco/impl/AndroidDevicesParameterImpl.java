@@ -17,15 +17,19 @@
  */
 package com.photon.phresco.impl;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Map;
 
-import javax.xml.parsers.*;
+import javax.xml.parsers.ParserConfigurationException;
 
-import org.xml.sax.*;
+import org.xml.sax.SAXException;
 
-import com.photon.phresco.api.*;
-import com.photon.phresco.exception.*;
+import com.photon.phresco.api.DynamicParameter;
+import com.photon.phresco.exception.ConfigurationException;
+import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter.PossibleValues;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter.PossibleValues.Value;
 

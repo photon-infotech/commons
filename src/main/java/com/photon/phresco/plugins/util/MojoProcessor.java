@@ -33,7 +33,6 @@ import com.photon.phresco.plugins.model.Mojos.Mojo;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Implementation;
-import com.photon.phresco.plugins.model.Mojos.Mojo.Implementation.Dependency;
 
 /**
  * 

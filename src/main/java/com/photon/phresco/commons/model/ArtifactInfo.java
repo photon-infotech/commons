@@ -27,6 +27,11 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 public class ArtifactInfo extends Element {
     
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1019920728408672762L;
+
 	public enum Scope {
 		COMPILE, PROVIDED, RUNTIME, TEST
 	}

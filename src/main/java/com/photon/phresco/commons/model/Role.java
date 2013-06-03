@@ -29,7 +29,12 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Role extends Element {
 
-    private List<String> permissionIds;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8632062848943337990L;
+
+	private List<String> permissionIds;
     
     private String appliesTo;
 

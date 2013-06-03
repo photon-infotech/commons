@@ -28,6 +28,11 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class VideoType extends Element {
     
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5397472763360032143L;
+	
 	private String videoInfoId;
 	private String url;
 	private ArtifactGroup artifactGroup;
