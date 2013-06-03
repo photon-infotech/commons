@@ -17,14 +17,12 @@
  */
 package com.photon.phresco.commons.model;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RepoInfo extends Element implements Serializable  {
+public class RepoInfo extends Element  {
     
     /**
 	 * 
