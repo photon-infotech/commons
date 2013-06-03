@@ -581,4 +581,15 @@ public final class Utility implements Constants {
         }
         return isAlive;
     }
+	
+	public static String convertToCommaDelimited(String[] list) {
+        StringBuffer ret = new StringBuffer("");
+        for (int i = 0; list != null && i < list.length; i++) {
+            ret.append(list[i]);
+            if (i < list.length - 1) {
+                ret.append(',');
+            }
+        }
+        return ret.toString();
+    }
 }
