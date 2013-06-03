@@ -19,7 +19,7 @@ package com.photon.phresco.exception;
 
 import org.apache.commons.lang.StringUtils;
 
-public class PhrescoException extends PhrescoExceptionAbstract {
+public class PhrescoException extends AbstractPhrescoException {
 
     /**
      *

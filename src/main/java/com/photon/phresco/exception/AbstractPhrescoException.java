@@ -20,7 +20,7 @@ package com.photon.phresco.exception;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-public abstract class PhrescoExceptionAbstract extends Exception implements
+public abstract class AbstractPhrescoException extends Exception implements
 		AIException {
 
 	/**
@@ -30,24 +30,24 @@ public abstract class PhrescoExceptionAbstract extends Exception implements
 	
 	private int errorNumber;
 
-	public PhrescoExceptionAbstract() {
+	public AbstractPhrescoException() {
 	}
 
-	public PhrescoExceptionAbstract(Throwable t) {
+	public AbstractPhrescoException(Throwable t) {
 		super(t);
 	}
 
-	public PhrescoExceptionAbstract(int pErrorNumber) {
+	public AbstractPhrescoException(int pErrorNumber) {
 		super("Unknown Error");
 		this.errorNumber = pErrorNumber;
 	}
 
-	public PhrescoExceptionAbstract(String pErrorMessage) {
+	public AbstractPhrescoException(String pErrorMessage) {
 		super(pErrorMessage);
 		this.errorNumber = 0;
 	}
 
-	public PhrescoExceptionAbstract(int pErrorNumber, String pErrorMessage) {
+	public AbstractPhrescoException(int pErrorNumber, String pErrorMessage) {
 		super(pErrorMessage);
 		this.errorNumber = pErrorNumber;
 	}
