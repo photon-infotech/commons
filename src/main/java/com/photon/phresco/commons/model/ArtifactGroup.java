@@ -26,6 +26,11 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArtifactGroup extends CustomerBasedElement {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2890871921783458073L;
+
 	public enum Type {
 		ARCHETYPE, FEATURE, JAVASCRIPT, COMPONENT, ICON
 	}

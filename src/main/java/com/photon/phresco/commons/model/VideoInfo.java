@@ -30,6 +30,10 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class VideoInfo extends CustomerBasedElement {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 396496429342200058L;
 	private String imageurl;
 	private List<VideoType> videoList;
 

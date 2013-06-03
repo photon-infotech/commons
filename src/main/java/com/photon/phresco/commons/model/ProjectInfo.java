@@ -17,7 +17,6 @@
  */
 package com.photon.phresco.commons.model;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -28,10 +27,9 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
-@SuppressWarnings("restriction")
 @XmlRootElement
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ProjectInfo extends CustomerBasedElement implements Serializable, Cloneable {
+public class ProjectInfo extends CustomerBasedElement implements Cloneable {
 
     private static final long serialVersionUID = 1L;
     

@@ -35,24 +35,24 @@ public abstract class AbstractApplicationProcessor implements
 
 	@Override
 	public void preCreate(ApplicationInfo appInfo) throws PhrescoException {
-
+//		empty implementation. subclasses can override.
 	}
 
 	@Override
 	public void preUpdate(ApplicationInfo appInfo) throws PhrescoException {
-
+//		empty implementation. subclasses can override.
 	}
 
 	@Override
 	public void postCreate(ApplicationInfo appInfo) throws PhrescoException {
-
+//		empty implementation. subclasses can override.
 	}
 
 	@Override
 	public void postUpdate(ApplicationInfo appInfo,
 			List<ArtifactGroup> artifactGroup,
 			List<ArtifactGroup> deletedFeatures) throws PhrescoException {
-
+//		empty implementation. subclasses can override.
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public abstract class AbstractApplicationProcessor implements
 	@Override
 	public void postConfiguration(ApplicationInfo appInfo,
 			List<Configuration> configurations) throws PhrescoException {
-
+//		empty implementation. subclasses can override.
 	}
 
 	@Override
@@ -77,17 +77,17 @@ public abstract class AbstractApplicationProcessor implements
 	public void postFeatureConfiguration(ApplicationInfo appInfo,
 			List<Configuration> configs, String featureName)
 			throws PhrescoException {
-
+//		empty implementation. subclasses can override.
 	}
 
 	@Override
 	public void preBuild(ApplicationInfo appInfo) throws PhrescoException {
-
+//		empty implementation. subclasses can override.
 	}
 
 	@Override
 	public void postBuild(ApplicationInfo appInfo) throws PhrescoException {
-
+//		empty implementation. subclasses can override.
 	}
 	
 	@Override
@@ -113,5 +113,6 @@ public abstract class AbstractApplicationProcessor implements
 	
 	@Override
 	public void adoptApplication(ApplicationInfo appInfo) throws PhrescoException {
+//		empty implementation. subclasses can override.
 	}
 }

@@ -34,8 +34,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.jdom.Comment;
-import org.jdom.filter.ContentFilter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -47,8 +45,8 @@ import com.photon.phresco.exception.ConfigurationException;
 public class ConfigReader {
 
 	//envname, env dom element
-	private static final Map<String, Element> ENV_MAP = new LinkedHashMap<String, Element>();
-	private static String defaultEnvironment = null;
+	private final Map<String, Element> ENV_MAP = new LinkedHashMap<String, Element>();
+	private String defaultEnvironment = null;
 	private Document document = null;
 	private File configFile = null;
 
@@ -104,8 +102,8 @@ public class ConfigReader {
 			NodeList configNodes = environment.getChildNodes();
 			for (int i = 0; i < configNodes.getLength(); i++) {
 				Node node = configNodes.item(i);
-				if (configNodes.item(i).getNodeType() !=  Element.TEXT_NODE && configNodes.item(i).getNodeType() !=  Element.COMMENT_NODE
-						&& configNodes.item(i).getNodeType() !=  Element.CDATA_SECTION_NODE) {
+				if (configNodes.item(i).getNodeType() !=  Node.TEXT_NODE && configNodes.item(i).getNodeType() !=  Node.COMMENT_NODE
+						&& configNodes.item(i).getNodeType() !=  Node.CDATA_SECTION_NODE) {
 					Element configNode = (Element) configNodes.item(i);
 					String configType = configNode.getNodeName();
 					String configName = configNode.getAttribute("name");
@@ -235,12 +233,12 @@ public class ConfigReader {
 	 * @param configNode
 	 * @return
 	 */
-	private Properties getProperties(Element configNode) {
+	private static Properties getProperties(Element configNode) {
 		Properties props = new Properties();
 		NodeList propNodes = configNode.getChildNodes();
 		for(int i = 0 ; i < propNodes.getLength(); i++) {
-			if (propNodes.item(i).getNodeType() !=  Element.TEXT_NODE && propNodes.item(i).getNodeType() !=  Element.COMMENT_NODE
-					&& propNodes.item(i).getNodeType() !=  Element.CDATA_SECTION_NODE) {
+			if (propNodes.item(i).getNodeType() !=  Node.TEXT_NODE && propNodes.item(i).getNodeType() !=  Node.COMMENT_NODE
+					&& propNodes.item(i).getNodeType() !=  Node.CDATA_SECTION_NODE) {
 				//get the environment element
 				Element propNode = (Element) propNodes.item(i);
 				String propName = propNode.getNodeName();
@@ -297,9 +295,9 @@ public class ConfigReader {
 		return envs;
 	}
 	
-	public boolean canDelete(Element envElement) {
+	public static boolean canDelete(Element envElement) {
 		if (!envElement.hasChildNodes() || (envElement.getChildNodes().getLength() == 1 &&
-				envElement.getChildNodes().item(0).getNodeType() == Element.TEXT_NODE)) {
+				envElement.getChildNodes().item(0).getNodeType() == Node.TEXT_NODE)) {
 			return true;
 		}
 		return false;
@@ -336,7 +334,7 @@ public class ConfigReader {
         return envs;
     }
 
-	private List<String> csvStringToList(String csvStr) {
+	private static List<String> csvStringToList(String csvStr) {
 		String[] split = csvStr.split(",");
 		return Arrays.asList(split);
 	}

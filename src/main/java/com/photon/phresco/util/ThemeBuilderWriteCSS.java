@@ -20,9 +20,6 @@ package com.photon.phresco.util;
 import java.io.File;
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.phloc.commons.io.file.SimpleFileIO;
 import com.phloc.commons.state.ESuccess;
 import com.phloc.css.ECSSVersion;

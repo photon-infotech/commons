@@ -22,6 +22,11 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 public class License extends Element {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3108418441909000466L;
+
 	public License() {
 		super();
 	}

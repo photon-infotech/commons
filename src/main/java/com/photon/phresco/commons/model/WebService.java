@@ -26,6 +26,11 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WebService extends Element {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3812647520371818960L;
+	
 	private String version;
 	private List<String> appliesToTechs;
 	

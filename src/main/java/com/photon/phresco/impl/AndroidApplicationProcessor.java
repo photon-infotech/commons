@@ -162,7 +162,7 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor {
 		try {
 			if (stringsXml.isFile()) {
 				SAXBuilder builder = new SAXBuilder();
-				Document document = (Document) builder.build(stringsXml);
+				Document document = builder.build(stringsXml);
 				Element rootNode = document.getRootElement();
 				List list = rootNode.getChildren(NODE_STRING);
 				for (int i = 0; i < list.size(); i++) {
@@ -203,9 +203,8 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor {
 		boolean performanceTest = updateTestPom(testPerformancePom, projectHome);
 		if (Boolean.TRUE.equals(functionalTest) || Boolean.TRUE.equals(unitTest) || Boolean.TRUE.equals(performanceTest)  ) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**

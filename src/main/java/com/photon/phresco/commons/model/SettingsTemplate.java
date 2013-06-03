@@ -28,7 +28,6 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.photon.phresco.util.SizeConstants;
 
-@SuppressWarnings("restriction")
 @XmlRootElement
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SettingsTemplate extends CustomerBasedElement {
