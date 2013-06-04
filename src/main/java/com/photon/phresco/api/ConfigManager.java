@@ -62,6 +62,14 @@ public interface ConfigManager {
 	void deleteEnvironment(String envName) throws ConfigurationException;
 	
 	/**
+	 * Clones the Environment based on environment name 
+	 * @param envName
+	 * @return Environment
+	 * @throws ConfigurationException
+	 */
+	Environment cloneEnvironment(String envName, Environment environment) throws ConfigurationException,PhrescoException;
+	
+	/**
 	 * Get All The Environments
 	 * @return
 	 * @throws ConfigurationException

@@ -547,6 +547,35 @@ public class ConfigManagerImpl implements ConfigManager {
 			Utility.closeStream(outputKeyStore);
 		}
 	}
+
+	@Override
+	public Environment cloneEnvironment(String envName, Environment clone_environment)
+			throws ConfigurationException, PhrescoException {
+
+		if(!configFile.exists()) {
+			throw new ConfigurationException("Config File Not Exists");
+		}
+		ConfigReader configReader = new ConfigReader(configFile);
+		Environment environment =  configReader.getEnvironmentObatined(envName);
+		environment.setName(clone_environment.getName());
+		environment.setDesc(clone_environment.getDesc());
+		environment.setDefaultEnv(clone_environment.isDefaultEnv());
+		if(environment.isDefaultEnv()) {
+			
+			Environment exist_def_env = configReader.getEnvironmentObatined(configReader.getDefaultEnvName());
+			exist_def_env.setDefaultEnv(false);
+			updateEnvironment(exist_def_env);
+		}
+		Element envNode = createEnvironmentNode(environment);
+		rootElement.appendChild(envNode);
+		try {
+			writeXml(new FileOutputStream(configFile));
+		} catch (Exception e) {
+			throw new ConfigurationException(e);
+		}
+		
+		return environment;
+	}
 }
 
 

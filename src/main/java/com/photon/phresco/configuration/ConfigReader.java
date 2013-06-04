@@ -295,6 +295,29 @@ public class ConfigReader {
 		return envs;
 	}
 	
+	/**
+	 * Returns the environment obtained using the provided name
+	 * @param envName
+	 * @return Environment
+	 * @throws ConfigurationException
+	 */
+	public Environment getEnvironmentObatined(String envName) {
+			
+		Environment environment = null;
+		Element envElement = ENV_MAP.get(envName); 
+		if(envElement != null) {				
+			String envName_ = envElement.getAttribute("name");
+			String envDesc = envElement.getAttribute("desc");
+			String defaultEnv = envElement.getAttribute("default");
+			String envAppliesTo = envElement.getAttribute("appliesTo");
+			List<Configuration> configurations = getConfigByEnv(envName);
+			environment = new Environment(envName_, envDesc, Boolean.parseBoolean(defaultEnv), csvStringToList(envAppliesTo));
+			environment.setConfigurations(configurations);
+			environment.setDelete(canDelete(envElement));
+		}
+		return environment;
+	}
+	
 	public static boolean canDelete(Element envElement) {
 		if (!envElement.hasChildNodes() || (envElement.getChildNodes().getLength() == 1 &&
 				envElement.getChildNodes().item(0).getNodeType() == Node.TEXT_NODE)) {
