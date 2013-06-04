@@ -299,7 +299,6 @@ public class ConfigReader {
 	 * Returns the environment obtained using the provided name
 	 * @param envName
 	 * @return Environment
-	 * @throws ConfigurationException
 	 */
 	public Environment getEnvironmentObatined(String envName) {
 			
