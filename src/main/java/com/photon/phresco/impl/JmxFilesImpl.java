@@ -23,6 +23,7 @@ import com.phresco.pom.util.PomProcessor;
 
 public class JmxFilesImpl implements DynamicParameter, Constants {
 
+	private static final String CUSTOM = "custom";
 	private static final String JMX = ".jmx";
 	private static final String SEP = "#SEP#";
 	private static final String PATH = "#PATH#";
@@ -47,14 +48,16 @@ public class JmxFilesImpl implements DynamicParameter, Constants {
 			.append(customTestAgainst)
 			.append(File.separator);
 			
-			StringBuilder testsDir = new StringBuilder(Utility.getProjectHome())
+			StringBuilder uploadedJmxDir = new StringBuilder(Utility.getProjectHome())
 			.append(applicationInfo.getAppDirName())
 			.append(performDir)
 			.append(File.separator)
 			.append(customTestAgainst)
-			.append(jmxUploadDir);
+			.append(jmxUploadDir)
+			.append(File.separator)
+			.append(CUSTOM);
 			
-			File testDirectory = new File(testsDir.toString());
+			File testDirectory = new File(uploadedJmxDir.toString());
 			List<String> filesList = new ArrayList<String>();
 			if (testDirectory.exists()) {
 				filesList = jmxFilter(testDirectory, filesList);
