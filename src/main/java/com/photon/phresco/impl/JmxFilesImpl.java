@@ -30,30 +30,39 @@ public class JmxFilesImpl implements DynamicParameter, Constants {
 
 	@Override
 	public PossibleValues getValues(Map<String, Object> paramsMap) throws IOException, ParserConfigurationException, SAXException, ConfigurationException, PhrescoException {
+		
+		
 		PossibleValues possibleValues = new PossibleValues();
     	ApplicationInfo applicationInfo = (ApplicationInfo) paramsMap.get(KEY_APP_INFO);
     	String customTestAgainst = (String) paramsMap.get(KEY_CUSTOM_TEST_AGAINST);
+    	String goal = (String) paramsMap.get(KEY_GOAL);
     	String FORWARD_SLASH = "/";
     	
     	try {
-			PomProcessor processor = new PomProcessor(getPOMFile(applicationInfo));
-			String performDir = processor.getProperty(POM_PROP_KEY_PERFORMANCETEST_DIR);
-			String jmxUploadDir = processor.getProperty(POM_PROP_KEY_PERFORMANCETEST_JMX_UPLOAD_DIR);
-			
+    		String testDir = "";
+        	String jmxDir = "";
+    		PomProcessor processor = new PomProcessor(getPOMFile(applicationInfo));
+    		if (PHASE_LOAD_TEST.equals(goal)) {
+    			testDir = processor.getProperty(POM_PROP_KEY_LOADTEST_DIR);
+        		jmxDir = processor.getProperty(POM_PROP_KEY_LOADTEST_JMX_UPLOAD_DIR);
+        	} else {
+        		testDir = processor.getProperty(POM_PROP_KEY_PERFORMANCETEST_DIR);
+        		jmxDir = processor.getProperty(POM_PROP_KEY_PERFORMANCETEST_JMX_UPLOAD_DIR);
+        	}
 			
 			StringBuilder againstTestDir = new StringBuilder(Utility.getProjectHome())
 			.append(applicationInfo.getAppDirName())
-			.append(performDir)
+			.append(testDir)
 			.append(File.separator)
 			.append(customTestAgainst)
 			.append(File.separator);
 			
 			StringBuilder uploadedJmxDir = new StringBuilder(Utility.getProjectHome())
 			.append(applicationInfo.getAppDirName())
-			.append(performDir)
+			.append(testDir)
 			.append(File.separator)
 			.append(customTestAgainst)
-			.append(jmxUploadDir)
+			.append(jmxDir)
 			.append(File.separator)
 			.append(CUSTOM);
 			

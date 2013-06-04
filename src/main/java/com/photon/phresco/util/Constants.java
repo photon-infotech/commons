@@ -250,6 +250,7 @@ public interface Constants {
 	
 	String POM_PROP_KEY_LOADTEST_DIR = "phresco.loadTest.dir";
 	String POM_PROP_KEY_LOADTEST_RPT_DIR = "phresco.loadTest.report.dir";
+	String POM_PROP_KEY_LOADTEST_JMX_UPLOAD_DIR = "phresco.loadTest.jmx.upload.dir";
 	String POM_PROP_KEY_FUNCTEST_SELENIUM_TOOL = "phresco.functionalTest.selenium.tool";
     String POM_PROP_KEY_FUNCTEST_RPT_DIR = "phresco.functionalTest.report.dir";
     String POM_PROP_KEY_SCREENSHOT_DIR = "phresco.screenShot.dir";
@@ -259,6 +260,7 @@ public interface Constants {
 	String POM_PROP_KEY_PERFORMANCETEST_DIR = "phresco.performanceTest.dir";
 	String POM_PROP_KEY_PERFORMANCETEST_JMX_UPLOAD_DIR = "phresco.performanceTest.jmx.upload.dir";
 	String POM_PROP_KEY_PERFORMANCETEST_RESULT_EXTENSION = "phresco.performanceTest.result.extension";
+	String POM_PROP_KEY_LOADTEST_RESULT_EXTENSION = "phresco.loadTest.result.extension";
 	String POM_PROP_KEY_PERF_SHOW_DEVICE = "phresco.performance.device.report";
 	String POM_PROP_KEY_PERFORMANCETEST_RPT_DIR = "phresco.performanceTest.report.dir";
 	String PHRESCO_FUNCTIONAL_TEST_ADAPT_DIR = "phresco.functionalTest.adapt.config";
