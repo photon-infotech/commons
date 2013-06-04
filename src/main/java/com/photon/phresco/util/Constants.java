@@ -227,6 +227,7 @@ public interface Constants {
 	String POM_PROP_KEY_UNITTEST_TESTSUITE_XPATH = "phresco.unitTest.testsuite.xpath";
 	String POM_PROP_KEY_UNITTEST_TESTCASE_PATH = "phresco.unitTest.testcase.path";
 	
+	//component test report constants
 	String POM_PROP_KEY_COMPONENTTEST_DIR = "phresco.componentTest.dir";
 	String POM_PROP_KEY_COMPONENTTEST_RPT_DIR = "phresco.componentTest.report.dir";
 	String POM_PROP_KEY_COMPONENTTEST_ADAPT_CONFIG = "phresco.componentTest.adapt.config";
@@ -239,17 +240,18 @@ public interface Constants {
 	String POM_PROP_KEY_UNITTEST_TESTCASE_PATH_START = "phresco.unitTest.";
 	
 	// unit test report ending constant
-	String POM_PROP_KEY_MANUALTEST_DIR = "phresco.manualTest.testcase.path";
 	String POM_PROP_KEY_UNITTEST_RPT_DIR_END = ".report.dir";
 	String POM_PROP_KEY_UNITTEST_TESTSUITE_XPATH_END = ".testsuite.xpath";
 	String POM_PROP_KEY_UNITTEST_TESTCASE_PATH_END = ".testcase.path";
+	
+	//manual test report constants
+	String POM_PROP_KEY_MANUALTEST_RPT_DIR = "phresco.manualTest.report.dir";
 	
 	String POM_PROP_KEY_LOADTEST_DIR = "phresco.loadTest.dir";
 	String POM_PROP_KEY_LOADTEST_RPT_DIR = "phresco.loadTest.report.dir";
 	String POM_PROP_KEY_FUNCTEST_SELENIUM_TOOL = "phresco.functionalTest.selenium.tool";
     String POM_PROP_KEY_FUNCTEST_RPT_DIR = "phresco.functionalTest.report.dir";
     String POM_PROP_KEY_SCREENSHOT_DIR = "phresco.screenShot.dir";
-    String POM_PROP_KEY_MANUAL_RPT_DIR = "phresco.manualTest.testcase.path";
     String POM_PROP_KEY_FUNCTEST_TESTSUITE_XPATH = "phresco.functionalTest.testsuite.xpath";
     String POM_PROP_KEY_FUNCTEST_TESTCASE_PATH = "phresco.functionalTest.testcase.path";
 	String POM_PROP_KEY_FUNCTEST_DIR = "phresco.functionalTest.dir";
@@ -354,7 +356,6 @@ public interface Constants {
     String PROCESS_BUILD_INFO_FILE 		= "phresco-process-build-info.xml";
     String THEME_INFO_FILE				= "phresco-theme-info.xml";
     String CONTENT_INFO_FILE 			= "phresco-content-info.xml";
-    String MANUALTEST_XLSX_FILE         = "HeliOs_Manual_Testcases.xlsx";
     
 	/**
 	 * Feature Write in pom Constants
