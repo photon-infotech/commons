@@ -36,6 +36,7 @@ public interface Constants {
     String DOT_JSON = ".json";
     String FOLDER_JSON = "json";
     String KEY_ECLIPSE = "eclipse";
+    String MACOSX = "__MACOSX";
 
     String PHRESCO_HOME = "PHRESCO_HOME";
     String USER_HOME = "user.home";
@@ -249,6 +250,7 @@ public interface Constants {
 	
 	String POM_PROP_KEY_LOADTEST_DIR = "phresco.loadTest.dir";
 	String POM_PROP_KEY_LOADTEST_RPT_DIR = "phresco.loadTest.report.dir";
+	String POM_PROP_KEY_LOADTEST_JMX_UPLOAD_DIR = "phresco.loadTest.jmx.upload.dir";
 	String POM_PROP_KEY_FUNCTEST_SELENIUM_TOOL = "phresco.functionalTest.selenium.tool";
     String POM_PROP_KEY_FUNCTEST_RPT_DIR = "phresco.functionalTest.report.dir";
     String POM_PROP_KEY_SCREENSHOT_DIR = "phresco.screenShot.dir";
@@ -256,6 +258,9 @@ public interface Constants {
     String POM_PROP_KEY_FUNCTEST_TESTCASE_PATH = "phresco.functionalTest.testcase.path";
 	String POM_PROP_KEY_FUNCTEST_DIR = "phresco.functionalTest.dir";
 	String POM_PROP_KEY_PERFORMANCETEST_DIR = "phresco.performanceTest.dir";
+	String POM_PROP_KEY_PERFORMANCETEST_JMX_UPLOAD_DIR = "phresco.performanceTest.jmx.upload.dir";
+	String POM_PROP_KEY_PERFORMANCETEST_RESULT_EXTENSION = "phresco.performanceTest.result.extension";
+	String POM_PROP_KEY_LOADTEST_RESULT_EXTENSION = "phresco.loadTest.result.extension";
 	String POM_PROP_KEY_PERF_SHOW_DEVICE = "phresco.performance.device.report";
 	String POM_PROP_KEY_PERFORMANCETEST_RPT_DIR = "phresco.performanceTest.report.dir";
 	String PHRESCO_FUNCTIONAL_TEST_ADAPT_DIR = "phresco.functionalTest.adapt.config";
@@ -273,6 +278,7 @@ public interface Constants {
 	
 	/* theme builder path*/
 	String POM_PROP_KEY_THEME_BUILDER = "phresco.theme.builder.path";
+	String POM_PROP_KEY_THEME_BROWSE_BUILDER = "phresco.theme.builder.browse.path";
 	String POM_PROP_KEY_THEME_BUILDER_IMAGE = "phresco.theme.builder.image.path";
 	String POM_PROP_KEY_THEME_BUNDLE_UPLOAD_DIR = "phresco.theme.bundle.upload.dir";
 	
@@ -397,4 +403,5 @@ public interface Constants {
     String THEME_BUNDLE_FAILURE_MSG = "Theme bundle upload failed";
     String THEME_BUNDLE_FAILURE_DESTINATION = "Theme bundle upload failed. Destination missing";
     String THEME_BUNDLE_INVALID_MSG = "Uploaded zip doesnot contain .bundle file";
+    String THEME_BUNDLE_UNZIP_ERR = "Unable to extract the zip";
 }
