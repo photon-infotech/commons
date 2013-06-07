@@ -64,9 +64,20 @@ public class SplunkLogger extends Logger{
         if(messages != null && messages.length > 0){
         	messageInfo = Utility.convertToCommaDelimited(messages).replace(",,", ",");
         }
-        return sb.append("time="+getCurrentTimeWithDate()+",").append("logLevel="+logLevel+",").append("action="+action+",").append("instanceName="+instanceName+",")
-        		.append(messageInfo).toString();
+        sb.append("time="+getCurrentTimeWithDate()+",").append("logLevel="+logLevel+",").append("action="+action+",").
+        	append("instanceName="+instanceName+",");
+        if(StringUtils.isNotEmpty(messageInfo)) {
+        	sb.append(messageInfo).toString();
+        }
+        return commaDelimatedString(sb.toString());
     }
+	
+	private String commaDelimatedString(String message) {
+		if (message.length() > 0 && message.charAt(message.length()-1)==',') {
+			message = message.substring(0, message.length()-1);
+		}
+		return message;
+	}
 	
 	/**
 	 * Log Debug method

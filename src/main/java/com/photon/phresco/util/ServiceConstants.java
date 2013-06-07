@@ -56,6 +56,7 @@ public interface ServiceConstants {
 	String REST_API_PERMISSIONS = "/permissions";
 	String REST_API_LDAP = "/settings/ldap";
 	String REST_API_SETTINGS = "/settings";
+	String REST_API_PREBUILT = "/prebuilt";
 	String REST_API_PLATFORMS = "/platforms";
 	String REST_API_TWEETS = "/tweets";
 	String REST_API_LICENSE = "/licenses";
@@ -151,7 +152,7 @@ public interface ServiceConstants {
 	String FRAMEWORK_THEME_COLLECTION_NAME = "frameworkTheme";
 	String REPOINFO_COLLECTION_NAME = "repoInfo";
 	String ARTIFACT_ELEMENT_COLLECTION_NAME = "artifactElement";
-	
+	String PROJECTINFO_COLLECTION_NAME = "projectInfo";
 	/*
 	 * DB query params
 	 */
@@ -164,7 +165,7 @@ public interface ServiceConstants {
 	String DB_COLUMN_CREATIONDATE = "creationDate";
 	String DB_COLUMN_VIDEOINFOID = "videoInfoId";
 	String DB_COLUMN_PLATFORM = "platformTypeIds";
-
+	String DB_COLUMN_PREBUILT = "preBuilt";
 	
 	/*
      * Constants for Exception Message keys

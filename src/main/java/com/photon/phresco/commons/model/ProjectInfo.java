@@ -39,6 +39,7 @@ public class ProjectInfo extends CustomerBasedElement implements Cloneable {
     private int noOfApps;
     private Date startDate;
     private Date endDate;
+    private boolean preBuilt;
     
 	public String getProjectCode() {
         return projectCode;
@@ -88,6 +89,15 @@ public class ProjectInfo extends CustomerBasedElement implements Cloneable {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	
+	public void setPreBuilt(boolean preBuilt) {
+		this.preBuilt = preBuilt;
+	}
+
+	public boolean isPreBuilt() {
+		return preBuilt;
+	}
+	
 	public ProjectInfo clone() {
 		try {
 			return (ProjectInfo)super.clone();
@@ -105,7 +115,7 @@ public class ProjectInfo extends CustomerBasedElement implements Cloneable {
                 .append("noOfApps", getNoOfApps())
                 .append("startDate",  getStartDate())
                 .append("endDate", getStartDate())
+                .append("preBuilt", isPreBuilt())
                 .toString();
     }
-
 }
