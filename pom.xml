@@ -5,7 +5,7 @@
     <artifactId>phresco-commons</artifactId>
     <packaging>jar</packaging>
     <name>commons</name>
-    <version>3.0.0.12001-SNAPSHOT</version>
+    <version>3.0.0.13001-SNAPSHOT</version>
     <description>phresco-commons</description>
     <url>http://www.phresco.org</url>
     <build>
@@ -326,8 +326,10 @@
 			<artifactId>phloc-css</artifactId>
 			<version>3.3.0</version>
 		</dependency>	
-			
-		<distributionManagement>
+
+    </dependencies>
+
+     <distributionManagement>
         <repository>
             <id>${releases.repo.id}</id>
             <url>${releases.repo.url}</url>
@@ -342,8 +344,6 @@
             <url>${siteBaseUrl}/phresco-commons/</url>
         </site>
     </distributionManagement>
-
-    </dependencies>
     <properties>
         <phresco.env.config.xml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">/src/main/resources/phresco-env-config.xml</phresco.env.config.xml>
         <project.build.sourceEncoding xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">UTF-8</project.build.sourceEncoding>
