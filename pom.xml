@@ -53,16 +53,16 @@
         				</lifecycleMappingMetadata>
         			</configuration>
         		</plugin>
+		<plugin>
+                	<groupId>com.photon.phresco.plugins</groupId>
+                	<artifactId>phresco-maven-plugin</artifactId>
+                	<version>2.2.1.1000</version>
+                	<extensions>true</extensions>
+            	</plugin>
         	</plugins>
        
         </pluginManagement>
         <plugins>
-            <plugin>
-                <groupId>com.photon.phresco.plugins</groupId>
-                <artifactId>phresco-maven-plugin</artifactId>
-                <version>2.2.1.1000</version>
-                <extensions>true</extensions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
