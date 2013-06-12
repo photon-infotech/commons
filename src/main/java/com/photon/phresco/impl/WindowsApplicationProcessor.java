@@ -19,6 +19,7 @@ package com.photon.phresco.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +91,10 @@ public class WindowsApplicationProcessor extends AbstractApplicationProcessor im
 
 	private static void updateItemGroup(ApplicationInfo appInfo, File path, List<ArtifactGroup> artifactGroups) throws PhrescoException {
 		try {
-			path = new File(path + File.separator + SOURCE_DIR + File.separator + SRC_DIR + File.separator + PROJECT_ROOT + File.separator + PROJECT_ROOT + CSPROJ_FILE);
+			File sourceDir = new File(path + File.separator + SOURCE_DIR);
+			String solutionFilename = getSolutionFileName(sourceDir);
+			
+			path = new File(path + File.separator + SOURCE_DIR + File.separator + SRC_DIR + File.separator + solutionFilename + File.separator + solutionFilename + CSPROJ_FILE);
 			if(!path.exists() && artifactGroups == null) {
 				return;
 			}
@@ -120,6 +124,16 @@ public class WindowsApplicationProcessor extends AbstractApplicationProcessor im
 		} catch (TransformerException e) {
 			throw new PhrescoException(e);
 		} 
+	}
+
+	private static String getSolutionFileName(File sourceDir) {
+		File[] solutionFile = sourceDir.listFiles(new FilenameFilter() { 
+			public boolean accept(File dir, String name) { 
+				return name.endsWith(".sln");
+			}
+		});	
+		String solutionFilename = solutionFile[0].getName().substring(0, (solutionFile[0].getName().length())-4);
+		return solutionFilename;
 	}
 
 	private static void updateItemGroups(Document doc, List<ArtifactGroup> artifactGroups) {
@@ -208,7 +222,9 @@ public class WindowsApplicationProcessor extends AbstractApplicationProcessor im
 	
 	private static void deleteFeature(ApplicationInfo appInfo , List<ArtifactGroup> deletedFeatures) throws PhrescoException {
 		try {
-			File path = new File(Utility.getProjectHome() + File.separator + appInfo.getAppDirName() + File.separator + SOURCE_DIR + File.separator + SRC_DIR + File.separator + PROJECT_ROOT + File.separator + PROJECT_ROOT + CSPROJ_FILE);
+			File sourceDir = new File(Utility.getProjectHome() + File.separator + appInfo.getAppDirName() + File.separator + SOURCE_DIR);
+			String solutionFileName = getSolutionFileName(sourceDir);
+			File path = new File(sourceDir + File.separator + SRC_DIR + File.separator + solutionFileName + File.separator + solutionFileName + CSPROJ_FILE);
 			if(!path.exists() && CollectionUtils.isNotEmpty(deletedFeatures)) {
 				return;
 			}
