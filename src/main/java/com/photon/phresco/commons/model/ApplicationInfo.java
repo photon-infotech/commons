@@ -52,6 +52,7 @@ public class ApplicationInfo extends CustomerBasedElement {
     private boolean pilot;
     private String pomFile;
     private String functionalFramework;
+    private List<String> dependentModules;
 
     //Information about where the pilot project is stored in repository
     private ArtifactGroup pilotContent;
@@ -216,6 +217,14 @@ public class ApplicationInfo extends CustomerBasedElement {
 		return functionalFramework;
 	}
 	
+	public void setDependentModules(List<String> dependentModules) {
+		this.dependentModules = dependentModules;
+	}
+
+	public List<String> getDependentModules() {
+		return dependentModules;
+	}
+	
 	public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
@@ -239,6 +248,7 @@ public class ApplicationInfo extends CustomerBasedElement {
                 .append("embedAppId", getEmbedAppId())
                 .append("pomFile", getPomFile())
                 .append("functionalFramework", getFunctionalFramework())
+                .append("dependentModules", getDependentModules())
                 .toString();
     }
 }

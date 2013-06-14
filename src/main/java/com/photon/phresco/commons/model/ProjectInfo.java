@@ -40,6 +40,7 @@ public class ProjectInfo extends CustomerBasedElement implements Cloneable {
     private Date startDate;
     private Date endDate;
     private boolean preBuilt;
+    private boolean multiModule;
     
 	public String getProjectCode() {
         return projectCode;
@@ -98,6 +99,15 @@ public class ProjectInfo extends CustomerBasedElement implements Cloneable {
 		return preBuilt;
 	}
 	
+
+	public void setMultiModule(boolean multiModule) {
+		this.multiModule = multiModule;
+	}
+
+	public boolean isMultiModule() {
+		return multiModule;
+	}
+	
 	public ProjectInfo clone() {
 		try {
 			return (ProjectInfo)super.clone();
@@ -116,6 +126,7 @@ public class ProjectInfo extends CustomerBasedElement implements Cloneable {
                 .append("startDate",  getStartDate())
                 .append("endDate", getStartDate())
                 .append("preBuilt", isPreBuilt())
+                .append("multiModule", isMultiModule())
                 .toString();
     }
 }
