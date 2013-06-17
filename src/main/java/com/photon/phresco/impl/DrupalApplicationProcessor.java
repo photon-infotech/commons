@@ -175,7 +175,7 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 			}
 			processor.setProperty("sonar.exclusions", exclusionValue);
 			processor.setProperty("sonar.phpDepend.argumentLine", "--ignore=" + exclusiontoolValue);
-			processor.setProperty("sonar.phpPmd.argumentLine", "--exclude" + exclusiontoolValue);
+			processor.setProperty("sonar.phpPmd.argumentLine", "--exclude" + Constants.SPACE + exclusiontoolValue);
 			processor.save();
 		} catch (PhrescoPomException e) {
 			throw new PhrescoException(e);
