@@ -47,7 +47,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
  */
 @XmlRootElement
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TechnologyInfo extends Element {
+public class TechnologyInfo extends CustomerBasedElement {
     
     private static final long serialVersionUID = 2573493968812398251L;
     
