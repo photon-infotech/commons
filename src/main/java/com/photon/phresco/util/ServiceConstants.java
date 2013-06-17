@@ -73,6 +73,11 @@ public interface ServiceConstants {
 	String REST_API_CI_MAILER_HOME = "/ci/mailxml";
 	String REST_API_CI_MAIL_PLUGIN = "/ci/emailext";
 	String REST_API_LOG = "/log";
+	String REST_API_MANUAL = "/manual";
+	String REST_API_MANUALTEMPLATE = "/manualTemplate";
+	String REST_API_UPLOADTEMPLATE = "/uploadTemplate";
+	String REST_API_TESTSUITES = "/testsuites";
+	String REST_API_TESTCASES = "/testcases";
 	String REST_API_LDAP_PARAM_ID = "ldap";
 	String REST_API_PATH_ID = "/{id}";
 	String REST_API_PATH_PARAM_ID = "id";
@@ -136,7 +141,7 @@ public interface ServiceConstants {
 	String ICON_EXT = "png";
 	String UPDATE_REPO_ID = "updateRepo";
 	String VIDEO_REPO_ID  = "videoRepo";
-	
+	String REST_QUERY_FILETYPE = "fileType";
 	 /*
      * Constants for MongoDB Collections
      */
