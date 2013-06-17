@@ -55,6 +55,7 @@ public interface ServiceConstants {
 	String REST_API_FORUMS = "/forums";
 	String REST_API_PERMISSIONS = "/permissions";
 	String REST_API_LDAP = "/settings/ldap";
+	String REST_API_DOWNLOADIPA = "/Ipadownload";
 	String REST_API_SETTINGS = "/settings";
 	String REST_API_PREBUILT = "/prebuilt";
 	String REST_API_PLATFORMS = "/platforms";
