@@ -67,6 +67,15 @@ public interface ServiceConstants {
 	String REST_API_ENV_PATH = "/settings/env";
 	String REST_LOGIN_PATH = "/service/rest/api/login";
 	String REST_API_REPO = "/repo";
+	String REST_API_UNIT = "/unit";
+	String REST_API_TEST_SUITES = "/testsuites";
+	String REST_API_TEST_REPORTS = "/testreports";
+	String REST_API_FUNCTIONAL_FRAMEWORK = "/functionalFramework";
+	String REST_API_PERFORMANCE = "/performance";
+	String REST_API_LOAD = "/load";
+	String REST_API_PERFORMANCE_RESULTS = "/performanceTestResults";
+	String REST_API_LOAD_RESULTS = "/loadTestResults";
+	
 	String REST_API_CI_CONFIG = "/ci/config";
 	String REST_API_CI_CREDENTIAL = "/ci/credentialsxml";
 	String REST_API_CI_JDK_HOME = "/ci/javahomexml";
@@ -85,6 +94,7 @@ public interface ServiceConstants {
 	String REST_API_QUERY_PARAM_SESSION_ID = "sessionId";
 	String REST_API_QUERY_PARAM_LIMIT = "limit";
 	String REST_API_QUERY_PARAM_OFFSET = "offset";
+	
 	String ERROR_MSG_UNSUPPORTED_OPERATION = "{0} operation is not allowed";
 	String ERROR_MSG_NOT_FOUND = "Content Not Found";
 	String ERROR_MSG_ID_NOT_EQUAL = "Given Id Not Equal";
@@ -104,6 +114,10 @@ public interface ServiceConstants {
 	String REST_QUERY_APPTYPEID = "appTypeId";
 	String REST_QUERY_USERID = "userId";
 	String REST_QUERY_APPDIR_NAME = "appDirName";
+	String REST_QUERY_RESULT_FILE_NAME = "resultFileName";
+	String REST_QUERY_DEVICE_ID = "deviceId";
+	String REST_QUERY_SHOW_GRAPH_FOR = "showGraphFor";
+	String REST_QUERY_TEST_AGAINST = "testAgainst";
 	String REST_QUERY_OLD_APPDIR_NAME = "oldAppDirName";
 	String REST_QUERY_REPORT_FILE_NAME = "reportFileName";
 	String REST_QUERY_CUSTOMER_NAME = "customerName";
@@ -144,6 +158,28 @@ public interface ServiceConstants {
 	String UPDATE_REPO_ID = "updateRepo";
 	String VIDEO_REPO_ID  = "videoRepo";
 	String REST_QUERY_FILETYPE = "fileType";
+	String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
+	String PARAMETER_RETURNED_SUCCESSFULLY = "Parameter returned successfully";
+	String PROJECT_MODULES = "projectModules";
+	String REPORT_OPTIONS = "reportOptions";
+	String TEST_SUITES_LISTED_SUCCESSFULLY = "Test Suites listed successfully";
+	String TEST_RESULT_NOT_AVAILABLE = "Test Result not available";
+	String FAILED_TO_GET_FUNCTIONAL_FRAMEWORK = "Failed to get the functional test framework";
+	String FUNCTIONAL_TEST_FRAMEWORK_FETCHED_SUCCESSFULLY = "Functional test framework fetched Successfully";
+	String HUB_STATUS = "hubStatus";
+	String FUNCTIONAL_FRAMEWORK = "functionalFramework";
+	String TEST_CASE_NOT_AVAILABLE = "TestCase Not Available";
+	String TEST_CASES_LISTED_SUCCESSFULLY = "Test Cases listed successfully";
+	String UNABLE_TO_GET_PERFORMANCE_TEST_RESULT_OPTIONS = "Unable to get performance test result options";
+	String UNABLE_TO_GET_PERFORMANCE_TEST_RESULTS = "Unable to get performance test results";
+	String DEVICES = "devices";
+	String SHOW_DEVICE = "showDevice";
+	String TEST_RESULT_FILES = "testResultFiles";
+	String RESUTL_AVAILABLE = "resutlAvailable";
+	String RESULT_FILE_NOT_FOUND = "Result File Not Found";
+	String UNABLE_TO_GET_LOAD_TEST_REULTS = "Unable to get load test reults";
+	String UNABLE_TO_GET_LOAD_TEST_RESULT_OPTIONS = "Unable to get load test result options";
+	
 	 /*
      * Constants for MongoDB Collections
      */

@@ -306,7 +306,7 @@ public interface Constants {
     String PHASE_THEME_VALIDATOR = "theme-validator";
     String PHASE_CONTENT_VALIDATOR = "content-validator";
     String PHASE_CONTENT_CONVERTOR = "content-convertor";
-    
+    String PHASE_RUNAGAINST_SOURCE = "run-against-source";
     
     String JAVA_UNIX_PROCESS_KILL_CMD	= "kill -9 ";
 	 String WINDOWS_PLATFORM			= "Windows";
