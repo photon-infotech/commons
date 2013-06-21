@@ -1,5 +1,5 @@
 /**
- * Phresco Commons
+\ * Phresco Commons
  *
  * Copyright (C) 1999-2013 Photon Infotech Inc.
  *
@@ -27,6 +27,7 @@ public interface ServiceConstants {
 	String REST_API_FRAMEWORK_COMPONENT = "/framwork/components";
 	String REST_API_ADMIN =  "/admin";
 	String REST_API_CUSTOMERS = "/customers";
+	String REST_API_CUSTOMER = "/customer";
 	String REST_API_ICON = "/icon";
 	String REST_CUSTOMER_PROPERTIES = "/customerproperties";
 	String REST_API_APPTYPES = "/apptypes";
@@ -75,6 +76,7 @@ public interface ServiceConstants {
 	String REST_API_LOAD = "/load";
 	String REST_API_PERFORMANCE_RESULTS = "/performanceTestResults";
 	String REST_API_LOAD_RESULTS = "/loadTestResults";
+	String REST_API_CUSTOMER_THEME = "/theme";
 	
 	String REST_API_CI_CONFIG = "/ci/config";
 	String REST_API_CI_CREDENTIAL = "/ci/credentialsxml";
@@ -179,6 +181,8 @@ public interface ServiceConstants {
 	String RESULT_FILE_NOT_FOUND = "Result File Not Found";
 	String UNABLE_TO_GET_LOAD_TEST_REULTS = "Unable to get load test reults";
 	String UNABLE_TO_GET_LOAD_TEST_RESULT_OPTIONS = "Unable to get load test result options";
+	String CUSTOMER_THEME_SUCCESS_STATUS = "Customer theme fetched";
+	String UNABLE_FETCH_CUTOMER_FAILURE_THEME = "Customer theme is not fetched";
 	
 	 /*
      * Constants for MongoDB Collections
@@ -263,6 +267,7 @@ public interface ServiceConstants {
 	String SLASH_REST_SLASH_API = "/rest/api";
 	String OPEN_PHRASE = "{";
 	String CLOSE_PHRASE = "}";
+	String ALL_HEADER = "*";
 	
 	/*
      * Constants for Fields
@@ -328,5 +333,6 @@ public interface ServiceConstants {
 	String VAL_ARCHETYPE_MSG = "Archetype Should Not Be Null";
 	String VAL_TECHGRPID_MSG = "TechnologyGroupId Should Not Be Null";
 	String VAL_CUSID_MSG = "Customerids Should Not Be Null";
+	String UNAUTHORIZED_USER = "UnAuthorized User";
 	
 }
