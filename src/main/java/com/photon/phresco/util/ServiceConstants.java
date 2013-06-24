@@ -1,5 +1,5 @@
 /**
-\ * Phresco Commons
+ * Phresco Commons
  *
  * Copyright (C) 1999-2013 Photon Infotech Inc.
  *
@@ -316,6 +316,8 @@ public interface ServiceConstants {
 	String SLASH = "\"";
 	String FORWARD_SLASH="/";
 	String DOT=".";
+	String HYPEN = "-";
+	String COMMA = ",";
 	String CONTENT="/content/";
 	String LOCAL_REPO_GROUP = "/service/local/repo_groups/";
 	String REPO_RELEASE_NAME = "release";
@@ -335,4 +337,54 @@ public interface ServiceConstants {
 	String VAL_CUSID_MSG = "Customerids Should Not Be Null";
 	String UNAUTHORIZED_USER = "UnAuthorized User";
 	
+	/*
+     * Constants for Repository Manager Impl
+     */
+	
+	String REPO_MGR_IMPL_GET_MODULES = "RepositoryManagerImpl.getModules";
+	String REPO_MGR_IMPL_ADD_ARTIFACT = "RepositoryManagerImpl.addArtifact";
+	String REPO_MGR_IMPL_IS_EXIST = "RepositoryManagerImpl.isExist";
+	String REPO_MGR_IMPL_GET_ARTF_AS_STRING = "RepositoryManagerImpl.getArtifactAsString";
+	String REPO_MGR_IMPL_GET_ARTF_AS_STREAM = "RepositoryManagerImpl.getArtifactAsStream";
+	String STATUS_BAD_REQUEST = "status=\"Bad Request\"";
+	String MESSAGE_CUST_ID_EMPTY = "message=\"customerId is empty\"";
+	String CUSTOMER_ID_EQUALS = "customerId=";
+	String CUST_ID_EMPTY = "customerId is Empty";
+	
+	/*
+     * Constants for Dependency Manager Impl
+     */
+	String DEPENDENCY_MGR_IMPL_CONF_PROJ = "DependencyManagerImpl.configureProject";
+	String DEPENDENCY_MGR_IMPL_UPDATE_POM_WITH_PLUGIN_ARTF = "DependencyManagerImpl.updatePOMWithPluginArtifact";
+	String PATH_EQUALS_SLASH = "path=\"";
+	String STATUS_FAILURE = "status=\"Failure\"";
+	
+	/*
+     * Constants for Db Manager Impl
+     */
+	String CUSTOMER_ID_EQUALS_SLASH = "customerId=\"";
+	String DB_MGR_IMPL_FIND_SELCTD_ARTF = "DbManagerImpl.findSelectedArtifacts";
+	String DB_MGR_IMPL_GET_ARTF_GRP = "DbManagerImpl.getArtifactGroup";
+	String MESSAGE_EQUALS = "message=";
+	
+	/*
+     * Constants for Archetype Executor Impl
+     */
+	String ARCHETYPE_EXE_IMPL_UPDATE_REPO = "ArchetypeExecutorImpl.updateRepository";
+	
+	/*
+     * Constants for Dependency Utils
+     */
+	String DEPENDENCY_UTIL_EXTRACT_FILES = "DependencyUtils.extractFiles";
+	
+	/*
+     * Constants for DbService
+     */
+	String UNCHECKED = "unchecked";
+	/*
+     * Constants for Numbers
+     */
+	
+	int NUMBER_FIVE = 5;
+	int NUMBER_SEVEN = 7;
 }
