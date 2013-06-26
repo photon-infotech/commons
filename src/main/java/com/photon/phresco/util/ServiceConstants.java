@@ -177,7 +177,8 @@ public interface ServiceConstants {
 	String DEVICES = "devices";
 	String SHOW_DEVICE = "showDevice";
 	String TEST_RESULT_FILES = "testResultFiles";
-	String RESUTL_AVAILABLE = "resutlAvailable";
+	String RESULT_AVAILABLE = "resultAvailable";
+	String TEST_AGAINSTS = "testAgainsts";
 	String RESULT_FILE_NOT_FOUND = "Result File Not Found";
 	String UNABLE_TO_GET_LOAD_TEST_REULTS = "Unable to get load test reults";
 	String UNABLE_TO_GET_LOAD_TEST_RESULT_OPTIONS = "Unable to get load test result options";
