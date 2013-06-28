@@ -62,7 +62,7 @@
                     <description></description>
                     <key>jarName</key>
                     <multiple>false</multiple>
-                    <value>HelloWorld</value>
+                    <value>commons</value>
                     <sort>false</sort>
                     <show>true</show>
                 </parameter>
@@ -76,7 +76,7 @@
                     <description></description>
                     <key>mainClassName</key>
                     <multiple>false</multiple>
-                    <value>com.photon.phresco.HelloWorld</value>
+                    <value>com.photon.phresco.commons</value>
                     <sort>false</sort>
                     <show>true</show>
                 </parameter>
