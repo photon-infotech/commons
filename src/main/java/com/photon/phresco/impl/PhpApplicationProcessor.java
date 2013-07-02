@@ -27,7 +27,6 @@ import org.apache.commons.collections.CollectionUtils;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.exception.PhrescoException;
-import com.photon.phresco.util.Constants;
 import com.photon.phresco.util.ProjectUtils;
 import com.photon.phresco.util.Utility;
 
@@ -38,9 +37,9 @@ public class PhpApplicationProcessor extends AbstractApplicationProcessor {
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
 		ProjectUtils projectUtils = new ProjectUtils();
 		projectUtils.deletePluginExecutionFromPom(pomFile);
-		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
+		/*if(CollectionUtils.isNotEmpty(deletedFeatures)) {
 			projectUtils.removeExtractedFeatures(appInfo, deletedFeatures);
-		}	
+		}*/	
 		if(CollectionUtils.isNotEmpty(artifactGroup)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
 		}

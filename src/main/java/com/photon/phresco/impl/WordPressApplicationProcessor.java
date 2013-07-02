@@ -48,9 +48,9 @@ public class WordPressApplicationProcessor extends AbstractApplicationProcessor{
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
 		ProjectUtils projectUtils = new ProjectUtils();
 		projectUtils.deletePluginExecutionFromPom(pomFile);
-		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
+		/*if(CollectionUtils.isNotEmpty(deletedFeatures)) {
 			projectUtils.removeExtractedFeatures(appInfo, deletedFeatures);
-		}
+		}*/
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
 		}
