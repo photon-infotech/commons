@@ -147,6 +147,7 @@ public interface ServiceConstants {
 	String REST_QUERY_TEST_SUITE ="testSuite";
 	String REST_QUERY_ACTION = "action";
 	String DEFAULT_CUSTOMER_NAME = "photon";
+	String REST_ACTION_TYPE = "actionType";
 	String PROJECT_NAME = "name";
 	String DEFAULT_REPO = "default";
 	String APPTYPE = "appType";
