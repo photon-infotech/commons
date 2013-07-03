@@ -22,6 +22,15 @@ public interface ServiceConstants {
 	String REST_API_PROJECT =  "/project";
 	String REST_API_PROJECT_CREATE =  "/create";
 	String REST_API_PROJECT_UPDATE =  "/update";
+	String REST_API_PROJECTLIST = "/list";
+	String REST_API_PROJECT_EDIT = "/edit";
+	String REST_API_UPDATEPROJECT = "/updateproject";
+	String REST_API_UPDATE_FEATRUE = "/updateFeature";
+	String REST_UPDATE_APPLICATION = "/updateApplication";
+	String REST_API_EDIT_APPLICATION = "/editApplication";
+	String REST_API_PROJECT_DELETE = "/delete";
+	String REST_API_GET_PERMISSION = "/getPermission";
+	String REST_API_APPINFOS = "/appinfos";
 	String REST_APP_UPDATEDOCS = "/updatedocs";
 	String REST_API_COMPONENT =  "/components";
 	String REST_API_FRAMEWORK_COMPONENT = "/framwork/components";
@@ -77,6 +86,7 @@ public interface ServiceConstants {
 	String REST_API_PERFORMANCE_RESULTS = "/performanceTestResults";
 	String REST_API_LOAD_RESULTS = "/loadTestResults";
 	String REST_API_CUSTOMER_THEME = "/theme";
+	
 	
 	String REST_API_CI_CONFIG = "/ci/config";
 	String REST_API_CI_CREDENTIAL = "/ci/credentialsxml";
@@ -166,6 +176,7 @@ public interface ServiceConstants {
 	String PROJECT_MODULES = "projectModules";
 	String REPORT_OPTIONS = "reportOptions";
 	String TEST_SUITES_LISTED_SUCCESSFULLY = "Test Suites listed successfully";
+	String TEST_SUITES_LISTED_FAILED = "Test Suites listed failed";
 	String TEST_RESULT_NOT_AVAILABLE = "Test Result not available";
 	String FAILED_TO_GET_FUNCTIONAL_FRAMEWORK = "Failed to get the functional test framework";
 	String FUNCTIONAL_TEST_FRAMEWORK_FETCHED_SUCCESSFULLY = "Functional test framework fetched Successfully";
@@ -173,6 +184,7 @@ public interface ServiceConstants {
 	String FUNCTIONAL_FRAMEWORK = "functionalFramework";
 	String TEST_CASE_NOT_AVAILABLE = "TestCase Not Available";
 	String TEST_CASES_LISTED_SUCCESSFULLY = "Test Cases listed successfully";
+	String TEST_CASES_LISTED_FAILED = "Test Cases listed failed";
 	String UNABLE_TO_GET_PERFORMANCE_TEST_RESULT_OPTIONS = "Unable to get performance test result options";
 	String UNABLE_TO_GET_PERFORMANCE_TEST_RESULTS = "Unable to get performance test results";
 	String DEVICES = "devices";
@@ -185,6 +197,25 @@ public interface ServiceConstants {
 	String UNABLE_TO_GET_LOAD_TEST_RESULT_OPTIONS = "Unable to get load test result options";
 	String CUSTOMER_THEME_SUCCESS_STATUS = "Customer theme fetched";
 	String UNABLE_FETCH_CUTOMER_FAILURE_THEME = "Customer theme is not fetched";
+	
+	String PROJECT_CREATED_SUCCESSFULLY = "Project created Successfully";
+	String PROJECT_CREATED_FAILED = "Project creation failed";
+	String PROJECT_LIST_FAILED = "Project List failed";
+	String PROJECT_EDITED_SUCCESSFULLY = "Project edited Successfully";
+	String PROJECT_EDITED_FAILED = "Project edit failed";
+	String PROJECT_UPDATED_SUCCESSFULLY= "Project updated Successfully";
+	String PROJECT_UPDATED_FAILED = "Project update failed";
+	String FEATURE_UPDATE_FAILED = "update Feature failed";
+	String FEATURE_UPDATE_SUCCESS = "Features updated successfully";
+	String APPLICATION_UPDATE_FAILED = "Application update Failed";
+	String APPLICATION_UPDATED_SUCCESSFULLY = "Application updated successfully";
+	String APPLICATION_EDITED_SUCCESSFULLY = "Application edited Successfully";
+	String APPLICATION_EDITED_FAILED = "Application edit Failed";
+	String UNABLE_APPLICATION_DELETE = "Unable to delete the Application";
+	String APPLICATION_DELETED_SUCCESSFULLY = "Application deleted Successfully";
+	String PERMISSION_FOR_USER_RETURNED_SUCCESSFULLY = "Permission for user returned Successfully";
+	String PERMISSION_FOR_USER_NOT_RETURNED = "Permission for user not fetched";
+	
 	
 	 /*
      * Constants for MongoDB Collections
