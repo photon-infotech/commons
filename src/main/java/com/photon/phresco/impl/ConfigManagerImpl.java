@@ -506,7 +506,7 @@ public class ConfigManagerImpl implements ConfigManager {
 				socket.startHandshake();
 				socket.close();
 			} catch (SSLException e) {
-				throw new PhrescoException(e);
+				
 			}
 			X509Certificate[] chain = tm.chain;
 			for (int i = 0; i < chain.length; i++) {
@@ -520,7 +520,7 @@ public class ConfigManagerImpl implements ConfigManager {
 				certificates.add(info);
 			}
 		} catch (Exception e) {
-			throw new PhrescoException();
+			throw new PhrescoException(e);
 		}
 		return certificates;
 	}

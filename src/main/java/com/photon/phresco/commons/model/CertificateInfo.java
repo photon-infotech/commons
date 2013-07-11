@@ -17,16 +17,24 @@
  */
 package com.photon.phresco.commons.model;
 
+import java.io.Serializable;
 import java.security.cert.X509Certificate;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+@XmlRootElement
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CertificateInfo {
+public class CertificateInfo implements Serializable {
 	
-	String displayName;
-	String subjectDN;
-	X509Certificate certificate;
+	private static final long serialVersionUID = 1L;
+	
+	private String displayName;
+	private String subjectDN;
+	private X509Certificate certificate;
 	
 	public CertificateInfo() {
 		
@@ -47,7 +55,7 @@ public class CertificateInfo {
 	public void setSubjectDN(String subjectDN) {
 		this.subjectDN = subjectDN;
 	}
-
+	@JsonIgnore
 	public X509Certificate getCertificate() {
 		return certificate;
 	}
@@ -56,9 +64,13 @@ public class CertificateInfo {
 		this.certificate = certificate;
 	}
 
-	@Override
 	public String toString() {
-		return "CertificateInfo [displayName=" + displayName + ", subjectDN="
-				+ subjectDN + ", certificate=" + certificate + "]";
+		 return new ToStringBuilder(this,
+	                ToStringStyle.DEFAULT_STYLE)
+	                .append(super.toString())
+	                .append("displayName", getDisplayName())
+	                .append("subjectDN", getSubjectDN())
+	                .append("certificate", getCertificate())
+	                .toString();
 	}
 }
