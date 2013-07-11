@@ -135,6 +135,7 @@ public interface ServiceConstants {
 	String REST_QUERY_CUSTOMER_NAME = "customerName";
 	String REST_QUERY_BUILD_NUMBER = "buildNumber";
 	String REST_QUERY_NAME = "name";
+	String REST_QUERY_CONTINOUSNAME = "continuousName";
 	String REST_QUERY_OLDNAME = "oldname";
 	String REST_QUERY_ENV_NAME = "envName";
 	String REST_QUERY_APPID = "appId";
