@@ -39,7 +39,6 @@ public final class ThemeBuilderReadCSS {
    */
   public static CascadingStyleSheet readCSS30 (final File aFile) {
     final CascadingStyleSheet aCSS = CSSReader.readFromFile (aFile, "utf-8", ECSSVersion.CSS30);
-//    System.out.println("aCSS" + aCSS);
     if (aCSS == null) {
       // Most probably a syntax error
       return null;

@@ -60,12 +60,10 @@ public final class ThemeBuilderWriteCSS
       // Convert the CSS to a String
       final String sCSSCode = aWriter.getCSSAsString (aCSS);
       // Finally write the String to a file
-      System.out.println("Theme Builder Status--->"+ESuccess.SUCCESS);
       return SimpleFileIO.writeFile (aFile, sCSSCode, "utf-8");
     }
     catch (final IOException ex)
     {
-    	System.out.println("Theme Builder Status--->"+ESuccess.FAILURE);
       return ESuccess.FAILURE;
     }
   }
