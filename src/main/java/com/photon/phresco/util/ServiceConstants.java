@@ -174,6 +174,14 @@ public interface ServiceConstants {
 	String REST_QUERY_FILETYPE = "fileType";
 	String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
 	String PARAMETER_RETURNED_SUCCESSFULLY = "Parameter returned successfully";
+	String PARAMETER_NOT_FETCHED = "Parameter not fetched";
+	String NO_PARAMETER_AVAILABLE = "No Parameter Available";
+	String DEPENDENCY_NOT_FETCHED = "Dependency not fetched";
+	String DEPENDENCY_RETURNED_SUCCESSFULLY = "Dependency returned successfully";
+	String FAILURE = "failure";
+	String MAP_NOT_UPDATED = "Map not updated";
+	
+	String MAP_UPDATED_SUCCESSFULLY = "Map updated successfully";
 	String PROJECT_MODULES = "projectModules";
 	String REPORT_OPTIONS = "reportOptions";
 	String TEST_SUITES_LISTED_SUCCESSFULLY = "Test Suites listed successfully";
