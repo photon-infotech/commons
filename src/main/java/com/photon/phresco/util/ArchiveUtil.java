@@ -26,9 +26,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.plexus.archiver.AbstractUnArchiver;
 import org.codehaus.plexus.archiver.ArchiverException;
-import org.codehaus.plexus.archiver.UnArchiver;
 import org.codehaus.plexus.archiver.tar.TarArchiver;
 import org.codehaus.plexus.archiver.tar.TarGZipUnArchiver;
 import org.codehaus.plexus.archiver.tar.TarUnArchiver;
@@ -149,19 +147,6 @@ public class ArchiveUtil {
 		tarGZipUnArchiver.extract();
 	}
 
-	public void say() {
-		ConsoleLoggerManager clm = new ConsoleLoggerManager();
-		   String className = clm.getClass().getName().replace('.', '/');
-		   String classJar =  clm.getClass().getResource("/" + className + ".class").toString();
-		 }
-
-	public static void main(String[] args) throws PhrescoException {
-//		ArchiveUtil.createArchive("c:/temp", "c:/temp/test.zip", ArchiveType.ZIP);
-//		ArchiveUtil.extractArchive("c:/temp/test.zip", "c:/temp/test", ArchiveType.ZIP);
-		ArchiveUtil au = new ArchiveUtil();
-		au.say();
-	}
-	
 	public static boolean unzip(String zipFilePath, String destDirectory, String folder) throws IOException {
 		ZipInputStream zipIn = null;
 		boolean success = true;
