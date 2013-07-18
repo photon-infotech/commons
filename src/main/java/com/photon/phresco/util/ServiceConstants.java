@@ -145,6 +145,8 @@ public interface ServiceConstants {
 	String REST_QUERY_SENDER_MAIL_PWD = "senderEmailPassword";
 	String REST_QUERY_URL = "url";
 	String REST_QUERY_EVN_NAME = "envName";
+	String REST_QUERY_CLONE_NAME = "cloneName";
+	String REST_QUERY_ENVIRONMENT = "environment";
 	String REST_QUERY_GOAL = "goal";
 	String REST_QUERY_PHASE = "phase";
 	String REST_QUERY_KEY = "key";

@@ -172,10 +172,13 @@ public final class Utility implements Constants {
     }
     
     public static String getPomFileName(ApplicationInfo appInfo) {
-    	File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + appInfo.getPomFile());
-    	if(pomFile.exists()) {
-    		return appInfo.getPomFile();
+    	if(appInfo != null) {
+    		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + appInfo.getPomFile());
+    		if(pomFile.exists()) {
+        		return appInfo.getPomFile();
+        	}
     	}
+    	
     	return Constants.POM_NAME;
     }
     
