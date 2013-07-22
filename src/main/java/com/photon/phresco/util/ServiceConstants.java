@@ -82,6 +82,7 @@ public interface ServiceConstants {
 	String REST_API_TEST_REPORTS = "/testreports";
 	String REST_API_FUNCTIONAL_FRAMEWORK = "/functionalFramework";
 	String REST_API_PERFORMANCE = "/performance";
+	String REST_API_TEST_RESULT_FILES = "/testResultFiles";
 	String REST_API_LOAD = "/load";
 	String REST_API_PERFORMANCE_RESULTS = "/performanceTestResults";
 	String REST_API_LOAD_RESULTS = "/loadTestResults";
@@ -145,6 +146,8 @@ public interface ServiceConstants {
 	String REST_QUERY_SENDER_MAIL_PWD = "senderEmailPassword";
 	String REST_QUERY_URL = "url";
 	String REST_QUERY_EVN_NAME = "envName";
+	String REST_QUERY_CLONE_NAME = "cloneName";
+	String REST_QUERY_ENVIRONMENT = "environment";
 	String REST_QUERY_GOAL = "goal";
 	String REST_QUERY_PHASE = "phase";
 	String REST_QUERY_KEY = "key";
@@ -225,8 +228,13 @@ public interface ServiceConstants {
 	String APPLICATION_DELETED_SUCCESSFULLY = "Application deleted Successfully";
 	String PERMISSION_FOR_USER_RETURNED_SUCCESSFULLY = "Permission for user returned Successfully";
 	String PERMISSION_FOR_USER_NOT_RETURNED = "Permission for user not fetched";
-	
-	
+	String RESULTS_JMETER_GRAPHS = "/results/jmeter/graphs/";
+	String PLUGIN_TYPES = "pluginTypes";
+	String JMETER_MAVEN_PLUGIN = "jmeter-maven-plugin";
+	String COM_LAZERYCODE_JMETER = "com.lazerycode.jmeter";
+	String TEST_RESULT_FILES_RETURNED_FAILED = "Test Result Files returned Failed";
+	String TEST_NOT_YET_EXECUTED_FOR = "Test not yet executed for ";
+	String TEST_RESULT_FILES_RETURNED_SUCCESSFULLY = "Test Result Files returned successfully";
 	 /*
      * Constants for MongoDB Collections
      */
