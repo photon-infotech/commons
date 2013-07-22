@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mojos>
+    <mojo>
+		<goal>functional-test-webdriver</goal>
+		<description>Goal which functionalTest-webdriver the Drupal-7 project</description>
+		<requiresDirectInvocation>false</requiresDirectInvocation>
+		<requiresProject>true</requiresProject>
+		<requiresReports>false</requiresReports>
+		<aggregator>false</aggregator>
+		<requiresOnline>false</requiresOnline>
+		<inheritedByDefault>true</inheritedByDefault>
+		<language>java</language>
+		<instantiationStrategy>per-lookup</instantiationStrategy>
+		<executionStrategy>once-per-session</executionStrategy>
+		<threadSafe>false</threadSafe>
+		<configuration>
+		<parameters>
+			<parameter>
+				<name>
+					<value lang="en">Test Against</value>
+				</name>
+				<type>List</type>
+				<required>false</required>
+				<editable>true</editable>
+				<description></description>
+				<key>testAgainst</key>
+				<possibleValues>
+					<value key="server" dependency="showSettings">Server</value>
+				</possibleValues>
+				<value>false</value>
+				<sort>false</sort>
+				<show>true</show>
+				<dependency>environmentName</dependency>
+			</parameter>
+			<parameter>
+				<name>
+					<value lang="en">Show Settings</value>
+				</name>
+				<type>Boolean</type>
+				<required>false</required>
+				<editable>true</editable>
+				<description></description>
+				<key>showSettings</key>
+				<multiple>false</multiple>
+				<value>false</value>
+				<sort>false</sort>
+				<show>false</show>
+				<dependency>environmentName</dependency>
+			</parameter>
+			<parameter>
+				<name>
+					<value lang="en">Environment</value>
+				</name>
+				<type>DynamicParameter</type>
+				<dynamicParameter>
+				<class>com.photon.phresco.impl.FunctionalTestEnvironmentImpl</class>
+				<dependencies>
+					<dependency>
+						<groupId>com.photon.phresco.commons</groupId>
+						<artifactId>phresco-commons</artifactId>
+						<type>jar</type>
+						<version>3.0.0.13003</version>
+					</dependency>
+				</dependencies>
+				</dynamicParameter>
+				<required>true</required>
+				<editable>true</editable>
+				<key>environmentName</key>
+				<multiple>false</multiple>
+				<value>production</value>
+				<sort>false</sort>
+				<show>true</show>
+			</parameter>
+			<parameter>
+				<name>
+					<value lang="en">Browser</value>
+				</name>
+				<type>List</type>
+				<required>false</required>
+				<editable>true</editable>
+				<description></description>
+				<key>browser</key>
+				<possibleValues>
+					<value key="firefox">Firefox</value>
+					<value key="safari">Safari</value>
+					<value key="opera">Opera</value>
+					<value key="internetExplorer">Internet Explorer</value>
+					<value key="chrome">Chrome</value>
+					<value key="androidhybrid">Android Mobile Browser</value>
+					<value key="iphonehybrid">IPhone Mobile Browser</value>
+				</possibleValues>
+				<multiple>false</multiple>
+				<value>firefox</value>
+				<sort>false</sort>
+				<show>true</show>
+			</parameter>
+		</parameters>
+	</configuration>
+	</mojo>
+</mojos>
