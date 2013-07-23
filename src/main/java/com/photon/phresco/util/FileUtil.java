@@ -19,7 +19,6 @@ package com.photon.phresco.util;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,6 +32,13 @@ import com.photon.phresco.exception.PhrescoException;
 import com.phresco.pom.exception.PhrescoPomException;
 
 public final class FileUtil {
+	
+	private FileUtil() {
+	      //not called, added for sonar violations Hide Utility Class Constructo
+	}
+	
+	private static final int BUFFER_SIZE = 1024;
+	
 	public static boolean delete(File file) {
 		boolean deleteStatus = false;
 		if (file.isDirectory()) {
@@ -66,7 +72,7 @@ public final class FileUtil {
 			}
 			OutputStream out = new FileOutputStream(new File(tempZip));
 			int read = 0;
-			byte[] bytes = new byte[1024];
+			byte[] bytes = new byte[BUFFER_SIZE];
 			while ((read = inputStream.read(bytes)) != -1) {
 				out.write(bytes, 0, read);
 			}
@@ -133,7 +139,7 @@ public final class FileUtil {
 			InputStream in = new FileInputStream(src);
 			OutputStream out = new FileOutputStream(dest); 
 
-			byte[] buffer = new byte[1024];
+			byte[] buffer = new byte[BUFFER_SIZE];
 
 			int length;
 			//copy the file content in bytes 
