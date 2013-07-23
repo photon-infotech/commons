@@ -1,6 +1,9 @@
 package com.photon.phresco.util;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.net.URL;
 
 import junit.framework.Assert;
 
@@ -16,7 +19,7 @@ public class FileUtilTest {
 	private static final String FILEUTIL_ZIP = "file_util.zip";
 	private static final String FILEUTIL_DESTINATION_DIR = "file_util_destination";
 	private static final String FILEUTIL_TEST_TXT = "file_util_test.txt";
-	private static final String READ_CSS = "/read.css";
+	private static final String ZIP = "src/test/resources/sample.zip";
 	private static String phrescoTemp = Utility.getPhrescoTemp();
 	private static File fileUtilFolder = new File(phrescoTemp + File.separator + FILEUTIL_TEST_DIR);
 	private static File tempFolder = new File(phrescoTemp + File.separator + FILEUTIL_TEST_DIR + File.separator + FILEUTIL_TEMP_DIR);
@@ -63,16 +66,17 @@ public class FileUtilTest {
 		Assert.assertEquals(true, status);
 	}
 	
-	/*@Test 
+	@Test 
 	public void writeFileFromInputStreamTest() throws PhrescoException {
 		try {
-			File cssFile = new File(FileUtilTest.class.getResource(READ_CSS).getFile());
-			InputStream inputStream = new FileInputStream(cssFile.getPath());
-			FileUtil.writeFileFromInputStream(inputStream, fileUtilZip.getPath());
+			File zip = new File(ZIP);
+			InputStream inputStream = new FileInputStream(zip.getPath());
+			File destinationZip = FileUtil.writeFileFromInputStream(inputStream, fileUtilZip.getPath());
+			Assert.assertEquals(true, destinationZip.exists());
 		} catch (Exception e) {
 			throw new PhrescoException(e);
 		} 
-	}*/
+	}
 	
 	@AfterClass
 	public static void clearDirectory() {

@@ -20,13 +20,13 @@ import com.phloc.css.decl.ICSSTopLevelRule;
 
 public class ThemeBuilderWriteCSSTest {
 	private static final String SUCCESS = "SUCCESS";
-	private static final String WRITE_CSS = "/write.css";
+	private static final String WRITE_CSS = "src/test/resources/write.css";
 	ThemeBuilderWriteCSS themeBuilderWriteCSS = new ThemeBuilderWriteCSS();
 	@Test
 	@SuppressWarnings("static-access")
 	public void cssWriterTest() {
 		try {
-			File cssFile = new File (ThemeBuilderWriteCSSTest.class.getResource(WRITE_CSS).getFile());
+			File cssFile = new File(WRITE_CSS);
 			if (!cssFile.exists()) {
 				cssFile.createNewFile();
 			}

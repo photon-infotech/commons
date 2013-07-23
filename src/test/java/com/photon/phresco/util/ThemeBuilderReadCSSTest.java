@@ -10,13 +10,13 @@ import com.phloc.css.decl.CascadingStyleSheet;
 
 public class ThemeBuilderReadCSSTest {
 	
-	private static final String READ_CSS = "/read.css";
+	private static final String READ_CSS = "src/test/resources/read.css";
 	ThemeBuilderReadCSS themeBuilderReadCSS = new ThemeBuilderReadCSS();
 	
 	@Test
 	@SuppressWarnings("static-access")
 	public void readCssTest() {
-		File cssFile = new File(ThemeBuilderReadCSSTest.class.getResource(READ_CSS).getFile());
+		File cssFile = new File(READ_CSS);
 		CascadingStyleSheet css = themeBuilderReadCSS.readCSS30(cssFile);
 		Assert.assertTrue(css != null);
 	}

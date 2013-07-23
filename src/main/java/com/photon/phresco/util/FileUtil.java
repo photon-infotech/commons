@@ -33,10 +33,6 @@ import com.photon.phresco.exception.PhrescoException;
 import com.phresco.pom.exception.PhrescoPomException;
 
 public final class FileUtil {
-	
-	private FileUtil(){
-		
-	}
 	public static boolean delete(File file) {
 		boolean deleteStatus = false;
 		if (file.isDirectory()) {
@@ -62,22 +58,25 @@ public final class FileUtil {
 		return dir.delete();
 	}
 	
-	public static File writeFileFromInputStream(InputStream inputStream, String tempZip) throws IOException, FileNotFoundException {
+	public static File writeFileFromInputStream(InputStream inputStream, String tempZip) throws PhrescoException {
 		File tempZipFile = new File(tempZip);
-		if (!tempZipFile.exists()) {
-			tempZipFile.createNewFile();
-		}
-		OutputStream out = new FileOutputStream(new File(tempZip));
-		int read = 0;
-		byte[] bytes = new byte[1024];
-		while ((read = inputStream.read(bytes)) != -1) {
-			out.write(bytes, 0, read);
+		try {
+			if (!tempZipFile.exists()) {
+				tempZipFile.createNewFile();
+			}
+			OutputStream out = new FileOutputStream(new File(tempZip));
+			int read = 0;
+			byte[] bytes = new byte[1024];
+			while ((read = inputStream.read(bytes)) != -1) {
+				out.write(bytes, 0, read);
+			}
+			inputStream.close();
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			throw new PhrescoException(e);
 		}
 
-		inputStream.close();
-		out.flush();
-		out.close();
-		
 		return tempZipFile;
 	}
 	
