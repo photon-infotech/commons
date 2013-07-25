@@ -56,6 +56,7 @@ public class ApplicationInfo extends CustomerBasedElement {
     private String pomFile;
     private String functionalFramework;
     private List<String> dependentModules;
+    private List<ModuleInfo> modules;
 
     //Information about where the pilot project is stored in repository
     private ArtifactGroup pilotContent;
@@ -226,6 +227,14 @@ public class ApplicationInfo extends CustomerBasedElement {
 
 	public List<String> getDependentModules() {
 		return dependentModules;
+	}
+	
+	public void setModules(List<ModuleInfo> modules) {
+		this.modules = modules;
+	}
+
+	public List<ModuleInfo> getModules() {
+		return modules;
 	}
 	
 	public String toString() {
