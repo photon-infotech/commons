@@ -23,12 +23,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.photon.phresco.util.ServiceConstants;
 
 @XmlRootElement
-public abstract class CustomerBasedElement extends Element {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class CustomerBasedElement extends Element {
 	
 	/**
 	 * 

@@ -595,4 +595,24 @@ public final class Utility implements Constants {
         }
         return ret.toString();
     }
+	
+	public static void writeStreamAsFile(InputStream is, File file) throws PhrescoException {
+		if(is == null) {
+			return;
+		}
+		FileOutputStream fileOutStream = null;
+		try {
+            fileOutStream = new FileOutputStream(file);
+            byte buf[] = new byte[1024];
+            int len;
+            while ((len = is.read(buf)) > 0) {
+                fileOutStream.write(buf, 0, len);
+            }
+        } catch (IOException e) {
+            throw new PhrescoException(e);
+        } finally {
+            Utility.closeStream(is);
+            Utility.closeStream(fileOutStream);
+        }
+	}
 }

@@ -37,8 +37,8 @@ public interface ServiceConstants {
 	String REST_API_ADMIN =  "/admin";
 	String REST_API_CUSTOMERS = "/customers";
 	String REST_API_CUSTOMER = "/customer";
-	String REST_API_ICON = "/icon";
-	String REST_CUSTOMER_PROPERTIES = "/customerproperties";
+	String REST_API_ICON = "/customers/icon";
+	String REST_CUSTOMER_PROPERTIES = "/customers/properties";
 	String REST_API_APPTYPES = "/apptypes";
 	String REST_API_PROPERTY = "/property";
 	String REST_API_CONFIG_TEMPLATES= "/configtemplates";
@@ -51,7 +51,7 @@ public interface ServiceConstants {
 	String REST_API_WEBSERVICES = "/webservices";
 	String REST_API_REPORTS = "/reports";
 	String REST_API_OPTIONS = "/options";
-	String REST_API_OPTIONS_FUNCTIONAL = "/options/functional";
+	String REST_API_OPTIONS_FUNCTIONAL = "/functionalframeworks";
 	String REST_API_OPTIONS_CUSTOMER = "/options/customer";
 	String REST_API_TECHGROUPS = "/techgroups";
 	String REST_API_TECHNOLOGIES = "/technologies";
@@ -160,6 +160,7 @@ public interface ServiceConstants {
 	String REST_QUERY_MODULE_NAME = "moduleName";
 	String REST_QUERY_TEST_SUITE ="testSuite";
 	String REST_QUERY_ACTION = "action";
+	String REST_QUERY_CONTEXT = "context";
 	String DEFAULT_CUSTOMER_NAME = "photon";
 	String REST_ACTION_TYPE = "actionType";
 	String PROJECT_NAME = "name";

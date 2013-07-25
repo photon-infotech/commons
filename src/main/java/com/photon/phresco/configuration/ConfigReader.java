@@ -41,6 +41,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.photon.phresco.exception.ConfigurationException;
+import com.photon.phresco.util.Utility;
 
 public class ConfigReader {
 
@@ -60,16 +61,13 @@ public class ConfigReader {
 	 * @throws Exception
 	 */
 	public ConfigReader(File configXML) throws ConfigurationException {
-		if (configXML.exists()) {
-			this.configFile = configXML;
-			try {
-				initXML(new FileInputStream(configXML));
-			} catch (FileNotFoundException e) {
-				throw new ConfigurationException(e);
-			} 
-		} else {
+		this.configFile = configXML;
+		try {
+			initXML(new FileInputStream(configXML));
+		} catch (FileNotFoundException e) {
 			ENV_MAP.clear();
-		}
+			throw new ConfigurationException(e);
+		} 
 	}
 
 	/**
@@ -150,10 +148,8 @@ public class ConfigReader {
 			}
 			parseXML(xmlStream);
 		} finally {
-			try {
-				xmlStream.close();
-			} catch (IOException e) {
-				throw new ConfigurationException(e);
+			if(xmlStream != null) {
+				Utility.closeStream(xmlStream);
 			}
 		}
 	}
@@ -172,10 +168,8 @@ public class ConfigReader {
 		domFactory.setNamespaceAware(false);
 		DocumentBuilder builder;
 		try {
-			builder = domFactory.newDocumentBuilder();
+			builder = setupBuilder(domFactory);
 			document = builder.parse(xmlStream);
-		} catch (ParserConfigurationException e) {
-			throw new ConfigurationException(e);
 		} catch (SAXException e) {
 			throw new ConfigurationException(e);
 		} catch (IOException e) {
@@ -183,7 +177,16 @@ public class ConfigReader {
 		}
 		parseDocument(document);
 	}
-
+	
+	public DocumentBuilder setupBuilder(DocumentBuilderFactory factory) {
+		DocumentBuilder builder;
+		try {
+			builder = factory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			throw new IllegalArgumentException(e);
+		}
+		return builder;
+	}
 	/**
 	 * parse the configuration xml
 	 * @param document
@@ -280,7 +283,6 @@ public class ConfigReader {
 	private List<Environment> getEnvironmentsByElements(List<Element> elements) {
 		List<Environment> envs = new ArrayList<Environment>(elements.size());
 		for (Element envElement : elements) {
-			if(envElement != null) {				
 			String envName = envElement.getAttribute("name");
 			String envDesc = envElement.getAttribute("desc");
 			String defaultEnv = envElement.getAttribute("default");
@@ -290,7 +292,6 @@ public class ConfigReader {
 			environment.setConfigurations(configurations);
 			environment.setDelete(canDelete(envElement));
 			envs.add(environment);
-			}
 		}		
 		return envs;
 	}
@@ -318,6 +319,8 @@ public class ConfigReader {
 	}
 	
 	public static boolean canDelete(Element envElement) {
+		System.out.println("Has Child" + envElement.hasChildNodes());
+		System.out.println("Child Length  " + envElement.getChildNodes().getLength());
 		if (!envElement.hasChildNodes() || (envElement.getChildNodes().getLength() == 1 &&
 				envElement.getChildNodes().item(0).getNodeType() == Node.TEXT_NODE)) {
 			return true;

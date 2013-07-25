@@ -18,8 +18,8 @@
 package com.photon.phresco.configuration;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Properties;
@@ -32,15 +32,18 @@ import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.hibernate.validator.internal.util.privilegedactions.GetConstructor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.photon.phresco.exception.PhrescoException;
+import com.photon.phresco.exception.ConfigurationException;
+import com.photon.phresco.util.Utility;
 
 public class ConfigWriter {
 
@@ -52,9 +55,10 @@ public class ConfigWriter {
 	 * Constructor of ConfigWriter
 	 * @param reader
 	 * @param newFile
+	 * @throws ConfigurationException 
 	 * @throws Exception
 	 */
-	public ConfigWriter(ConfigReader reader, boolean newFile) throws PhrescoException {
+	public ConfigWriter(ConfigReader reader, boolean newFile) throws ConfigurationException {
 		this.reader = reader;
 		if (newFile) {
 			createNewXml();
@@ -69,33 +73,47 @@ public class ConfigWriter {
 	 * Created the configuration xml of selected environment using File object
 	 * @param configXmlPath
 	 * @param selectedEnvStr
+	 * @throws ConfigurationException 
 	 * @throws Exception
 	 */
-	public void saveXml(File configXmlPath, String selectedEnvStr) throws PhrescoException,TransformerException,IOException {
+	public void saveXml(File configXmlPath, String selectedEnvStr) throws ConfigurationException {
 		createConfiguration(selectedEnvStr);
-		writeXml(new FileOutputStream(configXmlPath));
+		writeXml(getFileOutoutStream(configXmlPath));
 	}
 
 	/**
 	 * Append the selected environment to the reader's document
 	 * @param srcReaderToAppend
 	 * @param selectedEnvStr
+	 * @throws ConfigurationException 
 	 * @throws Exception
 	 */
-	public void saveXml(ConfigReader srcReaderToAppend, String selectedEnvStr) throws PhrescoException,TransformerException,IOException {
+	public void saveXml(ConfigReader srcReaderToAppend, String selectedEnvStr) throws ConfigurationException {
 		document = srcReaderToAppend.getDocument();
 		rootElement = (Element) document.getElementsByTagName("environments").item(0);
 		createConfiguration(selectedEnvStr);
-		writeXml(new FileOutputStream(srcReaderToAppend.getConfigFile()));
+		try {
+			writeXml(new FileOutputStream(srcReaderToAppend.getConfigFile()));
+		} catch (FileNotFoundException e) {
+			throw new ConfigurationException(e);
+		}
 	}
-
+	
+	private FileOutputStream getFileOutoutStream(File file) throws ConfigurationException {
+		try {
+			return new FileOutputStream(file);
+		} catch (FileNotFoundException e) {
+			throw new ConfigurationException(e);
+		}
+	}
 	/**
 	 * Created the configuration xml of selected environment using OutputStream object
 	 * @param fos
 	 * @param selectedEnvStr
+	 * @throws ConfigurationException 
 	 * @throws Exception
 	 */
-	public void saveXml(OutputStream fos, String selectedEnvStr) throws PhrescoException, TransformerException ,IOException {
+	public void saveXml(OutputStream fos, String selectedEnvStr) throws ConfigurationException {
 		createConfiguration(selectedEnvStr);
 		writeXml(fos);
 	}
@@ -105,7 +123,7 @@ public class ConfigWriter {
 	 * @param selectedEnvStr
 	 * @throws Exception
 	 */
-	private void createConfiguration(String selectedEnvStr) throws PhrescoException {
+	private void createConfiguration(String selectedEnvStr) {
 		String[] envs = selectedEnvStr.split(",");
 		for (String envName : envs) {
 			List<Configuration> configByEnv = reader.getConfigByEnv(envName);
@@ -123,7 +141,7 @@ public class ConfigWriter {
 	 * @param defaultEnv
 	 * @throws Exception
 	 */
-	private void createConfigurations(List<Configuration> configList, String envName, boolean defaultEnv) throws PhrescoException {
+	private void createConfigurations(List<Configuration> configList, String envName, boolean defaultEnv) {
 		Element envNode = document.createElement("environment");
 		envNode.setAttribute("name", envName);
 		envNode.setAttribute("default", Boolean.toString(defaultEnv));
@@ -139,32 +157,41 @@ public class ConfigWriter {
 	/**
 	 * Write the xml document using OutputStream
 	 * @param fos
+	 * @throws ConfigurationException 
 	 * @throws TransformerException
 	 * @throws Exception
 	 */
-	protected void writeXml(OutputStream fos) throws PhrescoException, TransformerException ,IOException{
+	protected void writeXml(OutputStream fos) throws ConfigurationException {
 		try {
 			TransformerFactory tFactory = TransformerFactory.newInstance();
-			Transformer transformer = tFactory.newTransformer();
-			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+			Transformer transformer;
+			try {
+				transformer = tFactory.newTransformer();
+				transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+				transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+				transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
-			Source src = new DOMSource(document);
-			Result res = new StreamResult(fos);
-			transformer.transform(src, res);
+				Source src = new DOMSource(document);
+				Result res = new StreamResult(fos);
+				transformer.transform(src, res);
+			} catch (TransformerConfigurationException e) {
+				throw new ConfigurationException(e);
+			} catch (TransformerException e) {
+				throw new ConfigurationException(e);
+			}
 		} finally {
 			if (fos != null) {
-				fos.close();
+				Utility.closeStream(fos);
 			}
 		}
 	}
 
 	/**
 	 * Create the new Xml Dom object
+	 * @throws ConfigurationException 
 	 * @throws Exception
 	 */
-	protected void createNewXml() throws PhrescoException {
+	protected void createNewXml() throws ConfigurationException {
 		try {
 			DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
             domFactory.setNamespaceAware(false);
@@ -173,7 +200,7 @@ public class ConfigWriter {
             rootElement = document.createElement("environments");
             document.appendChild(rootElement);
 		} catch (ParserConfigurationException e) {
-			throw new PhrescoException(e);
+			throw new ConfigurationException(e);
 		}
 	}
 
@@ -184,7 +211,7 @@ public class ConfigWriter {
 	protected Element getRootElement() {
 		return rootElement;
 	}
-
+	
 	/**
 	 * create the properties to the configuration element
 	 * @param configNode

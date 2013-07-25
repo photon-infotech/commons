@@ -2,16 +2,22 @@ package com.photon.phresco.commons.model;
 
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+@XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FunctionalFramework extends Element {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	private List<String> versions;
+	private List<FunctionalFrameworkProperties> funcFrameworkProperties;
+	
 	public FunctionalFramework() {
 		super();
 	}
-	
-	private List<FunctionalFrameworkProperties> funcFrameworkProperties;
 	
 	public void setFuncFrameworkProperties(List<FunctionalFrameworkProperties> funcFrameworkProperties) {
 		this.funcFrameworkProperties = funcFrameworkProperties;
@@ -21,9 +27,17 @@ public class FunctionalFramework extends Element {
 		return funcFrameworkProperties;
 	}
 	
+	public void setVersions(List<String> versions) {
+		this.versions = versions;
+	}
+
+	public List<String> getVersions() {
+		return versions;
+	}
+
 	@Override
 	public String toString() {
-		return "FunctionalFramework [funcFrameworkProperties="
-				+ funcFrameworkProperties + "]";
+		return "FunctionalFramework [versions=" + versions
+				+ ", funcFrameworkProperties=" + funcFrameworkProperties + "]";
 	}
 }

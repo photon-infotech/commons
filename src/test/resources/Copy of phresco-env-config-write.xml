@@ -1,0 +1,4 @@
+<environments>
+    <environment default="true" name="Production">
+	</environment>
+</environments>

@@ -242,11 +242,11 @@
 			<version>${jersey-server.version}</version>
 		</dependency>
         
-        <dependency>
+       <!--  <dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-asl</artifactId>
 			<version>${jackson-core-asl.version}</version>
-		</dependency>
+		</dependency> -->
 		
 		<dependency>
             <groupId>org.sonatype.aether</groupId>
@@ -326,6 +326,12 @@
 			<artifactId>phloc-css</artifactId>
 			<version>3.3.0</version>
 		</dependency>	
+		
+		<dependency>
+	<groupId>org.mockito</groupId>
+	<artifactId>mockito-all</artifactId>
+	<version>1.9.5</version>
+</dependency>
 
     </dependencies>
 
