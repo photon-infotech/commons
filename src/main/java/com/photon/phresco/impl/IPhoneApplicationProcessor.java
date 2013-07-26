@@ -133,11 +133,12 @@ public class IPhoneApplicationProcessor extends AbstractApplicationProcessor {
 	@Override
 	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo, String featureName) throws PhrescoException {
 		File plistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + PLIST);
+		File infoPlistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + INFO_PLIST);
 		try {
 			//		    if (!plistFile.exists()) {
 			//		        throw new PhrescoException("feature-manifest.plist file does not exist");
 			//		    }
-			return getConfigFromPlist(plistFile.getPath());
+			return getConfigFromPlist(plistFile.getPath(), infoPlistFile.getPath());
 		} catch (Exception e) {
 			throw new PhrescoException(e);
 		}
@@ -181,7 +182,7 @@ public class IPhoneApplicationProcessor extends AbstractApplicationProcessor {
 		return "";
 	}
 
-	private List<Configuration> getConfigFromPlist(String plistPath) throws PhrescoException {
+	private List<Configuration> getConfigFromPlist(String plistPath, String infoPlistFilePath) throws PhrescoException {
 		List<Configuration> configs = new ArrayList<Configuration>();
 		try {
 			Configuration config = null;
@@ -195,10 +196,19 @@ public class IPhoneApplicationProcessor extends AbstractApplicationProcessor {
 			// get all the key and value pairs
 			Properties properties = new Properties();
 			XMLPropertyListConfiguration conf = new XMLPropertyListConfiguration(plistPath);
+			XMLPropertyListConfiguration infoPlistConf = null;
+			if (new File(infoPlistFilePath).exists()) {
+				infoPlistConf = new XMLPropertyListConfiguration(infoPlistFilePath);
+			}
 			Iterator it = conf.getKeys();
 			while (it.hasNext()) {
 				String key = (String) it.next();
-				Object property = conf.getProperty(key);
+				Object property = null;
+				if (infoPlistConf != null) {
+					property = infoPlistConf.getProperty(key);
+				} else {
+					property = conf.getProperty(key);
+				}
 				String value = property.toString();
 				properties.setProperty(key, value);
 			}
@@ -237,8 +247,9 @@ public class IPhoneApplicationProcessor extends AbstractApplicationProcessor {
 	@Override
 	public List<Configuration> preConfiguration(ApplicationInfo appInfo, String featureName, String envName) throws PhrescoException {
 		File plistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + PLIST);
+		File infoPlistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + INFO_PLIST);
 		try {
-			return getConfigFromPlist(plistFile.getPath());
+			return getConfigFromPlist(plistFile.getPath(), infoPlistFile.getPath());
 		} catch (Exception e) {
 			throw new PhrescoException(e);
 		}

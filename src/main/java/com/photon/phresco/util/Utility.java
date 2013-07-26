@@ -38,6 +38,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -573,12 +574,13 @@ public final class Utility implements Constants {
 	public static boolean isConnectionAlive(String protocol, String host, int port) {
         boolean isAlive = true;
         try {
-            URL url = new URL(protocol, host, port, "");
+        	URL url = new URL(protocol, host, port, "");
             URLConnection connection = url.openConnection();
+            connection.setConnectTimeout(3000);
             connection.connect();
-        } catch (Exception e) {
+        } catch (Exception e) {	
             isAlive = false;
         }
-        return isAlive;
+           return isAlive;
     }
 }
