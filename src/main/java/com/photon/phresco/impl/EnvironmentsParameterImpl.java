@@ -77,7 +77,8 @@ public class EnvironmentsParameterImpl implements DynamicParameter, Constants {
     	}
     	
     	String projectDirectory = applicationInfo.getAppDirName();
-    	String configPath = getConfigurationPath(projectDirectory).toString();
+    	String eclipsehome = (String) paramsMap.get(ECLIPSE_HOME);
+		String configPath = getConfigurationPath(projectDirectory, eclipsehome).toString();
     	ConfigManager configManager = new ConfigManagerImpl(new File(configPath)); 
     	List<Environment> environments = configManager.getEnvironments();
     	for (Environment environment : environments) {
@@ -97,16 +98,21 @@ public class EnvironmentsParameterImpl implements DynamicParameter, Constants {
     	return possibleValues;
     }
     
-    private StringBuilder getConfigurationPath(String projectDirectory) {
-		 StringBuilder builder = new StringBuilder(Utility.getProjectHome());
-		 builder.append(projectDirectory);
-		 builder.append(File.separator);
-		 builder.append(DOT_PHRESCO_FOLDER);
-		 builder.append(File.separator);
-		 builder.append(CONFIGURATION_INFO_FILE);
-		 
-		 return builder;
-	 }
+    private StringBuilder getConfigurationPath(String projectDirectory, String eclipsehome) {
+		StringBuilder builder = new StringBuilder();
+		if (StringUtils.isNotEmpty(eclipsehome)) {
+			builder.append(eclipsehome);
+		} else {
+			builder.append(Utility.getProjectHome());
+			builder.append(projectDirectory);
+		}
+		builder.append(File.separator);
+		builder.append(DOT_PHRESCO_FOLDER);
+		builder.append(File.separator);
+		builder.append(CONFIGURATION_INFO_FILE);
+		
+		return builder;
+	}
     
     private String getSettingsPath(String customer) {
     	return Utility.getProjectHome() + customer +"-settings.xml";
