@@ -83,6 +83,7 @@ public interface ServiceConstants {
 	String REST_API_FUNCTIONAL_FRAMEWORK = "/functionalFramework";
 	String REST_API_PERFORMANCE = "/performance";
 	String REST_API_TEST_RESULT_FILES = "/testResultFiles";
+	String REST_API_DEVICES = "/devices";
 	String REST_API_LOAD = "/load";
 	String REST_API_PERFORMANCE_RESULTS = "/performanceTestResults";
 	String REST_API_LOAD_RESULTS = "/loadTestResults";
@@ -178,6 +179,7 @@ public interface ServiceConstants {
 	String REST_QUERY_FILETYPE = "fileType";
 	String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
 	String PARAMETER_RETURNED_SUCCESSFULLY = "Parameter returned successfully";
+	String DEVICES_RETURNED_SUCCESSFULLY = "Devices returned successfully";
 	String PARAMETER_NOT_FETCHED = "Parameter not fetched";
 	String NO_PARAMETER_AVAILABLE = "No Parameter Available";
 	String DEPENDENCY_NOT_FETCHED = "Dependency not fetched";
@@ -234,6 +236,7 @@ public interface ServiceConstants {
 	String JMETER_MAVEN_PLUGIN = "jmeter-maven-plugin";
 	String COM_LAZERYCODE_JMETER = "com.lazerycode.jmeter";
 	String TEST_RESULT_FILES_RETURNED_FAILED = "Test Result Files returned Failed";
+	String DEVICES_RETURNED_FAILED = "Devices returned failed";
 	String TEST_NOT_YET_EXECUTED_FOR = "Test not yet executed for ";
 	String TEST_RESULT_FILES_RETURNED_SUCCESSFULLY = "Test Result Files returned successfully";
 	 /*
