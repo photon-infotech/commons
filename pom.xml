@@ -8,6 +8,9 @@
     <version>3.0.0.18001-SNAPSHOT</version>
     <description>phresco-commons</description>
     <url>http://www.phresco.org</url>
+    <scm>
+        <connection>https://github.com/photon-infotech/commons.git</connection>
+    </scm>
     <build>
         <directory>do_not_checkin/target</directory>
         <finalName>HelloWorld</finalName>
@@ -20,47 +23,45 @@
                         <target xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1.5</target>
                     </configuration>
                 </plugin>
-            		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-        		<plugin>
-        			<groupId>org.eclipse.m2e</groupId>
-        			<artifactId>lifecycle-mapping</artifactId>
-        			<version>${lifecycle-mapping.version}</version>
-        			<configuration>
-        				<lifecycleMappingMetadata>
-        					<pluginExecutions>
-        						<pluginExecution>
-        							<pluginExecutionFilter>
-        								<groupId>
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>${lifecycle-mapping.version}</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+<pluginExecution>
+    <pluginExecutionFilter>
+        <groupId>
         									org.apache.geronimo.genesis.plugins
         								</groupId>
-        								<artifactId>
+        <artifactId>
         									tools-maven-plugin
         								</artifactId>
-        								<versionRange>
+        <versionRange>
         									[1.1,)
         								</versionRange>
-        								<goals>
-        									<goal>
+        <goals>
+            <goal>
         										copy-legal-files
         									</goal>
         								</goals>
         							</pluginExecutionFilter>
-        							<action>
-        								<ignore></ignore>
+    <action>
+        <ignore/>
         							</action>
         						</pluginExecution>
         					</pluginExecutions>
         				</lifecycleMappingMetadata>
-        			</configuration>
-        		</plugin>
-		<plugin>
-                	<groupId>com.photon.phresco.plugins</groupId>
-                	<artifactId>phresco-maven-plugin</artifactId>
-                	<version>2.2.1.1000</version>
-                	<extensions>true</extensions>
-            	</plugin>
-        	</plugins>
-       
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>com.photon.phresco.plugins</groupId>
+                    <artifactId>phresco-maven-plugin</artifactId>
+                    <version>2.2.1.1000</version>
+                    <extensions>true</extensions>
+                </plugin>
+            </plugins>
         </pluginManagement>
         <plugins>
             <plugin>
@@ -76,7 +77,6 @@
           </archive>
                 </configuration>
             </plugin>
-			
             <plugin>
                 <groupId>org.apache.geronimo.genesis.plugins</groupId>
                 <artifactId>tools-maven-plugin</artifactId>
@@ -144,74 +144,63 @@
         </repository>
     </repositories>
     <dependencies>
-    	
-    	 <dependency>
+        <dependency>
             <groupId>com.photon.phresco.pom</groupId>
             <artifactId>phresco-pom</artifactId>
             <version>${project.version}</version>
         </dependency>
-		
-		 <dependency>
+        <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
             <version>${commons-collections.version}</version>
         </dependency>
-        
-    	<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-model</artifactId>
-			<version>3.0.3</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>1.0.0.GA</version>
-		</dependency>
-		
-       <dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>4.3.0.Final</version>
-		</dependency>
-
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-model</artifactId>
+            <version>3.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.0.0.GA</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.3.0.Final</version>
+        </dependency>
         <dependency>
             <groupId>org.sonatype.sisu</groupId>
             <artifactId>sisu-inject-plexus</artifactId>
             <version>${sisu-inject-plexus.version}</version>
         </dependency>
-         
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.7</version>
             <scope>test</scope>
         </dependency>
-        
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>${gson.version}</version>
         </dependency>
-  
-		<dependency>
+        <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>${log4j.version}</version>
         </dependency>
-        
         <dependency>
             <groupId>org.apache.struts</groupId>
             <artifactId>struts2-json-plugin</artifactId>
             <version>${struts2-json-plugin.version}</version>
             <exclusions>
-		        <exclusion>
-		            <artifactId>tools</artifactId>
-		            <groupId>com.sun</groupId>
-		        </exclusion>
-    	</exclusions>
+                <exclusion>
+                    <artifactId>tools</artifactId>
+                    <groupId>com.sun</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
-        
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-archiver</artifactId>
@@ -223,119 +212,93 @@
                 </exclusion>
             </exclusions>
         </dependency>
-         
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>${commons-lang.version}</version>
         </dependency>
-        
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>${commons-codec.version}</version>
         </dependency>
-                
         <dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-server</artifactId>
-			<version>${jersey-server.version}</version>
-		</dependency>
-        
-       <!--  <dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-core-asl</artifactId>
-			<version>${jackson-core-asl.version}</version>
-		</dependency> -->
-		
-		<dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>${jersey-server.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.sonatype.aether</groupId>
             <artifactId>aether-api</artifactId>
             <version>${aether-api.version}</version>
         </dependency>
-        
         <dependency>
             <groupId>org.sonatype.aether</groupId>
             <artifactId>aether-spi</artifactId>
             <version>${aether-spi.version}</version>
         </dependency>
-        
         <dependency>
             <groupId>org.sonatype.aether</groupId>
             <artifactId>aether-util</artifactId>
             <version>${aether-util.version}</version>
         </dependency>
-        
         <dependency>
             <groupId>org.sonatype.aether</groupId>
             <artifactId>aether-impl</artifactId>
             <version>${aether-impl.version}</version>
         </dependency>
-        
         <dependency>
             <groupId>org.sonatype.aether</groupId>
             <artifactId>aether-connector-file</artifactId>
             <version>${aether-connector-file.version}</version>
         </dependency>
-        
         <dependency>
             <groupId>org.sonatype.aether</groupId>
             <artifactId>aether-connector-wagon</artifactId>
             <version>${aether-connector-wagon.version}</version>
         </dependency>
-        
         <dependency>
             <groupId>org.apache.maven.wagon</groupId>
             <artifactId>wagon-http-lightweight</artifactId>
             <version>${wagon-http-lightweight.version}</version>
         </dependency>
-        
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-aether-provider</artifactId>
             <version>${maven-aether-provider.version}</version>
         </dependency>
-		
-		<dependency>
-			<groupId>commons-configuration</groupId>
-			<artifactId>commons-configuration</artifactId>
-			<version>${commons-configuration.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>jdom</groupId>
-			<artifactId>jdom</artifactId>
-			<version>${jdom.version}</version>
-		</dependency>
-		
-		<dependency>
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>${commons-configuration.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>${jdom.version}</version>
+        </dependency>
+        <dependency>
             <groupId>xalan</groupId>
             <artifactId>xalan</artifactId>
             <version>${xalan.version}</version>
         </dependency>
-        
- 		<dependency>
-			<groupId>com.googlecode.json-simple</groupId>
-			<artifactId>json-simple</artifactId>
-			<version>${json-simple}</version>
-		</dependency>    
-    
- 		<!--  CSS Parser  -->
-         <dependency>
-			<groupId>com.phloc</groupId>
-			<artifactId>phloc-css</artifactId>
-			<version>3.3.0</version>
-		</dependency>	
-		
-		<dependency>
-	<groupId>org.mockito</groupId>
-	<artifactId>mockito-all</artifactId>
-	<version>1.9.5</version>
-</dependency>
-
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>${json-simple}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.phloc</groupId>
+            <artifactId>phloc-css</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.9.5</version>
+        </dependency>
     </dependencies>
-
-     <distributionManagement>
+    <distributionManagement>
         <repository>
             <id>${releases.repo.id}</id>
             <url>${releases.repo.url}</url>
