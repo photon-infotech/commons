@@ -180,6 +180,13 @@
             <version>4.7</version>
             <scope>test</scope>
         </dependency>
+		
+		<dependency>
+            <groupId>org.jvnet.hudson</groupId>
+	        <artifactId>trilead-ssh2</artifactId>
+            <version>${trilead-ssh2.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -358,5 +365,6 @@
         <jdom.version>1.0</jdom.version>
         <xalan.version>2.7.1</xalan.version>
         <json-simple>1.1</json-simple>
+		<trilead-ssh2.version xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">build212-hudson-5</trilead-ssh2.version>
     </properties>
 </project>

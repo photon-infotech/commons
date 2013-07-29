@@ -39,6 +39,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.plexus.util.FileUtils;
@@ -54,8 +55,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.BuildInfo;
+import com.photon.phresco.commons.model.ContinuousDelivery;
+import com.photon.phresco.commons.model.ProjectDelivery;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.exception.PhrescoWebServiceException;
+import com.photon.phresco.commons.model.CIJob;
 import com.phresco.pom.util.PomProcessor;
 
 public final class Utility implements Constants {
@@ -615,4 +619,64 @@ public final class Utility implements Constants {
             Utility.closeStream(fileOutStream);
         }
 	}
+
+	public static List<ProjectDelivery> getProjectDeliveries(File projectDeliveryFile) throws PhrescoException {
+			FileReader ProjectDeliveryFileReader = null;
+			BufferedReader br = null;
+			List<ProjectDelivery> ProjectDelivery = null;
+			try {
+				if (!projectDeliveryFile.exists()) {
+					return ProjectDelivery;
+				}
+				ProjectDeliveryFileReader = new FileReader(projectDeliveryFile);
+				br = new BufferedReader(ProjectDeliveryFileReader);
+				Type type = new TypeToken<List<ProjectDelivery>>() {
+				}.getType();
+				Gson gson = new Gson();
+				ProjectDelivery = gson.fromJson(br, type);
+			} catch (Exception e) {
+				throw new PhrescoException(e);
+			} finally {
+				Utility.closeStream(br);
+				Utility.closeStream(ProjectDeliveryFileReader);
+			}
+			return ProjectDelivery;
+		}
+	 
+	 public static List<CIJob> getJobs(String continuousName, String projectId, List<ProjectDelivery> ciJobInfo) {
+			ContinuousDelivery specificContinuousDelivery = getContinuousDelivery(projectId, continuousName, ciJobInfo);
+			if (specificContinuousDelivery != null) {
+				return specificContinuousDelivery.getJobs();
+			}
+	 		return null;
+	 	}
+	 
+	public static ContinuousDelivery getContinuousDelivery(String projectId, String name, List<ProjectDelivery> projectDeliveries) {
+		ProjectDelivery projectDelivery = getProjectDelivery(projectId, projectDeliveries);
+		if (projectDelivery != null) {
+			List<ContinuousDelivery> continuousDeliveries = projectDelivery.getContinuousDeliveries();
+			if (CollectionUtils.isNotEmpty(continuousDeliveries)) {
+				return getContinuousDelivery(name, continuousDeliveries);
+			}
+		}
+		return null;
+	}
+	
+ 	public static ProjectDelivery getProjectDelivery(String projId, List<ProjectDelivery> projectDeliveries) {
+ 		for(ProjectDelivery projectDelivery : projectDeliveries) {
+ 			if (StringUtils.isNotEmpty(projId) && projId.equals(projectDelivery.getId())) {
+ 				return projectDelivery;
+ 			}
+ 		}
+ 		return null;
+ 	}
+ 	
+ 	public static ContinuousDelivery getContinuousDelivery(String name, List<ContinuousDelivery> continuousDeliveries) {
+ 		for(ContinuousDelivery continuousDelivery : continuousDeliveries) {
+ 			if (StringUtils.isNotEmpty(name) && continuousDelivery.getName().equals(name)) {
+ 				return continuousDelivery;
+ 			}
+ 		}
+ 		return null;
+ 	}
 }
