@@ -60,6 +60,7 @@ public class ApplicationInfo extends CustomerBasedElement {
 
     //Information about where the pilot project is stored in repository
     private ArtifactGroup pilotContent;
+    private FunctionalFrameworkInfo functionalFrameworkInfo;
 
     public String getCode() {
         return code;
@@ -235,6 +236,14 @@ public class ApplicationInfo extends CustomerBasedElement {
 
 	public List<ModuleInfo> getModules() {
 		return modules;
+	}
+	
+	public void setFunctionalFrameworkInfo(FunctionalFrameworkInfo functionalFrameworkInfo) {
+		this.functionalFrameworkInfo = functionalFrameworkInfo;
+	}
+
+	public FunctionalFrameworkInfo getFunctionalFrameworkInfo() {
+		return functionalFrameworkInfo;
 	}
 	
 	public String toString() {

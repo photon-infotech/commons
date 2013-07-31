@@ -14,6 +14,7 @@ public class FunctionalFramework extends Element {
 	
 	private List<String> versions;
 	private List<FunctionalFrameworkProperties> funcFrameworkProperties;
+	private List<String> groupIds;
 	
 	public FunctionalFramework() {
 		super();
@@ -34,7 +35,15 @@ public class FunctionalFramework extends Element {
 	public List<String> getVersions() {
 		return versions;
 	}
+	
+	public void setGroupIds(List<String> groupIds) {
+		this.groupIds = groupIds;
+	}
 
+	public List<String> getGroupIds() {
+		return groupIds;
+	}
+	
 	@Override
 	public String toString() {
 		return "FunctionalFramework [versions=" + versions

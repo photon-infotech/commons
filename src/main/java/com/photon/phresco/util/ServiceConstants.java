@@ -51,7 +51,8 @@ public interface ServiceConstants {
 	String REST_API_WEBSERVICES = "/webservices";
 	String REST_API_REPORTS = "/reports";
 	String REST_API_OPTIONS = "/options";
-	String REST_API_OPTIONS_FUNCTIONAL = "/functionalframeworks";
+	String REST_API_OPTIONS_FUNCTIONAL_GRP = "/functionalframeworks";
+	String REST_API_OPTIONS_FUNCTIONAL = "/functionalframeworks/functional";
 	String REST_API_OPTIONS_CUSTOMER = "/options/customer";
 	String REST_API_TECHGROUPS = "/techgroups";
 	String REST_API_TECHNOLOGIES = "/technologies";
@@ -282,6 +283,9 @@ public interface ServiceConstants {
 	String REPOINFO_COLLECTION_NAME = "repoInfo";
 	String ARTIFACT_ELEMENT_COLLECTION_NAME = "artifactElement";
 	String PROJECTINFO_COLLECTION_NAME = "projectInfo";
+	String PROPERTY_TEMPLATE_COLLECTION_NAME = "propertyTemplates";
+	String FUNCTIONAL_FRAMEWORK_GRP_COLLECTION_NAME = "functionalFrameworkGroup";
+	
 	/*
 	 * DB query params
 	 */

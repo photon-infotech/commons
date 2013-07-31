@@ -39,6 +39,8 @@ public class PropertyTemplate extends Element {
 	private String defaultValue;
 	private List<String> possibleValues;
 	private List<PropertyTemplate> propertyTemplates;
+	private List<String> appliesTo;
+	private String settingsTemplateId;
 	
 	public PropertyTemplate() {
 		super();
@@ -113,7 +115,23 @@ public class PropertyTemplate extends Element {
 	public void setMultiple(boolean multiple) {
 		this.multiple = multiple;
 	}
+	
+	public void setAppliesTo(List<String> appliesTo) {
+		this.appliesTo = appliesTo;
+	}
 
+	public List<String> getAppliesTo() {
+		return appliesTo;
+	}
+	
+	public void setSettingsTemplateId(String settingsTemplateId) {
+		this.settingsTemplateId = settingsTemplateId;
+	}
+
+	public String getSettingsTemplateId() {
+		return settingsTemplateId;
+	}
+	
     @Override
     public String toString() {
         return new ToStringBuilder(this,
@@ -125,6 +143,8 @@ public class PropertyTemplate extends Element {
                 .append("possibleValues", getPossibleValues())
                 .append("required", isRequired())
                 .append("multiple", isMultiple())
+                .append("appliesTo", getAppliesTo())
+                .append("settingsTemplateId", getSettingsTemplateId())
                 .toString();
     }
 }

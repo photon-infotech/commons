@@ -47,7 +47,7 @@ public class Technology extends CustomerBasedElement implements Cloneable {
 	private String techGroupId;
 	private List<String> reports;
 	private List<String> archetypeFeatures;
-	private List<FunctionalFramework> functionalFrameworks;
+	private List<FunctionalFrameworkGroup> functionalFrameworks;
 	
 	public Technology() {
         super();
@@ -121,11 +121,11 @@ public class Technology extends CustomerBasedElement implements Cloneable {
 		this.archetypeFeatures = archetypeFeatures;
 	}
 	
-	public void setFunctionalFrameworks(List<FunctionalFramework> functionalFrameworks) {
+	public void setFunctionalFrameworks(List<FunctionalFrameworkGroup> functionalFrameworks) {
 		this.functionalFrameworks = functionalFrameworks;
 	}
 
-	public List<FunctionalFramework> getFunctionalFrameworks() {
+	public List<FunctionalFrameworkGroup> getFunctionalFrameworks() {
 		return functionalFrameworks;
 	}
 
