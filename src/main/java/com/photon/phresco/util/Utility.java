@@ -47,6 +47,8 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -199,6 +201,16 @@ public final class Utility implements Constants {
     }
 
     public static String getProjectHome() {
+    	ResourcesPlugin plugin = ResourcesPlugin.getPlugin();
+    	if(plugin != null) {
+    		File path = null;
+    		String workingDir = ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString() + File.separatorChar + "projects";
+    		path = new File(workingDir);
+    		if(path.isDirectory()) {
+    			return path.getPath() + File.separatorChar;
+    		}
+    		return ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString() + File.separatorChar;
+    	}
         String phrescoHome = getPhrescoHome();
         StringBuilder builder = new StringBuilder(phrescoHome);
         builder.append(File.separator);
