@@ -1,0 +1,74 @@
+<environments>
+<environment default="true" desc="" name="Production">
+        <Server name="serverconfig">
+            <context>serverprtod</context>
+            <deploy_dir>C:\apache-tomcat-7.0.14\webapps</deploy_dir>
+            <admin_username/>
+            <port>8654</port>
+            <admin_password/>
+            <version>6.0.x</version>
+            <certificate/>
+            <type>Apache Tomcat</type>
+            <remoteDeployment>false</remoteDeployment>
+            <protocol>http</protocol>
+            <host>localhost</host>
+        </Server>
+        <Database name="db">
+            <version>5.5.1</version>
+            <port>3306</port>
+            <password/>
+            <type>MySQL</type>
+            <host>localhost</host>
+            <dbname>testjava</dbname>
+            <username>root</username>
+        </Database>
+    </environment>
+    <environment default="false" desc="dev for validation" name="dev">
+        <Server desc="Serverconfig" name="Server">
+            <context>CometDTesting</context>
+            <admin_username/>
+            <deploy_dir>D:/server for phresco testing/New Folder/</deploy_dir>
+            <additional_context/>
+            <port>8888</port>
+            <admin_password/>
+            <version>7.0.x</version>
+            <type>Apache Tomcat</type>
+            <remoteDeployment>false</remoteDeployment>
+            <protocol>http</protocol>
+            <host>localhost</host>
+        </Server>
+        <Email desc="Emailconfig" name="Email">
+            <emailid>test@gmail.com</emailid>
+            <port>8596</port>
+            <password>test</password>
+            <incoming_mail_port>test</incoming_mail_port>
+            <incoming_mail_server>test</incoming_mail_server>
+            <host>test</host>
+            <username>test</username>
+        </Email>
+    </environment>
+	<environment default="false" desc="" name="testing">
+        <Server name="config">
+            <context>servertest</context>
+            <deploy_dir>C:\apache-tomcat-7.0.14\webapps</deploy_dir>
+            <admin_username/>
+            <port>6666</port>
+            <admin_password/>
+            <version>6.0.x</version>
+            <certificate/>
+            <type>Apache Tomcat</type>
+            <remoteDeployment>false</remoteDeployment>
+            <protocol>httpa</protocol>
+            <host>localhost</host>
+        </Server>
+        <Database name="db">
+            <version>5.5.1</version>
+            <port>2232</port>
+            <password/>
+            <type>MySQL</type>
+            <host>localhost</host>
+            <dbname>testing</dbname>
+            <username>root</username>
+        </Database>
+    </environment>
+</environments>

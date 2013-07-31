@@ -174,8 +174,4 @@ public interface ConfigManager {
 	 * @throws ConfigurationException the configuration exception
 	 */
 	void writeXml(OutputStream fos) throws ConfigurationException;
-
-	List<CertificateInfo> getCertificate(String host, int port) throws PhrescoException;
-
-	void addCertificate(CertificateInfo info, File file) throws PhrescoException;
 }

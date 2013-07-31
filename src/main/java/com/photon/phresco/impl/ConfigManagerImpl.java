@@ -485,68 +485,6 @@ public class ConfigManagerImpl implements ConfigManager {
 			throw new ConfigurationException(e);
 		}
 	}
-	
-	
-	@Override
-	public List<CertificateInfo> getCertificate(String host, int port) throws PhrescoException {
-		List<CertificateInfo> certificates = new ArrayList<CertificateInfo>();
-		CertificateInfo info;
-		try {
-			KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
-			SSLContext context = SSLContext.getInstance("TLS");
-			TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-			tmf.init(ks);
-			X509TrustManager defaultTrustManager = (X509TrustManager) tmf.getTrustManagers()[0];
-			SavingTrustManager tm = new SavingTrustManager(defaultTrustManager);
-			context.init(null, new TrustManager[] { tm }, null);
-			SSLSocketFactory factory = context.getSocketFactory();
-			SSLSocket socket = (SSLSocket) factory.createSocket(host, port);
-			socket.setSoTimeout(10000);
-			try {
-				socket.startHandshake();
-				socket.close();
-			} catch (SSLException e) {
-				
-			}
-			X509Certificate[] chain = tm.chain;
-			for (int i = 0; i < chain.length; i++) {
-				X509Certificate x509Certificate = chain[i];
-				String subjectDN = x509Certificate.getSubjectDN().getName();
-				String[] split = subjectDN.split(",");
-				info = new CertificateInfo();
-				info.setSubjectDN(subjectDN);
-				info.setDisplayName(split[0]);
-				info.setCertificate(x509Certificate);
-				certificates.add(info);
-			}
-		} catch (Exception e) {
-			throw new PhrescoException(e);
-		}
-		return certificates;
-	}
-
-	@Override
-	public void addCertificate(CertificateInfo info, File file) throws PhrescoException {
-		char[] passphrase = "changeit".toCharArray();
-		InputStream inputKeyStore = null;
-		OutputStream outputKeyStore = null;
-		try {
-			KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-			keyStore.load(null);
-			keyStore.setCertificateEntry(info.getDisplayName(), info.getCertificate());
-			if (!file.exists()) {
-				file.getParentFile().mkdirs();
-				file.createNewFile();
-			}
-			outputKeyStore = new FileOutputStream(file);
-			keyStore.store(outputKeyStore, passphrase);
-		} catch (Exception e) {
-			throw new PhrescoException(e);
-		} finally {
-			Utility.closeStream(inputKeyStore);
-			Utility.closeStream(outputKeyStore);
-		}
-	}
 
 	@Override
 	public Environment cloneEnvironment(String envName, Environment clone_environment)
@@ -575,29 +513,5 @@ public class ConfigManagerImpl implements ConfigManager {
 		}
 		
 		return environment;
-	}
-}
-
-
-class SavingTrustManager implements X509TrustManager {
-
-	private final X509TrustManager tm;
-	X509Certificate[] chain;
-
-	SavingTrustManager(X509TrustManager tm) {
-		this.tm = tm;
-	}
-
-	public X509Certificate[] getAcceptedIssuers() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-		throw new UnsupportedOperationException();
-	}
-
-	public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-		this.chain = chain;
-		tm.checkServerTrusted(chain, authType);
 	}
 }
