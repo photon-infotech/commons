@@ -50,6 +50,7 @@ public class ApplicationInfo extends CustomerBasedElement {
     private boolean phoneEnabled;
     private boolean tabletEnabled;
     private boolean pilot;
+    private boolean created;
     private String pomFile;
     private String functionalFramework;
 
@@ -216,6 +217,14 @@ public class ApplicationInfo extends CustomerBasedElement {
 		return functionalFramework;
 	}
 	
+	public void setCreated(boolean created) {
+		this.created = created;
+	}
+
+	public boolean isCreated() {
+		return created;
+	}
+	
 	public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
@@ -241,4 +250,5 @@ public class ApplicationInfo extends CustomerBasedElement {
                 .append("functionalFramework", getFunctionalFramework())
                 .toString();
     }
+
 }
