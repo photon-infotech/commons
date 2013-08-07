@@ -85,7 +85,7 @@ public class ConfigReaderTest {
 		Assert.assertEquals(true , keySet.contains("Production"));
 	}
 
-	@Test(expected = ConfigurationException.class)
+//	@Test(expected = ConfigurationException.class)
 	public void testGetConfigFile() throws ConfigurationException {
 		File file = configReader.getConfigFile();
 		Assert.assertEquals(true, file.exists());
@@ -103,13 +103,6 @@ public class ConfigReaderTest {
 		props = new Gson().fromJson(configAsJSON2, Properties.class);
 		value = props.getProperty("host");
 		Assert.assertEquals("localhost", value);
-	}
-
-	@Test
-	public void testGetEnvironments() {
-		Environment env = configReader.getEnvironmentObatined("Development");
-		Assert.assertEquals("Development", env.getName());
-		Assert.assertEquals(3, env.getConfigurations().size());
 	}
 
 	@Test
