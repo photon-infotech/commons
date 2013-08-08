@@ -187,6 +187,7 @@ public class CIJob {
 	private String appDirName;
 	private String appName;
 	private String templateName;
+	private String technologyName;
   
 	// Android functional test
 	private String deviceList = "";
@@ -1232,6 +1233,14 @@ public class CIJob {
 		return failureEmailIds;
 	}
 
+	public void setTechnologyName(String technologyName) {
+		this.technologyName = technologyName;
+	}
+
+	public String getTechnologyName() {
+		return technologyName;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -1367,6 +1376,8 @@ public class CIJob {
 				+ ((environmentName == null) ? 0 : environmentName.hashCode());
 		result = prime * result
 				+ ((executeSql == null) ? 0 : executeSql.hashCode());
+		result = prime * result
+				+ ((failureEmailIds == null) ? 0 : failureEmailIds.hashCode());
 		result = prime * result + ((family == null) ? 0 : family.hashCode());
 		result = prime * result
 				+ ((fetchSql == null) ? 0 : fetchSql.hashCode());
@@ -1469,7 +1480,11 @@ public class CIJob {
 		result = prime * result + ((src == null) ? 0 : src.hashCode());
 		result = prime * result
 				+ ((storepass == null) ? 0 : storepass.hashCode());
+		result = prime * result
+				+ ((successEmailIds == null) ? 0 : successEmailIds.hashCode());
 		result = prime * result + ((target == null) ? 0 : target.hashCode());
+		result = prime * result
+				+ ((technologyName == null) ? 0 : technologyName.hashCode());
 		result = prime * result
 				+ ((templateName == null) ? 0 : templateName.hashCode());
 		result = prime * result
@@ -1771,6 +1786,11 @@ public class CIJob {
 				return false;
 		} else if (!executeSql.equals(other.executeSql))
 			return false;
+		if (failureEmailIds == null) {
+			if (other.failureEmailIds != null)
+				return false;
+		} else if (!failureEmailIds.equals(other.failureEmailIds))
+			return false;
 		if (family == null) {
 			if (other.family != null)
 				return false;
@@ -2031,10 +2051,20 @@ public class CIJob {
 				return false;
 		} else if (!storepass.equals(other.storepass))
 			return false;
+		if (successEmailIds == null) {
+			if (other.successEmailIds != null)
+				return false;
+		} else if (!successEmailIds.equals(other.successEmailIds))
+			return false;
 		if (target == null) {
 			if (other.target != null)
 				return false;
 		} else if (!target.equals(other.target))
+			return false;
+		if (technologyName == null) {
+			if (other.technologyName != null)
+				return false;
+		} else if (!technologyName.equals(other.technologyName))
 			return false;
 		if (templateName == null) {
 			if (other.templateName != null)
