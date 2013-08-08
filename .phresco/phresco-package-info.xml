@@ -14,7 +14,7 @@
                 <groupId>com.photon.phresco.plugins</groupId>
                 <artifactId>java-phresco-plugin</artifactId>
                 <type>jar</type>
-                <version>2.2.1.1000</version>
+                <version>2.3.1.6000</version>
                 <class>com.photon.phresco.plugins.java.JavaPlugin</class>
             </dependency>
         </implementation>
@@ -62,7 +62,7 @@
                     <description></description>
                     <key>jarName</key>
                     <multiple>false</multiple>
-                    <value>commons</value>
+                    <value></value>
                     <sort>false</sort>
                     <show>true</show>
                 </parameter>
@@ -76,7 +76,7 @@
                     <description></description>
                     <key>mainClassName</key>
                     <multiple>false</multiple>
-                    <value>com.photon.phresco.commons</value>
+                    <value></value>
                     <sort>false</sort>
                     <show>true</show>
                 </parameter>
@@ -92,7 +92,7 @@
 <groupId>com.photon.phresco.commons</groupId>
 <artifactId>phresco-commons</artifactId>
 <type>jar</type>
-<version>2.2.1.1000</version>
+<version>2.3.1.6000</version>
                             </dependency>
                         </dependencies>
                     </dynamicParameter>
@@ -173,7 +173,7 @@
                         <value key="showDebug">Show Debug</value>
                     </possibleValues>
                     <multiple>false</multiple>
-                    <value></value>
+                    <value>showErrors</value>
                     <sort>false</sort>
                     <show>true</show>
                 </parameter>
