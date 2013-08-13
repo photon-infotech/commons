@@ -18,6 +18,7 @@
 package com.photon.phresco.commons.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -38,6 +39,7 @@ public class SelectedFeature implements Serializable {
 	private String artifactGroupId;
 	private String packaging;
 	private String scope;
+	private List<String> dependencyIds;
 	
 	public String getDispName() {
 		return dispName;
@@ -125,6 +127,15 @@ public class SelectedFeature implements Serializable {
 
 	public void setScope(String scope) {
 		this.scope = scope;
+	}
+
+
+	public List<String> getDependencyIds() {
+		return dependencyIds;
+	}
+
+	public void setDependencyIds(List<String> dependencyIds) {
+		this.dependencyIds = dependencyIds;
 	}
 
 	@Override
