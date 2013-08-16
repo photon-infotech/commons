@@ -141,6 +141,7 @@ public interface ServiceConstants {
 	String REST_QUERY_CONTINOUSNAME = "continuousName";
 	String REST_QUERY_OLDNAME = "oldname";
 	String REST_QUERY_ENV_NAME = "envName";
+	String REST_JOBNAME = "jobName";
 	String REST_QUERY_APPID = "appId";
 	String REST_QUERY_BUILD_DOWNLOAD_URL = "buildDownloadUrl";
 	String REST_QUERY_DOWNLOAD_JOB_NAME = "downloadJobName";

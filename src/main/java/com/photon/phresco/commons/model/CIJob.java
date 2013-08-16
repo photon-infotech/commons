@@ -167,10 +167,19 @@ public class CIJob {
 	//Performance Test CI Integration
 	private String configurations = "";
 	private String testName = "";
+	private String httpName = "";
 	private String noOfUsers = "";
 	private String rampUpPeriod = "";
 	private String loopCount = "";
+	private String context = "";
 	private String contextUrls = "";
+	private String contextType = "";
+	private String encodingType = "";
+	private String parameterName = "";
+	private String parameterValue = "";
+	private String dbName = "";
+	private String queryType = "";
+	private String query = "";
 	private String dbContextUrls = "";
 	private String loadContextUrl = "";
 	private String isFromCI = ""; 
@@ -925,6 +934,78 @@ public class CIJob {
 		this.contextUrls = contextUrls;
 	}
 
+	public String getHttpName() {
+		return httpName;
+	}
+
+	public void setHttpName(String httpName) {
+		this.httpName = httpName;
+	}
+
+	public String getContext() {
+		return context;
+	}
+
+	public void setContext(String context) {
+		this.context = context;
+	}
+
+	public String getContextType() {
+		return contextType;
+	}
+
+	public void setContextType(String contextType) {
+		this.contextType = contextType;
+	}
+
+	public String getEncodingType() {
+		return encodingType;
+	}
+
+	public void setEncodingType(String encodingType) {
+		this.encodingType = encodingType;
+	}
+
+	public String getParameterName() {
+		return parameterName;
+	}
+
+	public void setParameterName(String parameterName) {
+		this.parameterName = parameterName;
+	}
+
+	public String getParameterValue() {
+		return parameterValue;
+	}
+
+	public void setParameterValue(String parameterValue) {
+		this.parameterValue = parameterValue;
+	}
+
+	public String getDbName() {
+		return dbName;
+	}
+
+	public void setDbName(String dbName) {
+		this.dbName = dbName;
+	}
+
+	public String getQueryType() {
+		return queryType;
+	}
+
+	public void setQueryType(String queryType) {
+		this.queryType = queryType;
+	}
+
+	public String getQuery() {
+		return query;
+	}
+
+	public void setQuery(String query) {
+		this.query = query;
+	}
+
 	public String getDbContextUrls() {
 		return dbContextUrls;
 	}
@@ -1332,6 +1413,9 @@ public class CIJob {
 				+ ((confluenceSite == null) ? 0 : confluenceSite.hashCode());
 		result = prime * result
 				+ ((confluenceSpace == null) ? 0 : confluenceSpace.hashCode());
+		result = prime * result + ((context == null) ? 0 : context.hashCode());
+		result = prime * result
+				+ ((contextType == null) ? 0 : contextType.hashCode());
 		result = prime * result
 				+ ((contextUrls == null) ? 0 : contextUrls.hashCode());
 		result = prime
@@ -1342,6 +1426,7 @@ public class CIJob {
 				+ ((dataBase == null) ? 0 : dataBase.hashCode());
 		result = prime * result
 				+ ((dbContextUrls == null) ? 0 : dbContextUrls.hashCode());
+		result = prime * result + ((dbName == null) ? 0 : dbName.hashCode());
 		result = prime * result
 				+ ((deviceId == null) ? 0 : deviceId.hashCode());
 		result = prime
@@ -1371,6 +1456,8 @@ public class CIJob {
 		result = prime * result + (enableConfluence ? 1231 : 1237);
 		result = prime * result + (enablePostBuildStep ? 1231 : 1237);
 		result = prime * result + (enablePreBuildStep ? 1231 : 1237);
+		result = prime * result
+				+ ((encodingType == null) ? 0 : encodingType.hashCode());
 		result = prime * result + ((encrypt == null) ? 0 : encrypt.hashCode());
 		result = prime * result
 				+ ((environmentName == null) ? 0 : environmentName.hashCode());
@@ -1385,6 +1472,8 @@ public class CIJob {
 				+ ((headerKey == null) ? 0 : headerKey.hashCode());
 		result = prime * result
 				+ ((headerValue == null) ? 0 : headerValue.hashCode());
+		result = prime * result
+				+ ((httpName == null) ? 0 : httpName.hashCode());
 		result = prime * result
 				+ ((isFromCI == null) ? 0 : isFromCI.hashCode());
 		result = prime * result
@@ -1425,6 +1514,10 @@ public class CIJob {
 				+ ((packageFileBrowse == null) ? 0 : packageFileBrowse
 						.hashCode());
 		result = prime * result
+				+ ((parameterName == null) ? 0 : parameterName.hashCode());
+		result = prime * result
+				+ ((parameterValue == null) ? 0 : parameterValue.hashCode());
+		result = prime * result
 				+ ((password == null) ? 0 : password.hashCode());
 		result = prime * result
 				+ ((platform == null) ? 0 : platform.hashCode());
@@ -1446,6 +1539,9 @@ public class CIJob {
 				+ ((projectModule == null) ? 0 : projectModule.hashCode());
 		result = prime * result
 				+ ((projectType == null) ? 0 : projectType.hashCode());
+		result = prime * result + ((query == null) ? 0 : query.hashCode());
+		result = prime * result
+				+ ((queryType == null) ? 0 : queryType.hashCode());
 		result = prime * result
 				+ ((rampUpPeriod == null) ? 0 : rampUpPeriod.hashCode());
 		result = prime * result
@@ -1696,6 +1792,16 @@ public class CIJob {
 				return false;
 		} else if (!confluenceSpace.equals(other.confluenceSpace))
 			return false;
+		if (context == null) {
+			if (other.context != null)
+				return false;
+		} else if (!context.equals(other.context))
+			return false;
+		if (contextType == null) {
+			if (other.contextType != null)
+				return false;
+		} else if (!contextType.equals(other.contextType))
+			return false;
 		if (contextUrls == null) {
 			if (other.contextUrls != null)
 				return false;
@@ -1715,6 +1821,11 @@ public class CIJob {
 			if (other.dbContextUrls != null)
 				return false;
 		} else if (!dbContextUrls.equals(other.dbContextUrls))
+			return false;
+		if (dbName == null) {
+			if (other.dbName != null)
+				return false;
+		} else if (!dbName.equals(other.dbName))
 			return false;
 		if (deviceId == null) {
 			if (other.deviceId != null)
@@ -1771,6 +1882,11 @@ public class CIJob {
 			return false;
 		if (enablePreBuildStep != other.enablePreBuildStep)
 			return false;
+		if (encodingType == null) {
+			if (other.encodingType != null)
+				return false;
+		} else if (!encodingType.equals(other.encodingType))
+			return false;
 		if (encrypt == null) {
 			if (other.encrypt != null)
 				return false;
@@ -1810,6 +1926,11 @@ public class CIJob {
 			if (other.headerValue != null)
 				return false;
 		} else if (!headerValue.equals(other.headerValue))
+			return false;
+		if (httpName == null) {
+			if (other.httpName != null)
+				return false;
+		} else if (!httpName.equals(other.httpName))
 			return false;
 		if (isFromCI == null) {
 			if (other.isFromCI != null)
@@ -1916,6 +2037,16 @@ public class CIJob {
 				return false;
 		} else if (!packageFileBrowse.equals(other.packageFileBrowse))
 			return false;
+		if (parameterName == null) {
+			if (other.parameterName != null)
+				return false;
+		} else if (!parameterName.equals(other.parameterName))
+			return false;
+		if (parameterValue == null) {
+			if (other.parameterValue != null)
+				return false;
+		} else if (!parameterValue.equals(other.parameterValue))
+			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
@@ -1960,6 +2091,16 @@ public class CIJob {
 			if (other.projectType != null)
 				return false;
 		} else if (!projectType.equals(other.projectType))
+			return false;
+		if (query == null) {
+			if (other.query != null)
+				return false;
+		} else if (!query.equals(other.query))
+			return false;
+		if (queryType == null) {
+			if (other.queryType != null)
+				return false;
+		} else if (!queryType.equals(other.queryType))
 			return false;
 		if (rampUpPeriod == null) {
 			if (other.rampUpPeriod != null)
