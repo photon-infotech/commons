@@ -343,7 +343,7 @@ public interface ServiceConstants {
 	String SERVER = "Server";
 	String DATABASE = "Database";
 	String APPLIES_TO_TECHIDS = "appliesToTechIds";
-	String TECHINFO_VERSION = "techInfo.version";
+	String TECHINFO_VERSION = "techInfo._id";
 	/*
      * Constants for Media Type
      */
