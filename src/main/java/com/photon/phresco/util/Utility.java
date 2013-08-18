@@ -47,8 +47,13 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.PlatformUI;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -203,13 +208,7 @@ public final class Utility implements Constants {
     public static String getProjectHome() {
     	ResourcesPlugin plugin = ResourcesPlugin.getPlugin();
     	if(plugin != null) {
-    		File path = null;
-    		String workingDir = ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString() + File.separatorChar + "projects";
-    		path = new File(workingDir);
-    		if(path.isDirectory()) {
-    			return path.getPath() + File.separatorChar;
-    		}
-    		return ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString() + File.separatorChar;
+    		return getEclipseHome();
     	}
         String phrescoHome = getPhrescoHome();
         StringBuilder builder = new StringBuilder(phrescoHome);
@@ -221,6 +220,29 @@ public final class Utility implements Constants {
         FileUtils.mkdir(builder.toString());
         return builder.toString();
     }
+    
+	private static String getEclipseHome() {
+		IPath location = null ;
+		String workingPath = "";
+		ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getSelection();
+		if (!selection.isEmpty() && selection instanceof IStructuredSelection) {
+			Object[] selectedObjects = ((IStructuredSelection)selection).toArray();
+			for (Object object : selectedObjects) {
+				IProject iProject = (IProject) object;
+				location = iProject.getLocation();
+			} 
+			String dir = location.toOSString();
+			workingPath = StringUtils.removeEnd(dir, location.lastSegment());
+		} else {
+			String workingDir = ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString() + File.separatorChar + "projects";
+			File filePath = new File(workingDir);
+			if(!filePath.isDirectory()) {
+				filePath.mkdir();
+			}
+			workingPath =  filePath.getPath() + File.separatorChar;
+		}
+		return workingPath;
+	}
 
     public static String getPhrescoTemp() {
         String phrescoHome = getPhrescoHome();
