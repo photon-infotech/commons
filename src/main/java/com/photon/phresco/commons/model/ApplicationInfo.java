@@ -53,6 +53,7 @@ public class ApplicationInfo extends CustomerBasedElement {
     private boolean phoneEnabled;
     private boolean tabletEnabled;
     private boolean pilot;
+    private boolean created;
     private String pomFile;
     private String functionalFramework;
     private List<String> dependentModules;
@@ -61,6 +62,7 @@ public class ApplicationInfo extends CustomerBasedElement {
     //Information about where the pilot project is stored in repository
     private ArtifactGroup pilotContent;
     private FunctionalFrameworkInfo functionalFrameworkInfo;
+    
 
     public String getCode() {
         return code;
@@ -244,6 +246,14 @@ public class ApplicationInfo extends CustomerBasedElement {
 
 	public FunctionalFrameworkInfo getFunctionalFrameworkInfo() {
 		return functionalFrameworkInfo;
+	}
+	
+	public void setCreated(boolean created) {
+		this.created = created;
+	}
+
+	public boolean isCreated() {
+		return created;
 	}
 	
 	public String toString() {
