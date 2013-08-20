@@ -51,6 +51,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
@@ -228,8 +229,15 @@ public final class Utility implements Constants {
 		if (!selection.isEmpty() && selection instanceof IStructuredSelection) {
 			Object[] selectedObjects = ((IStructuredSelection)selection).toArray();
 			for (Object object : selectedObjects) {
-				IProject iProject = (IProject) object;
-				location = iProject.getLocation();
+				if(object instanceof IProject) {
+					IProject iProject = (IProject) object;
+					location = iProject.getLocation();
+				} 
+				if(object instanceof IJavaProject) {
+					IJavaProject project = (IJavaProject) object;
+					project.getJavaModel().getPath();
+					location = project.getProject().getLocation();
+				}
 			} 
 			String dir = location.toOSString();
 			workingPath = StringUtils.removeEnd(dir, location.lastSegment());
