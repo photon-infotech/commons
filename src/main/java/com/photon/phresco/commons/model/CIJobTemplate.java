@@ -10,8 +10,6 @@ public class CIJobTemplate {
 	// can be applied to many applicaions
 	private List<String> appIds;
 	// This template is assigned to many applications of the same project
-	private String projectId;
-	private String customerId;
 	
 	private boolean enableRepo;
 	private String repoTypes;
@@ -24,12 +22,11 @@ public class CIJobTemplate {
 		super();
 	}
 
-	public CIJobTemplate(String name, String type, List<String> appIds, String projectId) {
+	public CIJobTemplate(String name, String type, List<String> appIds) {
 		super();
 		this.name = name;
 		this.type = type;
 		this.appIds = appIds;
-		this.projectId = projectId;
 	}
 	
 	/**
@@ -75,21 +72,6 @@ public class CIJobTemplate {
 	 */
 	public void setAppIds(List<String> appIds) {
 		this.appIds = appIds;
-	}
-
-
-	/**
-	 * @return the projectId
-	 */
-	public String getProjectId() {
-		return projectId;
-	}
-
-	/**
-	 * @param projectId the projectId to set
-	 */
-	public void setProjectId(String projectId) {
-		this.projectId = projectId;
 	}
 
 	/**
@@ -182,49 +164,37 @@ public class CIJobTemplate {
 		this.uploadTypes = uploadTypes;
 	}
 
-	/**
-	 * @return the customerId
-	 */
-	public String getCustomerId() {
-		return customerId;
-	}
-
-	/**
-	 * @param customerId the customerId to set
-	 */
-	public void setCustomerId(String customerId) {
-		this.customerId = customerId;
-	}
-
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "CIJobTemplate [name=" + name + ", type=" + type + ", appIds="
-				+ appIds + ", projectId=" + projectId + ", enableRepo=" + enableRepo
+				+ appIds + ", enableRepo=" + enableRepo
 				+ ", repoTypes=" + repoTypes + ", enableSheduler="
 				+ enableSheduler + ", enableEmailSettings="
 				+ enableEmailSettings + ", enableUploadSettings="
 				+ enableUploadSettings + ", uploadTypes=" + uploadTypes + "]";
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((appIds == null) ? 0 : appIds.hashCode());
+		result = prime * result + (enableEmailSettings ? 1231 : 1237);
+		result = prime * result + (enableRepo ? 1231 : 1237);
+		result = prime * result + (enableSheduler ? 1231 : 1237);
+		result = prime * result + (enableUploadSettings ? 1231 : 1237);
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((projectId == null) ? 0 : projectId.hashCode());
+		result = prime * result
+				+ ((repoTypes == null) ? 0 : repoTypes.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result
+				+ ((uploadTypes == null) ? 0 : uploadTypes.hashCode());
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -239,15 +209,33 @@ public class CIJobTemplate {
 				return false;
 		} else if (!appIds.equals(other.appIds))
 			return false;
+		if (enableEmailSettings != other.enableEmailSettings)
+			return false;
+		if (enableRepo != other.enableRepo)
+			return false;
+		if (enableSheduler != other.enableSheduler)
+			return false;
+		if (enableUploadSettings != other.enableUploadSettings)
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (projectId == null) {
-			if (other.projectId != null)
+		if (repoTypes == null) {
+			if (other.repoTypes != null)
 				return false;
-		} else if (!projectId.equals(other.projectId))
+		} else if (!repoTypes.equals(other.repoTypes))
+			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
+			return false;
+		if (uploadTypes == null) {
+			if (other.uploadTypes != null)
+				return false;
+		} else if (!uploadTypes.equals(other.uploadTypes))
 			return false;
 		return true;
 	}
