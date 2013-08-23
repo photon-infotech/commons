@@ -197,6 +197,7 @@ public class CIJob {
 	private String appName;
 	private String templateName;
 	private String technologyName;
+	private String redirectAutomatically;
   
 	// Android functional test
 	private String deviceList = "";
@@ -1322,6 +1323,14 @@ public class CIJob {
 		return technologyName;
 	}
 
+	public void setRedirectAutomatically(String redirectAutomatically) {
+		this.redirectAutomatically = redirectAutomatically;
+	}
+
+	public String getRedirectAutomatically() {
+		return redirectAutomatically;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -1544,6 +1553,10 @@ public class CIJob {
 				+ ((queryType == null) ? 0 : queryType.hashCode());
 		result = prime * result
 				+ ((rampUpPeriod == null) ? 0 : rampUpPeriod.hashCode());
+		result = prime
+				* result
+				+ ((redirectAutomatically == null) ? 0 : redirectAutomatically
+						.hashCode());
 		result = prime * result
 				+ ((repoType == null) ? 0 : repoType.hashCode());
 		result = prime * result
@@ -2106,6 +2119,11 @@ public class CIJob {
 			if (other.rampUpPeriod != null)
 				return false;
 		} else if (!rampUpPeriod.equals(other.rampUpPeriod))
+			return false;
+		if (redirectAutomatically == null) {
+			if (other.redirectAutomatically != null)
+				return false;
+		} else if (!redirectAutomatically.equals(other.redirectAutomatically))
 			return false;
 		if (repoType == null) {
 			if (other.repoType != null)
