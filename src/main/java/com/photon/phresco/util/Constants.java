@@ -126,6 +126,9 @@ public interface Constants {
     String SITE_NAME = "siteName";
     String APPLICATION_NAME = "applicationName";
 	String CERTIFICATE = "certificate";
+	String SLING_URL = "slingUrl";
+	String USER = "user";
+	String PASSWORD = "password";
 
 
     // Constants for Database
