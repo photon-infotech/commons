@@ -662,6 +662,26 @@ public final class Utility implements Constants {
         }
 	}
 
+	public static String getCiJobInfoPath(String appDir) throws PhrescoException {
+		try {
+			StringBuilder builder = new StringBuilder(Utility.getProjectHome());
+			if (!StringUtils.isEmpty(appDir)) {		
+				builder.append(appDir);
+				builder.append(File.separator);
+				builder.append(DOT_PHRESCO_FOLDER);
+				builder.append(File.separator);	
+			}
+			builder.append("ciJob.info");
+			File ciJobInfoFile = new File(builder.toString());
+			if(!ciJobInfoFile.exists()) {
+				ciJobInfoFile.createNewFile();
+			}
+			return ciJobInfoFile.getPath();
+		} catch (IOException e) {
+			throw new PhrescoException(e);
+		}
+	}
+	
 	public static List<ProjectDelivery> getProjectDeliveries(File projectDeliveryFile) throws PhrescoException {
 			FileReader ProjectDeliveryFileReader = null;
 			BufferedReader br = null;
@@ -677,6 +697,7 @@ public final class Utility implements Constants {
 				Gson gson = new Gson();
 				ProjectDelivery = gson.fromJson(br, type);
 			} catch (Exception e) {
+				e.printStackTrace();
 				throw new PhrescoException(e);
 			} finally {
 				Utility.closeStream(br);
