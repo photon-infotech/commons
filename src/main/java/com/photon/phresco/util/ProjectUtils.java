@@ -245,6 +245,7 @@ public class ProjectUtils implements Constants {
 						modulePath = getModulePath(artifactGroup, processor);
 						configList = configList(modulePath, artifactGroup.getGroupId(), artifactGroup.getArtifactId(),  artifactGroup.getVersions().get(0).getVersion(), doc);
 						processor.addExecutionConfiguration(DEPENDENCY_PLUGIN_GROUPID, DEPENDENCY_PLUGIN_ARTIFACTID, EXECUTION_ID, PHASE, GOAL, configList, doc);
+						break;
 					}
 				}
 			}
