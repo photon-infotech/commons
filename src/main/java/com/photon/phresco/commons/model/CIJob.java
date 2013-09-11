@@ -119,7 +119,7 @@ public class CIJob {
     private String zipAlign = "";   
     
     // iphone unit test
-    private String unitTestType = "";
+    private boolean unitTestType = false;
     private String unittest = "";
     
     // deploy job info
@@ -198,6 +198,10 @@ public class CIJob {
 	private String templateName;
 	private String technologyName;
 	private String redirectAutomatically;
+	private boolean followRedirects = false;
+	private boolean keepAlive = false;
+	private boolean multipartData = false;
+	private boolean compatibleHeaders = false;
   
 	// Android functional test
 	private String deviceList = "";
@@ -1023,14 +1027,6 @@ public class CIJob {
 		this.packageFileBrowse = packageFileBrowse;
 	}
 
-	public String getUnitTestType() {
-		return unitTestType;
-	}
-
-	public void setUnitTestType(String unitTestType) {
-		this.unitTestType = unitTestType;
-	}
-
 	public String getUnittest() {
 		return unittest;
 	}
@@ -1077,6 +1073,10 @@ public class CIJob {
 
 	public String getZipAlign() {
 		return zipAlign;
+	}
+
+	public void setUnitTestType(boolean unitTestType) {
+		this.unitTestType = unitTestType;
 	}
 
 	public void setCoberturaPlugin(boolean coberturaPlugin) {
@@ -1323,12 +1323,44 @@ public class CIJob {
 		return technologyName;
 	}
 
-	public void setRedirectAutomatically(String redirectAutomatically) {
-		this.redirectAutomatically = redirectAutomatically;
+	public boolean isFollowRedirects() {
+		return followRedirects;
+	}
+
+	public void setFollowRedirects(boolean followRedirects) {
+		this.followRedirects = followRedirects;
+	}
+
+	public boolean isKeepAlive() {
+		return keepAlive;
+	}
+
+	public void setKeepAlive(boolean keepAlive) {
+		this.keepAlive = keepAlive;
+	}
+
+	public boolean isMultipartData() {
+		return multipartData;
+	}
+
+	public void setMultipartData(boolean multipartData) {
+		this.multipartData = multipartData;
+	}
+
+	public boolean isCompatibleHeaders() {
+		return compatibleHeaders;
+	}
+
+	public void setCompatibleHeaders(boolean compatibleHeaders) {
+		this.compatibleHeaders = compatibleHeaders;
 	}
 
 	public String getRedirectAutomatically() {
 		return redirectAutomatically;
+	}
+
+	public void setRedirectAutomatically(String redirectAutomatically) {
+		this.redirectAutomatically = redirectAutomatically;
 	}
 
 	@Override
@@ -1408,6 +1440,7 @@ public class CIJob {
 				* result
 				+ ((collabNetusername == null) ? 0 : collabNetusername
 						.hashCode());
+		result = prime * result + (compatibleHeaders ? 1231 : 1237);
 		result = prime * result
 				+ ((configuration == null) ? 0 : configuration.hashCode());
 		result = prime * result
@@ -1477,6 +1510,7 @@ public class CIJob {
 		result = prime * result + ((family == null) ? 0 : family.hashCode());
 		result = prime * result
 				+ ((fetchSql == null) ? 0 : fetchSql.hashCode());
+		result = prime * result + (followRedirects ? 1231 : 1237);
 		result = prime * result
 				+ ((headerKey == null) ? 0 : headerKey.hashCode());
 		result = prime * result
@@ -1493,6 +1527,7 @@ public class CIJob {
 		result = prime * result
 				+ ((jenkinsUrl == null) ? 0 : jenkinsUrl.hashCode());
 		result = prime * result + ((jobName == null) ? 0 : jobName.hashCode());
+		result = prime * result + (keepAlive ? 1231 : 1237);
 		result = prime * result
 				+ ((keyPassword == null) ? 0 : keyPassword.hashCode());
 		result = prime * result + ((keypass == null) ? 0 : keypass.hashCode());
@@ -1508,6 +1543,7 @@ public class CIJob {
 				+ ((mainClassName == null) ? 0 : mainClassName.hashCode());
 		result = prime * result + ((minify == null) ? 0 : minify.hashCode());
 		result = prime * result + ((mode == null) ? 0 : mode.hashCode());
+		result = prime * result + (multipartData ? 1231 : 1237);
 		result = prime * result
 				+ ((mvnCommand == null) ? 0 : mvnCommand.hashCode());
 		result = prime * result
@@ -1610,8 +1646,7 @@ public class CIJob {
 				+ ((triggerSimulator == null) ? 0 : triggerSimulator.hashCode());
 		result = prime * result
 				+ ((triggers == null) ? 0 : triggers.hashCode());
-		result = prime * result
-				+ ((unitTestType == null) ? 0 : unitTestType.hashCode());
+		result = prime * result + (unitTestType ? 1231 : 1237);
 		result = prime * result
 				+ ((unittest == null) ? 0 : unittest.hashCode());
 		result = prime
@@ -1770,6 +1805,8 @@ public class CIJob {
 			if (other.collabNetusername != null)
 				return false;
 		} else if (!collabNetusername.equals(other.collabNetusername))
+			return false;
+		if (compatibleHeaders != other.compatibleHeaders)
 			return false;
 		if (configuration == null) {
 			if (other.configuration != null)
@@ -1930,6 +1967,8 @@ public class CIJob {
 				return false;
 		} else if (!fetchSql.equals(other.fetchSql))
 			return false;
+		if (followRedirects != other.followRedirects)
+			return false;
 		if (headerKey == null) {
 			if (other.headerKey != null)
 				return false;
@@ -1974,6 +2013,8 @@ public class CIJob {
 			if (other.jobName != null)
 				return false;
 		} else if (!jobName.equals(other.jobName))
+			return false;
+		if (keepAlive != other.keepAlive)
 			return false;
 		if (keyPassword == null) {
 			if (other.keyPassword != null)
@@ -2024,6 +2065,8 @@ public class CIJob {
 			if (other.mode != null)
 				return false;
 		} else if (!mode.equals(other.mode))
+			return false;
+		if (multipartData != other.multipartData)
 			return false;
 		if (mvnCommand == null) {
 			if (other.mvnCommand != null)
@@ -2265,10 +2308,7 @@ public class CIJob {
 				return false;
 		} else if (!triggers.equals(other.triggers))
 			return false;
-		if (unitTestType == null) {
-			if (other.unitTestType != null)
-				return false;
-		} else if (!unitTestType.equals(other.unitTestType))
+		if (unitTestType != other.unitTestType)
 			return false;
 		if (unittest == null) {
 			if (other.unittest != null)

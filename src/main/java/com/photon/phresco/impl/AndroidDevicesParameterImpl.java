@@ -25,6 +25,7 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.xml.sax.SAXException;
 
 import com.photon.phresco.api.DynamicParameter;
@@ -66,15 +67,16 @@ public class AndroidDevicesParameterImpl implements DynamicParameter {
 			}
 			stdError.close();
 		} catch (Exception e) {
-			throw new PhrescoException("Error in retriving connected devices ");
+//			Error in retriving connected devices
 		}
-		devices.remove(devices.size() - 1);
-		
 		PossibleValues possibleValues = new PossibleValues();
-		for (String device : devices) {
+		if (CollectionUtils.isNotEmpty(devices)) {
+			devices.remove(devices.size() - 1);
+			for (String device : devices) {
 				Value value = new Value();
 				value.setValue(device);
 				possibleValues.getValue().add(value);
+			}
 		}
 		return possibleValues;
 	}
