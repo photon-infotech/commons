@@ -47,6 +47,7 @@ public class Technology extends CustomerBasedElement implements Cloneable {
 	private String techGroupId;
 	private List<String> reports;
 	private List<String> archetypeFeatures;
+	private List<String> applicableEmbedTechnology;
 	private List<FunctionalFrameworkGroup> functionalFrameworks;
 	
 	public Technology() {
@@ -127,6 +128,15 @@ public class Technology extends CustomerBasedElement implements Cloneable {
 
 	public List<FunctionalFrameworkGroup> getFunctionalFrameworks() {
 		return functionalFrameworks;
+	}
+
+	public void setApplicableEmbedTechnology(
+			List<String> applicableEmbedTechnology) {
+		this.applicableEmbedTechnology = applicableEmbedTechnology;
+	}
+
+	public List<String> getApplicableEmbedTechnology() {
+		return applicableEmbedTechnology;
 	}
 
 	public String toString() {
