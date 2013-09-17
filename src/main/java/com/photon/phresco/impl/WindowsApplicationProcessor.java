@@ -69,6 +69,7 @@ public class WindowsApplicationProcessor extends AbstractApplicationProcessor im
 		
 		if (CollectionUtils.isNotEmpty(deletedFeatures)) {
 			deleteFeature(appInfo, deletedFeatures);
+			projectUtils.deleteFeatureDependencies(appInfo, deletedFeatures);
 		}
 		
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {

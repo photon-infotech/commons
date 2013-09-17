@@ -41,6 +41,9 @@ public class BlackberryApplicationProcessor extends AbstractApplicationProcessor
 		if(CollectionUtils.isNotEmpty(artifactGroup)) { 
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
 		}
+		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
+			projectUtils.deleteFeatureDependencies(appInfo, deletedFeatures);
+		}
 		BufferedReader breader = projectUtils.ExtractFeature(appInfo);
 		try {
 			String line = "";

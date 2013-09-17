@@ -37,6 +37,9 @@ public class NodejsApplicationProcessor extends AbstractApplicationProcessor{
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
 		ProjectUtils projectUtils = new ProjectUtils();
 		projectUtils.deletePluginExecutionFromPom(pomFile);
+		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
+			projectUtils.deleteFeatureDependencies(appInfo, deletedFeatures);
+		}
 		if(CollectionUtils.isNotEmpty(artifactGroup)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
 		}

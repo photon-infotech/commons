@@ -112,6 +112,7 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 		projectUtils.deletePluginExecutionFromPom(pomFile);
 		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
 			projectUtils.removeExtractedFeatures(appInfo, deletedFeatures);
+			projectUtils.deleteFeatureDependencies(appInfo, deletedFeatures);
 		}
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
