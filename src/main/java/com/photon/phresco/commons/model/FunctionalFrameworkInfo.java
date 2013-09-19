@@ -1,5 +1,7 @@
 package com.photon.phresco.commons.model;
 
+import java.util.List;
+
 
 public class FunctionalFrameworkInfo extends Element {
 
@@ -8,6 +10,7 @@ public class FunctionalFrameworkInfo extends Element {
 	private String frameworkGroupId;
 	private String frameworkIds;
 	private String version;
+	private List<String> functionalFrameworkIds;
 	
 	public String getFrameworkGroupId() {
 		return frameworkGroupId;
@@ -33,6 +36,14 @@ public class FunctionalFrameworkInfo extends Element {
 		this.version = version;
 	}
 	
+	public void setFunctionalFrameworkIds(List<String> functionalFrameworkIds) {
+		this.functionalFrameworkIds = functionalFrameworkIds;
+	}
+
+	public List<String> getFunctionalFrameworkIds() {
+		return functionalFrameworkIds;
+	}
+
 	@Override
 	public String toString() {
 		return "FunctionalFrameworkInfo [frameworkGroupId=" + frameworkGroupId
