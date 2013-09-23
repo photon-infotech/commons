@@ -186,6 +186,7 @@ public class PhrescoDynamicLoader {
 				return jarfile.getInputStream(entry);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new PhrescoException(e);
 		}
 		return null;
