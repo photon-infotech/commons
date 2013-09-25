@@ -60,6 +60,7 @@ import com.photon.phresco.plugins.model.Mojos.ApplicationHandler;
 import com.photon.phresco.plugins.util.MojoProcessor;
 import com.phresco.pom.exception.PhrescoPomException;
 import com.phresco.pom.model.Dependency;
+import com.phresco.pom.model.Model.Dependencies;
 import com.phresco.pom.util.PomProcessor;
 
 public class ProjectUtils implements Constants {
@@ -302,10 +303,14 @@ public class ProjectUtils implements Constants {
 		String pomDir = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo);
 		try {
 			PomProcessor processor = new PomProcessor(new File(pomDir));
-			List<Dependency> dependencies = processor.getModel().getDependencies().getDependency();
-			if(CollectionUtils.isNotEmpty(dependencies)) {
-				for (ArtifactGroup artifactGroup : removedFeatures) {
-					processor.deleteDependency(artifactGroup.getGroupId(), artifactGroup.getArtifactId(), artifactGroup.getPackaging());
+			Dependencies dependencies = processor.getModel().getDependencies();
+			if (dependencies != null) {
+				List<Dependency> dependency = dependencies.getDependency();
+				if (CollectionUtils.isNotEmpty(dependency)) {
+					for (ArtifactGroup artifactGroup : removedFeatures) {
+						processor.deleteDependency(artifactGroup.getGroupId(), artifactGroup.getArtifactId(),
+								artifactGroup.getPackaging());
+					}
 				}
 			}
 			processor.save();
