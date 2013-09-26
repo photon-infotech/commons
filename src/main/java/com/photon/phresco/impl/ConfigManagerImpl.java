@@ -167,6 +167,7 @@ public class ConfigManagerImpl implements ConfigManager {
 		for (Configuration configuration : environment.getConfigurations()) {
 			Element configNode = document.createElement(configuration.getType());
 			configNode.setAttribute("name", configuration.getName());
+			configNode.setAttribute("desc", configuration.getDesc());
 			createProperties(configNode, configuration.getProperties());
 			envNode.appendChild(configNode);
 		}
