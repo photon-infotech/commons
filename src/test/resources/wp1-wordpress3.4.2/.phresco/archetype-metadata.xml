@@ -1,0 +1,301 @@
+<!--
+
+    Archetype - phresco-wordpress-archetype
+
+    Copyright (C) 1999-2013 Photon Infotech Inc.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<archetype-descriptor xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0 http://maven.apache.org/xsd/archetype-descriptor-1.0.0.xsd"
+    name="wordpress">
+	<fileSets> 	
+		<fileSet filtered="false" packaged="false"> 
+			<directory>.phresco</directory> 
+			<includes> 
+				<include>archetype-metadata.xml</include> 
+				<include>excludefiles.txt</include> 
+				<include>phresco-package-info.xml</include>
+				<include>phresco-deploy-info.xml</include>
+				<include>phresco-validate-code-info.xml</include>
+				<include>phresco-functional-test-info.xml</include>
+				<include>phresco-load-test-info.xml</include>
+				<include>phresco-ci-info.xml</include>
+				<include>phresco-application-handler-info.xml</include>
+				<include>phresco-start-hub-info.xml</include>
+				<include>phresco-start-node-info.xml</include>
+				<include>phresco-pdf-report-info.xml</include>
+				<include>phresco-performance-test-info.xml</include>
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>docs</directory> 
+			<includes> 
+				<include>PHTN_Reference_Guide.doc</include> 
+				<include>PHTN_Release_Notes.doc</include> 
+				<include>README.txt</include> 
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>source/wordpress</directory> 
+			<includes> 
+				<include>wp-config.php</include> 
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>source/sql/mysql/5.5.1</directory> 
+			<includes> 
+				<include>site.sql</include>
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>source/wordpress/config</directory> 
+			<includes> 
+				<include>phresco-env-config.xml</include> 
+				<include>config.php</include> 
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>source/wordpress/wp-content/gallery</directory> 
+			<includes> 
+				<include>**/*</include> 
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>source/wordpress/wp-content/plugins</directory> 
+			<includes> 
+				<include>**/*</include> 
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>source/wordpress/wp-content/themes</directory> 
+			<includes> 
+				<include>**/*</include>
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>source/wordpress/wp-content/uploads</directory> 
+			<includes> 
+				<include>**/*</include>
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>test/functional</directory> 
+			<includes> 
+				<include>pom.xml</include>
+				<include>hubconfig.json</include>
+				<include>nodeconfig.json</include>
+			</includes> 
+		</fileSet>
+        <fileSet filtered="false" packaged="false"> 
+			<directory>test/manual</directory> 
+			<includes>
+				<include>HeliOs_Wordpress_Manual_Testcases.xls</include>
+			</includes>
+		</fileSet>
+		
+             <fileSet filtered="false" encoding="UTF-8">
+			<directory>test/functional/src/main/java/com/photon/phresco/Screens</directory>
+			<includes>
+				<include>BaseScreen.java</include>
+				<include>PhotonAbstractScreen.java</include>
+				<include>WelcomeScreen.java</include>
+			</includes>
+		</fileSet>
+        <fileSet filtered="false" encoding="UTF-8">
+			<directory>test/functional/src/main/java/com/photon/phresco/ScreenShots</directory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet>
+        <fileSet filtered="false" encoding="UTF-8">
+			<directory>test/functional/src/main/java/com/photon/phresco/selenium/report</directory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet>
+        <fileSet filtered="false" encoding="UTF-8">
+			<directory>test/functional/src/main/java/com/photon/phresco/selenium/util</directory>
+			<includes>
+				<include>Constants.java</include>
+				<include>GetCurrentDir.java</include>
+				<include>ScreenActionFailedException.java</include>
+				<include>ScreenException.java</include>
+			</includes>
+		</fileSet>
+        <fileSet filtered="false" encoding="UTF-8">
+			<directory>test/functional/src/main/java/com/photon/phresco/uiconstants</directory>
+			<includes>
+				<include>WordPress.java</include>
+				<include>PhrescoUiConstants.java</include>
+				<include>ReadXMLFile.java</include>
+				<include>UIConstants.java</include>
+				<include>UserInfoConstants.java</include>
+			</includes>
+		</fileSet>
+        <fileSet filtered="false" encoding="UTF-8">
+			<directory>test/functional/src/main/resources</directory>
+			<includes>
+				<include>WordPress.xml</include>
+				<include>UIConstants.xml</include>
+				<include>UserInfo.xml</include>
+				<include>phresco-env-config.xml</include>
+			</includes>
+		</fileSet>
+        <fileSet filtered="false" encoding="UTF-8">
+			<directory>test/functional/src/test/java/com/photon/phresco/testcases</directory>
+			<includes>
+				<include>WelcomePageTestCase.java</include>
+			</includes>
+		</fileSet>
+        <fileSet filtered="false" encoding="UTF-8">
+			<directory>test/functional/src/test/java/com/photon/phresco/testsuites</directory>
+			<includes>
+				<include>AllTest.xml</include>
+				<include>WelcomePageTestSuite.xml</include>
+			</includes>
+		</fileSet>
+		<fileSet filtered="false"> 
+			<directory>test/load/server</directory> 
+			<includes> 
+				<include>build.properties</include>
+				<include>build.xml</include>
+				<include>pom.xml</include>
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false"> 
+			<directory>test/load/webservice</directory> 
+			<includes> 
+				<include>build.properties</include>
+				<include>build.xml</include>
+				<include>pom.xml</include>
+			</includes> 
+		</fileSet>
+        <fileSet filtered="false"> 
+			<directory>test/load/server/tests</directory> 
+			<includes> 
+				<include>phresco-env-config.csv</include>
+				<include>PhrescoFrameWork_TestPlan.jmx</include>
+			</includes> 
+		</fileSet>
+        <fileSet filtered="false"> 
+			<directory>test/load/webservice/tests</directory> 
+			<includes> 
+				<include>phresco-env-config.csv</include>
+				<include>PhrescoFrameWork_TestPlan.jmx</include>
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>test/performance/server</directory> 
+			<includes> 
+				<include>build.properties</include>
+				<include>build.xml</include>
+				<include>pom.xml</include>
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>test/performance/server/tests</directory> 
+			<includes> 
+				<include>phresco-env-config.csv</include>
+				<include>PhrescoFrameWork_TestPlan.jmx</include>
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>test/performance/database</directory> 
+			<includes> 
+				<include>build.properties</include>
+				<include>build.xml</include>
+				<include>pom.xml</include>
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>test/performance/database/tests</directory> 
+			<includes> 
+				<include>PhrescoFrameWork_TestPlan.jmx</include>
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>test/performance/webservice</directory> 
+			<includes> 
+				<include>build.properties</include>
+				<include>build.xml</include>
+				<include>pom.xml</include>
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>test/performance/webservice/tests</directory> 
+			<includes> 
+				<include>PhrescoFrameWork_TestPlan.jmx</include>
+				<include>phresco-env-config.csv</include>
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>test/unit</directory> 
+			<includes> 
+				<include>pom.xml</include>
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>test/unit/src/main/php/phresco/tests</directory> 
+			<includes> 
+				<include>BaseScreen.php</include>
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>test/unit/src/site/doxygen</directory> 
+			<includes> 
+				<include>doxygen.config</include>
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>test/unit/src/site/phpdoc</directory> 
+			<includes> 
+				<include>phpdoc.config</include>
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>test/unit/src/test/php/phresco</directory> 
+			<includes> 
+				<include>AllTest.php</include>
+			</includes> 
+		</fileSet>
+		<fileSet filtered="false" packaged="false"> 
+			<directory>test/unit/src/test/php/phresco/tests</directory> 
+			<includes> 
+				<include>DateValidation.php</include>
+				<include>EmailVerification.php</include>
+				<include>UsernameValidation.php</include>
+			</includes> 
+		</fileSet>
+        <fileSet filtered="false"> 
+			<directory>test/performance/server/json</directory> 
+			<includes> 
+				<include>**/*</include>
+			</includes> 
+		</fileSet>
+        <fileSet filtered="false"> 
+			<directory>test/performance/database/json</directory> 
+			<includes> 
+				<include>**/*</include>
+			</includes> 
+		</fileSet>
+        <fileSet filtered="false"> 
+			<directory>test/performance/webservice/json</directory> 
+			<includes> 
+				<include>**/*</include>
+			</includes> 
+		</fileSet>
+	</fileSets>
+</archetype-descriptor> 

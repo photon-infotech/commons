@@ -28,6 +28,7 @@ import com.photon.phresco.exception.ConfigurationException;
 public class ConfigReaderTest {
 	
 	private File configFile = new File("src/test/resources/phresco-env-config-read.xml");
+	private File configFile2 = new File("src/test/resources/phresco-env-config-wrong.xml");
 	private static ConfigReader configReader = null;
 	
 	@Test(expected=IllegalArgumentException.class)
@@ -37,6 +38,11 @@ public class ConfigReaderTest {
 		// Failure test case
 		FileInputStream  fis = null;
 		configReader = new ConfigReader(fis);
+	}
+	
+	@Test
+	public void testConfigReaderWrongFile() throws FileNotFoundException, Exception {
+		configReader = new ConfigReader(configFile2);
 	}
 	
 	@Test(expected=ConfigurationException.class)
@@ -179,6 +185,14 @@ public class ConfigReaderTest {
 	public void testCanDelete1() throws Exception {
 		InputStream mock = org.mockito.Mockito.mock(InputStream.class);
 		when(mock.read()).thenThrow(IOException.class);
+		configReader = new ConfigReader(mock);
+	}
+	
+	@Test(expected = ConfigurationException.class)
+	public void testFileNotFoundError() throws Exception {
+		File mock = org.mockito.Mockito.mock(File.class);
+		when(mock.exists()).thenReturn(true);
+		when(mock.getPath()).thenThrow(FileNotFoundException.class);
 		configReader = new ConfigReader(mock);
 	}
 }

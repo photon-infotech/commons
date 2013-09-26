@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mojos>
+    <mojo>
+      <goal>validate-code</goal>
+      <description>Goal which validates the WordPress project</description>
+      <requiresDirectInvocation>false</requiresDirectInvocation>
+      <requiresProject>true</requiresProject>
+      <requiresReports>false</requiresReports>
+      <aggregator>false</aggregator>
+      <requiresOnline>false</requiresOnline>
+      <inheritedByDefault>true</inheritedByDefault>
+      <language>java</language>
+      <instantiationStrategy>per-lookup</instantiationStrategy>
+      <executionStrategy>once-per-session</executionStrategy>
+      <threadSafe>false</threadSafe>
+	  <configuration>
+      <parameters>
+        <parameter>
+			<name>
+               <value lang="en">Validate Against</value>
+            </name>
+			<type>List</type>
+			<required>false</required>
+			<editable>true</editable>
+			<description></description>
+			<key>sonar</key>
+			<possibleValues>
+				<value key="src" dependency="src">Source</value>
+				<value key="functional">Functional Test</value>
+			</possibleValues>
+			<multiple>false</multiple>
+			<sort>false</sort>
+			<show>true</show>
+		  <value></value>
+        </parameter>
+		<parameter>
+		<pluginParameter>plugin</pluginParameter>
+			<name>
+                <value lang="en">Technology</value>
+            </name>
+			<mavenCommands>
+				<mavenCommand>
+					<key>js</key>
+					<value>-Pjs</value>
+				</mavenCommand>
+				<mavenCommand>
+					<key>php</key>
+					<value>-Pphp</value>
+				</mavenCommand>
+			</mavenCommands>
+          <type>List</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description></description>
+		  <key>src</key>
+			<possibleValues>
+				<value key="js">js</value>
+				<value key="php">php</value>
+			</possibleValues>
+			<multiple>false</multiple>
+			<sort>false</sort>
+			<show>false</show>
+		  <value></value>
+        </parameter>
+    </parameters>
+    </configuration>
+    </mojo>
+</mojos>

@@ -1,16 +1,25 @@
 package com.photon.phresco.util;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.net.URL;
 
 import junit.framework.Assert;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+import com.photon.phresco.commons.model.ApplicationInfo;
+import com.photon.phresco.commons.model.ProjectInfo;
 import com.photon.phresco.exception.PhrescoException;
 
 public class FileUtilTest {
@@ -39,6 +48,9 @@ public class FileUtilTest {
 			if (!tempFile.exists()) {
 				tempFile.createNewFile();
 			}
+			File projectFile = new File("src/test/resources/wp1-wordpress3.4.2");
+			File destDirectory = new File(Utility.getProjectHome());
+			FileUtils.copyDirectoryToDirectory(projectFile, destDirectory);
 		} catch (Exception e) {
 			throw new PhrescoException(e);
 		}
@@ -78,9 +90,50 @@ public class FileUtilTest {
 		} 
 	}
 	
+	@Test 
+	public void moveUploadedThemeBundleTest() throws PhrescoException {
+		try {
+			ApplicationInfo appInfo = getApplicationInfo("wp1-wordpress3.4.2");
+			Assert.assertNotNull(FileUtil.moveUploadedThemeBundle(tempFile, appInfo));
+		} catch (Exception e) {
+			throw new PhrescoException(e);
+		} 
+	}
+	
 	@AfterClass
 	public static void clearDirectory() {
 		FileUtil.delete(fileUtilFolder);
 	}
 	
+	private static ApplicationInfo getApplicationInfo(String appDirName) throws PhrescoException {
+		try {
+			ProjectInfo projectInfo = getProjectInfo(appDirName);
+			ApplicationInfo applicationInfo = projectInfo.getAppInfos().get(0);
+			return applicationInfo;
+		} catch (JsonIOException e) {
+			throw new PhrescoException(e);
+		}
+	}
+	
+	private static ProjectInfo getProjectInfo(String appDirName) throws PhrescoException {
+		StringBuilder builder  = new StringBuilder();
+		builder.append(Utility.getProjectHome())
+		.append(appDirName)
+		.append(File.separatorChar)
+		.append(".phresco")
+		.append(File.separatorChar)
+		.append("project.info");
+		try {
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(builder.toString()));
+			Gson gson = new Gson();
+			ProjectInfo projectInfo = gson.fromJson(bufferedReader, ProjectInfo.class);
+			return projectInfo;
+		} catch (JsonSyntaxException e) {
+			throw new PhrescoException(e);
+		} catch (JsonIOException e) {
+			throw new PhrescoException(e);
+		} catch (FileNotFoundException e) {
+			throw new PhrescoException(e);
+		}
+	}
 }

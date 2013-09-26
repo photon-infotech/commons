@@ -18,6 +18,13 @@ public class MojoUtilTest {
 	private String ENVIRONMENT_NAME = "environmentName";
 	
 	@Test
+	public void init() throws PhrescoException {
+		MojoUtil mojoUtil = new MojoUtil();
+		MojoProcessor mojo = new MojoProcessor(new File(file));
+		com.photon.phresco.plugins.model.Mojos.Mojo.Configuration config = mojo.getConfiguration(PHASE_RUNGAINST_SRC_START);
+		Assert.assertNotNull(mojoUtil.getAllValues(config));
+	}
+	@Test
 	public void getAllValuesTest() throws PhrescoException {
 		MojoProcessor mojo = new MojoProcessor(new File(file));
 		com.photon.phresco.plugins.model.Mojos.Mojo.Configuration config = mojo.getConfiguration(PHASE_RUNGAINST_SRC_START);
