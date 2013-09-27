@@ -48,10 +48,8 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
@@ -63,11 +61,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.BuildInfo;
+import com.photon.phresco.commons.model.CIJob;
 import com.photon.phresco.commons.model.ContinuousDelivery;
 import com.photon.phresco.commons.model.ProjectDelivery;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.exception.PhrescoWebServiceException;
-import com.photon.phresco.commons.model.CIJob;
 import com.phresco.pom.util.PomProcessor;
 
 public final class Utility implements Constants {
@@ -184,13 +182,27 @@ public final class Utility implements Constants {
     }
     
     public static String getPomFileName(ApplicationInfo appInfo) {
-    	if(appInfo != null) {
-    		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + appInfo.getPomFile());
-    		if(pomFile.exists()) {
-        		return appInfo.getPomFile();
-        	}
-    	}
-    	
+    	File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + 
+    			File.separator + appInfo.getPomFile());
+    	if(pomFile.exists()) {
+    		return appInfo.getPomFile();
+        } 
+    	return Constants.POM_NAME;
+    }
+    
+    public static String getPhrescoPomFile(ApplicationInfo appInfo) {
+    	File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + appInfo.getPhrescoPomFile());
+    	System.out.println("Pom File IS    " + pomFile.getPath());
+		if (pomFile.exists()) {
+			return appInfo.getPhrescoPomFile();
+		} else {
+			pomFile = new File(Utility.getProjectHome()
+					+ appInfo.getAppDirName() + File.separator
+					+ appInfo.getPomFile());
+			if (pomFile.exists()) {
+				return appInfo.getPomFile();
+			}
+		}
     	return Constants.POM_NAME;
     }
     

@@ -54,6 +54,7 @@ public class ApplicationInfo extends CustomerBasedElement {
     private boolean tabletEnabled;
     private boolean pilot;
     private boolean created;
+    private String phrescoPomFile;
     private String pomFile;
     private String functionalFramework;
     private List<String> dependentModules;
@@ -208,14 +209,6 @@ public class ApplicationInfo extends CustomerBasedElement {
         this.pilot = pilot;
     }
     
-    public void setPomFile(String pomFile) {
-		this.pomFile = pomFile;
-	}
-
-	public String getPomFile() {
-		return pomFile;
-	}
-	
 	public void setFunctionalFramework(String functionalFrameworkId) {
 		this.functionalFramework = functionalFrameworkId;
 	}
@@ -256,6 +249,14 @@ public class ApplicationInfo extends CustomerBasedElement {
 		return created;
 	}
 	
+	public void setPhrescoPomFile(String phrescoPomFile) {
+		this.phrescoPomFile = phrescoPomFile;
+	}
+
+	public String getPhrescoPomFile() {
+		return phrescoPomFile;
+	}
+	
 	public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
@@ -277,9 +278,18 @@ public class ApplicationInfo extends CustomerBasedElement {
                 .append("tabletEnabled", isTabletEnabled())
                 .append("pilot", isPilot())
                 .append("embedAppId", getEmbedAppId())
-                .append("pomFile", getPomFile())
                 .append("functionalFramework", getFunctionalFramework())
                 .append("dependentModules", getDependentModules())
+                .append("phrescoPomFile", getPhrescoPomFile())
+                .append("pomFile", getPomFile())
                 .toString();
     }
+
+	public void setPomFile(String pomFile) {
+		this.pomFile = pomFile;
+	}
+
+	public String getPomFile() {
+		return pomFile;
+	}
 }

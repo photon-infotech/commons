@@ -522,7 +522,7 @@ public class ProjectUtils implements Constants {
 	
 	public BufferedReader ExtractFeature(ApplicationInfo appInfo) throws PhrescoException {
 		BufferedReader breader = null;
-		String pomFileName = Utility.getPomFileName(appInfo);
+		String pomFileName = Utility.getPhrescoPomFile(appInfo);
 		StringBuilder sb = new StringBuilder();
 		sb.append(MVN_COMMAND);
 		sb.append(STR_BLANK_SPACE);

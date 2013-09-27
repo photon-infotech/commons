@@ -169,7 +169,7 @@ public class ApplicationInfoTest {
 	
 	@Test
 	public void testGetPomFile() {
-		appInfo.setPomFile("testPomFile.xml");
+		appInfo.setPomFile("pom.xml");
 		String test = appInfo.getPomFile();
 		assertNotNull(test);
 	}

@@ -35,7 +35,8 @@ public class JavaApplicationProcessor extends AbstractApplicationProcessor {
 	@Override
 	public void postUpdate(ApplicationInfo appInfo,
 			List<ArtifactGroup> artifactGroup, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
-		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
+		String pomFileName = Utility.getPhrescoPomFile(appInfo);
+		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + pomFileName);
 		ProjectUtils projectUtils = new ProjectUtils();
 		if(CollectionUtils.isNotEmpty(artifactGroup)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
@@ -43,8 +44,9 @@ public class JavaApplicationProcessor extends AbstractApplicationProcessor {
 		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
 			projectUtils.deleteFeatureDependencies(appInfo, deletedFeatures);
 		}
-		projectUtils.deletePluginFromPom(pomFile);
-		projectUtils.addServerPlugin(appInfo, pomFile);
+		File phrescoPom = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + pomFileName);
+		projectUtils.deletePluginFromPom(phrescoPom);
+		projectUtils.addServerPlugin(appInfo, phrescoPom);
 		BufferedReader breader = projectUtils.ExtractFeature(appInfo);
 		try {
 			String line = "";
