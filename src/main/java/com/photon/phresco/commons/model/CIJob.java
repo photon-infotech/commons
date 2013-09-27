@@ -202,6 +202,14 @@ public class CIJob {
 	private String keepAlive = "";
 	private String multipartData = "";
 	private String compatibleHeaders = "";
+	private String regexExtractor = "";
+    private String applyTo = "";
+    private String responseField = "";
+	private String referenceName = "";
+	private String regex = "";
+	private String template = "";
+	private String matchNo = "";
+	private String defaultValue = "";
   
 	// Android functional test
 	private String deviceList = "";
@@ -1363,6 +1371,70 @@ public class CIJob {
 		this.compatibleHeaders = compatibleHeaders;
 	}
 
+	public String getRegexExtractor() {
+		return regexExtractor;
+	}
+
+	public void setRegexExtractor(String regexExtractor) {
+		this.regexExtractor = regexExtractor;
+	}
+
+	public String getApplyTo() {
+		return applyTo;
+	}
+
+	public void setApplyTo(String applyTo) {
+		this.applyTo = applyTo;
+	}
+
+	public String getResponseField() {
+		return responseField;
+	}
+
+	public void setResponseField(String responseField) {
+		this.responseField = responseField;
+	}
+
+	public String getReferenceName() {
+		return referenceName;
+	}
+
+	public void setReferenceName(String referenceName) {
+		this.referenceName = referenceName;
+	}
+
+	public String getRegex() {
+		return regex;
+	}
+
+	public void setRegex(String regex) {
+		this.regex = regex;
+	}
+
+	public String getTemplate() {
+		return template;
+	}
+
+	public void setTemplate(String template) {
+		this.template = template;
+	}
+
+	public String getMatchNo() {
+		return matchNo;
+	}
+
+	public void setMatchNo(String matchNo) {
+		this.matchNo = matchNo;
+	}
+
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -1373,6 +1445,7 @@ public class CIJob {
 		result = prime * result
 				+ ((appDirName == null) ? 0 : appDirName.hashCode());
 		result = prime * result + ((appName == null) ? 0 : appName.hashCode());
+		result = prime * result + ((applyTo == null) ? 0 : applyTo.hashCode());
 		result = prime
 				* result
 				+ ((attachmentsPattern == null) ? 0 : attachmentsPattern
@@ -1473,6 +1546,8 @@ public class CIJob {
 				+ ((dbContextUrls == null) ? 0 : dbContextUrls.hashCode());
 		result = prime * result + ((dbName == null) ? 0 : dbName.hashCode());
 		result = prime * result
+				+ ((defaultValue == null) ? 0 : defaultValue.hashCode());
+		result = prime * result
 				+ ((deviceId == null) ? 0 : deviceId.hashCode());
 		result = prime
 				* result
@@ -1546,6 +1621,7 @@ public class CIJob {
 				+ ((loopCount == null) ? 0 : loopCount.hashCode());
 		result = prime * result
 				+ ((mainClassName == null) ? 0 : mainClassName.hashCode());
+		result = prime * result + ((matchNo == null) ? 0 : matchNo.hashCode());
 		result = prime * result + ((minify == null) ? 0 : minify.hashCode());
 		result = prime * result + ((mode == null) ? 0 : mode.hashCode());
 		result = prime * result
@@ -1600,6 +1676,11 @@ public class CIJob {
 				+ ((redirectAutomatically == null) ? 0 : redirectAutomatically
 						.hashCode());
 		result = prime * result
+				+ ((referenceName == null) ? 0 : referenceName.hashCode());
+		result = prime * result + ((regex == null) ? 0 : regex.hashCode());
+		result = prime * result
+				+ ((regexExtractor == null) ? 0 : regexExtractor.hashCode());
+		result = prime * result
 				+ ((repoType == null) ? 0 : repoType.hashCode());
 		result = prime * result
 				+ ((reportName == null) ? 0 : reportName.hashCode());
@@ -1607,6 +1688,8 @@ public class CIJob {
 				+ ((reportType == null) ? 0 : reportType.hashCode());
 		result = prime * result
 				+ ((resolution == null) ? 0 : resolution.hashCode());
+		result = prime * result
+				+ ((responseField == null) ? 0 : responseField.hashCode());
 		result = prime
 				* result
 				+ ((scheduleExpression == null) ? 0 : scheduleExpression
@@ -1636,6 +1719,8 @@ public class CIJob {
 		result = prime * result + ((target == null) ? 0 : target.hashCode());
 		result = prime * result
 				+ ((technologyName == null) ? 0 : technologyName.hashCode());
+		result = prime * result
+				+ ((template == null) ? 0 : template.hashCode());
 		result = prime * result
 				+ ((templateName == null) ? 0 : templateName.hashCode());
 		result = prime * result
@@ -1699,6 +1784,11 @@ public class CIJob {
 			if (other.appName != null)
 				return false;
 		} else if (!appName.equals(other.appName))
+			return false;
+		if (applyTo == null) {
+			if (other.applyTo != null)
+				return false;
+		} else if (!applyTo.equals(other.applyTo))
 			return false;
 		if (attachmentsPattern == null) {
 			if (other.attachmentsPattern != null)
@@ -1886,6 +1976,11 @@ public class CIJob {
 				return false;
 		} else if (!dbName.equals(other.dbName))
 			return false;
+		if (defaultValue == null) {
+			if (other.defaultValue != null)
+				return false;
+		} else if (!defaultValue.equals(other.defaultValue))
+			return false;
 		if (deviceId == null) {
 			if (other.deviceId != null)
 				return false;
@@ -2071,6 +2166,11 @@ public class CIJob {
 				return false;
 		} else if (!mainClassName.equals(other.mainClassName))
 			return false;
+		if (matchNo == null) {
+			if (other.matchNo != null)
+				return false;
+		} else if (!matchNo.equals(other.matchNo))
+			return false;
 		if (minify == null) {
 			if (other.minify != null)
 				return false;
@@ -2186,6 +2286,21 @@ public class CIJob {
 				return false;
 		} else if (!redirectAutomatically.equals(other.redirectAutomatically))
 			return false;
+		if (referenceName == null) {
+			if (other.referenceName != null)
+				return false;
+		} else if (!referenceName.equals(other.referenceName))
+			return false;
+		if (regex == null) {
+			if (other.regex != null)
+				return false;
+		} else if (!regex.equals(other.regex))
+			return false;
+		if (regexExtractor == null) {
+			if (other.regexExtractor != null)
+				return false;
+		} else if (!regexExtractor.equals(other.regexExtractor))
+			return false;
 		if (repoType == null) {
 			if (other.repoType != null)
 				return false;
@@ -2205,6 +2320,11 @@ public class CIJob {
 			if (other.resolution != null)
 				return false;
 		} else if (!resolution.equals(other.resolution))
+			return false;
+		if (responseField == null) {
+			if (other.responseField != null)
+				return false;
+		} else if (!responseField.equals(other.responseField))
 			return false;
 		if (scheduleExpression == null) {
 			if (other.scheduleExpression != null)
@@ -2285,6 +2405,11 @@ public class CIJob {
 			if (other.technologyName != null)
 				return false;
 		} else if (!technologyName.equals(other.technologyName))
+			return false;
+		if (template == null) {
+			if (other.template != null)
+				return false;
+		} else if (!template.equals(other.template))
 			return false;
 		if (templateName == null) {
 			if (other.templateName != null)
