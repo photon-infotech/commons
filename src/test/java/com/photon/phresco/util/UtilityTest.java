@@ -305,7 +305,7 @@ public class UtilityTest {
 	}
 	
 	@Test
-	public void testKillProcess() {
+	public void testKillProcess() throws PhrescoException {
 		String baseDir = Utility.getProjectHome()+File.separator+"wp1-wordpress3.4.2";
 		Utility.killProcess(baseDir, "eclipse");
 	}

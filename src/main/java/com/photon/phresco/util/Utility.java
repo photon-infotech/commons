@@ -450,7 +450,7 @@ public final class Utility implements Constants {
 		}
 	}
 	
-	public static void killProcess(String baseDir, String actionType) {
+	public static void killProcess(String baseDir, String actionType) throws PhrescoException {
 		File do_not_checkin = new File(baseDir + File.separator + DO_NOT_CHECKIN_DIRY);
 		File jsonFile = new File(do_not_checkin.getPath() + File.separator + "process.json");
 		if(!jsonFile.exists()) {
@@ -481,9 +481,9 @@ public final class Utility implements Constants {
 				FileUtil.delete(jsonFile);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new PhrescoException(e);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			throw new PhrescoException(e);
 		}
 	}
 	
