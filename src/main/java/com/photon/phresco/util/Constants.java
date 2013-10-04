@@ -226,7 +226,7 @@ public interface Constants {
 	/**
 	 * Test and test report directory constants
 	 */
-	
+	String POM_PROP_KEY_SOURCE_DIR = "phresco.source.dir";
 	String POM_PROP_KEY_UNITTEST_DIR = "phresco.unitTest.dir";
 	
 	String POM_PROP_KEY_UNITTEST_RPT_DIR = "phresco.unitTest.report.dir";

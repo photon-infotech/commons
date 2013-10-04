@@ -211,6 +211,7 @@ public class CIJob {
 	private String matchNo = "";
 	private String defaultValue = "";
 	private String type = "";
+	private String coverage = "";
   
 	// Android functional test
 	private String deviceList = "";
@@ -538,6 +539,14 @@ public class CIJob {
 
 	public void setProguard(String proguard) {
 		this.proguard = proguard;
+	}
+	
+	public String getCoverage() {
+		return coverage;
+	}
+
+	public void setCoverage(String coverage) {
+		this.coverage = coverage;
 	}
 
 	public String getSigning() {
@@ -1672,6 +1681,8 @@ public class CIJob {
 		result = prime * result
 				+ ((proguard == null) ? 0 : proguard.hashCode());
 		result = prime * result
+				+ ((coverage == null) ? 0 : coverage.hashCode());
+		result = prime * result
 				+ ((projectModule == null) ? 0 : projectModule.hashCode());
 		result = prime * result
 				+ ((projectType == null) ? 0 : projectType.hashCode());
@@ -2265,6 +2276,11 @@ public class CIJob {
 			if (other.proguard != null)
 				return false;
 		} else if (!proguard.equals(other.proguard))
+			return false;
+		if (coverage == null) {
+			if (other.coverage != null)
+				return false;
+		} else if (!coverage.equals(other.coverage))
 			return false;
 		if (projectModule == null) {
 			if (other.projectModule != null)
