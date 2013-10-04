@@ -210,6 +210,7 @@ public class CIJob {
 	private String template = "";
 	private String matchNo = "";
 	private String defaultValue = "";
+	private String type = "";
   
 	// Android functional test
 	private String deviceList = "";
@@ -1435,6 +1436,14 @@ public class CIJob {
 		this.defaultValue = defaultValue;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -1737,6 +1746,7 @@ public class CIJob {
 				+ ((triggerSimulator == null) ? 0 : triggerSimulator.hashCode());
 		result = prime * result
 				+ ((triggers == null) ? 0 : triggers.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result + (unitTestType ? 1231 : 1237);
 		result = prime * result
 				+ ((unittest == null) ? 0 : unittest.hashCode());
@@ -2450,6 +2460,11 @@ public class CIJob {
 			if (other.triggers != null)
 				return false;
 		} else if (!triggers.equals(other.triggers))
+			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
 			return false;
 		if (unitTestType != other.unitTestType)
 			return false;
