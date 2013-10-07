@@ -148,6 +148,10 @@ public class PhrescoDynamicLoader {
 
 	public InputStream getResourceAsStream(String fileName)
 			throws PhrescoException {
+		InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
+		if(resourceAsStream != null) {
+			return resourceAsStream;
+		}
 		List<Artifact> artifacts = new ArrayList<Artifact>();
 		Artifact foundArtifact = null;
 		String destFile = "";
@@ -162,22 +166,20 @@ public class PhrescoDynamicLoader {
 			}
 		}
 		try {
-			URL[] artifactURLs = MavenArtifactResolver.resolve(
+			URL artifactURLs = MavenArtifactResolver.resolveSingleArtifact(
 					repoInfo.getGroupRepoURL(), repoInfo.getRepoUserName(),
 					repoInfo.getRepoPassword(), artifacts);
-			for (URL url : artifactURLs) {
-				File jarFile = new File(url.toURI());
-				if (jarFile.getName().equals(
-						foundArtifact.getArtifactId() + "-"
-								+ foundArtifact.getVersion() + "."
-								+ foundArtifact.getExtension())) {
-					jarfile = new JarFile(jarFile);
-					for (Enumeration<JarEntry> em = jarfile.entries(); em
-							.hasMoreElements();) {
-						JarEntry jarEntry = em.nextElement();
-						if (jarEntry.getName().endsWith(fileName)) {
-							destFile = jarEntry.getName();
-						}
+			File jarFile = new File(artifactURLs.toURI());
+			if (jarFile.getName().equals(
+					foundArtifact.getArtifactId() + "-"
+							+ foundArtifact.getVersion() + "."
+							+ foundArtifact.getExtension())) {
+				jarfile = new JarFile(jarFile);
+				for (Enumeration<JarEntry> em = jarfile.entries(); em
+						.hasMoreElements();) {
+					JarEntry jarEntry = em.nextElement();
+					if (jarEntry.getName().endsWith(fileName)) {
+						destFile = jarEntry.getName();
 					}
 				}
 			}
@@ -205,9 +207,9 @@ public class PhrescoDynamicLoader {
 			}
 		}
 
-		URL[] artifactURLs;
+		URL artifactURL;
 		try {
-			artifactURLs = MavenArtifactResolver.resolve(
+			artifactURL = MavenArtifactResolver.resolveSingleArtifact(
 					repoInfo.getGroupRepoURL(), repoInfo.getRepoUserName(),
 					repoInfo.getRepoPassword(), artifacts);
 		} catch (Exception e) {
@@ -218,7 +220,7 @@ public class PhrescoDynamicLoader {
 		if (clsLoader == null) {
 			clsLoader = this.getClass().getClassLoader();
 		}
-		URLClassLoader classLoader = new URLClassLoader(artifactURLs, clsLoader);
+		URLClassLoader classLoader = new URLClassLoader(new URL[]{artifactURL}, clsLoader);
 		return classLoader;
 	}
 

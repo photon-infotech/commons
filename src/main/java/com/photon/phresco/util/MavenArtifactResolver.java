@@ -24,18 +24,21 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.maven.repository.internal.MavenRepositorySystemSession;
 import org.codehaus.plexus.DefaultPlexusContainer;
 import org.sonatype.aether.RepositorySystem;
+import org.sonatype.aether.RequestTrace;
 import org.sonatype.aether.artifact.Artifact;
 import org.sonatype.aether.collection.CollectRequest;
 import org.sonatype.aether.graph.Dependency;
 import org.sonatype.aether.graph.DependencyFilter;
 import org.sonatype.aether.repository.LocalRepository;
 import org.sonatype.aether.repository.RemoteRepository;
+import org.sonatype.aether.resolution.ArtifactRequest;
 import org.sonatype.aether.resolution.ArtifactResult;
 import org.sonatype.aether.resolution.DependencyRequest;
 import org.sonatype.aether.util.artifact.JavaScopes;
@@ -69,13 +72,11 @@ public class MavenArtifactResolver {
 		RemoteRepository remoteRepo = new RemoteRepository(repoName, "default", url);
 		
         DependencyFilter classpathFlter = DependencyFilterUtils.classpathFilter(JavaScopes.COMPILE);
-       
         List<URL> urls = new ArrayList<URL>();
         for (Artifact artifact : artifacts) {
             CollectRequest collectRequest = new CollectRequest();
             collectRequest.setRoot( new Dependency( artifact, JavaScopes.COMPILE ) );
             collectRequest.addRepository( remoteRepo );
-
             DependencyRequest dependencyRequest = new DependencyRequest( collectRequest, classpathFlter );
             List<ArtifactResult> artifactResults =
             	repoSystem.resolveDependencies( session, dependencyRequest ).getArtifactResults();
@@ -88,6 +89,42 @@ public class MavenArtifactResolver {
         return urls.toArray(urlArr);
 	}
 
+	
+	public static final URL resolveSingleArtifact(String url, String username,
+			String password, List<Artifact> artifacts) throws Exception {
+		if (isDebugEnabled) {
+	        S_LOGGER.debug("Entered into MavenArtifactResolver.resolve()");
+	        S_LOGGER.debug("Url Is" + url + " " + "Username Is " + username + "Password Is " + password);
+	    }
+		
+		RepositorySystem repoSystem = new DefaultPlexusContainer().lookup(RepositorySystem.class);
+		MavenRepositorySystemSession session = new MavenRepositorySystemSession();
+
+		LocalRepository localRepo = new LocalRepository(Utility.getLocalRepoPath());
+		if (isDebugEnabled) {
+	        S_LOGGER.debug("Local Repository Is" + Utility.getLocalRepoPath());
+	        S_LOGGER.debug("Local Repository Is" + localRepo);
+	    }
+		session.setLocalRepositoryManager(repoSystem.newLocalRepositoryManager(localRepo));
+		
+		String repoName = "phresco"; //TODO: Should be repoInfo.getName()
+		RemoteRepository remoteRepo = new RemoteRepository(repoName, "default", url);
+		
+        DependencyFilter classpathFlter = DependencyFilterUtils.classpathFilter(JavaScopes.COMPILE);
+        ArtifactResult artifactResult = null;
+        for (Artifact artifact : artifacts) {
+            CollectRequest collectRequest = new CollectRequest();
+            collectRequest.setRoot( new Dependency( artifact, JavaScopes.COMPILE ) );
+            collectRequest.addRepository( remoteRepo );
+            ArtifactRequest request = new ArtifactRequest();
+            request.setArtifact(artifact);
+            request.setRepositories(Arrays.asList(remoteRepo));
+			artifactResult =
+            	repoSystem.resolveArtifact(session, request);
+        	
+        }
+        return artifactResult.getArtifact().getFile().toURI().toURL();
+	}
 	
 	public static URL[] resolveUsingTemp(String repoURL, List<Artifact> artifacts) throws PhrescoException {
 		URL[] urls = new URL[10];
