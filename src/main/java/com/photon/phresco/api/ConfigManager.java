@@ -174,4 +174,7 @@ public interface ConfigManager {
 	 * @throws ConfigurationException the configuration exception
 	 */
 	void writeXml(OutputStream fos) throws ConfigurationException;
+
+	void deleteConfigurationsByType(String envName, String type) throws ConfigurationException;
+
 }

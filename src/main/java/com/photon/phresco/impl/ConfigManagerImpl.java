@@ -59,6 +59,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -230,6 +231,11 @@ public class ConfigManagerImpl implements ConfigManager {
 		TransformerFactory tFactory = TransformerFactory.newInstance();
 		Transformer transformer;
 		try {
+			File configFile = FileUtils.toFile(this.getClass().getResource("/stripspace.xsl"));
+//			String filePath = this.getClass().getResource("/stripspace.xsl").getFile();
+//			System.out.println("filePath" + filePath);
+//			StreamSource stream = new StreamSource(new File(filePath));
+//			transformer = tFactory.newTransformer(stream);
 			transformer = tFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
@@ -461,6 +467,26 @@ public class ConfigManagerImpl implements ConfigManager {
 			writeXml(new FileOutputStream(configFile));
 		} catch (FileNotFoundException e) {
 			throw new ConfigurationException(e);
+		}
+	}
+	
+	@Override
+	public void deleteConfigurationsByType(String envName, String type) throws ConfigurationException {
+		deleteConfigurationByType(envName, type);
+		try {
+			writeXml(new FileOutputStream(configFile));
+		} catch (FileNotFoundException e) {
+			throw new ConfigurationException(e);
+		}
+	}
+	
+	private void deleteConfigurationByType(String envName, String type) throws ConfigurationException {
+		Node environment = getNode(getXpathEnv(envName).toString());
+		NodeList childNodes = environment.getChildNodes();
+		for (int i = 0; i < childNodes.getLength(); i++) {
+			if (childNodes.item(i).getNodeName().equalsIgnoreCase(type)) {
+				environment.removeChild(childNodes.item(i));
+			}
 		}
 	}
 	
