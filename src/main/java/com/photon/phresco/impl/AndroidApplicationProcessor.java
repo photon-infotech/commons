@@ -120,13 +120,13 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 	@Override
 	public void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroups, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
 		//		extractPilots(info, path, technology);
-		 
+		 System.out.println("postUpdate started");
 		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + SOURCE + File.separator + Utility.getPomFileName(appInfo));
 		
 		String projectHome = Utility.getProjectHome() + appInfo.getAppDirName();
 		File rootPom = new File(projectHome);
 		ProjectUtils projectUtils = new ProjectUtils();
-		 deleteSourceModule(rootPom);
+	
 		 deletePluginExecutionFromPom(pomFile);
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
 			 
@@ -135,10 +135,10 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 			 for (ArtifactGroup artifactGroup : artifactGroups) {
 					   if(artifactGroup.getType().toString().equalsIgnoreCase(COMPONENT)){
 						   
-			             updateMarkerDirectory(pomFile ,artifactGroups );
+			            // updateMarkerDirectory(pomFile ,artifactGroups );
 			             
 			            }
-			     updatingComponentDependecyOnPom(appInfo, artifactGroups);
+			     //updatingComponentDependecyOnPom(appInfo, artifactGroups);
 			 }
 			    
 		 }else{
@@ -168,7 +168,7 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 		     }
 	          }
 		}
-		updateSourceModule(rootPom);
+		
 		File projHome = new File(projectHome);
 		updatePOM(projHome);
 		updateAndroidVersion(projHome, appInfo);
@@ -370,7 +370,7 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 				}
 			}
 			processor.save();
-			PomProcessor processor2 = new PomProcessor(new File(rootPomDir));
+			/*PomProcessor processor2 = new PomProcessor(new File(rootPomDir));
 			if(CollectionUtils.isNotEmpty(dependencies)) {
 				for (ArtifactGroup artifactGroup : deletedFeatures) {
 				  System.out.println(" deleting the module  ");
@@ -383,9 +383,9 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 				 deleteFolder(component);
 			   }
 			}
-			processor2.save();
+			processor2.save();*/
 			
-			
+			System.out.println(" deleteFeatureDependenciesFromPom end");
 		} catch (PhrescoPomException e) {
 			throw new PhrescoException(e);
 		}
