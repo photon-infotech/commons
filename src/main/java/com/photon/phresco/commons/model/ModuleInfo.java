@@ -8,6 +8,7 @@ public class ModuleInfo extends Element {
 	private List<String> dependentApps;
 	private List<String> dependentModules;
 	private TechnologyInfo techInfo;
+	private String code;
 	
 	public List<String> getDependentModules() {
 		return dependentModules;
@@ -31,6 +32,14 @@ public class ModuleInfo extends Element {
 
 	public TechnologyInfo getTechInfo() {
 		return techInfo;
+	}
+	
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getCode() {
+		return code;
 	}
 	
 	@Override

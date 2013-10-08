@@ -47,8 +47,10 @@ public class BuildInfoEnvironmentsImpl implements DynamicParameter, Constants {
 		try {
             ApplicationInfo applicationInfo = (ApplicationInfo) paramsMap.get(KEY_APP_INFO);
             String buildNumber = (String) paramsMap.get(KEY_BUILD_NO);
+            boolean isMultiModule = (Boolean) paramsMap.get(KEY_MULTI_MODULE);
+        	String rootModule = (String) paramsMap.get(KEY_ROOT_MODULE);
             
-            BuildInfo buildInfo = Utility.getBuildInfo(Integer.parseInt(buildNumber), getBuildInfoPath(applicationInfo.getAppDirName()).toString());
+            BuildInfo buildInfo = Utility.getBuildInfo(Integer.parseInt(buildNumber), getBuildInfoPath(applicationInfo.getAppDirName(), isMultiModule, rootModule).toString());
             List<String> environments = buildInfo.getEnvironments();
             if (environments != null) {
                 for (String environment : environments) {
@@ -65,10 +67,14 @@ public class BuildInfoEnvironmentsImpl implements DynamicParameter, Constants {
         return possibleValues;
 	}
 	
-	private StringBuilder getBuildInfoPath(String projectDirectory) {
+	private StringBuilder getBuildInfoPath(String projectDirectory, boolean isMultiModule, String rootModule) {
 	    StringBuilder builder = new StringBuilder(Utility.getProjectHome());
+	    if (isMultiModule) {
+	    	builder.append(rootModule).append(File.separator);
+	    }
 	    builder.append(projectDirectory);
 	    builder.append(File.separator);
+	    
 	    builder.append(DO_NOT_CHECKIN_DIR);
 	    builder.append(File.separator);
 	    builder.append(BUILD);

@@ -46,6 +46,8 @@ public interface DynamicParameter {
 	String KEY_TRIGGER_SIMULATOR = "triggerSimulator";
 	String REQ_SERVICE_MANAGER = "serviceManager";
 	String KEY_CUSTOM_TEST_AGAINST = "customTestAgainst";
+	String KEY_ROOT_MODULE = "rootModule";
+	String KEY_MULTI_MODULE = "multiModule";
 
     public Mojos.Mojo.Configuration.Parameters.Parameter.PossibleValues getValues(Map<String, Object> map) throws IOException, ParserConfigurationException, SAXException, ConfigurationException, PhrescoException;
 }
