@@ -3,7 +3,7 @@
     <applicationHandler>
         <groupId>com.photon.phresco.commons</groupId>
         <artifactId>phresco-commons</artifactId>
-        <version>2.3.0.9000</version>
+        <version>3.1.0.1002</version>
         <class>com.photon.phresco.impl.WordPressApplicationProcessor</class>
         <selectedFeatures>[]</selectedFeatures>
         <deletedFeatures>[]</deletedFeatures>

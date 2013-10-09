@@ -27,12 +27,16 @@
 
 
 
+
+
+
+
 <environment appliesTo="php,drupal" default="true" desc="Test For Production" name="Production">
-        <TestServer name="Server">
+        <TestServer desc="server" name="Server">
             <port>1010</port>
             <host>1010</host>
         </TestServer>
-        <TestDatabase name="Database">
+        <TestDatabase desc="database" name="Database">
             <port>1010</port>
             <host>1010</host>
         </TestDatabase>
