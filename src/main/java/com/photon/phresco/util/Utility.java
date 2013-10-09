@@ -194,8 +194,7 @@ public final class Utility implements Constants {
     }
     
     public static String getPomFileNameFromWorkingDirectory(ApplicationInfo appInfo, File workingDirectory) {
-    	File pomFile = new File(workingDirectory.getPath() + 
-    			File.separator + appInfo.getPomFile());
+    	File pomFile = new File(workingDirectory.getPath() +  File.separator + appInfo.getPomFile());
     	if(pomFile.exists()) {
     		return appInfo.getPomFile();
         } 
