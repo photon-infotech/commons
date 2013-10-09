@@ -128,7 +128,7 @@ public class ProjectUtilsTest {
 		artifactInfos.add(artInfo);
 		group.setVersions(artifactInfos);
 		removedArtifacts.add(group);
-		projectUtils.removeExtractedFeatures(getProjectInfo("wp1-wordpress3.4.2").getAppInfos().get(0), removedArtifacts);
+		projectUtils.removeExtractedFeatures(getProjectInfo("wp1-wordpress3.4.2").getAppInfos().get(0), null);
 	}
 	
 	@Test
