@@ -57,6 +57,8 @@ public class FunctionalTestEnvironmentImpl implements DynamicParameter, Constant
     	String goal = (String) paramsMap.get(KEY_GOAL);
     	Parameter parameter = mojo.getParameter(goal, KEY_ENVIRONMENT);
     	String updateDefaultEnv = "";
+    	boolean isMultiModule = (Boolean) paramsMap.get(KEY_MULTI_MODULE);
+    	String rootModule = (String) paramsMap.get(KEY_ROOT_MODULE);
 		if (KEY_SERVER.equalsIgnoreCase(testAgainst)) {
 			if (paramsMap != null) {
 				String showSettings = (String) paramsMap.get(KEY_SHOW_SETTINGS);
@@ -81,7 +83,7 @@ public class FunctionalTestEnvironmentImpl implements DynamicParameter, Constant
 				}
 			}
 			String projectDirectory = applicationInfo.getAppDirName();
-			String configPath = getConfigurationPath(projectDirectory).toString();
+			String configPath = getConfigurationPath(projectDirectory, isMultiModule, rootModule).toString();
 			ConfigManager configManager = new ConfigManagerImpl(new File(configPath)); 
 			List<Environment> environments = configManager.getEnvironments();
 			for (Environment environment : environments) {
@@ -97,7 +99,7 @@ public class FunctionalTestEnvironmentImpl implements DynamicParameter, Constant
 	        	mojo.save();
 	    	}
 		} else {
-			BuildInfo buildInfo = Utility.getBuildInfo(Integer.parseInt(buildNumber), getBuildInfoPath(applicationInfo.getAppDirName()).toString());
+			BuildInfo buildInfo = Utility.getBuildInfo(Integer.parseInt(buildNumber), getBuildInfoPath(applicationInfo.getAppDirName(), isMultiModule, rootModule).toString());
 			List<String> environments = buildInfo.getEnvironments();
 			if (environments != null) {
 				for (String environment : environments) {
@@ -111,8 +113,11 @@ public class FunctionalTestEnvironmentImpl implements DynamicParameter, Constant
 		return possibleValues;
 	}
 	
-	private StringBuilder getBuildInfoPath(String projectDirectory) {
+	private StringBuilder getBuildInfoPath(String projectDirectory, boolean isMultiModule, String rootModule) {
 	    StringBuilder builder = new StringBuilder(Utility.getProjectHome());
+	    if (isMultiModule) {
+			 builder.append(rootModule).append(File.separator);
+		 }
 	    builder.append(projectDirectory);
 	    builder.append(File.separator);
 	    builder.append(DO_NOT_CHECKIN_DIR);
@@ -123,8 +128,11 @@ public class FunctionalTestEnvironmentImpl implements DynamicParameter, Constant
 	    return builder;
 	}
 	
-	 private StringBuilder getConfigurationPath(String projectDirectory) {
+	 private StringBuilder getConfigurationPath(String projectDirectory, boolean isMultiModule, String rootModule) {
 		 StringBuilder builder = new StringBuilder(Utility.getProjectHome());
+		 if (isMultiModule) {
+			 builder.append(rootModule).append(File.separator);
+		 }
 		 builder.append(projectDirectory);
 		 builder.append(File.separator);
 		 builder.append(DOT_PHRESCO_FOLDER);

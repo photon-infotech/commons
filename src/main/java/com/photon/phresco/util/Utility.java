@@ -194,10 +194,15 @@ public final class Utility implements Constants {
     }
     
     public static String getPomFileNameFromWorkingDirectory(ApplicationInfo appInfo, File workingDirectory) {
-    	File pomFile = new File(workingDirectory.getPath() +  File.separator + appInfo.getPomFile());
+    	File pomFile = new File(workingDirectory.getPath() +  File.separator + appInfo.getPhrescoPomFile());
     	if(pomFile.exists()) {
-    		return appInfo.getPomFile();
-        } 
+    		return appInfo.getPhrescoPomFile();
+        } else {
+        	pomFile = new File(workingDirectory.getPath() +  File.separator + appInfo.getPomFile());
+			if (pomFile.exists()) {
+				return appInfo.getPomFile();
+			}
+        }
     	return Constants.POM_NAME;
     }
     
