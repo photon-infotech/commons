@@ -57,13 +57,11 @@ public class MojoProcessor {
     			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
     			mojos = (Mojos) jaxbUnmarshaller.unmarshal(infoFile);
     		} else {
-    			infoFile.createNewFile();
+//    			infoFile.createNewFile();
     			mojos = new Mojos();
     		}
     		file = infoFile;
         } catch (JAXBException e) {
-            throw new PhrescoException(e);
-        } catch (IOException e) {
             throw new PhrescoException(e);
         }
 	}
@@ -156,6 +154,9 @@ public class MojoProcessor {
 	 */
 	public void save() throws PhrescoException {
         try {
+        	if (!file.exists()) {
+        		return;
+        	}
     		JAXBContext jaxbContext = JAXBContext.newInstance(Mojos.class);
     		Marshaller marshal = jaxbContext.createMarshaller();
     		marshal.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
