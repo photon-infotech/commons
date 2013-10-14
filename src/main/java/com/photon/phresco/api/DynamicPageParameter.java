@@ -27,6 +27,8 @@ public interface DynamicPageParameter {
     String KEY_APP_INFO = "applicationInfo";
     String KEY_TEST_AGAINST = "testAgainst";
     String KEY_TEST_RESULT_NAME = "testName";
+    String KEY_ROOT_MODULE = "rootModule";
+	String KEY_MULTI_MODULE = "multiModule";
 
     public Map<String, Object> getObjects(Map<String, Object> map) throws PhrescoException;
 }
