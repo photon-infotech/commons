@@ -151,6 +151,10 @@ public final class Utility implements Constants {
         }
     }
 
+	public static String getWorkingDirectoryPath(String directory) throws PhrescoException {
+		return Utility.getProjectHome() + directory;
+	}
+	
     public static String getPhrescoHome() {
         String phrescoHome = System.getenv(PHRESCO_HOME);
         if (phrescoHome == null) {
