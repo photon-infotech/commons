@@ -595,6 +595,50 @@ public final class Utility implements Constants {
         }
     }
 	
+	public static void executeStreamconsumerFOS(String workingDir, String command, final FileOutputStream fos) {
+        BufferedReader in = null;
+        fillErrorIdentifiers();
+        try {
+            final StringBuffer bufferErrBuffer = new StringBuffer();
+            final StringBuffer bufferOutBuffer = new StringBuffer();
+            Commandline commandLine = new Commandline(command);
+            commandLine.setWorkingDirectory(workingDir);
+            CommandLineUtils.executeCommandLine(commandLine, new StreamConsumer() {
+                public void consumeLine(String line) {
+                    System.out.println(line);
+                    if (fos != null) {
+                        try {
+                            fos.write(line.getBytes());
+                            fos.write("\n".getBytes());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        if (isError(line) == true) {
+                            bufferErrBuffer.append(line);
+                        }
+                        bufferOutBuffer.append(line);
+                    }
+                }
+            }, new StreamConsumer() {
+                public void consumeLine(String line) {
+                    System.out.println(line);
+                    if (fos != null) {
+                        try {
+                            fos.write(line.getBytes());
+                            fos.write("\n".getBytes());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        bufferErrBuffer.append(line);
+                    }
+                }
+            });
+        } catch (CommandLineException e) {
+            e.printStackTrace();
+        } finally {
+            Utility.closeStream(in);
+        }
+    }
 	public static boolean isError(String line) {
 		line = line.trim();
 		for (int i = 0; i < ERRORIDENTIFIERS.size(); i++) {

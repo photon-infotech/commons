@@ -89,7 +89,13 @@ public interface ServiceConstants {
 	String REST_API_PERFORMANCE_RESULTS = "/performanceTestResults";
 	String REST_API_LOAD_RESULTS = "/loadTestResults";
 	String REST_API_CUSTOMER_THEME = "/theme";
-	
+	String REST_API_DASHBOARD ="/dashboard";
+	String REST_API_DASHBOARD_CONFIGURE ="/dashboardconfigure";
+	String REST_API_DASHBOARD_UPDATE ="/dashboardupdate";
+	String REST_API_WIDGET_ADD ="/addwidget";
+	String REST_API_WIDGET_CONFIGURE ="/configurewidget";
+	String REST_API_WIDGET_LISTALL ="/listallwidgets";
+
 	
 	String REST_API_CI_CONFIG = "/ci/config";
 	String REST_API_CI_CREDENTIAL = "/ci/credentialsxml";

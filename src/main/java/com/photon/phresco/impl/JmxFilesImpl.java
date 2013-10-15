@@ -37,11 +37,13 @@ public class JmxFilesImpl implements DynamicParameter, Constants {
     	String customTestAgainst = (String) paramsMap.get(KEY_CUSTOM_TEST_AGAINST);
     	String goal = (String) paramsMap.get(KEY_GOAL);
     	String FORWARD_SLASH = "/";
+    	boolean isMultiModule = (Boolean) paramsMap.get(KEY_MULTI_MODULE);
+     	String rootModule = (String) paramsMap.get(KEY_ROOT_MODULE);
     	
     	try {
     		String testDir = "";
         	String jmxDir = "";
-    		PomProcessor processor = new PomProcessor(getPOMFile(applicationInfo));
+    		PomProcessor processor = new PomProcessor(getPOMFile(applicationInfo, isMultiModule, rootModule));
     		if (PHASE_LOAD_TEST.equals(goal)) {
     			testDir = processor.getProperty(POM_PROP_KEY_LOADTEST_DIR);
         		jmxDir = processor.getProperty(POM_PROP_KEY_LOADTEST_JMX_UPLOAD_DIR);
@@ -50,15 +52,21 @@ public class JmxFilesImpl implements DynamicParameter, Constants {
         		jmxDir = processor.getProperty(POM_PROP_KEY_PERFORMANCETEST_JMX_UPLOAD_DIR);
         	}
 			
-			StringBuilder againstTestDir = new StringBuilder(Utility.getProjectHome())
-			.append(applicationInfo.getAppDirName())
+			StringBuilder againstTestDir = new StringBuilder(Utility.getProjectHome());
+			if (isMultiModule) {
+				againstTestDir.append(rootModule + File.separator);
+			}
+			againstTestDir.append(applicationInfo.getAppDirName())
 			.append(testDir)
 			.append(File.separator)
 			.append(customTestAgainst)
 			.append(File.separator);
 			
-			StringBuilder uploadedJmxDir = new StringBuilder(Utility.getProjectHome())
-			.append(applicationInfo.getAppDirName())
+			StringBuilder uploadedJmxDir = new StringBuilder(Utility.getProjectHome());
+			if (isMultiModule) {
+				uploadedJmxDir.append(rootModule + File.separator);
+			}
+			uploadedJmxDir.append(applicationInfo.getAppDirName())
 			.append(testDir)
 			.append(File.separator)
 			.append(customTestAgainst)
@@ -109,11 +117,15 @@ public class JmxFilesImpl implements DynamicParameter, Constants {
 		return files;
 	}
 
-	private File getPOMFile(ApplicationInfo appInfo) {
-		StringBuilder builder = new StringBuilder(Utility.getProjectHome())
-		.append(appInfo.getAppDirName())
-		.append(File.separatorChar)
-		.append(Utility.getPomFileName(appInfo));
+	private File getPOMFile(ApplicationInfo appInfo, boolean isMultiModule, String rootModule) {
+		StringBuilder builder = new StringBuilder(Utility.getProjectHome());
+		if (isMultiModule) {
+			builder.append(rootModule + File.separator);
+		}
+		builder.append(appInfo.getAppDirName());
+		String pomFile = Utility.getPomFileNameFromWorkingDirectory(appInfo, new File(builder.toString()));
+		builder.append(File.separatorChar)
+		.append(pomFile);
 		return new File(builder.toString());
 	}
 }
