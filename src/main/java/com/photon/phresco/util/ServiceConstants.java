@@ -95,6 +95,7 @@ public interface ServiceConstants {
 	String REST_API_WIDGET_ADD ="/addwidget";
 	String REST_API_WIDGET_CONFIGURE ="/configurewidget";
 	String REST_API_WIDGET_LISTALL ="/listallwidgets";
+	String REST_API_WIDGET_SEARCH ="/search";
 
 	
 	String REST_API_CI_CONFIG = "/ci/config";
