@@ -48,6 +48,7 @@ public interface Constants {
     String PROJECT_INFO_FILE = "project.info";
     String DASHBOARD_CONFIG_INFO_FILE = "dashboardconfig.info";
     String DASHBOARD_WIGET_CONFIG_INFO_FILE = "dashboardwidgetconfig.info";
+    String DASHBOARD_RESULT_OUTPUT_MODE = "output_mode";
     String PROJECT_INFO_BACKUP_FILE = "projectinfo.backup";
     String TOOLS_DIR = "tools";
     String JENKINS_DIR = "jenkins";
