@@ -46,7 +46,8 @@ public interface Constants {
     String PROJECTS_TEMP = "temp";
     String ARCHIVE_HOME = "workspace/archive";
     String PROJECT_INFO_FILE = "project.info";
-    String DASHBOARD_CONFIG_INFO_FILE = "dashboardconfig.info";
+    String DASHBOARD_INFO_FILE = "dashboard.info";
+	String DASHBOARD_CONFIG_INFO_FILE = "dashboardconfig.info";
     String DASHBOARD_WIGET_CONFIG_INFO_FILE = "dashboardwidgetconfig.info";
     String DASHBOARD_RESULT_OUTPUT_MODE = "output_mode";
     String PROJECT_INFO_BACKUP_FILE = "projectinfo.backup";
@@ -418,4 +419,12 @@ public interface Constants {
     String THEME_BUNDLE_FAILURE_DESTINATION = "Theme bundle upload failed. Destination missing";
     String THEME_BUNDLE_INVALID_MSG = "Uploaded zip doesnot contain .bundle file";
     String THEME_BUNDLE_UNZIP_ERR = "Unable to extract the zip";
+    
+    /**
+	 * Dashboard Info file Constants
+	 */
+    String DASHBOARD_DATA_TYPE = "datatype";
+    String DASHBOARD_USER_NAME = "username";
+    String DASHBOARD_PASSWORD = "password";
+    String DASHBOARD_URL = "url";
 }

@@ -91,10 +91,12 @@ public interface ServiceConstants {
 	String REST_API_CUSTOMER_THEME = "/theme";
 	String REST_API_DASHBOARD ="/dashboard";
 	String REST_API_DASHBOARD_CONFIGURE ="/dashboardconfigure";
+	String REST_API_DASHBOARD_GET ="/dashboardget";
 	String REST_API_DASHBOARD_UPDATE ="/dashboardupdate";
-	String REST_API_WIDGET_ADD ="/addwidget";
-	String REST_API_WIDGET_CONFIGURE ="/configurewidget";
-	String REST_API_WIDGET_LISTALL ="/listallwidgets";
+	String REST_API_WIDGET_ADD ="/widgetadd";
+	String REST_API_WIDGET_GET ="/widgetget";
+	String REST_API_WIDGET_UPDATE ="/widgetupdate";
+	String REST_API_WIDGET_LISTALL ="/widgetlistall";
 	String REST_API_WIDGET_SEARCH ="/search";
 
 	
@@ -153,6 +155,7 @@ public interface ServiceConstants {
 	String REST_QUERY_EMAIL_PASSWORD = "emailPassword";
 	String REST_QUERY_APPID = "appId";
 	String REST_QUERY_APPNAME = "appName";
+	String REST_QUERY_APPCODE = "appCode";
 	String REST_QUERY_BUILD_DOWNLOAD_URL = "buildDownloadUrl";
 	String REST_QUERY_DOWNLOAD_JOB_NAME = "downloadJobName";
 	String REST_QUERY_SENDER_MAIL_ID = "senderEmailId";
@@ -176,6 +179,13 @@ public interface ServiceConstants {
 	String REST_QUERY_CONTEXT = "context";
 	String REST_QUERY_FEATURENAME = "featureName";
 	String REST_QUERY_FEATURETYPE = "featureType";
+	String REST_QUERY_DATATYPE = "datatype";
+	String REST_QUERY_USER_NAME = "username";
+	String REST_QUERY_PASSWORD = "password";
+	String REST_QUERY_QUERY = "query";
+	String REST_QUERY_WIDGET_ID = "widgetid";
+
+	
 	String DEFAULT_CUSTOMER_NAME = "photon";
 	String REST_ACTION_TYPE = "actionType";
 	String PROJECT_NAME = "name";
