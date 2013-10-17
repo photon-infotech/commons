@@ -93,6 +93,7 @@ public interface ServiceConstants {
 	String REST_API_DASHBOARD_CONFIGURE ="/dashboardconfigure";
 	String REST_API_DASHBOARD_GET ="/dashboardget";
 	String REST_API_DASHBOARD_UPDATE ="/dashboardupdate";
+	String REST_API_DASHBOARD_LIST ="/dashboardlistall";
 	String REST_API_WIDGET_ADD ="/widgetadd";
 	String REST_API_WIDGET_GET ="/widgetget";
 	String REST_API_WIDGET_UPDATE ="/widgetupdate";
@@ -182,8 +183,15 @@ public interface ServiceConstants {
 	String REST_QUERY_DATATYPE = "datatype";
 	String REST_QUERY_USER_NAME = "username";
 	String REST_QUERY_PASSWORD = "password";
-	String REST_QUERY_QUERY = "query";
+	String REST_QUERY_WIDGET_QUERY = "query";
 	String REST_QUERY_WIDGET_ID = "widgetid";
+	String REST_QUERY_WIDGET_NAME = "name";
+	String REST_QUERY_WIDGET_AUTOREFRESH = "autorefresh";
+	String REST_QUERY_WIDGET_START_TIME = "starttime";
+	String REST_QUERY_WIDGET_END_TIME = "endtime";
+	String REST_QUERY_DASHBOARD_NAME = "dashboardname";
+	String REST_QUERY_DASHBOARD_ID = "dashboardid";
+
 
 	
 	String DEFAULT_CUSTOMER_NAME = "photon";
