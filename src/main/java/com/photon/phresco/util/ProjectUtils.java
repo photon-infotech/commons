@@ -227,7 +227,7 @@ public class ProjectUtils implements Constants {
 		}
 	}
 	
-	private void updateToDependencyPlugin(File pomFile, List<ArtifactGroup> artifactGroups) throws PhrescoException {
+	public void updateToDependencyPlugin(File pomFile, List<ArtifactGroup> artifactGroups) throws PhrescoException {
 		try {
 			if(CollectionUtils.isEmpty(artifactGroups)) {
 				return;
@@ -300,9 +300,17 @@ public class ProjectUtils implements Constants {
 	}
 	
 	public void deleteFeatureDependencies(ApplicationInfo appInfo, List<ArtifactGroup> removedFeatures) throws PhrescoException {
-		String pomDir = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo);
+		StringBuilder pomDir = new StringBuilder(Utility.getProjectHome());
+		if(StringUtils.isNotEmpty(appInfo.getRootModule())) {
+			pomDir.append(appInfo.getRootModule())
+			.append(File.separator);
+		}
+		pomDir.append(appInfo.getAppDirName())
+		.append(File.separator)
+		.append(Utility.getPomFileName(appInfo));
+		
 		try {
-			PomProcessor processor = new PomProcessor(new File(pomDir));
+			PomProcessor processor = new PomProcessor(new File(pomDir.toString()));
 			Dependencies dependencies = processor.getModel().getDependencies();
 			if (dependencies != null) {
 				List<Dependency> dependency = dependencies.getDependency();
@@ -409,7 +417,7 @@ public class ProjectUtils implements Constants {
 		return configList;
 	}
 	
-	private void updatePOMWithModules(File pomFile, List<com.photon.phresco.commons.model.ArtifactGroup> modules) throws PhrescoException {
+	public void updatePOMWithModules(File pomFile, List<com.photon.phresco.commons.model.ArtifactGroup> modules) throws PhrescoException {
 		if (CollectionUtils.isEmpty(modules)) {
 			return;
 		}
@@ -533,7 +541,13 @@ public class ProjectUtils implements Constants {
 			sb.append(STR_BLANK_SPACE);
 			sb.append(pomFileName);
 		}
-		breader = Utility.executeCommand(sb.toString(), Utility.getProjectHome() + appInfo.getAppDirName());
+		StringBuilder stringBuilder = new StringBuilder(Utility.getProjectHome());
+		if(StringUtils.isNotEmpty(appInfo.getRootModule())) {
+			stringBuilder.append(appInfo.getRootModule())
+			.append(File.separator);
+		}
+		stringBuilder.append(appInfo.getAppDirName());
+		breader = Utility.executeCommand(sb.toString(), stringBuilder.toString());
 		return breader;
 	}
 

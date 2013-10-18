@@ -59,6 +59,7 @@ public class ApplicationInfo extends CustomerBasedElement {
     private String functionalFramework;
     private List<String> dependentModules;
     private List<ModuleInfo> modules;
+    private String rootModule;
 
     //Information about where the pilot project is stored in repository
     private ArtifactGroup pilotContent;
@@ -282,6 +283,7 @@ public class ApplicationInfo extends CustomerBasedElement {
                 .append("dependentModules", getDependentModules())
                 .append("phrescoPomFile", getPhrescoPomFile())
                 .append("pomFile", getPomFile())
+                .append("rootModule", getRootModule())
                 .toString();
     }
 
@@ -291,5 +293,13 @@ public class ApplicationInfo extends CustomerBasedElement {
 
 	public String getPomFile() {
 		return pomFile;
+	}
+
+	public String getRootModule() {
+		return rootModule;
+	}
+
+	public void setRootModule(String rootModule) {
+		this.rootModule = rootModule;
 	}
 }

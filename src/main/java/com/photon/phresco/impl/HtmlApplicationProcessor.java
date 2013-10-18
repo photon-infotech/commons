@@ -85,12 +85,39 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 
 	@Override
 	public void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroups, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
-		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator
-				+ Utility.getPomFileName(appInfo));
+		StringBuilder sb = new StringBuilder(Utility.getProjectHome());
+		if(StringUtils.isNotEmpty(appInfo.getRootModule())) {
+			sb.append(appInfo.getRootModule())
+			.append(File.separator);
+		}
+		sb.append(appInfo.getAppDirName());
+		
+		String phrescoPom = Utility.getPhrescoPomFromWorkingDirectory(appInfo, new File(sb.toString()));
+		String pom = Utility.getPomFileNameFromRootModule(appInfo, appInfo.getRootModule());
+		File phrescoPomFile = new File(sb.toString() + File.separator + phrescoPom);
+		File pomFile = new File(sb.toString() + File.separator + pom);
 		ProjectUtils projectUtils = new ProjectUtils();
-		projectUtils.deletePluginExecutionFromPom(pomFile);
-		projectUtils.deletePluginFromPom(pomFile);
-		projectUtils.addServerPlugin(appInfo, pomFile);
+		if(CollectionUtils.isNotEmpty(artifactGroups)) {
+			//Need to refactore
+			List<ArtifactGroup> dependencies = new ArrayList<ArtifactGroup>();
+			List<ArtifactGroup> artifacts = new ArrayList<ArtifactGroup>();
+			for (ArtifactGroup artifactGroup : artifactGroups) {
+				if(artifactGroup.getPackaging().equals("zip") || artifactGroup.getPackaging().equals("war")) {
+					artifacts.add(artifactGroup);
+				} else {
+					dependencies.add(artifactGroup);
+				}
+			}
+			
+			if(CollectionUtils.isNotEmpty(dependencies)) {
+				projectUtils.updatePOMWithModules(pomFile, dependencies);
+			}
+			
+			if(CollectionUtils.isNotEmpty(artifacts)) {
+				projectUtils.updateToDependencyPlugin(phrescoPomFile, artifacts);
+			}
+			
+		}
 		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
 			projectUtils.deleteFeatureDependencies(appInfo, deletedFeatures);
 		}

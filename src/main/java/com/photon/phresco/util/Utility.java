@@ -197,7 +197,21 @@ public final class Utility implements Constants {
     	return Constants.POM_NAME;
     }
     
-    public static String getPomFileNameFromWorkingDirectory(ApplicationInfo appInfo, File workingDirectory) {
+    public static String getPomFileNameFromRootModule(ApplicationInfo appInfo, String rootModule) {
+    	StringBuilder path = new StringBuilder(Utility.getProjectHome());
+    	if (StringUtils.isNotEmpty(rootModule)) {
+    		path.append(rootModule).append(File.separator);
+    	}
+    	path.append(appInfo.getAppDirName()).append(File.separator).append(appInfo.getPomFile());
+    	File pomFile = new File(path.toString());
+    	if(pomFile.exists()) {
+    	return appInfo.getPomFile();
+    	}
+    	return Constants.POM_NAME;
+    	}
+
+    
+    public static String getPhrescoPomFromWorkingDirectory(ApplicationInfo appInfo, File workingDirectory) {
     	File pomFile = new File(workingDirectory.getPath() +  File.separator + appInfo.getPhrescoPomFile());
     	if(pomFile.exists()) {
     		return appInfo.getPhrescoPomFile();

@@ -175,6 +175,7 @@ public interface ServiceConstants {
 	String REST_QUERY_TEST_TYPE = "testType";
 	String REST_QUERY_TECH_REPORT = "techReport";
 	String REST_QUERY_MODULE_NAME = "moduleName";
+	String REST_QUERY_ROOT_MODULE_NAME = "rootModule";
 	String REST_QUERY_TEST_SUITE ="testSuite";
 	String REST_QUERY_ACTION = "action";
 	String REST_QUERY_CONTEXT = "context";
