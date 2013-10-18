@@ -226,7 +226,6 @@ public final class Utility implements Constants {
     
     public static String getPhrescoPomFile(ApplicationInfo appInfo) {
     	File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + appInfo.getPhrescoPomFile());
-    	System.out.println("Pom File IS    " + pomFile.getPath());
 		if (pomFile.exists()) {
 			return appInfo.getPhrescoPomFile();
 		} else {
