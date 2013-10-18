@@ -2,6 +2,12 @@ package com.photon.phresco.commons.model;
 
 import java.util.HashMap;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+@XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Dashboard {
 	
 	String dashboardname;

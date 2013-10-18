@@ -1,15 +1,26 @@
 package com.photon.phresco.commons.model;
 
-import java.util.Date;
+import java.util.HashMap;
+import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+@XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Widget {
 	
 	String query;
 	String name;
 	String autorefresh;
-	Date starttime;
-	Date endtime;
+	String starttime;
+	String endtime;
+	HashMap<String, String> properties;
 	
+	public HashMap<String, String> getProperties() {
+		return properties;
+	}
+	public void setProperties(HashMap<String, String> properties) {
+		this.properties = properties;
+	}
 	public String getQuery() {
 		return query;
 	}
@@ -28,18 +39,17 @@ public class Widget {
 	public void setAutorefresh(String autorefresh) {
 		this.autorefresh = autorefresh;
 	}
-	public Date getStarttime() {
+	public String getStarttime() {
 		return starttime;
 	}
-	public void setStarttime(Date starttime) {
+	public void setStarttime(String starttime) {
 		this.starttime = starttime;
 	}
-	public Date getEndtime() {
+	public String getEndtime() {
 		return endtime;
 	}
-	public void setEndtime(Date endtime) {
+	public void setEndtime(String endtime) {
 		this.endtime = endtime;
 	}
-	
 	
 }
