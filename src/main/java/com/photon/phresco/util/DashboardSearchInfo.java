@@ -11,7 +11,36 @@ public class DashboardSearchInfo {
     private String host;
     private int port;
     private String query;
+    private String dashboardname;
+    private String widgetname;
+    private String applicationname;
+    private String datatype;
+
     
+	public String getDashboardname() {
+		return dashboardname;
+	}
+	public void setDashboardname(String dashboardname) {
+		this.dashboardname = dashboardname;
+	}
+	public String getWidgetname() {
+		return widgetname;
+	}
+	public void setWidgetname(String widgetname) {
+		this.widgetname = widgetname;
+	}
+	public String getApplicationname() {
+		return applicationname;
+	}
+	public void setApplicationname(String applicationname) {
+		this.applicationname = applicationname;
+	}
+	public String getDatatype() {
+		return datatype;
+	}
+	public void setDatatype(String datatype) {
+		this.datatype = datatype;
+	}
 	public String getUsername() {
 		return username;
 	}
