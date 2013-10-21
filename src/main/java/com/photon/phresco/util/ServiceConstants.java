@@ -90,14 +90,9 @@ public interface ServiceConstants {
 	String REST_API_LOAD_RESULTS = "/loadTestResults";
 	String REST_API_CUSTOMER_THEME = "/theme";
 	String REST_API_DASHBOARD ="/dashboard";
-	String REST_API_DASHBOARD_CONFIGURE ="/dashboardconfigure";
-	String REST_API_DASHBOARD_GET ="/dashboardget";
-	String REST_API_DASHBOARD_UPDATE ="/dashboardupdate";
-	String REST_API_DASHBOARD_LIST ="/dashboardlistall";
-	String REST_API_WIDGET_ADD ="/widgetadd";
-	String REST_API_WIDGET_GET ="/widgetget";
-	String REST_API_WIDGET_UPDATE ="/widgetupdate";
-	String REST_API_WIDGET_LISTALL ="/widgetlistall";
+	String REST_API_DASHBOARD_ID ="/{dashboardid}";
+	String REST_API_WIDGET ="/widget";
+	String REST_API_WIDGET_ID ="/widget/{widgetid}";
 	String REST_API_WIDGET_SEARCH ="/search";
 
 	

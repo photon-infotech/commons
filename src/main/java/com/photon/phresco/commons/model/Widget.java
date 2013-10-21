@@ -13,12 +13,12 @@ public class Widget {
 	String autorefresh;
 	String starttime;
 	String endtime;
-	HashMap<String, String> properties;
+	HashMap<String, String[]> properties;
 	
-	public HashMap<String, String> getProperties() {
+	public HashMap<String, String[]> getProperties() {
 		return properties;
 	}
-	public void setProperties(HashMap<String, String> properties) {
+	public void setProperties(HashMap<String, String[]> properties) {
 		this.properties = properties;
 	}
 	public String getQuery() {
