@@ -189,8 +189,12 @@ public final class Utility implements Constants {
     }
     
     public static String getPomFileName(ApplicationInfo appInfo) {
-    	File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + 
-    			File.separator + appInfo.getPomFile());
+    	StringBuilder path = new StringBuilder(Utility.getProjectHome());
+		if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+			path.append(appInfo.getRootModule()).append(File.separator);
+		}
+		path.append(appInfo.getAppDirName()).append(File.separator).append(appInfo.getPomFile());
+    	File pomFile = new File(path.toString());
     	if(pomFile.exists()) {
     		return appInfo.getPomFile();
         } 
@@ -199,17 +203,16 @@ public final class Utility implements Constants {
     
     public static String getPomFileNameFromRootModule(ApplicationInfo appInfo, String rootModule) {
     	StringBuilder path = new StringBuilder(Utility.getProjectHome());
-    	if (StringUtils.isNotEmpty(rootModule)) {
-    		path.append(rootModule).append(File.separator);
-    	}
-    	path.append(appInfo.getAppDirName()).append(File.separator).append(appInfo.getPomFile());
+		if (StringUtils.isNotEmpty(rootModule)) {
+			path.append(rootModule).append(File.separator);
+		}
+		path.append(appInfo.getAppDirName()).append(File.separator).append(appInfo.getPomFile());
     	File pomFile = new File(path.toString());
     	if(pomFile.exists()) {
-    	return appInfo.getPomFile();
-    	}
+    		return appInfo.getPomFile();
+        } 
     	return Constants.POM_NAME;
-    	}
-
+    }
     
     public static String getPhrescoPomFromWorkingDirectory(ApplicationInfo appInfo, File workingDirectory) {
     	File pomFile = new File(workingDirectory.getPath() +  File.separator + appInfo.getPhrescoPomFile());
@@ -225,13 +228,17 @@ public final class Utility implements Constants {
     }
     
     public static String getPhrescoPomFile(ApplicationInfo appInfo) {
-    	File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + appInfo.getPhrescoPomFile());
+    	StringBuilder path = new StringBuilder(Utility.getProjectHome());
+		if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+			path.append(appInfo.getRootModule()).append(File.separator);
+		}
+		path.append(appInfo.getAppDirName()).append(File.separator);
+    	File pomFile = new File(path.toString() + appInfo.getPhrescoPomFile());
+    	System.out.println("Pom File IS    " + pomFile.getPath());
 		if (pomFile.exists()) {
 			return appInfo.getPhrescoPomFile();
 		} else {
-			pomFile = new File(Utility.getProjectHome()
-					+ appInfo.getAppDirName() + File.separator
-					+ appInfo.getPomFile());
+			pomFile = new File(path.toString() + appInfo.getPomFile());
 			if (pomFile.exists()) {
 				return appInfo.getPomFile();
 			}

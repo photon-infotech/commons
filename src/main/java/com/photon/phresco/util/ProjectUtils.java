@@ -440,8 +440,12 @@ public class ProjectUtils implements Constants {
 		if (CollectionUtils.isEmpty(servers)) {
 			return;
 		}
-		File pluginInfoFile = new File(Utility.getProjectHome() + info.getAppDirName() + File.separator
-				+ DOT_PHRESCO_FOLDER + File.separator + APPLICATION_HANDLER_INFO_FILE);
+		StringBuilder appHandlerPath = new StringBuilder(Utility.getProjectHome());
+		if (StringUtils.isNotEmpty(info.getRootModule())) {
+			appHandlerPath.append(info.getRootModule()).append(File.separator);
+		}
+		appHandlerPath.append(info.getAppDirName()).append(File.separator).append(DOT_PHRESCO_FOLDER).append(File.separator).append(APPLICATION_HANDLER_INFO_FILE);
+		File pluginInfoFile = new File(appHandlerPath.toString());
 		MojoProcessor mojoProcessor = new MojoProcessor(pluginInfoFile);
 		ApplicationHandler applicationHandler = mojoProcessor.getApplicationHandler();
 		String selectedServers = applicationHandler.getSelectedServer();
