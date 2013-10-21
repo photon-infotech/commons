@@ -144,6 +144,7 @@ public class CIJob {
     private String emulatorKeyPassword = "";
     private String platform = "";
     private String projectModule = "";
+    private String module = "";
     
     // sonar CI integration
     private String sonar = "";
@@ -1453,6 +1454,15 @@ public class CIJob {
 		this.type = type;
 	}
 
+	public void setModule(String module) {
+		this.module = module;
+	}
+
+	public String getModule() {
+		return module;
+	}
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -1554,6 +1564,8 @@ public class CIJob {
 				+ ((contextType == null) ? 0 : contextType.hashCode());
 		result = prime * result
 				+ ((contextUrls == null) ? 0 : contextUrls.hashCode());
+		result = prime * result
+				+ ((coverage == null) ? 0 : coverage.hashCode());
 		result = prime
 				* result
 				+ ((customTestAgainst == null) ? 0 : customTestAgainst
@@ -1642,6 +1654,7 @@ public class CIJob {
 		result = prime * result + ((matchNo == null) ? 0 : matchNo.hashCode());
 		result = prime * result + ((minify == null) ? 0 : minify.hashCode());
 		result = prime * result + ((mode == null) ? 0 : mode.hashCode());
+		result = prime * result + ((module == null) ? 0 : module.hashCode());
 		result = prime * result
 				+ ((multipartData == null) ? 0 : multipartData.hashCode());
 		result = prime * result
@@ -1680,8 +1693,6 @@ public class CIJob {
 						.hashCode());
 		result = prime * result
 				+ ((proguard == null) ? 0 : proguard.hashCode());
-		result = prime * result
-				+ ((coverage == null) ? 0 : coverage.hashCode());
 		result = prime * result
 				+ ((projectModule == null) ? 0 : projectModule.hashCode());
 		result = prime * result
@@ -1977,6 +1988,11 @@ public class CIJob {
 				return false;
 		} else if (!contextUrls.equals(other.contextUrls))
 			return false;
+		if (coverage == null) {
+			if (other.coverage != null)
+				return false;
+		} else if (!coverage.equals(other.coverage))
+			return false;
 		if (customTestAgainst == null) {
 			if (other.customTestAgainst != null)
 				return false;
@@ -2202,6 +2218,11 @@ public class CIJob {
 				return false;
 		} else if (!mode.equals(other.mode))
 			return false;
+		if (module == null) {
+			if (other.module != null)
+				return false;
+		} else if (!module.equals(other.module))
+			return false;
 		if (multipartData == null) {
 			if (other.multipartData != null)
 				return false;
@@ -2276,11 +2297,6 @@ public class CIJob {
 			if (other.proguard != null)
 				return false;
 		} else if (!proguard.equals(other.proguard))
-			return false;
-		if (coverage == null) {
-			if (other.coverage != null)
-				return false;
-		} else if (!coverage.equals(other.coverage))
 			return false;
 		if (projectModule == null) {
 			if (other.projectModule != null)

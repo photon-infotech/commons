@@ -17,18 +17,33 @@ public class CIJobTemplate {
 	private boolean enableEmailSettings;
 	private boolean enableUploadSettings;
 	private List<String> uploadTypes;
+	private String module;
 	
 	public CIJobTemplate() {
 		super();
 	}
 
-	public CIJobTemplate(String name, String type, List<String> appIds) {
+	public CIJobTemplate(CIJobTemplate jobtemplate) {
+	    this(jobtemplate.getName(), jobtemplate.getType(), jobtemplate.getAppIds(), jobtemplate.isEnableRepo(), jobtemplate.getRepoTypes(),jobtemplate.isEnableSheduler(), jobtemplate.isEnableEmailSettings(), jobtemplate.isEnableUploadSettings(), jobtemplate.getUploadTypes(), jobtemplate.getModule());
+	}
+	 
+	public CIJobTemplate(String name, String type, List<String> appIds,
+			boolean enableRepo, String repoTypes, boolean enableSheduler,
+			boolean enableEmailSettings, boolean enableUploadSettings,
+			List<String> uploadTypes, String module) {
 		super();
 		this.name = name;
 		this.type = type;
 		this.appIds = appIds;
+		this.enableRepo = enableRepo;
+		this.repoTypes = repoTypes;
+		this.enableSheduler = enableSheduler;
+		this.enableEmailSettings = enableEmailSettings;
+		this.enableUploadSettings = enableUploadSettings;
+		this.uploadTypes = uploadTypes;
+		this.module = module;
 	}
-	
+
 	/**
 	 * @return the name
 	 */
@@ -177,6 +192,14 @@ public class CIJobTemplate {
 				+ enableUploadSettings + ", uploadTypes=" + uploadTypes + "]";
 	}
 
+	public void setModule(String module) {
+		this.module = module;
+	}
+
+	public String getModule() {
+		return module;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -186,6 +209,7 @@ public class CIJobTemplate {
 		result = prime * result + (enableRepo ? 1231 : 1237);
 		result = prime * result + (enableSheduler ? 1231 : 1237);
 		result = prime * result + (enableUploadSettings ? 1231 : 1237);
+		result = prime * result + ((module == null) ? 0 : module.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result
 				+ ((repoTypes == null) ? 0 : repoTypes.hashCode());
@@ -216,6 +240,11 @@ public class CIJobTemplate {
 		if (enableSheduler != other.enableSheduler)
 			return false;
 		if (enableUploadSettings != other.enableUploadSettings)
+			return false;
+		if (module == null) {
+			if (other.module != null)
+				return false;
+		} else if (!module.equals(other.module))
 			return false;
 		if (name == null) {
 			if (other.name != null)
