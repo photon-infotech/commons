@@ -10,6 +10,7 @@ public class DashboardSearchInfo {
     private String password;
     private String host;
     private int port;
+    private String url;
     private String query;
     private String dashboardname;
     private String widgetname;
@@ -53,6 +54,19 @@ public class DashboardSearchInfo {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public String getQuery() {
+		return query;
+	}
+	public void setQuery(String query) {
+		this.query = query;
+	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
 	public String getHost() {
 		return host;
 	}
@@ -65,12 +79,5 @@ public class DashboardSearchInfo {
 	public void setPort(int port) {
 		this.port = port;
 	}
-	public String getQuery() {
-		return query;
-	}
-	public void setQuery(String query) {
-		this.query = query;
-	}
-    
     
 }
