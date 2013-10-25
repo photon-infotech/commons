@@ -304,6 +304,7 @@ public interface Constants {
     String PHASE_FUNCTIONAL_TEST = "functional-test";
     String PHASE_PERFORMANCE_TEST = "performance-test";
     String PHASE_LOAD_TEST = "load-test";
+    String PHASE_INTEGRATION_TEST = "integration-test";
     String PHASE_START_HUB = "start-hub";
     String PHASE_START_NODE = "start-node";
     String PHASE_STOP_HUB = "stop-hub";
@@ -374,6 +375,7 @@ public interface Constants {
     String START_HUB_INFO_FILE 			= ".phresco/phresco-start-hub-info.xml";
     String START_NODE_INFO_FILE 		= ".phresco/phresco-start-node-info.xml";
     String SONAR_INFO_FILE 				= ".phresco/phresco-sonar-info.xml";
+    String INTEGRATION_TEST_INFO_FILE	= ".phresco/phresco-integration-test-info.xml";
     String APPLICATION_HANDLER_INFO_FILE= "phresco-application-handler-info.xml";
     String PROCESS_BUILD_INFO_FILE 		= "phresco-process-build-info.xml";
     String THEME_INFO_FILE				= "phresco-theme-info.xml";
