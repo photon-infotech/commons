@@ -51,6 +51,8 @@ public interface Constants {
 	String SPLUNK_DATATYPE="Splunk";
     String DASHBOARD_WIGET_CONFIG_INFO_FILE = "dashboardwidgetconfig.info";
     String DASHBOARD_RESULT_OUTPUT_MODE = "output_mode";
+    String DASHBOARD_RESULT_EARLIEST_TIME = "earliest_time";
+    String DASHBOARD_RESULT_LATEST_TIME = "latest_time";
     String PROJECT_INFO_BACKUP_FILE = "projectinfo.backup";
     String TOOLS_DIR = "tools";
     String JENKINS_DIR = "jenkins";
