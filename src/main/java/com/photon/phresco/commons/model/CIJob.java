@@ -213,6 +213,7 @@ public class CIJob {
 	private String defaultValue = "";
 	private String type = "";
 	private String coverage = "";
+	private List<String> fetchDependency;
   
 	// Android functional test
 	private String deviceList = "";
@@ -1463,6 +1464,15 @@ public class CIJob {
 	}
 
 
+	public void setFetchDependency(List<String> fetchDependency) {
+		this.fetchDependency = fetchDependency;
+	}
+
+	public List<String> getFetchDependency() {
+		return fetchDependency;
+	}
+
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -1616,6 +1626,8 @@ public class CIJob {
 		result = prime * result
 				+ ((failureEmailIds == null) ? 0 : failureEmailIds.hashCode());
 		result = prime * result + ((family == null) ? 0 : family.hashCode());
+		result = prime * result
+				+ ((fetchDependency == null) ? 0 : fetchDependency.hashCode());
 		result = prime * result
 				+ ((fetchSql == null) ? 0 : fetchSql.hashCode());
 		result = prime * result
@@ -2102,6 +2114,11 @@ public class CIJob {
 			if (other.family != null)
 				return false;
 		} else if (!family.equals(other.family))
+			return false;
+		if (fetchDependency == null) {
+			if (other.fetchDependency != null)
+				return false;
+		} else if (!fetchDependency.equals(other.fetchDependency))
 			return false;
 		if (fetchSql == null) {
 			if (other.fetchSql != null)
