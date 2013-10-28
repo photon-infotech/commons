@@ -257,6 +257,11 @@ public interface Constants {
 	String POM_PROP_KEY_UNITTEST_TESTSUITE_XPATH_END = ".testsuite.xpath";
 	String POM_PROP_KEY_UNITTEST_TESTCASE_PATH_END = ".testcase.path";
 	
+	// Integration test report constants
+	String POM_PROP_KEY_INTEGRATIONTEST_TESTCASE_PATH = "phresco.IntegrationTest.testcase.path";
+	String POM_PROP_KEY_INTEGRATIONTEST_TESTSUITE_XPATH = "phresco.IntegrationTest.testsuite.xpath";
+	String POM_PROP_KEY_INTGRATIONTEST_RPT_DIR = "phresco.IntegrationTest.report.dir";
+	
 	//manual test report constants
 	String POM_PROP_KEY_MANUALTEST_RPT_DIR = "phresco.manualTest.report.dir";
 	
