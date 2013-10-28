@@ -50,6 +50,11 @@ public class Customer extends Element {
 	private Map<String, String> frameworkTheme;
 	private List<String> options;
 	private String context;
+	private UIType uiType;
+	
+	public enum UIType {
+        ADVANCED_UI, SIMPLE_UI
+    }
 	
 	public enum LicenseType {
         TYPE_GOLD, TYPE_SILVER, TYPE_BRONZE
@@ -270,6 +275,14 @@ public class Customer extends Element {
         return options;
     }
 
+	public void setUiType(UIType uiType) {
+		this.uiType = uiType;
+	}
+
+	public UIType getUiType() {
+		return uiType;
+	}
+
 	public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
@@ -289,6 +302,7 @@ public class Customer extends Element {
                 .append("applicableAppTypes", applicableAppTypes)
                 .append("options", options)
                 .append("context", context)
+                .append("uiType", uiType)
                 .toString();
     }
 }
