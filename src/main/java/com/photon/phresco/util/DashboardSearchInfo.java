@@ -16,6 +16,8 @@ public class DashboardSearchInfo {
     private String widgetname;
     private String applicationname;
     private String datatype;
+    private String earliest_time;
+    private String latest_time;
 
     
 	public String getDashboardname() {
@@ -78,6 +80,18 @@ public class DashboardSearchInfo {
 	}
 	public void setPort(int port) {
 		this.port = port;
+	}
+	public String getEarliest_time() {
+		return earliest_time;
+	}
+	public void setEarliest_time(String earliest_time) {
+		this.earliest_time = earliest_time;
+	}
+	public String getLatest_time() {
+		return latest_time;
+	}
+	public void setLatest_time(String latest_time) {
+		this.latest_time = latest_time;
 	}
     
 }
