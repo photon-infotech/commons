@@ -422,6 +422,7 @@ public final class Utility implements Constants {
 	public static boolean executeStreamconsumer(String command, String workingDir, String baseDir, String actionType){
 		BufferedReader in = null;
 		fillErrorIdentifiers();
+		int ok = 0;
 		try {
 			final StringBuffer bufferErrBuffer = new StringBuffer();
 			final StringBuffer bufferOutBuffer = new StringBuffer();
@@ -431,7 +432,7 @@ public final class Utility implements Constants {
     		String[] split = processName.split("@");
     		String processId = split[0].toString();
     		Utility.writeProcessid(baseDir, actionType, processId);
-			CommandLineUtils.executeCommandLine(commandLine, new StreamConsumer() {
+    		ok = CommandLineUtils.executeCommandLine(commandLine, new StreamConsumer() {
 				public void consumeLine(String line) {
 					System.out.println(line);
 					status = true;
@@ -452,6 +453,9 @@ public final class Utility implements Constants {
 		} catch (CommandLineException e) {
 			e.printStackTrace();
 		} finally {
+			if ( ok != 0 ) {
+				status = false;
+			}
 			Utility.closeStream(in);
 		}
 		return status;
