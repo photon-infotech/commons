@@ -69,7 +69,7 @@ public class CustomerBasedElement extends Element {
         return customerIds;
     }
 
-    /**
+	/**
      * @param customerIds
      */
     public void setCustomerIds(List<String> customerIds) {
@@ -90,11 +90,39 @@ public class CustomerBasedElement extends Element {
         this.used = used;
     }
 
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)
-                .append(super.toString())
-                .append("customerIds", getCustomerIds())
-                .append("isUsed", isUsed())
-                .toString();
-    }
+    @Override
+	public String toString() {
+		return "CustomerBasedElement [customerIds=" + customerIds + ", used="
+				+ used + "]";
+	}
+    
+
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((customerIds == null) ? 0 : customerIds.hashCode());
+		result = prime * result + (used ? 1231 : 1237);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CustomerBasedElement other = (CustomerBasedElement) obj;
+		if (customerIds == null) {
+			if (other.customerIds != null)
+				return false;
+		} else if (!customerIds.equals(other.customerIds))
+			return false;
+		if (used != other.used)
+			return false;
+		return true;
+	}
 }

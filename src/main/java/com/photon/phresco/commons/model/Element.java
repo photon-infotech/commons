@@ -198,21 +198,80 @@ public class Element implements Serializable {
         this.status = status;
     }
 
-    /* 
-     * Custom toString Builder
-     * (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
-    public String toString() {
-	    return new ToStringBuilder(this, ToStringStyle.DEFAULT_STYLE)
-                .append("id", getId())
-                .append("name", getName())
-                .append("displayName", getDisplayName())
-                .append("description", getDescription())
-                .append("helpText", getHelpText())
-                .append("creationDate", getCreationDate())
-                .append("system", isSystem())
-                .append("status", getStatus())
-                .toString();
+    @Override
+	public String toString() {
+		return "Element [id=" + id + ", name=" + name + ", displayName="
+				+ displayName + ", description=" + description + ", helpText="
+				+ helpText + ", creationDate=" + creationDate + ", system="
+				+ system + ", status=" + status + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((creationDate == null) ? 0 : creationDate.hashCode());
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result
+				+ ((displayName == null) ? 0 : displayName.hashCode());
+		result = prime * result
+				+ ((helpText == null) ? 0 : helpText.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + (system ? 1231 : 1237);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Element other = (Element) obj;
+		if (creationDate == null) {
+			if (other.creationDate != null)
+				return false;
+		} else if (!creationDate.equals(other.creationDate))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (displayName == null) {
+			if (other.displayName != null)
+				return false;
+		} else if (!displayName.equals(other.displayName))
+			return false;
+		if (helpText == null) {
+			if (other.helpText != null)
+				return false;
+		} else if (!helpText.equals(other.helpText))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (name == null) {
+			System.out.println("Name is null  " + name);
+			if (other.name != null)
+				System.out.println(" Other Name is null  " + other.name);
+				return false;
+		} else if (!name.equalsIgnoreCase(other.name)){
+			System.out.println("  Name is not null  " + name + "other name = " + other.name);
+			return false;
+		}
+		if (status != other.status)
+			return false;
+		if (system != other.system)
+			return false;
+		return true;
 	}	
 }
