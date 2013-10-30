@@ -14,7 +14,8 @@ public class Widget {
 	String starttime;
 	String endtime;
 	HashMap<String, String[]> properties;
-	
+	HashMap<String, HashMap<String, String>> colorcodes;
+
 	public HashMap<String, String[]> getProperties() {
 		return properties;
 	}
@@ -50,6 +51,12 @@ public class Widget {
 	}
 	public void setEndtime(String endtime) {
 		this.endtime = endtime;
+	}
+	public HashMap<String, HashMap<String, String>> getColorcodes() {
+		return colorcodes;
+	}
+	public void setColorcodes(HashMap<String, HashMap<String, String>> colorcodes) {
+		this.colorcodes = colorcodes;
 	}
 	
 }
