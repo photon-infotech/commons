@@ -22,8 +22,6 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.photon.phresco.util.SizeConstants;
@@ -31,8 +29,8 @@ import com.photon.phresco.util.SizeConstants;
 @XmlRootElement
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SettingsTemplate extends CustomerBasedElement {
-    
-    private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 1L;
     
     private boolean customProp;
     //Database, Server, Email
@@ -114,20 +112,80 @@ public class SettingsTemplate extends CustomerBasedElement {
 	public boolean isEnvSpecific() {
 		return envSpecific;
 	}
+
+	 
+    @Override
+	public String toString() {
+		return "SettingsTemplate [customProp=" + customProp + ", type=" + type
+				+ ", properties=" + properties + ", appliesToTechs="
+				+ appliesToTechs + ", possibleTypes=" + possibleTypes
+				+ ", displayName=" + displayName + ", favourite=" + favourite
+				+ ", envSpecific=" + envSpecific + "]";
+	}
+	
+	
 	
 	@Override
-    public String toString() {
-        return new ToStringBuilder(this,
-                ToStringStyle.DEFAULT_STYLE)
-                .append(super.toString())
-                .append("displayName", getDisplayName())
-                .append("type", getType())
-                .append("properties", getProperties())
-                .append("appliesToTechs", getAppliesToTechs())
-                .append("customProp", isCustomProp())
-                .append("possibleTypes", getPossibleTypes())
-                .append("favourite", isFavourite())
-                .append("envSpecific", isEnvSpecific())
-                .toString();
-    }
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((appliesToTechs == null) ? 0 : appliesToTechs.hashCode());
+		result = prime * result + (customProp ? 1231 : 1237);
+		result = prime * result
+				+ ((displayName == null) ? 0 : displayName.hashCode());
+		result = prime * result + (envSpecific ? 1231 : 1237);
+		result = prime * result + (favourite ? 1231 : 1237);
+		result = prime * result
+				+ ((possibleTypes == null) ? 0 : possibleTypes.hashCode());
+		result = prime * result
+				+ ((properties == null) ? 0 : properties.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SettingsTemplate other = (SettingsTemplate) obj;
+		if (appliesToTechs == null) {
+			if (other.appliesToTechs != null)
+				return false;
+		} else if (!appliesToTechs.equals(other.appliesToTechs))
+			return false;
+		if (customProp != other.customProp)
+			return false;
+		if (displayName == null) {
+			if (other.displayName != null)
+				return false;
+		} else if (!displayName.equals(other.displayName))
+			return false;
+		if (envSpecific != other.envSpecific)
+			return false;
+		if (favourite != other.favourite)
+			return false;
+		if (possibleTypes == null) {
+			if (other.possibleTypes != null)
+				return false;
+		} else if (!possibleTypes.equals(other.possibleTypes))
+			return false;
+		if (properties == null) {
+			if (other.properties != null)
+				return false;
+		} else if (!properties.equals(other.properties))
+			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
+			return false;
+		return true;
+	}
+	
+	
 }

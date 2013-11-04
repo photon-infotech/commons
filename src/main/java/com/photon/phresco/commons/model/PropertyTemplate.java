@@ -21,8 +21,6 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
@@ -132,19 +130,90 @@ public class PropertyTemplate extends Element {
 		return settingsTemplateId;
 	}
 	
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,
-                ToStringStyle.DEFAULT_STYLE)
-                .append(super.toString())
-                .append("type", getType())
-                .append("key", getKey())
-                .append("defaultValue", getDefaultValue())
-                .append("possibleValues", getPossibleValues())
-                .append("required", isRequired())
-                .append("multiple", isMultiple())
-                .append("appliesTo", getAppliesTo())
-                .append("settingsTemplateId", getSettingsTemplateId())
-                .toString();
-    }
+	@Override
+	public String toString() {
+		return "PropertyTemplate [key=" + key + ", type=" + type
+				+ ", required=" + required + ", multiple=" + multiple
+				+ ", defaultValue=" + defaultValue + ", possibleValues="
+				+ possibleValues + ", propertyTemplates=" + propertyTemplates
+				+ ", appliesTo=" + appliesTo + ", settingsTemplateId="
+				+ settingsTemplateId + "]";
+	}
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((appliesTo == null) ? 0 : appliesTo.hashCode());
+		result = prime * result
+				+ ((defaultValue == null) ? 0 : defaultValue.hashCode());
+		result = prime * result + ((key == null) ? 0 : key.hashCode());
+		result = prime * result + (multiple ? 1231 : 1237);
+		result = prime * result
+				+ ((possibleValues == null) ? 0 : possibleValues.hashCode());
+		result = prime
+				* result
+				+ ((propertyTemplates == null) ? 0 : propertyTemplates
+						.hashCode());
+		result = prime * result + (required ? 1231 : 1237);
+		result = prime
+				* result
+				+ ((settingsTemplateId == null) ? 0 : settingsTemplateId
+						.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PropertyTemplate other = (PropertyTemplate) obj;
+		if (appliesTo == null) {
+			if (other.appliesTo != null)
+				return false;
+		} else if (!appliesTo.equals(other.appliesTo))
+			return false;
+		if (defaultValue == null) {
+			if (other.defaultValue != null)
+				return false;
+		} else if (!defaultValue.equals(other.defaultValue))
+			return false;
+		if (key == null) {
+			if (other.key != null)
+				return false;
+		} else if (!key.equals(other.key))
+			return false;
+		if (multiple != other.multiple)
+			return false;
+		if (possibleValues == null) {
+			if (other.possibleValues != null)
+				return false;
+		} else if (!possibleValues.equals(other.possibleValues))
+			return false;
+		if (propertyTemplates == null) {
+			if (other.propertyTemplates != null)
+				return false;
+		} else if (!propertyTemplates.equals(other.propertyTemplates))
+			return false;
+		if (required != other.required)
+			return false;
+		if (settingsTemplateId == null) {
+			if (other.settingsTemplateId != null)
+				return false;
+		} else if (!settingsTemplateId.equals(other.settingsTemplateId))
+			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
+			return false;
+		return true;
+	}
 }
