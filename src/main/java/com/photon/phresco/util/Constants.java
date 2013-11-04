@@ -128,6 +128,8 @@ public interface Constants {
     String SERVER_DEPLOY_DIR = "deploy_dir";
     String SERVER_TYPE = "type";
     String SERVER_CONTEXT = "context";
+    String PERFORMANCE_CONTEXT = "performanceTestContext";
+    String LOAD_CONTEXT = "loadTestContext";
     String SERVER_VERSION = "version";
 	String SERVER_REMOTE_DEPLOYMENT = "remoteDeployment";
 	String SITECORE_INST_PATH = "sitecoreInstPath";
