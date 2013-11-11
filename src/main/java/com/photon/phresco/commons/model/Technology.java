@@ -50,6 +50,8 @@ public class Technology extends CustomerBasedElement implements Cloneable {
 	private List<String> applicableEmbedTechnology;
 	private List<FunctionalFrameworkGroup> functionalFrameworks;
 	private List<FunctionalFrameworkInfo> functionalFrameworksInfo;
+	private boolean multiModule;
+	private List<String> subModules;
 	
 	public Technology() {
         super();
@@ -130,6 +132,22 @@ public class Technology extends CustomerBasedElement implements Cloneable {
 	public List<FunctionalFrameworkGroup> getFunctionalFrameworks() {
 		return functionalFrameworks;
 	}
+	
+	public boolean isMultiModule() {
+		return multiModule;
+	}
+
+	public void setMultiModule(boolean multiModule) {
+		this.multiModule = multiModule;
+	}
+
+	public List<String> getSubModules() {
+		return subModules;
+	}
+
+	public void setSubModules(List<String> subModules) {
+		this.subModules = subModules;
+	}
 
 	public void setApplicableEmbedTechnology(
 			List<String> applicableEmbedTechnology) {
@@ -160,6 +178,8 @@ public class Technology extends CustomerBasedElement implements Cloneable {
                 .append("techGroupId", getTechGroupId())
                 .append("archetypeFeatures", getArchetypeFeatures())
                 .append("functionalFrameworks", getFunctionalFrameworks())
+                .append("multiModule", isMultiModule())
+                .append("subModules", getSubModules())
                 .toString();
     }
 }

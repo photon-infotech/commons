@@ -9,6 +9,7 @@ public class ModuleInfo extends Element {
 	private List<String> dependentModules;
 	private TechnologyInfo techInfo;
 	private String code;
+	private boolean modified;
 	
 	public List<String> getDependentModules() {
 		return dependentModules;
@@ -42,9 +43,19 @@ public class ModuleInfo extends Element {
 		return code;
 	}
 	
+	public void setModified(boolean modified) {
+		this.modified = modified;
+	}
+
+	public boolean isModified() {
+		return modified;
+	}
+	
 	@Override
 	public String toString() {
 		return "ModuleInfo [dependentApps=" + dependentApps
-				+ ", dependentModules=" + dependentModules + "]";
+				+ ", dependentModules=" + dependentModules + ", techInfo="
+				+ techInfo + ", code=" + code + ", modified=" + modified + "]";
 	}
+	
 }
