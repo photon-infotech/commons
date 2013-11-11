@@ -284,6 +284,7 @@ public class ApplicationInfo extends CustomerBasedElement {
                 .append("phrescoPomFile", getPhrescoPomFile())
                 .append("pomFile", getPomFile())
                 .append("rootModule", getRootModule())
+                .append("modules", getModules())
                 .toString();
     }
 

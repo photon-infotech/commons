@@ -55,6 +55,7 @@ public class TechnologyInfo extends CustomerBasedElement {
     private String version;
     private String techGroupId;
     private List<String> techVersions;
+    private boolean multiModule;
 
     public TechnologyInfo() {
         super();
@@ -99,6 +100,14 @@ public class TechnologyInfo extends CustomerBasedElement {
 	public void setTechVersions(List<String> techVersions) {
 		this.techVersions = techVersions;
 	}
+	
+	public boolean isMultiModule() {
+		return multiModule;
+	}
+
+	public void setMultiModule(boolean multiModule) {
+		this.multiModule = multiModule;
+	}
 
 	public String toString() {
 	    return new ToStringBuilder(this,
@@ -108,6 +117,7 @@ public class TechnologyInfo extends CustomerBasedElement {
                 .append("id", getId())
                 .append("techGroupId", getTechGroupId())
                 .append("techVersions", getTechVersions())
+                .append("multiModule", isMultiModule())
                 .toString();
 	}
 }

@@ -56,6 +56,7 @@ public interface ServiceConstants {
 	String REST_API_OPTIONS_CUSTOMER = "/options/customer";
 	String REST_API_TECHGROUPS = "/techgroups";
 	String REST_API_TECHNOLOGIES = "/technologies";
+	String REST_API_TECHINFO = "/techInfo";
 	String REST_API_DOWNLOADS = "/downloads";
 	String REST_API_GLOBALURL ="/globalurl";
 	String REST_API_VIDEOS = "/videos";
