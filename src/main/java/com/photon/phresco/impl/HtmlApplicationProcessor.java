@@ -124,7 +124,6 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 		if (CollectionUtils.isNotEmpty(artifactGroups)) {
 			BufferedReader breader = null;
 			try {
-				projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
 				breader = projectUtils.ExtractFeature(appInfo);
 				String line = "";
 				while ((line = breader.readLine()) != null) {
