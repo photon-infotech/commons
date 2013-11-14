@@ -121,6 +121,7 @@ public class CIJob {
     // iphone unit test
     private boolean unitTestType = false;
     private String unittest = "";
+    private String device = "";
     
     // deploy job info
     private String deviceType = "";
@@ -1471,8 +1472,15 @@ public class CIJob {
 	public List<String> getFetchDependency() {
 		return fetchDependency;
 	}
-
 	
+	public String getDevice() {
+		return device;
+	}
+
+	public void setDevice(String device) {
+		this.device = device;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -1587,6 +1595,7 @@ public class CIJob {
 		result = prime * result + ((dbName == null) ? 0 : dbName.hashCode());
 		result = prime * result
 				+ ((defaultValue == null) ? 0 : defaultValue.hashCode());
+		result = prime * result + ((device == null) ? 0 : device.hashCode());
 		result = prime * result
 				+ ((deviceId == null) ? 0 : deviceId.hashCode());
 		result = prime
@@ -2029,6 +2038,11 @@ public class CIJob {
 			if (other.defaultValue != null)
 				return false;
 		} else if (!defaultValue.equals(other.defaultValue))
+			return false;
+		if (device == null) {
+			if (other.device != null)
+				return false;
+		} else if (!device.equals(other.device))
 			return false;
 		if (deviceId == null) {
 			if (other.deviceId != null)
