@@ -19,6 +19,7 @@
 package com.photon.phresco.commons.model;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -60,8 +61,17 @@ public class ApplicationInfo extends CustomerBasedElement {
     private List<String> dependentModules;
     private List<ModuleInfo> modules;
     private String rootModule;
+    private Map<String, String> selectedFeatureMap;
 
-    //Information about where the pilot project is stored in repository
+	public Map<String, String> getSelectedFeatureMap() {
+		return selectedFeatureMap;
+	}
+
+	public void setSelectedFeatureMap(Map<String, String> selectedFeatureMap) {
+		this.selectedFeatureMap = selectedFeatureMap;
+	}
+
+	//Information about where the pilot project is stored in repository
     private ArtifactGroup pilotContent;
     private FunctionalFrameworkInfo functionalFrameworkInfo;
     
