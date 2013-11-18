@@ -35,6 +35,7 @@ public class ProjectInfo extends CustomerBasedElement implements Cloneable {
     
     private String projectCode;
     private String version;
+    private ProjectVersion versionInfo;
 	private List<ApplicationInfo> appInfos;
     private int noOfApps;
     private Date startDate;
@@ -42,6 +43,7 @@ public class ProjectInfo extends CustomerBasedElement implements Cloneable {
     private boolean preBuilt;
     private boolean multiModule;
 	private boolean integrationTest;
+	private String groupId;
     
 	public String getProjectCode() {
         return projectCode;
@@ -57,6 +59,14 @@ public class ProjectInfo extends CustomerBasedElement implements Cloneable {
 
 	public void setVersion(String version) {
 		this.version = version;
+	}
+	
+	public void setVersionInfo(ProjectVersion versionInfo) {
+		this.versionInfo = versionInfo;
+	}
+
+	public ProjectVersion getVersionInfo() {
+		return versionInfo;
 	}
     
     public List<ApplicationInfo> getAppInfos() {
@@ -117,6 +127,14 @@ public class ProjectInfo extends CustomerBasedElement implements Cloneable {
 		return integrationTest;
 	}
 	
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
+
+	public String getGroupId() {
+		return groupId;
+	}
+	
 	public ProjectInfo clone() {
 		try {
 			return (ProjectInfo)super.clone();
@@ -125,18 +143,21 @@ public class ProjectInfo extends CustomerBasedElement implements Cloneable {
 		}
 	}
 
-    public String toString() {
-        return new ToStringBuilder(this,
-                ToStringStyle.DEFAULT_STYLE)
-                .append(super.toString())
-                .append("projectCode", getProjectCode())
-                .append("appInfos", getAppInfos())
-                .append("noOfApps", getNoOfApps())
-                .append("startDate",  getStartDate())
-                .append("endDate", getStartDate())
-                .append("preBuilt", isPreBuilt())
-                .append("multiModule", isMultiModule())
-				.append("integrationTest", isIntegrationTest())
-                .toString();
-    }
+	public String toString() {
+		return new ToStringBuilder(this,
+				ToStringStyle.DEFAULT_STYLE)
+		.append(super.toString())
+		.append("projectCode", getProjectCode())
+		.append("version", getVersion())
+		.append("versionInfo", getVersionInfo())
+		.append("appInfos", getAppInfos())
+		.append("noOfApps", getNoOfApps())
+		.append("startDate",  getStartDate())
+		.append("endDate", getStartDate())
+		.append("preBuilt", isPreBuilt())
+		.append("multiModule", isMultiModule())
+		.append("integrationTest", isIntegrationTest())
+		.append("groupId", getGroupId())
+		.toString();
+	}
 }
