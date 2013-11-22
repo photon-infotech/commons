@@ -109,6 +109,7 @@ public interface ServiceConstants {
 	String REST_API_UPLOADTEMPLATE = "/uploadTemplate";
 	String REST_API_TESTSUITES = "/testsuites";
 	String REST_API_TESTCASES = "/testcases";
+	String REST_API_TESTCASE_VALIDATION = "/testcaseValidation";
 	String REST_API_LDAP_PARAM_ID = "ldap";
 	String REST_API_PATH_ID = "/{id}";
 	String REST_API_PATH_PARAM_ID = "id";
@@ -135,6 +136,7 @@ public interface ServiceConstants {
 	String REST_QUERY_APPTYPEID = "appTypeId";
 	String REST_QUERY_USERID = "userId";
 	String REST_QUERY_APPDIR_NAME = "appDirName";
+	String REST_QUERY_TESTCASE_NAME = "testCaseId";
 	String REST_QUERY_RESULT_FILE_NAME = "resultFileName";
 	String REST_QUERY_DEVICE_ID = "deviceId";
 	String REST_QUERY_SHOW_GRAPH_FOR = "showGraphFor";
