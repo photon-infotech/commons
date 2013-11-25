@@ -80,6 +80,20 @@ public class ConfigWriter {
 		createConfiguration(selectedEnvStr);
 		writeXml(getFileOutoutStream(configXmlPath));
 	}
+	
+	/**
+	 * Created the configuration xml of selected environment with Selected Webservice using File object
+	 * @param configXmlPath
+	 * @param selectedEnvStr
+	 * @param selectedWebService
+	 * @throws ConfigurationException 
+	 * @throws Exception
+	 */
+	public void saveXml(File configXmlPath, String selectedEnvStr, String selectedWebService) throws ConfigurationException {
+		createConfiguration(selectedEnvStr, selectedWebService);
+		writeXml(getFileOutoutStream(configXmlPath));
+	}
+	
 
 	/**
 	 * Append the selected environment to the reader's document
@@ -92,6 +106,25 @@ public class ConfigWriter {
 		document = srcReaderToAppend.getDocument();
 		rootElement = (Element) document.getElementsByTagName("environments").item(0);
 		createConfiguration(selectedEnvStr);
+		try {
+			writeXml(new FileOutputStream(srcReaderToAppend.getConfigFile()));
+		} catch (FileNotFoundException e) {
+			throw new ConfigurationException(e);
+		}
+	}
+	
+	/**
+	 * Append the selected environment to the reader's document
+	 * @param srcReaderToAppend
+	 * @param selectedEnvStr
+	 * @param selectedWebservice
+	 * @throws ConfigurationException 
+	 * @throws Exception
+	 */
+	public void saveXml(ConfigReader srcReaderToAppend, String selectedEnvStr, String selectedWebService) throws ConfigurationException {
+		document = srcReaderToAppend.getDocument();
+		rootElement = (Element) document.getElementsByTagName("environments").item(0);
+		createConfiguration(selectedEnvStr, selectedWebService);
 		try {
 			writeXml(new FileOutputStream(srcReaderToAppend.getConfigFile()));
 		} catch (FileNotFoundException e) {
@@ -118,6 +151,23 @@ public class ConfigWriter {
 		writeXml(fos);
 	}
 
+	/**
+	 * Read the Environments to create the configurations
+	 * @param selectedEnvStr
+	 * @param selectedWebService
+	 * @throws Exception
+	 */
+	private void createConfiguration(String selectedEnvStr, String selectedWebService) {
+		String[] envs = selectedEnvStr.split(",");
+		for (String envName : envs) {
+			List<Configuration> configByEnv = reader.getConfigByEnv(envName);
+			if (configByEnv != null && !configByEnv.isEmpty()) {
+				boolean defaultEnv = envName.equals(reader.getDefaultEnvName());
+				createConfigurations(configByEnv, envName, defaultEnv, selectedWebService);
+			}
+		}
+	}
+	
 	/**
 	 * Read the Environments to create the configurations
 	 * @param selectedEnvStr
@@ -150,6 +200,28 @@ public class ConfigWriter {
 			configNode.setAttribute("name", configuration.getName());
 			createProperties(configNode, configuration.getProperties());
 			envNode.appendChild(configNode);
+		}
+		rootElement.appendChild(envNode);
+	}
+	
+	/**
+	 * Create the Configuration element of selected Environments based on selected webservice
+	 * @param configList
+	 * @param envName
+	 * @param defaultEnv
+	 * @throws Exception
+	 */
+	private void createConfigurations(List<Configuration> configList, String envName, boolean defaultEnv, String selectedWebService) {
+		Element envNode = document.createElement("environment");
+		envNode.setAttribute("name", envName);
+		envNode.setAttribute("default", Boolean.toString(defaultEnv));
+		for (Configuration configuration : configList) {
+			if(selectedWebService.equals(configuration.getName())) {
+				Element configNode = document.createElement(configuration.getType());
+				configNode.setAttribute("name", configuration.getName());
+				createProperties(configNode, configuration.getProperties());
+				envNode.appendChild(configNode);
+			}	
 		}
 		rootElement.appendChild(envNode);
 	}
