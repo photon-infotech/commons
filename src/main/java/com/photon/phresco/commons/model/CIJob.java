@@ -31,6 +31,8 @@ public class CIJob {
     private String mvnCommand;
     private String jenkinsUrl;
     private String jenkinsPort;
+    private String jenkinsProtocol;
+    private String jenkinsPath;
     private List<String> triggers;
     private String repoType;
     private String branch;
@@ -1481,6 +1483,23 @@ public class CIJob {
 		this.device = device;
 	}
 
+	public String getJenkinsProtocol() {
+		return jenkinsProtocol;
+	}
+
+	public void setJenkinsProtocol(String jenkinsProtocol) {
+		this.jenkinsProtocol = jenkinsProtocol;
+	}
+
+	public String getJenkinsPath() {
+		return jenkinsPath;
+	}
+
+	public void setJenkinsPath(String jenkinsPath) {
+		this.jenkinsPath = jenkinsPath;
+	}
+
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -1653,7 +1672,11 @@ public class CIJob {
 				+ ((jarLocation == null) ? 0 : jarLocation.hashCode());
 		result = prime * result + ((jarName == null) ? 0 : jarName.hashCode());
 		result = prime * result
+				+ ((jenkinsPath == null) ? 0 : jenkinsPath.hashCode());
+		result = prime * result
 				+ ((jenkinsPort == null) ? 0 : jenkinsPort.hashCode());
+		result = prime * result
+				+ ((jenkinsProtocol == null) ? 0 : jenkinsProtocol.hashCode());
 		result = prime * result
 				+ ((jenkinsUrl == null) ? 0 : jenkinsUrl.hashCode());
 		result = prime * result + ((jobName == null) ? 0 : jobName.hashCode());
@@ -2174,10 +2197,20 @@ public class CIJob {
 				return false;
 		} else if (!jarName.equals(other.jarName))
 			return false;
+		if (jenkinsPath == null) {
+			if (other.jenkinsPath != null)
+				return false;
+		} else if (!jenkinsPath.equals(other.jenkinsPath))
+			return false;
 		if (jenkinsPort == null) {
 			if (other.jenkinsPort != null)
 				return false;
 		} else if (!jenkinsPort.equals(other.jenkinsPort))
+			return false;
+		if (jenkinsProtocol == null) {
+			if (other.jenkinsProtocol != null)
+				return false;
+		} else if (!jenkinsProtocol.equals(other.jenkinsProtocol))
 			return false;
 		if (jenkinsUrl == null) {
 			if (other.jenkinsUrl != null)

@@ -272,12 +272,12 @@ public class UtilityTest {
 	
 	@Test
 	public void testGetCiJobInfo() throws PhrescoException {
-		assertNotNull(Utility.getCiJobInfoPath("wp1-wordpress3.4.2"));
+		assertNotNull(Utility.getCiJobInfoPath("wp1-wordpress3.4.2", ""));
 	}
 	
 	@Test
 	public void testGetProjectDeliveries() throws PhrescoException {
-		File infoFile = new File(Utility.getCiJobInfoPath("wp1-wordpress3.4.2"));
+		File infoFile = new File(Utility.getCiJobInfoPath("wp1-wordpress3.4.2", ""));
 		assertNotNull(Utility.getProjectDeliveries(infoFile));
 	}
 	
@@ -295,7 +295,7 @@ public class UtilityTest {
 		List<ContinuousDelivery> continuousDeliveries = new ArrayList<ContinuousDelivery>();
 		continuousDeliveries.add(cont);
 		ProjectInfo projectInfo = getProjectInfo("wp1-wordpress3.4.2");
-		File infoFile = new File(Utility.getCiJobInfoPath("wp1-wordpress3.4.2"));
+		File infoFile = new File(Utility.getCiJobInfoPath("wp1-wordpress3.4.2", ""));
 		List<ProjectDelivery> ciJobInfo = Utility.getProjectDeliveries(infoFile);
 		for(ProjectDelivery del : ciJobInfo) {
 			del.setContinuousDeliveries(continuousDeliveries);

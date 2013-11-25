@@ -390,6 +390,8 @@ public interface Constants {
     String PROCESS_BUILD_INFO_FILE 		= "phresco-process-build-info.xml";
     String THEME_INFO_FILE				= "phresco-theme-info.xml";
     String CONTENT_INFO_FILE 			= "phresco-content-info.xml";
+    String CI_INFO 						= "ciJob.info";
+    String CI_GLOBAL_INFO 				= "global-ciJob.info";
     
 	/**
 	 * Feature Write in pom Constants

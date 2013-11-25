@@ -761,19 +761,24 @@ public final class Utility implements Constants {
         }
 	}
 
-	public static String getCiJobInfoPath(String appDir) throws PhrescoException {
+	public static String getCiJobInfoPath(String appDir, String globalInfo) throws PhrescoException {
 		StringBuilder builder = new StringBuilder(Utility.getProjectHome());
-		if (!StringUtils.isEmpty(appDir)) {		
-			builder.append(appDir);
+		if (StringUtils.isEmpty(globalInfo)) {
+			if (!StringUtils.isEmpty(appDir)) {
+				builder.append(appDir);
+				builder.append(File.separator);
+				builder.append(DOT_PHRESCO_FOLDER);
+				builder.append(File.separator);
+			}
+			builder.append(CI_INFO);
+		} else {
+			builder.append(globalInfo);
 			builder.append(File.separator);
 			builder.append(DOT_PHRESCO_FOLDER);
-			builder.append(File.separator);	
+			builder.append(File.separator);
+			builder.append(CI_GLOBAL_INFO);
 		}
-		builder.append("ciJob.info");
 		File ciJobInfoFile = new File(builder.toString());
-//			if(!ciJobInfoFile.exists()) {
-//				ciJobInfoFile.createNewFile();
-//			}
 		return ciJobInfoFile.getPath();
 	}
 	
