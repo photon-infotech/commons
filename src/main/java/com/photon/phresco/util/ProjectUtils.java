@@ -116,6 +116,35 @@ public class ProjectUtils implements Constants {
 		testPomFiles.put("performance", "/test/performance/pom.xml");
 		}
 	
+	public static ApplicationInfo getApplicationInfo(File directory) throws PhrescoException {
+		StringBuilder builder  = new StringBuilder();
+		builder.append(directory.getPath())
+		.append(File.separatorChar)
+		.append(DOT_PHRESCO_FOLDER)
+		.append(File.separatorChar)
+		.append(PROJECT_INFO_FILE);
+		try {
+			File projectInfoFile = new File(builder.toString());
+			if (!projectInfoFile.exists()) {
+				return null;
+			}
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(builder.toString()));
+			Gson gson = new Gson();
+			ProjectInfo projectInfo = gson.fromJson(bufferedReader, ProjectInfo.class);
+			ApplicationInfo applicationInfo = null;
+			if (projectInfo != null) {
+				applicationInfo = projectInfo.getAppInfos().get(0);
+			}
+			return applicationInfo;
+		} catch (JsonSyntaxException e) {
+			throw new PhrescoException(e);
+		} catch (JsonIOException e) {
+			throw new PhrescoException(e);
+		} catch (FileNotFoundException e) {
+			throw new PhrescoException(e);
+		}
+	}
+	
 	public  void updateTestPom(File path) throws PhrescoException {
 		try {
 			File sourcePom = new File(path + "/pom.xml");

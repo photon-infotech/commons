@@ -10,6 +10,7 @@ public class ModuleInfo extends Element {
 	private TechnologyInfo techInfo;
 	private String code;
 	private boolean modified;
+	private String rootModule;
 	
 	public List<String> getDependentModules() {
 		return dependentModules;
@@ -51,11 +52,19 @@ public class ModuleInfo extends Element {
 		return modified;
 	}
 	
+	public void setRootModule(String rootModule) {
+		this.rootModule = rootModule;
+	}
+
+	public String getRootModule() {
+		return rootModule;
+	}
+
 	@Override
 	public String toString() {
 		return "ModuleInfo [dependentApps=" + dependentApps
 				+ ", dependentModules=" + dependentModules + ", techInfo="
-				+ techInfo + ", code=" + code + ", modified=" + modified + "]";
+				+ techInfo + ", code=" + code + ", modified=" + modified
+				+ ", rootModule=" + rootModule + "]";
 	}
-	
 }
