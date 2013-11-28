@@ -303,6 +303,15 @@ public interface Constants {
 	String POM_PROP_KEY_THEME_BUILDER_IMAGE = "phresco.theme.builder.image.path";
 	String POM_PROP_KEY_THEME_BUNDLE_UPLOAD_DIR = "phresco.theme.bundle.upload.dir";
 	
+	String POM_PROP_KEY_SRC_DIR = "phresco.src.dir";
+	String POM_PROP_KEY_TEST_DIR = "phresco.test.dir";
+	String POM_PROP_KEY_SPLIT_PHRESCO_DIR = "phresco.split.phresco.dir";
+	String POM_PROP_KEY_SPLIT_SRC_DIR = "phresco.split.src.dir";
+	String POM_PROP_KEY_SPLIT_TEST_DIR = "phresco.split.test.dir";
+	String POM_PROP_KEY_SRC_REPO_URL = "phresco.src.repo.url";
+	String POM_PROP_KEY_PHRESCO_REPO_URL = "phresco.dotphresco.repo.url";
+	String POM_PROP_KEY_TEST_REPO_URL = "phresco.test.repo.url";
+	
 	/**
 	 * MVN Goal Constants
 	 */
