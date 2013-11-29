@@ -34,6 +34,7 @@ public class TestCase {
 	private String priority = "";
 	private String severity = "";
 	private String bugComment = "";
+	private String preconditions = "";
 
 
 	public String getFeatureId() {
@@ -138,6 +139,14 @@ public class TestCase {
 
 	public void setBugComment(String bugComment) {
 		this.bugComment = bugComment;
+	}
+
+	public String getPreconditions() {
+		return preconditions;
+	}
+
+	public void setPreconditions(String preconditions) {
+		this.preconditions = preconditions;
 	}
 
 }

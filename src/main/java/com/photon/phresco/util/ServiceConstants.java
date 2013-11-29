@@ -108,6 +108,9 @@ public interface ServiceConstants {
 	String REST_API_MANUALTEMPLATE = "/manualTemplate";
 	String REST_API_UPLOADTEMPLATE = "/uploadTemplate";
 	String REST_API_TESTSUITES = "/testsuites";
+	String REST_API_TESTSUITE = "testSuiteName";
+	String REST_API_TESTSUITES_DELETE = "/deleteTestsuite";
+	String REST_API_TESTCASE_DELETE = "/deleteTestCase";
 	String REST_API_TESTCASES = "/testcases";
 	String REST_API_TESTCASE_VALIDATION = "/testcaseValidation";
 	String REST_API_LDAP_PARAM_ID = "ldap";
