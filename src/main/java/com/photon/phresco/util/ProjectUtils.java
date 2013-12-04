@@ -123,12 +123,13 @@ public class ProjectUtils implements Constants {
 		.append(DOT_PHRESCO_FOLDER)
 		.append(File.separatorChar)
 		.append(PROJECT_INFO_FILE);
+		BufferedReader bufferedReader = null;
 		try {
 			File projectInfoFile = new File(builder.toString());
 			if (!projectInfoFile.exists()) {
 				return null;
 			}
-			BufferedReader bufferedReader = new BufferedReader(new FileReader(builder.toString()));
+			bufferedReader = new BufferedReader(new FileReader(builder.toString()));
 			Gson gson = new Gson();
 			ProjectInfo projectInfo = gson.fromJson(bufferedReader, ProjectInfo.class);
 			ApplicationInfo applicationInfo = null;
@@ -142,6 +143,8 @@ public class ProjectUtils implements Constants {
 			throw new PhrescoException(e);
 		} catch (FileNotFoundException e) {
 			throw new PhrescoException(e);
+		} finally {
+			Utility.closeReader(bufferedReader);
 		}
 	}
 	
@@ -229,6 +232,8 @@ public class ProjectUtils implements Constants {
 			throw new PhrescoException(e);
 		} catch (FileNotFoundException e) {
 			throw new PhrescoException(e);
+		} finally {
+			Utility.closeReader(reader);
 		}
 		return projectinfo;
 	}

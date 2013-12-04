@@ -29,6 +29,7 @@ public interface ServiceConstants {
 	String REST_UPDATE_APPLICATION = "/updateApplication";
 	String REST_API_EDIT_APPLICATION = "/editApplication";
 	String REST_API_PROJECT_DELETE = "/delete";
+	String REST_API_MODULE_DEPENDENTS = "/dependents";
 	String REST_API_GET_PERMISSION = "/getPermission";
 	String REST_API_APPINFOS = "/appinfos";
 	String REST_APP_UPDATEDOCS = "/updatedocs";
