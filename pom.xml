@@ -12,7 +12,7 @@
     </scm>
     <build>
         <directory>do_not_checkin/target</directory>
-        <finalName>HelloWorld</finalName>
+        <finalName>phresco-commons</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>
