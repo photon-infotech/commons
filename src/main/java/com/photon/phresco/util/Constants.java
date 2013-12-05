@@ -139,7 +139,7 @@ public interface Constants {
 	String SLING_URL = "slingUrl";
 	String USER = "user";
 	String PASSWORD = "password";
-
+    
 
     // Constants for Database
     String DB_PROTOCOL="http";
@@ -249,7 +249,7 @@ public interface Constants {
 	String POM_PROP_KEY_COMPONENTTEST_ADAPT_CONFIG = "phresco.componentTest.adapt.config";
 	String POM_PROP_KEY_COMPONENTTEST_TESTSUITE_XPATH = "phresco.componentTest.testsuite.xpath";
 	String POM_PROP_KEY_COMPONENTTEST_TESTCASE_PATH = "phresco.componentTest.testcase.path";
-	
+	String SOURCE ="source.dir";
 	// Unit test report dir starting constant
 	String POM_PROP_KEY_UNITTEST_RPT_DIR_START = "phresco.unitTest.";
 	String POM_PROP_KEY_UNITTEST_TESTSUITE_XPATH_START = "phresco.unitTest.";
