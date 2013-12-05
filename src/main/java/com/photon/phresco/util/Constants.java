@@ -303,6 +303,7 @@ public interface Constants {
 	String POM_PROP_KEY_THEME_BUILDER_IMAGE = "phresco.theme.builder.image.path";
 	String POM_PROP_KEY_THEME_BUNDLE_UPLOAD_DIR = "phresco.theme.bundle.upload.dir";
 	
+	String POM_PROP_KEY_ROOT_SRC_DIR = "phresco.src.root.dir";
 	String POM_PROP_KEY_SRC_DIR = "phresco.src.dir";
 	String POM_PROP_KEY_TEST_DIR = "phresco.test.dir";
 	String POM_PROP_KEY_SPLIT_PHRESCO_DIR = "phresco.split.phresco.dir";
