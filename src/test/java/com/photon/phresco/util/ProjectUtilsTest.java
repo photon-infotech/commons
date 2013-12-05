@@ -240,7 +240,8 @@ public class ProjectUtilsTest {
 	@Test
 	public void addServerPluginTest() throws IOException, PhrescoException {
 		File pomFile = new File(Utility.getProjectHome()+"wp1-wordpress3.4.2"+File.separator+"pom.xml");
-		projectUtils.addServerPlugin(getProjectInfo("wp1-wordpress3.4.2").getAppInfos().get(0), pomFile);
+		String dotPhresc = pomFile.getParent() + ".phresco";
+		projectUtils.addServerPlugin(getProjectInfo("wp1-wordpress3.4.2").getAppInfos().get(0), pomFile, dotPhresc);
 	}
 	
 	@Test

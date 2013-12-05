@@ -469,17 +469,13 @@ public class ProjectUtils implements Constants {
 		}
 	}
 	
-	public void addServerPlugin(ApplicationInfo info, File path) throws PhrescoException {
+	public void addServerPlugin(ApplicationInfo info, File path, String dotPhrescoFolderPath) throws PhrescoException {
 		List<ArtifactGroupInfo> servers = info.getSelectedServers();
 		if (CollectionUtils.isEmpty(servers)) {
 			return;
 		}
-		StringBuilder appHandlerPath = new StringBuilder(Utility.getProjectHome());
-		if (StringUtils.isNotEmpty(info.getRootModule())) {
-			appHandlerPath.append(info.getRootModule()).append(File.separator);
-		}
-		appHandlerPath.append(info.getAppDirName()).append(File.separator).append(DOT_PHRESCO_FOLDER).append(File.separator).append(APPLICATION_HANDLER_INFO_FILE);
-		File pluginInfoFile = new File(appHandlerPath.toString());
+		String appHandlerPath = dotPhrescoFolderPath + File.separator + APPLICATION_HANDLER_INFO_FILE;
+		File pluginInfoFile = new File(appHandlerPath);
 		MojoProcessor mojoProcessor = new MojoProcessor(pluginInfoFile);
 		ApplicationHandler applicationHandler = mojoProcessor.getApplicationHandler();
 		String selectedServers = applicationHandler.getSelectedServer();

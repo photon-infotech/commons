@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -40,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.plexus.util.FileUtils;
@@ -48,8 +50,6 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 import org.eclipse.core.resources.IProject;
-
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaProject;
@@ -61,14 +61,18 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.BuildInfo;
 import com.photon.phresco.commons.model.CIJob;
 import com.photon.phresco.commons.model.ContinuousDelivery;
 import com.photon.phresco.commons.model.ProjectDelivery;
+import com.photon.phresco.commons.model.ProjectInfo;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.exception.PhrescoWebServiceException;
+import com.phresco.pom.exception.PhrescoPomException;
 import com.phresco.pom.util.PomProcessor;
 
 public final class Utility implements Constants {
@@ -761,6 +765,25 @@ public final class Utility implements Constants {
         }
 	}
 
+	public static String getCiJobInfoPath(String appDir, String globalInfo, String status, String rootPath) throws PhrescoException {
+		StringBuilder builder = new StringBuilder(Utility.getProjectHome());
+		String dotPhrescoFolderPath = Utility.getDotPhrescoFolderPath(rootPath, "");
+		if (!StringUtils.isEmpty(appDir)) {
+			builder.append(dotPhrescoFolderPath);
+			builder.append(File.separator);
+			builder.append(CI_INFO);
+		} else if ((StringUtils.isEmpty(appDir)) && ("write".equals(status))) {
+			builder.append(CI_INFO);
+		} else if(StringUtils.isEmpty(appDir) && (!StringUtils.isEmpty(globalInfo)) && ("read".equals(status))) {
+			builder.append(dotPhrescoFolderPath);
+			builder.append(File.separator);
+			builder.append(CI_GLOBAL_INFO);
+		}
+		File ciJobInfoFile = new File(builder.toString());
+		return ciJobInfoFile.getPath();
+	}
+	
+	
 	public static String getCiJobInfoPath(String appDir, String globalInfo, String status) throws PhrescoException {
 		StringBuilder builder = new StringBuilder(Utility.getProjectHome());
 		if (!StringUtils.isEmpty(appDir)) {
@@ -781,6 +804,7 @@ public final class Utility implements Constants {
 		File ciJobInfoFile = new File(builder.toString());
 		return ciJobInfoFile.getPath();
 	}
+	
 	
 	public static List<ProjectDelivery> getProjectDeliveries(File projectDeliveryFile) throws PhrescoException {
 			FileReader ProjectDeliveryFileReader = null;
@@ -842,4 +866,340 @@ public final class Utility implements Constants {
  		}
  		return null;
  	}
+ 	
+ 	public static ProjectInfo getProjectInfo(String appDirPath, String module) throws PhrescoException {
+ 		BufferedReader reader = null;
+		Gson gson = new Gson();
+		ProjectInfo projectInfo = null;
+		File appDir = new File(appDirPath);
+		File[] split_phresco = null;
+		File[] split_src = null;
+		File[] dotPhrescoFolders = null;
+		File dotAppDir = null;
+		File srcAppDir = null;
+ 		try {
+ 			
+ 			if (StringUtils.isNotEmpty(module)) {
+ 				File appDirT = new File(appDir + File.separator + module);
+ 				dotPhrescoFolders = appDirT.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
+ 			} else {
+			dotPhrescoFolders = appDir.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
+ 			}
+			
+			if (ArrayUtils.isEmpty(dotPhrescoFolders)) {
+				if (StringUtils.isNotEmpty(module)) {
+					dotAppDir = new File(appDir + File.separator + appDir.getName() + "_phresco" + File.separator
+							+ module);
+				} else {
+					dotAppDir = new File(appDir + File.separator + appDir.getName() + "_phresco");
+				}
+				split_phresco = dotAppDir.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
+				if (ArrayUtils.isEmpty(split_phresco)) {
+					if (StringUtils.isNotEmpty(module)) {
+						srcAppDir = new File(appDir + File.separator + appDir.getName() + File.separator
+								+ module);
+					} else {
+						srcAppDir = new File(appDir + File.separator + appDir.getName());
+					}
+					split_src = srcAppDir.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
+				}
+			}
+
+			if (!ArrayUtils.isEmpty(dotPhrescoFolders)) {
+				File[] dotProjectFiles = dotPhrescoFolders[0].listFiles(new PhrescoFileNameFilter(PROJECT_INFO_FILE));
+				if (!ArrayUtils.isEmpty(dotProjectFiles)) {
+					reader = new BufferedReader(new FileReader(dotProjectFiles[0]));
+					projectInfo = gson.fromJson(reader, ProjectInfo.class);
+				}
+			}
+			if (!ArrayUtils.isEmpty(split_phresco)) {
+				File[] splitDotProjectFiles = split_phresco[0].listFiles(new PhrescoFileNameFilter(PROJECT_INFO_FILE));
+				if (!ArrayUtils.isEmpty(splitDotProjectFiles)) {
+					reader = new BufferedReader(new FileReader(splitDotProjectFiles[0]));
+					projectInfo = gson.fromJson(reader, ProjectInfo.class);
+				}
+			}
+			if (!ArrayUtils.isEmpty(split_src)) {
+				File[] splitSrcDotProjectFiles = split_src[0].listFiles(new PhrescoFileNameFilter(PROJECT_INFO_FILE));
+				if (!ArrayUtils.isEmpty(splitSrcDotProjectFiles)) {
+					reader = new BufferedReader(new FileReader(splitSrcDotProjectFiles[0]));
+					projectInfo = gson.fromJson(reader, ProjectInfo.class);
+				}
+			}
+			return projectInfo;
+		} catch (JsonSyntaxException e) {
+			throw new PhrescoException(e);
+		} catch (JsonIOException e) {
+			throw new PhrescoException(e);
+		} catch (FileNotFoundException e) {
+			throw new PhrescoException(e);
+		} finally {
+			closeReader(reader);
+		}
+	}
+	
+	public static String getProjectInfoPath(String appDirPath, String module) throws PhrescoException {
+		try {
+			File appDir = new File(appDirPath);
+			File[] split_phresco = null;
+			File[] split_src = null;
+			File[] dotPhrescoFolders = null;
+			File dotAppDir = null;
+			File srcAppDir = null;
+			String projInfoPath = "";
+			
+			if (StringUtils.isNotEmpty(module)) {
+ 				File appDirT = new File(appDir + File.separator + module);
+ 				dotPhrescoFolders = appDirT.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
+ 			} else {
+			dotPhrescoFolders = appDir.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
+ 			}
+			
+			if (ArrayUtils.isEmpty(dotPhrescoFolders)) {
+				if (StringUtils.isNotEmpty(module)) {
+					dotAppDir = new File(appDir + File.separator + appDir.getName() + "_phresco" + File.separator
+							+ module);
+				} else {
+					dotAppDir = new File(appDir + File.separator + appDir.getName() + "_phresco");
+				}
+				split_phresco = dotAppDir.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
+				if (ArrayUtils.isEmpty(split_phresco)) {
+					if (StringUtils.isNotEmpty(module)) {
+						srcAppDir = new File(appDir + File.separator + appDir.getName() + File.separator
+								+ module);
+					} else {
+						srcAppDir = new File(appDir + File.separator + appDir.getName());
+					}
+					split_src = srcAppDir.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
+				}
+			}
+
+			if (!ArrayUtils.isEmpty(dotPhrescoFolders)) {
+				File[] dotProjectFiles = dotPhrescoFolders[0].listFiles(new PhrescoFileNameFilter(PROJECT_INFO_FILE));
+				if (!ArrayUtils.isEmpty(dotProjectFiles)) {
+					projInfoPath =  dotProjectFiles[0].getPath();
+				}
+			}
+			if (!ArrayUtils.isEmpty(split_phresco)) {
+				File[] splitDotProjectFiles = split_phresco[0].listFiles(new PhrescoFileNameFilter(PROJECT_INFO_FILE));
+				if (!ArrayUtils.isEmpty(splitDotProjectFiles)) {
+					projInfoPath =  splitDotProjectFiles[0].getPath();
+				}
+			}
+			if (!ArrayUtils.isEmpty(split_src)) {
+				File[] splitSrcDotProjectFiles = split_src[0].listFiles(new PhrescoFileNameFilter(PROJECT_INFO_FILE));
+				if (!ArrayUtils.isEmpty(splitSrcDotProjectFiles)) {
+					projInfoPath =  splitSrcDotProjectFiles[0].getPath();
+				}
+			}
+			return projInfoPath;
+		} catch (JsonSyntaxException e) {
+			throw new PhrescoException(e);
+		} catch (JsonIOException e) {
+			throw new PhrescoException(e);
+		}
+	}
+	
+	public static String getDotPhrescoFolderPath(String appDirPath, String module) throws PhrescoException {
+		try {
+			File appDir = new File(appDirPath);
+			File[] split_phresco = null;
+			File[] split_src = null;
+			File[] dotPhrescoFolders = null;
+			File dotAppDir = null;
+			File srcAppDir = null;
+			String dotPhrescoPath = "";
+			
+			if (StringUtils.isNotEmpty(module)) {
+ 				File appDirT = new File(appDir + File.separator + module);
+ 				dotPhrescoFolders = appDirT.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
+ 			} else {
+			dotPhrescoFolders = appDir.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
+ 			}
+			if (ArrayUtils.isEmpty(dotPhrescoFolders)) {
+				if (StringUtils.isNotEmpty(module)) {
+					dotAppDir = new File(appDir + File.separator + appDir.getName() + "_phresco" + File.separator
+							+ module);
+				} else {
+					dotAppDir = new File(appDir + File.separator + appDir.getName() + "_phresco");
+				}
+				split_phresco = dotAppDir.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
+				if (ArrayUtils.isEmpty(split_phresco)) {
+					if (StringUtils.isNotEmpty(module)) {
+						srcAppDir = new File(appDir + File.separator + appDir.getName() + File.separator
+								+ module);
+					} else {
+						srcAppDir = new File(appDir + File.separator + appDir.getName());
+					}
+					split_src = srcAppDir.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
+				}
+			}
+
+			if (!ArrayUtils.isEmpty(dotPhrescoFolders)) {
+				dotPhrescoPath =  dotPhrescoFolders[0].getPath();
+			}
+			if (!ArrayUtils.isEmpty(split_phresco)) {
+				dotPhrescoPath = split_phresco[0].getPath();
+			}
+			if (!ArrayUtils.isEmpty(split_src)) {
+				dotPhrescoPath = split_src[0].getPath();
+			}
+			return dotPhrescoPath;
+			
+		} catch (JsonSyntaxException e) {
+			throw new PhrescoException(e);
+		} catch (JsonIOException e) {
+			throw new PhrescoException(e);
+		}
+		
+	}
+	
+	public static File getSourceFolderLocation(ProjectInfo projectinfo, String rootPath, String moduleName) throws PhrescoException {
+		File docFile = null;
+		try {
+			String getpomFileLocation = Utility.getpomFileLocation(rootPath, moduleName);
+			PomProcessor pomPro = new PomProcessor(new File(getpomFileLocation));
+			String property = pomPro.getProperty("phresco.split.src.dir");
+			if(projectinfo.isMultiModule() && StringUtils.isNotEmpty(property)) {
+			 docFile = new File(rootPath + File.separator + property + File.separator + moduleName);
+			} else if(projectinfo.isMultiModule() && StringUtils.isEmpty(property)) {
+				 docFile = new File(rootPath + File.separator + moduleName);
+			} else if (!projectinfo.isMultiModule() && StringUtils.isNotEmpty(property)) {
+				 docFile = new File(rootPath + File.separator + property);
+			} else {
+				 docFile = new File(rootPath);
+			}
+			return docFile;
+		} catch (PhrescoException e) {
+			throw new PhrescoException(e);
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		}
+	}
+	
+	public static File getTestFolderLocation(ProjectInfo projectinfo, String rootPath, String moduleName) throws PhrescoException {
+		File docFile = null;
+		try {
+			String getpomFileLocation = Utility.getpomFileLocation(rootPath, moduleName);
+			PomProcessor pomPro = new PomProcessor(new File(getpomFileLocation));
+			String src = pomPro.getProperty("phresco.split.test.dir");
+			String test = pomPro.getProperty("phresco.split.src.dir");
+			if(projectinfo.isMultiModule() && StringUtils.isNotEmpty(test)) {
+			 docFile = new File(rootPath + File.separator + test + File.separator + moduleName);
+			} else if(projectinfo.isMultiModule() && StringUtils.isNotEmpty(src)) {
+			 docFile = new File(rootPath + File.separator + src + File.separator + moduleName);
+			} else if(projectinfo.isMultiModule() && StringUtils.isEmpty(src)) {
+				 docFile = new File(rootPath + File.separator + moduleName);
+			} else if (!projectinfo.isMultiModule() && StringUtils.isNotEmpty(src)) {
+				 docFile = new File(rootPath + File.separator + src);
+			} else {
+				 docFile = new File(rootPath);
+			}
+			return docFile;
+		} catch (PhrescoException e) {
+			throw new PhrescoException(e);
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		}
+	}
+	
+	
+	public static String getpomFileLocation(String appDirPath, String module) throws PhrescoException {
+		try {
+			File appDir = new File(appDirPath);
+			File[] split_phresco = null;
+			File[] split_src = null;
+			File[] dotPhrescoFolders = null;
+			File dotAppDir = null;
+			File srcAppDir = null;
+			ProjectInfo projectInfo = getProjectInfo(appDirPath, module);
+			ApplicationInfo appInfo = projectInfo.getAppInfos().get(0);
+			
+			if (StringUtils.isNotEmpty(module)) {
+ 				File appDirT = new File(appDir + File.separator + module);
+ 				dotPhrescoFolders = appDirT.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
+ 			} else {
+			dotPhrescoFolders = appDir.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
+ 			}
+			if (ArrayUtils.isEmpty(dotPhrescoFolders)) {
+				if (StringUtils.isNotEmpty(module)) {
+					dotAppDir = new File(appDir + File.separator + appDir.getName() + "_phresco" + File.separator
+							+ module);
+				} else {
+					dotAppDir = new File(appDir + File.separator + appDir.getName() + "_phresco");
+				}
+				split_phresco = dotAppDir.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
+				if (ArrayUtils.isEmpty(split_phresco)) {
+					if (StringUtils.isNotEmpty(module)) {
+						srcAppDir = new File(appDir + File.separator + appDir.getName()  + File.separator
+								+ module);
+					} else {
+						srcAppDir = new File(appDir + File.separator + appDir.getName());
+					}
+					split_src = srcAppDir.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
+				}
+			}
+
+			if (!ArrayUtils.isEmpty(dotPhrescoFolders)) {
+				File parentFile = dotPhrescoFolders[0].getParentFile();
+				File pomFile= new File(parentFile +  File.separator + appInfo.getPhrescoPomFile());
+				if(pomFile.exists()) {
+					return pomFile.getPath();
+				} 
+				pomFile = new File(parentFile +  File.separator + appInfo.getPomFile());
+				 if(pomFile.exists()) {
+						return pomFile.getPath();
+				} 
+			}
+			if (!ArrayUtils.isEmpty(split_phresco)) {
+				File parentFile = split_phresco[0].getParentFile();
+				File pomFile = new File(parentFile +  File.separator + appInfo.getPhrescoPomFile());
+				if(pomFile.exists()) {
+					return pomFile.getPath();
+				} 
+				pomFile = new File(parentFile +  File.separator + appInfo.getPomFile());
+				 if(pomFile.exists()) {
+						return pomFile.getPath();
+				} 
+			}
+			if (!ArrayUtils.isEmpty(split_src)) {
+				File parentFile = split_src[0].getParentFile();
+				File pomFile = new File(parentFile +  File.separator + appInfo.getPhrescoPomFile());
+				if(pomFile.exists()) {
+					return pomFile.getPath();
+				} 
+				pomFile = new File(parentFile +  File.separator + appInfo.getPomFile());
+				 if(pomFile.exists()) {
+						return pomFile.getPath();
+				} 
+			}
+			
+		} catch (JsonSyntaxException e) {
+			throw new PhrescoException(e);
+		} catch (JsonIOException e) {
+			throw new PhrescoException(e);
+		}
+		return null;
+		
+	}
+	
+	public static PomProcessor getPomProcessor(String rootModulePath , String subModule) throws PhrescoException {
+		try {
+			String getpomFileLocation = getpomFileLocation(rootModulePath, subModule);
+			return new PomProcessor(new File(getpomFileLocation));
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		}
+	}
+	
+	
+	private static class PhrescoFileNameFilter implements FilenameFilter {
+		 private String filter_;
+		 public PhrescoFileNameFilter(String filter) {
+			 filter_ = filter;
+		 }
+		 public boolean accept(File dir, String name) {
+			 return name.endsWith(filter_);
+		 }
+	 }
 }
