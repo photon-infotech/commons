@@ -123,12 +123,13 @@ public class ProjectUtils implements Constants {
 		.append(DOT_PHRESCO_FOLDER)
 		.append(File.separatorChar)
 		.append(PROJECT_INFO_FILE);
+		BufferedReader bufferedReader = null;
 		try {
 			File projectInfoFile = new File(builder.toString());
 			if (!projectInfoFile.exists()) {
 				return null;
 			}
-			BufferedReader bufferedReader = new BufferedReader(new FileReader(builder.toString()));
+			bufferedReader = new BufferedReader(new FileReader(builder.toString()));
 			Gson gson = new Gson();
 			ProjectInfo projectInfo = gson.fromJson(bufferedReader, ProjectInfo.class);
 			ApplicationInfo applicationInfo = null;
@@ -142,6 +143,8 @@ public class ProjectUtils implements Constants {
 			throw new PhrescoException(e);
 		} catch (FileNotFoundException e) {
 			throw new PhrescoException(e);
+		} finally {
+			Utility.closeReader(bufferedReader);
 		}
 	}
 	
@@ -229,6 +232,8 @@ public class ProjectUtils implements Constants {
 			throw new PhrescoException(e);
 		} catch (FileNotFoundException e) {
 			throw new PhrescoException(e);
+		} finally {
+			Utility.closeReader(reader);
 		}
 		return projectinfo;
 	}
@@ -464,17 +469,13 @@ public class ProjectUtils implements Constants {
 		}
 	}
 	
-	public void addServerPlugin(ApplicationInfo info, File path) throws PhrescoException {
+	public void addServerPlugin(ApplicationInfo info, File path, String dotPhrescoFolderPath) throws PhrescoException {
 		List<ArtifactGroupInfo> servers = info.getSelectedServers();
 		if (CollectionUtils.isEmpty(servers)) {
 			return;
 		}
-		StringBuilder appHandlerPath = new StringBuilder(Utility.getProjectHome());
-		if (StringUtils.isNotEmpty(info.getRootModule())) {
-			appHandlerPath.append(info.getRootModule()).append(File.separator);
-		}
-		appHandlerPath.append(info.getAppDirName()).append(File.separator).append(DOT_PHRESCO_FOLDER).append(File.separator).append(APPLICATION_HANDLER_INFO_FILE);
-		File pluginInfoFile = new File(appHandlerPath.toString());
+		String appHandlerPath = dotPhrescoFolderPath + File.separator + APPLICATION_HANDLER_INFO_FILE;
+		File pluginInfoFile = new File(appHandlerPath);
 		MojoProcessor mojoProcessor = new MojoProcessor(pluginInfoFile);
 		ApplicationHandler applicationHandler = mojoProcessor.getApplicationHandler();
 		String selectedServers = applicationHandler.getSelectedServer();
