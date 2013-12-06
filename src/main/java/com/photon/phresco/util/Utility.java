@@ -772,9 +772,9 @@ public final class Utility implements Constants {
 			builder.append(dotPhrescoFolderPath);
 			builder.append(File.separator);
 			builder.append(CI_INFO);
-		} else if ((StringUtils.isEmpty(appDir)) && ("write".equals(status))) {
+		} else if ((StringUtils.isEmpty(appDir)) && (WRITE.equals(status))) {
 			builder.append(CI_INFO);
-		} else if(StringUtils.isEmpty(appDir) && (!StringUtils.isEmpty(globalInfo)) && ("read".equals(status))) {
+		} else if(StringUtils.isEmpty(appDir) && (!StringUtils.isEmpty(globalInfo)) && (READ.equals(status))) {
 			builder.append(dotPhrescoFolderPath);
 			builder.append(File.separator);
 			builder.append(CI_GLOBAL_INFO);
@@ -792,9 +792,9 @@ public final class Utility implements Constants {
 			builder.append(DOT_PHRESCO_FOLDER);
 			builder.append(File.separator);
 			builder.append(CI_INFO);
-		} else if ((StringUtils.isEmpty(appDir)) && ("write".equals(status))) {
+		} else if ((StringUtils.isEmpty(appDir)) && (WRITE.equals(status))) {
 			builder.append(CI_INFO);
-		} else if(StringUtils.isEmpty(appDir) && (!StringUtils.isEmpty(globalInfo)) && ("read".equals(status))) {
+		} else if(StringUtils.isEmpty(appDir) && (!StringUtils.isEmpty(globalInfo)) && (READ.equals(status))) {
 			builder.append(globalInfo);
 			builder.append(File.separator);
 			builder.append(DOT_PHRESCO_FOLDER);
@@ -888,10 +888,10 @@ public final class Utility implements Constants {
 			
 			if (ArrayUtils.isEmpty(dotPhrescoFolders)) {
 				if (StringUtils.isNotEmpty(module)) {
-					dotAppDir = new File(appDir + File.separator + appDir.getName() + "_phresco" + File.separator
+					dotAppDir = new File(appDir + File.separator + appDir.getName() + SUFFIX_PHRESCO + File.separator
 							+ module);
 				} else {
-					dotAppDir = new File(appDir + File.separator + appDir.getName() + "_phresco");
+					dotAppDir = new File(appDir + File.separator + appDir.getName() + SUFFIX_PHRESCO);
 				}
 				split_phresco = dotAppDir.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
 				if (ArrayUtils.isEmpty(split_phresco)) {
@@ -957,10 +957,10 @@ public final class Utility implements Constants {
 			
 			if (ArrayUtils.isEmpty(dotPhrescoFolders)) {
 				if (StringUtils.isNotEmpty(module)) {
-					dotAppDir = new File(appDir + File.separator + appDir.getName() + "_phresco" + File.separator
+					dotAppDir = new File(appDir + File.separator + appDir.getName() + SUFFIX_PHRESCO + File.separator
 							+ module);
 				} else {
-					dotAppDir = new File(appDir + File.separator + appDir.getName() + "_phresco");
+					dotAppDir = new File(appDir + File.separator + appDir.getName() + SUFFIX_PHRESCO);
 				}
 				split_phresco = dotAppDir.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
 				if (ArrayUtils.isEmpty(split_phresco)) {
@@ -1018,10 +1018,10 @@ public final class Utility implements Constants {
  			}
 			if (ArrayUtils.isEmpty(dotPhrescoFolders)) {
 				if (StringUtils.isNotEmpty(module)) {
-					dotAppDir = new File(appDir + File.separator + appDir.getName() + "_phresco" + File.separator
+					dotAppDir = new File(appDir + File.separator + appDir.getName() + SUFFIX_PHRESCO + File.separator
 							+ module);
 				} else {
-					dotAppDir = new File(appDir + File.separator + appDir.getName() + "_phresco");
+					dotAppDir = new File(appDir + File.separator + appDir.getName() + SUFFIX_PHRESCO);
 				}
 				split_phresco = dotAppDir.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
 				if (ArrayUtils.isEmpty(split_phresco)) {
@@ -1059,7 +1059,7 @@ public final class Utility implements Constants {
 		try {
 			String getpomFileLocation = Utility.getpomFileLocation(rootPath, moduleName);
 			PomProcessor pomPro = new PomProcessor(new File(getpomFileLocation));
-			String property = pomPro.getProperty("phresco.split.src.dir");
+			String property = pomPro.getProperty(POM_PROP_KEY_SPLIT_SRC_DIR);
 			if(projectinfo.isMultiModule() && StringUtils.isNotEmpty(property)) {
 			 docFile = new File(rootPath + File.separator + property + File.separator + moduleName);
 			} else if(projectinfo.isMultiModule() && StringUtils.isEmpty(property)) {
@@ -1082,8 +1082,8 @@ public final class Utility implements Constants {
 		try {
 			String getpomFileLocation = Utility.getpomFileLocation(rootPath, moduleName);
 			PomProcessor pomPro = new PomProcessor(new File(getpomFileLocation));
-			String src = pomPro.getProperty("phresco.split.test.dir");
-			String test = pomPro.getProperty("phresco.split.src.dir");
+			String src = pomPro.getProperty(POM_PROP_KEY_SPLIT_TEST_DIR);
+			String test = pomPro.getProperty(POM_PROP_KEY_SPLIT_SRC_DIR);
 			if(projectinfo.isMultiModule() && StringUtils.isNotEmpty(test)) {
 			 docFile = new File(rootPath + File.separator + test + File.separator + moduleName);
 			} else if(projectinfo.isMultiModule() && StringUtils.isNotEmpty(src)) {
@@ -1123,10 +1123,10 @@ public final class Utility implements Constants {
  			}
 			if (ArrayUtils.isEmpty(dotPhrescoFolders)) {
 				if (StringUtils.isNotEmpty(module)) {
-					dotAppDir = new File(appDir + File.separator + appDir.getName() + "_phresco" + File.separator
+					dotAppDir = new File(appDir + File.separator + appDir.getName() + SUFFIX_PHRESCO + File.separator
 							+ module);
 				} else {
-					dotAppDir = new File(appDir + File.separator + appDir.getName() + "_phresco");
+					dotAppDir = new File(appDir + File.separator + appDir.getName() + SUFFIX_PHRESCO);
 				}
 				split_phresco = dotAppDir.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
 				if (ArrayUtils.isEmpty(split_phresco)) {

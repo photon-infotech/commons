@@ -295,8 +295,8 @@ public class UtilityTest {
 		List<ContinuousDelivery> continuousDeliveries = new ArrayList<ContinuousDelivery>();
 		continuousDeliveries.add(cont);
 		ProjectInfo projectInfo = getProjectInfo("wp1-wordpress3.4.2");
-//		File infoFile = new File(Utility.getCiJobInfoPath("wp1-wordpress3.4.2", "", "read"));
-		File infoFile = new File("");
+		File infoFile = new File(Utility.getCiJobInfoPath("wp1-wordpress3.4.2", "", "read"));
+//		File infoFile = new File("");
 		List<ProjectDelivery> ciJobInfo = Utility.getProjectDeliveries(infoFile);
 		for(ProjectDelivery del : ciJobInfo) {
 			del.setContinuousDeliveries(continuousDeliveries);
