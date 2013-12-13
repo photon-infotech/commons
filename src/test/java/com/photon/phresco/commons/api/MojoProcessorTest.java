@@ -17,7 +17,6 @@ import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Implementation;
 import com.photon.phresco.plugins.util.MojoProcessor;
-import com.photon.phresco.util.Utility;
 
 public class MojoProcessorTest {
 	MojoProcessor mojo = null;
@@ -48,7 +47,7 @@ public class MojoProcessorTest {
 	@Test
 	public void getImplDependencyTest() throws PhrescoException {
 		Implementation impl = mojo.getImplementationDependency("deploy");
-		Assert.assertEquals("com.photon.phresco.plugins", impl.getDependency().getGroupId());
+		Assert.assertEquals("com.photon.phresco.plugins", impl.getDependency().get(0).getGroupId());
 		Implementation implementationDependency = mojo.getImplementationDependency("build");
 		Assert.assertEquals(null, implementationDependency);
 		Implementation implementationDep = mojoPro.getImplementationDependency("build");
