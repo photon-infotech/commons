@@ -74,6 +74,7 @@ public interface Constants {
 	String NAME = "name";
 	String ENVIRONMENTS = "environments";
 	String ECLIPSE_HOME = "eclipseHome";
+	String PHRESCO_WORKSPACE = "PHRESCO_WORKSPACE";
 	/*String FILE_SEPARATOR = "/";
 	String BUILD_INFO_FILE_NAME = "build.info";
 	String DO_NOT_CHECKIN_DIR = "do_not_checkin";
