@@ -48,13 +48,15 @@ public class CIJob {
     private String collabNetFileReleasePattern = "";
     //confluence implementation
     private boolean enableConfluence = false;
+    private boolean enableTestFlight = false;
 	private String confluenceSite;
 	private boolean confluencePublish = false;
 	private String confluenceSpace = "";
 	private String confluencePage = "";
 	private boolean confluenceArtifacts = false;
 	private String confluenceOther = "";
-    
+    private String tokenPairName = "";
+    private String buildNotes = "";
     //  CI  automation
     // whether to clone the current jobs workspace for further reference
     private boolean cloneWorkspace = false;
@@ -400,6 +402,22 @@ public class CIJob {
 
 	public void setCloneWorkspace(boolean cloneWorkspace) {
 		this.cloneWorkspace = cloneWorkspace;
+	}
+
+	public String getTokenPairName() {
+		return tokenPairName;
+	}
+
+	public void setTokenPairName(String tokenPairName) {
+		this.tokenPairName = tokenPairName;
+	}
+
+	public String getBuildNotes() {
+		return buildNotes;
+	}
+
+	public void setBuildNotes(String buildNotes) {
+		this.buildNotes = buildNotes;
 	}
 
 	public String getUsedClonnedWorkspace() {
@@ -1483,6 +1501,14 @@ public class CIJob {
 		this.device = device;
 	}
 
+	public boolean isEnableTestFlight() {
+		return enableTestFlight;
+	}
+
+	public void setEnableTestFlight(boolean enableTestFlight) {
+		this.enableTestFlight = enableTestFlight;
+	}
+
 	public String getJenkinsProtocol() {
 		return jenkinsProtocol;
 	}
@@ -1546,6 +1572,8 @@ public class CIJob {
 						.hashCode());
 		result = prime * result
 				+ ((buildName == null) ? 0 : buildName.hashCode());
+		result = prime * result
+				+ ((buildNotes == null) ? 0 : buildNotes.hashCode());
 		result = prime * result
 				+ ((buildNumber == null) ? 0 : buildNumber.hashCode());
 		result = prime * result + (cloneWorkspace ? 1231 : 1237);
@@ -1644,6 +1672,7 @@ public class CIJob {
 		result = prime * result + (enableConfluence ? 1231 : 1237);
 		result = prime * result + (enablePostBuildStep ? 1231 : 1237);
 		result = prime * result + (enablePreBuildStep ? 1231 : 1237);
+		result = prime * result + (enableTestFlight ? 1231 : 1237);
 		result = prime * result
 				+ ((encodingType == null) ? 0 : encodingType.hashCode());
 		result = prime * result + ((encrypt == null) ? 0 : encrypt.hashCode());
@@ -1807,6 +1836,8 @@ public class CIJob {
 		result = prime * result
 				+ ((testType == null) ? 0 : testType.hashCode());
 		result = prime * result + ((theme == null) ? 0 : theme.hashCode());
+		result = prime * result
+				+ ((tokenPairName == null) ? 0 : tokenPairName.hashCode());
 		result = prime
 				* result
 				+ ((triggerSimulator == null) ? 0 : triggerSimulator.hashCode());
@@ -1925,6 +1956,11 @@ public class CIJob {
 			if (other.buildName != null)
 				return false;
 		} else if (!buildName.equals(other.buildName))
+			return false;
+		if (buildNotes == null) {
+			if (other.buildNotes != null)
+				return false;
+		} else if (!buildNotes.equals(other.buildNotes))
 			return false;
 		if (buildNumber == null) {
 			if (other.buildNumber != null)
@@ -2121,6 +2157,8 @@ public class CIJob {
 		if (enablePostBuildStep != other.enablePostBuildStep)
 			return false;
 		if (enablePreBuildStep != other.enablePreBuildStep)
+			return false;
+		if (enableTestFlight != other.enableTestFlight)
 			return false;
 		if (encodingType == null) {
 			if (other.encodingType != null)
@@ -2546,6 +2584,11 @@ public class CIJob {
 			if (other.theme != null)
 				return false;
 		} else if (!theme.equals(other.theme))
+			return false;
+		if (tokenPairName == null) {
+			if (other.tokenPairName != null)
+				return false;
+		} else if (!tokenPairName.equals(other.tokenPairName))
 			return false;
 		if (triggerSimulator == null) {
 			if (other.triggerSimulator != null)
