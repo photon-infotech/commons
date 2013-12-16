@@ -36,6 +36,7 @@ public class CIJob {
     private List<String> triggers;
     private String repoType;
     private String branch;
+    private String projectPath;
   //collabNet implementation
     private boolean enableBuildRelease = false;
     private String collabNetURL = "";
@@ -1526,6 +1527,14 @@ public class CIJob {
 	}
 
 	
+	public void setProjectPath(String projectPath) {
+		this.projectPath = projectPath;
+	}
+
+	public String getProjectPath() {
+		return projectPath;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -1768,6 +1777,8 @@ public class CIJob {
 				+ ((proguard == null) ? 0 : proguard.hashCode());
 		result = prime * result
 				+ ((projectModule == null) ? 0 : projectModule.hashCode());
+		result = prime * result
+				+ ((projectPath == null) ? 0 : projectPath.hashCode());
 		result = prime * result
 				+ ((projectType == null) ? 0 : projectType.hashCode());
 		result = prime * result + ((query == null) ? 0 : query.hashCode());
@@ -2404,6 +2415,11 @@ public class CIJob {
 			if (other.projectModule != null)
 				return false;
 		} else if (!projectModule.equals(other.projectModule))
+			return false;
+		if (projectPath == null) {
+			if (other.projectPath != null)
+				return false;
+		} else if (!projectPath.equals(other.projectPath))
 			return false;
 		if (projectType == null) {
 			if (other.projectType != null)
