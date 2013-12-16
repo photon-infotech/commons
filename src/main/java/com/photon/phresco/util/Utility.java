@@ -266,10 +266,10 @@ public final class Utility implements Constants {
     	if(plugin != null) {
     		return getEclipseHome();
     	}
-    	String workspace = System.getProperty(PHRESCO_WORKSPACE);
-    	if (StringUtils.isNotEmpty(workspace)) {
-    		return workspace;
-    	}
+    	//String workspace = System.getProperty(PHRESCO_WORKSPACE);
+    	//if (StringUtils.isNotEmpty(workspace)) {
+    	//	return workspace;
+    	//}
         String phrescoHome = getPhrescoHome();
         StringBuilder builder = new StringBuilder(phrescoHome);
         builder.append(File.separator);
