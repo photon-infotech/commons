@@ -62,6 +62,12 @@ public class ApplicationInfo extends CustomerBasedElement {
     private List<ModuleInfo> modules;
     private String rootModule;
     private Map<String, String> selectedFeatureMap;
+    private boolean showServer;
+    private boolean showDatabase;
+    private boolean showWebservice;
+    private boolean showTestingFramework;
+
+	
 
 	public Map<String, String> getSelectedFeatureMap() {
 		return selectedFeatureMap;
@@ -266,6 +272,38 @@ public class ApplicationInfo extends CustomerBasedElement {
 
 	public String getPhrescoPomFile() {
 		return phrescoPomFile;
+	}
+	
+	public boolean isShowServer() {
+		return showServer;
+	}
+
+	public void setShowServer(boolean showServer) {
+		this.showServer = showServer;
+	}
+
+	public boolean isShowDatabase() {
+		return showDatabase;
+	}
+
+	public void setShowDatabase(boolean showDatabase) {
+		this.showDatabase = showDatabase;
+	}
+
+	public boolean isShowWebservice() {
+		return showWebservice;
+	}
+
+	public void setShowWebservice(boolean showWebservice) {
+		this.showWebservice = showWebservice;
+	}
+
+	public boolean isShowTestingFramework() {
+		return showTestingFramework;
+	}
+
+	public void setShowTestingFramework(boolean showTestingFramework) {
+		this.showTestingFramework = showTestingFramework;
 	}
 	
 	public String toString() {
