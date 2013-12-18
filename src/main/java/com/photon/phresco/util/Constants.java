@@ -74,6 +74,7 @@ public interface Constants {
 	String NAME = "name";
 	String ENVIRONMENTS = "environments";
 	String ECLIPSE_HOME = "eclipseHome";
+	String PHRESCO_WORKSPACE = "PHRESCO_WORKSPACE";
 	/*String FILE_SEPARATOR = "/";
 	String BUILD_INFO_FILE_NAME = "build.info";
 	String DO_NOT_CHECKIN_DIR = "do_not_checkin";
@@ -298,7 +299,7 @@ public interface Constants {
 	String POM_PROP_KEY_PHRESCO_ECLIPSE = "phresco.eclipse";
 	String POM_PROP_KEY_THEME_EXT = "phresco.theme.file.extension";
 	String PHRESCO_UNIT_TEST = "phresco.unitTest";
-	
+	String POM_PROP_KEY_CONFIG_JSON_PATH = "phresco.config.json.path";
 	/* theme builder path*/
 	String POM_PROP_KEY_THEME_BUILDER = "phresco.theme.builder.path";
 	String POM_PROP_KEY_THEME_BROWSE_BUILDER = "phresco.theme.builder.browse.path";

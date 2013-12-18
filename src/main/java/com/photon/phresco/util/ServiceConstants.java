@@ -91,6 +91,8 @@ public interface ServiceConstants {
 	String REST_API_PERFORMANCE_RESULTS = "/performanceTestResults";
 	String REST_API_LOAD_RESULTS = "/loadTestResults";
 	String REST_API_CUSTOMER_THEME = "/theme";
+	String REST_API_FAVOURITE_ICON = "/favIcon";
+	String REST_API_LOGIN_ICON = "/loginIcon";
 	String REST_API_DASHBOARD ="/dashboard";
 	String REST_API_DASHBOARD_ID ="/{dashboardid}";
 	String REST_API_WIDGET ="/widget";
@@ -187,6 +189,7 @@ public interface ServiceConstants {
 	String REST_QUERY_DATATYPE = "datatype";
 	String REST_QUERY_USER_NAME = "username";
 	String REST_QUERY_PASSWORD = "password";
+	String REST_QUERY_TFS_URL = "tfsUrl";
 	String REST_QUERY_WIDGET_QUERY = "query";
 	String REST_QUERY_WIDGET_ID = "widgetid";
 	String REST_QUERY_WIDGET_NAME = "name";
@@ -248,7 +251,11 @@ public interface ServiceConstants {
 	String UNABLE_TO_GET_LOAD_TEST_REULTS = "Unable to get load test reults";
 	String UNABLE_TO_GET_LOAD_TEST_RESULT_OPTIONS = "Unable to get load test result options";
 	String CUSTOMER_THEME_SUCCESS_STATUS = "Customer theme fetched";
+	String CUSTOMER_FAVOURITE_ICON_SUCCESS_STATUS = "Favourite Icon fetched";
+	String CUSTOMER_LOGIN_ICON_SUCCESS_STATUS = "Main Logo fetched";
 	String UNABLE_FETCH_CUTOMER_FAILURE_THEME = "Customer theme is not fetched";
+	String UNABLE_FETCH_FAVOURITE_ICON = "Favourite Icon is not fetched";
+	String UNABLE_FETCH_MAIN_LOGO_ICON = "Login Logo is not fetched";
 	
 	String PROJECT_CREATED_SUCCESSFULLY = "Project created Successfully";
 	String PROJECT_CREATED_FAILED = "Project creation failed";

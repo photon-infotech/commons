@@ -4550,7 +4550,7 @@ public class Mojos {
         public static class Implementation {
 
             @XmlElement(required = true)
-            protected Mojos.Mojo.Implementation.Dependency dependency;
+            protected List<Mojos.Mojo.Implementation.Dependency> dependency;
 
             /**
              * Gets the value of the dependency property.
@@ -4560,24 +4560,11 @@ public class Mojos {
              *     {@link Mojos.Mojo.Implementation.Dependency }
              *     
              */
-            public Mojos.Mojo.Implementation.Dependency getDependency() {
+            public List<Mojos.Mojo.Implementation.Dependency> getDependency() {
                 return dependency;
             }
 
-            /**
-             * Sets the value of the dependency property.
-             * 
-             * @param value
-             *     allowed object is
-             *     {@link Mojos.Mojo.Implementation.Dependency }
-             *     
-             */
-            public void setDependency(Mojos.Mojo.Implementation.Dependency value) {
-                this.dependency = value;
-            }
-
-
-            /**
+             /**
              * <p>Java class for anonymous complex type.
              * 
              * <p>The following schema fragment specifies the expected content contained within this class.
@@ -4606,7 +4593,8 @@ public class Mojos {
                 "artifactId",
                 "type",
                 "version",
-                "clazz"
+                "clazz",
+                "id"
             })
             public static class Dependency {
 
@@ -4620,8 +4608,10 @@ public class Mojos {
                 protected String version;
                 @XmlElement(name = "class", required = true)
                 protected String clazz;
+                @XmlElement(name = "id", required = true)
+                protected String id;
 
-                /**
+				/**
                  * Gets the value of the groupId property.
                  * 
                  * @return
@@ -4740,6 +4730,30 @@ public class Mojos {
                 public void setClazz(String value) {
                     this.clazz = value;
                 }
+                
+                /**
+                 * Gets the value of the clazz property.
+                 * 
+                 * @return
+                 *     possible object is
+                 *     {@link String }
+                 *     
+                 */
+                public String getId() {
+					return id;
+				}
+
+                /**
+                 * Sets the value of the clazz property.
+                 * 
+                 * @param value
+                 *     allowed object is
+                 *     {@link String }
+                 *     
+                 */
+				public void setId(String id) {
+					this.id = id;
+				}
 
             }
 
