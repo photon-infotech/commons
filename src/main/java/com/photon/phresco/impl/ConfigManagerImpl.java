@@ -96,6 +96,16 @@ public class ConfigManagerImpl implements ConfigManager {
 	}
 	
 	@Override
+	public Environment getEnvironment(String environmentName) throws ConfigurationException {
+		if(!configFile.exists()) {
+			throw new ConfigurationException("Config File Not Exists");
+		}
+		ConfigReader configReader = new ConfigReader(configFile);
+		
+		return configReader.getEnvironmentObatined(environmentName);
+	}
+	
+	@Override
 	public List<Environment> getEnvironments(List<String> environmentNames)
 			throws ConfigurationException {
 		if(!configFile.exists()) {

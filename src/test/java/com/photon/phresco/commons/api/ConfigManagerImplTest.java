@@ -33,7 +33,12 @@ public class ConfigManagerImplTest {
 		List<Environment> environments = configmanagerImpl.getEnvironments(Arrays.asList("dev"));
 		Assert.assertEquals(1, environments.size());
 	}
-
+	
+	@Test
+	public void getEnvironmentByNameTest() throws ConfigurationException {
+		Environment environment = configmanagerImpl.getEnvironment("dev");
+		Assert.assertTrue(environment != null);
+	}
 	
 	@Test
 	public void getEnvironmentTest() throws ConfigurationException {

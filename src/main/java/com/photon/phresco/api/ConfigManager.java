@@ -34,6 +34,14 @@ import com.photon.phresco.exception.PhrescoException;
 public interface ConfigManager {
 	
 	/**
+	 * Returns the environment with the names provided
+	 * @param name name of the environment to be returned
+	 * @return returns the environment with the matching name
+	 */
+	Environment getEnvironment(String names) throws ConfigurationException;
+	
+	
+	/**
 	 * Returns the list of environments with the names provided
 	 * @param names names of the environments to be returned
 	 * @return returns the environments with the matching names
