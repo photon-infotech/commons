@@ -770,15 +770,16 @@ public final class Utility implements Constants {
 	}
 
 	public static String getCiJobInfoPath(String appDir, String globalInfo, String status, String rootPath) throws PhrescoException {
-		StringBuilder builder = new StringBuilder(Utility.getProjectHome());
+		StringBuilder builder = new StringBuilder();
 		String dotPhrescoFolderPath = Utility.getDotPhrescoFolderPath(rootPath, "");
-		if (!StringUtils.isEmpty(appDir)) {
+		if (StringUtils.isNotEmpty(appDir)) {
 			builder.append(dotPhrescoFolderPath);
 			builder.append(File.separator);
 			builder.append(CI_INFO);
 		} else if ((StringUtils.isEmpty(appDir)) && (WRITE.equals(status))) {
+			builder.append(Utility.getProjectHome());
 			builder.append(CI_INFO);
-		} else if(StringUtils.isEmpty(appDir) && (!StringUtils.isEmpty(globalInfo)) && (READ.equals(status))) {
+		} else if(StringUtils.isEmpty(appDir) && (StringUtils.isNotEmpty(globalInfo)) && (READ.equals(status))) {
 			builder.append(dotPhrescoFolderPath);
 			builder.append(File.separator);
 			builder.append(CI_GLOBAL_INFO);
@@ -787,21 +788,21 @@ public final class Utility implements Constants {
 		return ciJobInfoFile.getPath();
 	}
 	
-	
-	public static String getCiJobInfoPath(String appDir, String globalInfo, String status) throws PhrescoException {
-		StringBuilder builder = new StringBuilder(Utility.getProjectHome());
-		if (!StringUtils.isEmpty(appDir)) {
-			builder.append(appDir);
-			builder.append(File.separator);
-			builder.append(DOT_PHRESCO_FOLDER);
+
+public static String getCiJobInfoPath(String appDir, String globalInfo, String status) throws PhrescoException {
+		String dotPhrescoFolderPath = "";
+		StringBuilder builder = new StringBuilder();
+		if (StringUtils.isNotEmpty(appDir)) {
+			dotPhrescoFolderPath = Utility.getDotPhrescoFolderPath(Utility.getProjectHome().concat(appDir), "");
+			builder.append(dotPhrescoFolderPath);
 			builder.append(File.separator);
 			builder.append(CI_INFO);
 		} else if ((StringUtils.isEmpty(appDir)) && (WRITE.equals(status))) {
+			builder.append(Utility.getProjectHome());
 			builder.append(CI_INFO);
 		} else if(StringUtils.isEmpty(appDir) && (!StringUtils.isEmpty(globalInfo)) && (READ.equals(status))) {
-			builder.append(globalInfo);
-			builder.append(File.separator);
-			builder.append(DOT_PHRESCO_FOLDER);
+			dotPhrescoFolderPath = Utility.getDotPhrescoFolderPath(Utility.getProjectHome().concat(globalInfo), "");
+			builder.append(dotPhrescoFolderPath);
 			builder.append(File.separator);
 			builder.append(CI_GLOBAL_INFO);
 		}
@@ -1061,36 +1062,10 @@ public final class Utility implements Constants {
 	public static File getSourceFolderLocation(ProjectInfo projectinfo, String rootPath, String moduleName) throws PhrescoException {
 		File docFile = null;
 		try {
-			String getpomFileLocation = Utility.getpomFileLocation(rootPath, moduleName);
-			PomProcessor pomPro = new PomProcessor(new File(getpomFileLocation));
-			String property = pomPro.getProperty(POM_PROP_KEY_SPLIT_SRC_DIR);
-			if(projectinfo.isMultiModule() && StringUtils.isNotEmpty(property)) {
-			 docFile = new File(rootPath + File.separator + property + File.separator + moduleName);
-			} else if(projectinfo.isMultiModule() && StringUtils.isEmpty(property)) {
-				 docFile = new File(rootPath + File.separator + moduleName);
-			} else if (!projectinfo.isMultiModule() && StringUtils.isNotEmpty(property)) {
-				 docFile = new File(rootPath + File.separator + property);
-			} else {
-				 docFile = new File(rootPath);
-			}
-			return docFile;
-		} catch (PhrescoException e) {
-			throw new PhrescoException(e);
-		} catch (PhrescoPomException e) {
-			throw new PhrescoException(e);
-		}
-	}
-	
-	public static File getTestFolderLocation(ProjectInfo projectinfo, String rootPath, String moduleName) throws PhrescoException {
-		File docFile = null;
-		try {
-			String getpomFileLocation = Utility.getpomFileLocation(rootPath, moduleName);
-			PomProcessor pomPro = new PomProcessor(new File(getpomFileLocation));
-			String src = pomPro.getProperty(POM_PROP_KEY_SPLIT_TEST_DIR);
-			String test = pomPro.getProperty(POM_PROP_KEY_SPLIT_SRC_DIR);
-			if(projectinfo.isMultiModule() && StringUtils.isNotEmpty(test)) {
-			 docFile = new File(rootPath + File.separator + test + File.separator + moduleName);
-			} else if(projectinfo.isMultiModule() && StringUtils.isNotEmpty(src)) {
+			File pomFile = Utility.getpomFileLocation(rootPath, moduleName);
+			PomProcessor pomPro = new PomProcessor(pomFile);
+			String src = pomPro.getProperty(POM_PROP_KEY_SPLIT_SRC_DIR);
+			if(projectinfo.isMultiModule() && StringUtils.isNotEmpty(src)) {
 			 docFile = new File(rootPath + File.separator + src + File.separator + moduleName);
 			} else if(projectinfo.isMultiModule() && StringUtils.isEmpty(src)) {
 				 docFile = new File(rootPath + File.separator + moduleName);
@@ -1107,8 +1082,36 @@ public final class Utility implements Constants {
 		}
 	}
 	
+	public static File getTestFolderLocation(ProjectInfo projectinfo, String rootPath, String moduleName) throws PhrescoException {
+		File docFile = null;
+		try {
+			File pomFile = Utility.getpomFileLocation(rootPath, moduleName);
+			PomProcessor pomPro = new PomProcessor(pomFile);
+			String src = pomPro.getProperty(POM_PROP_KEY_SPLIT_TEST_DIR);
+			String test = pomPro.getProperty(POM_PROP_KEY_SPLIT_SRC_DIR);
+			if(projectinfo.isMultiModule() && StringUtils.isNotEmpty(test)) {
+			 docFile = new File(rootPath + File.separator + test + File.separator + moduleName);
+			} else if(projectinfo.isMultiModule() && StringUtils.isNotEmpty(src)) {
+			 docFile = new File(rootPath + File.separator + src + File.separator + moduleName);
+			} else if(projectinfo.isMultiModule() && StringUtils.isEmpty(src)) {
+				 docFile = new File(rootPath + File.separator + moduleName);
+			} else if (!projectinfo.isMultiModule() && StringUtils.isNotEmpty(test)) {
+				 docFile = new File(rootPath + File.separator + test);
+			}else if (!projectinfo.isMultiModule() && StringUtils.isNotEmpty(src)) {
+				 docFile = new File(rootPath + File.separator + src);
+			} else {
+				 docFile = new File(rootPath);
+			}
+			return docFile;
+		} catch (PhrescoException e) {
+			throw new PhrescoException(e);
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		}
+	}
 	
-	public static String getpomFileLocation(String appDirPath, String module) throws PhrescoException {
+	
+	public static File getpomFileLocation(String appDirPath, String module) throws PhrescoException {
 		try {
 			File appDir = new File(appDirPath);
 			File[] split_phresco = null;
@@ -1148,33 +1151,33 @@ public final class Utility implements Constants {
 				File parentFile = dotPhrescoFolders[0].getParentFile();
 				File pomFile= new File(parentFile +  File.separator + appInfo.getPhrescoPomFile());
 				if(pomFile.exists()) {
-					return pomFile.getPath();
+					return pomFile;
 				} 
 				pomFile = new File(parentFile +  File.separator + appInfo.getPomFile());
 				 if(pomFile.exists()) {
-						return pomFile.getPath();
+						return pomFile;
 				} 
 			}
 			if (!ArrayUtils.isEmpty(split_phresco)) {
 				File parentFile = split_phresco[0].getParentFile();
 				File pomFile = new File(parentFile +  File.separator + appInfo.getPhrescoPomFile());
 				if(pomFile.exists()) {
-					return pomFile.getPath();
+					return pomFile;
 				} 
 				pomFile = new File(parentFile +  File.separator + appInfo.getPomFile());
 				 if(pomFile.exists()) {
-						return pomFile.getPath();
+						return pomFile;
 				} 
 			}
 			if (!ArrayUtils.isEmpty(split_src)) {
 				File parentFile = split_src[0].getParentFile();
 				File pomFile = new File(parentFile +  File.separator + appInfo.getPhrescoPomFile());
 				if(pomFile.exists()) {
-					return pomFile.getPath();
+					return pomFile;
 				} 
 				pomFile = new File(parentFile +  File.separator + appInfo.getPomFile());
 				 if(pomFile.exists()) {
-						return pomFile.getPath();
+						return pomFile;
 				} 
 			}
 			
@@ -1189,8 +1192,8 @@ public final class Utility implements Constants {
 	
 	public static PomProcessor getPomProcessor(String rootModulePath , String subModule) throws PhrescoException {
 		try {
-			String getpomFileLocation = getpomFileLocation(rootModulePath, subModule);
-			return new PomProcessor(new File(getpomFileLocation));
+			File pomFile = getpomFileLocation(rootModulePath, subModule);
+			return new PomProcessor(pomFile);
 		} catch (PhrescoPomException e) {
 			throw new PhrescoException(e);
 		}

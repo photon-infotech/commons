@@ -38,6 +38,7 @@ import org.apache.commons.lang.StringUtils;
 import com.photon.phresco.api.ConfigManager;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
+import com.photon.phresco.commons.model.ProjectInfo;
 import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.configuration.Environment;
 import com.photon.phresco.exception.PhrescoException;
@@ -59,17 +60,30 @@ public class IPhonePhrescoApplicationProcessor extends AbstractApplicationProces
 
 	@Override
 	public void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroup, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
-		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
+		String rootModulePath = "";
+		String subModuleName = "";
+		if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+			rootModulePath = Utility.getProjectHome() + appInfo.getRootModule();
+			subModuleName = appInfo.getAppDirName();
+		} else {
+			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
+		}
+		
+		File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
+		File pomFile = new File(sourceFolderLocation.getPath() + File.separator + appInfo.getPomFile());
+		
 		ProjectUtils projectUtils = new ProjectUtils();
-		projectUtils.deletePluginExecutionFromPom(pomFile);
+		projectUtils.deletePluginExecutionFromPom(phrescoPomFile);
 		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
-			projectUtils.removeExtractedFeatures(appInfo, deletedFeatures);
-			projectUtils.deleteFeatureDependencies(appInfo, deletedFeatures);
+			projectUtils.removeExtractedFeatures(phrescoPomFile,sourceFolderLocation, deletedFeatures);
+			projectUtils.deleteFeatureDependencies(pomFile, deletedFeatures);
 		}
 		if(CollectionUtils.isNotEmpty(artifactGroup)) { 
-			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
+			projectUtils.updatePOMWithPluginArtifact(pomFile,phrescoPomFile, artifactGroup);
 		}
-		BufferedReader breader = projectUtils.ExtractFeature(appInfo);
+		BufferedReader breader = projectUtils.ExtractFeature(phrescoPomFile);
 		try {
 			String line = "";
 			while ((line = breader.readLine()) != null) {
@@ -84,15 +98,26 @@ public class IPhonePhrescoApplicationProcessor extends AbstractApplicationProces
 
 	@Override
 	public void postConfiguration(ApplicationInfo appInfo, List<Configuration> configs) throws PhrescoException {
-		File ConfigFilePath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.DOT_PHRESCO_FOLDER + File.separator + Constants.CONFIGURATION_INFO_FILE);
 		try {
+			
+			String rootModulePath = "";
+			String subModuleName = "";
+			if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+				rootModulePath = Utility.getProjectHome() + appInfo.getRootModule();
+				subModuleName = appInfo.getAppDirName();
+			} else {
+				rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
+			}
+			File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+			ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+			File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
+			String dotPhrescoFolderPath = Utility.getDotPhrescoFolderPath(rootModulePath, subModuleName);
+			File ConfigFilePath = new File(dotPhrescoFolderPath + File.separator + Constants.CONFIGURATION_INFO_FILE);
 			ConfigManager configManager = new ConfigManagerImpl(ConfigFilePath);
 			List<Environment> environments = configManager.getEnvironments();
 			for (Environment environment : environments) {
-				String environmenName = "";
-				Map<String, List<Properties>> values = new HashMap<String, List<Properties>>();
 				String environmentName = environment.getName();
-				File file = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + environmentName);
+				File file = new File(sourceFolderLocation + getThirdPartyFolder(phrescoPomFile) + File.separator + environmentName);
 				if(!file.exists()) {
 					file.mkdir();
 				}
@@ -109,8 +134,19 @@ public class IPhonePhrescoApplicationProcessor extends AbstractApplicationProces
 
 	@Override
 	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo, String featureName) throws PhrescoException {
-		File plistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + featureName+RESOURCE +File.separator + PLIST);
 		try {
+		String rootModulePath = "";
+		String subModuleName = "";
+		if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+			rootModulePath = Utility.getProjectHome() + appInfo.getRootModule();
+			subModuleName = appInfo.getAppDirName();
+		} else {
+			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
+		}
+		File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
+		File plistFile = new File(sourceFolderLocation + getThirdPartyFolder(phrescoPomFile) + File.separator + featureName + File.separator + featureName+RESOURCE +File.separator + PLIST);
 			//		    if (!plistFile.exists()) {
 			//		        throw new PhrescoException("feature-manifest.plist file does not exist");
 			//		    }
@@ -124,7 +160,18 @@ public class IPhonePhrescoApplicationProcessor extends AbstractApplicationProces
 	public void postFeatureConfiguration(ApplicationInfo appInfo, List<Configuration> configs, String featureName)
 	throws PhrescoException {
 		try {
-			String plistPath = Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + featureName+RESOURCE +File.separator + INFO_PLIST;
+			String rootModulePath = "";
+			String subModuleName = "";
+			if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+				rootModulePath = Utility.getProjectHome() + appInfo.getRootModule();
+				subModuleName = appInfo.getAppDirName();
+			} else {
+				rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
+			}
+			File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+			ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+			File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
+			String plistPath = sourceFolderLocation.getPath() + getThirdPartyFolder(phrescoPomFile) + File.separator + featureName + File.separator + featureName+RESOURCE +File.separator + INFO_PLIST;
 			storeConfigObjAsPlist(configs, plistPath);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -221,10 +268,9 @@ public class IPhonePhrescoApplicationProcessor extends AbstractApplicationProces
 		}
 	}
 
-	private String getThirdPartyFolder(ApplicationInfo appInfo) throws PhrescoException { 
-		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
+	private String getThirdPartyFolder(File phrescoPomFile) throws PhrescoException { 
 		try {
-			PomProcessor processor = new PomProcessor(pomPath);
+			PomProcessor processor = new PomProcessor(phrescoPomFile);
 			String property = processor.getProperty(Constants.POM_PROP_KEY_MODULE_SOURCE_DIR);
 			if(StringUtils.isNotEmpty(property)) {
 				return property;
@@ -268,8 +314,18 @@ public class IPhonePhrescoApplicationProcessor extends AbstractApplicationProces
 	public void preBuild(ApplicationInfo appInfo) throws PhrescoException {
 		Configuration configuration = new Configuration();
 		Properties properties = new Properties();
-		String baseDir = Utility.getProjectHome() + appInfo.getAppDirName();	
-		File pluginInfoFile = new File(baseDir + File.separator + Constants.PACKAGE_INFO_FILE);
+		String rootModulePath = "";
+		String subModuleName = "";
+		if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+			rootModulePath = Utility.getProjectHome() + appInfo.getRootModule();
+			subModuleName = appInfo.getAppDirName();
+		} else {
+			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
+		}
+		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
+		String dotPhrescoFolderPath = Utility.getDotPhrescoFolderPath(rootModulePath, subModuleName);
+		File pluginInfoFile = new File(dotPhrescoFolderPath + File.separator + Constants.PACKAGE_INFO_XML);
 		MojoProcessor mojoProcessor = new MojoProcessor(pluginInfoFile);
 		Parameter environmentParameter = mojoProcessor.getParameter(Constants.MVN_GOAL_PACKAGE, Constants.MOJO_KEY_ENVIRONMENT_NAME);
 		String environmentValue = environmentParameter.getValue();
@@ -280,7 +336,7 @@ public class IPhonePhrescoApplicationProcessor extends AbstractApplicationProces
 		}
 		properties.put(Constants.MOJO_KEY_ENVIRONMENT_NAME, environmentValue);
 		configuration.setProperties(properties);
-		String plistFile = baseDir + File.separator + "source/info.plist";
+		String plistFile = sourceFolderLocation.getPath() + File.separator + "source/info.plist";
 		List<Configuration> asList = Arrays.asList(configuration);
 		try {
 			storeConfigObjAsPlist(asList, plistFile);
@@ -291,8 +347,19 @@ public class IPhonePhrescoApplicationProcessor extends AbstractApplicationProces
 
 	@Override
 	public List<Configuration> preConfiguration(ApplicationInfo appInfo, String featureName, String envName) throws PhrescoException {
-		File plistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + featureName+RESOURCE +File.separator + PLIST);
 		try {
+			String rootModulePath = "";
+			String subModuleName = "";
+			if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+				rootModulePath = Utility.getProjectHome() + appInfo.getRootModule();
+				subModuleName = appInfo.getAppDirName();
+			} else {
+				rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
+			}
+			ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+			File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
+			File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+			File plistFile = new File(sourceFolderLocation + getThirdPartyFolder(phrescoPomFile) + File.separator + featureName + File.separator + featureName+RESOURCE +File.separator + PLIST);
 			return getConfigFromPlist(plistFile.getPath());
 		} catch (Exception e) {
 			throw new PhrescoException(e);

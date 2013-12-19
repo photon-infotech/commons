@@ -63,7 +63,7 @@ public class ProjectUtilsTest {
 	@Test
 	public void updatePOMWithEmptyPluginArtifactTest() throws PhrescoException {
 		File pomFile = new File(Utility.getProjectHome()+"wp1-wordpress3.4.2"+File.separator+"pom.xml");
-		projectUtils.updatePOMWithPluginArtifact(pomFile, null);
+		projectUtils.updatePOMWithPluginArtifact(pomFile,pomFile, null);
 	}
 	
 	@Test
@@ -79,7 +79,7 @@ public class ProjectUtilsTest {
 		appliesTo.add(coreOption);
 		group.setAppliesTo(appliesTo);
 		artifactGroup.add(group);
-		projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
+		projectUtils.updatePOMWithPluginArtifact(pomFile,pomFile, artifactGroup);
 	}
 	
 	@Test
@@ -104,11 +104,13 @@ public class ProjectUtilsTest {
 		artifactInfos.add(artInfo);
 		group.setVersions(artifactInfos);
 		artifactGroup.add(group);
-		projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
+		projectUtils.updatePOMWithPluginArtifact(pomFile,pomFile, artifactGroup);
 	}
 	
 	@Test
 	public void removeExtractedFeaturesTest() throws PhrescoException {
+		File pomFile = new File(Utility.getProjectHome()+"wp1-wordpress3.4.2"+File.separator+"pom.xml");
+		File srcFolder = new File(Utility.getProjectHome()+"wp1-wordpress3.4.2");
 		List<ArtifactGroup> removedArtifacts = new ArrayList<ArtifactGroup>();
 		ArtifactGroup group = new ArtifactGroup("testGroupId1", "testArtifactId1");
 		group.setPackaging("zip");
@@ -128,7 +130,7 @@ public class ProjectUtilsTest {
 		artifactInfos.add(artInfo);
 		group.setVersions(artifactInfos);
 		removedArtifacts.add(group);
-		projectUtils.removeExtractedFeatures(getProjectInfo("wp1-wordpress3.4.2").getAppInfos().get(0), null);
+		projectUtils.removeExtractedFeatures(pomFile,srcFolder,  null);
 	}
 	
 	@Test
@@ -153,7 +155,7 @@ public class ProjectUtilsTest {
 		artifactInfos.add(artInfo);
 		group.setVersions(artifactInfos);
 		artifactGroup.add(group);
-		projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
+		projectUtils.updatePOMWithPluginArtifact(pomFile,pomFile, artifactGroup);
 	}
 	
 	@Test
@@ -178,7 +180,7 @@ public class ProjectUtilsTest {
 		artifactInfos.add(artInfo);
 		group.setVersions(artifactInfos);
 		artifactGroup.add(group);
-		projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
+		projectUtils.updatePOMWithPluginArtifact(pomFile, pomFile, artifactGroup);
 	}
 	
 	@Test
@@ -196,11 +198,12 @@ public class ProjectUtilsTest {
 		artifactInfos.add(artInfo);
 		group.setVersions(artifactInfos);
 		artifactGroup.add(group);
-		projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroup);
+		projectUtils.updatePOMWithPluginArtifact(pomFile,pomFile, artifactGroup);
 	}
 	
 	@Test
 	public void deleteFeatureDependenciesTest() throws PhrescoException {
+		File pomFile = new File(Utility.getProjectHome()+"wp1-wordpress3.4.2"+File.separator+"pom.xml");
 		List<ArtifactGroup> artifactGroup = new ArrayList<ArtifactGroup>();
 		ArtifactGroup group = new ArtifactGroup("testGroupId", "testArtifactId");
 		group.setPackaging("jar");
@@ -213,7 +216,7 @@ public class ProjectUtilsTest {
 		artifactInfos.add(artInfo);
 		group.setVersions(artifactInfos);
 		artifactGroup.add(group);
-		projectUtils.deleteFeatureDependencies(getProjectInfo("wp1-wordpress3.4.2").getAppInfos().get(0), artifactGroup);
+		projectUtils.deleteFeatureDependencies(pomFile, artifactGroup);
 	}
 	
 	@Test
@@ -252,7 +255,8 @@ public class ProjectUtilsTest {
 	
 	@Test
 	public void extractFeatureTest() throws IOException, PhrescoException {
-		projectUtils.ExtractFeature(getProjectInfo("wp1-wordpress3.4.2").getAppInfos().get(0));
+		File pomFile = new File(Utility.getProjectHome()+"wp1-wordpress3.4.2"+File.separator+"pom.xml");
+		projectUtils.ExtractFeature(pomFile);
 	}
 	
 	@Test(expected=PhrescoException.class)
@@ -272,6 +276,7 @@ public class ProjectUtilsTest {
 		
 	@Test
 	public void removeMarkerFilesTest() throws Exception {
+		File pomFile = new File(Utility.getProjectHome()+"wp1-wordpress3.4.2"+File.separator+"pom.xml");
 		List<ArtifactGroup> removedArtifacts = new ArrayList<ArtifactGroup>();
 		ArtifactGroup group = new ArtifactGroup("testGroupId1", "testArtifactId1");
 		group.setPackaging("zip");
@@ -291,7 +296,7 @@ public class ProjectUtilsTest {
 		artifactInfos.add(artInfo);
 		group.setVersions(artifactInfos);
 		removedArtifacts.add(group);
-		projectUtils.removeMarkerFiles(getProjectInfo("wp1-wordpress3.4.2").getAppInfos().get(0), removedArtifacts);
+		projectUtils.removeMarkerFiles(pomFile, removedArtifacts);
 	}
 			
 	private static ProjectInfo getProjectInfo(String appDirName) throws PhrescoException {

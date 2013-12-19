@@ -64,6 +64,7 @@ import com.phloc.css.decl.ICSSTopLevelRule;
 import com.phloc.css.writer.CSSWriterSettings;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
+import com.photon.phresco.commons.model.ProjectInfo;
 import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.plugins.model.Assembly.FileSets.FileSet;
@@ -85,50 +86,35 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 
 	@Override
 	public void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroups, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
-		StringBuilder sb = new StringBuilder(Utility.getProjectHome());
-		if(StringUtils.isNotEmpty(appInfo.getRootModule())) {
-			sb.append(appInfo.getRootModule())
-			.append(File.separator);
-		}
-		sb.append(appInfo.getAppDirName());
 		
-		String phrescoPom = Utility.getPhrescoPomFromWorkingDirectory(appInfo, new File(sb.toString()));
-		String pom = Utility.getPomFileNameFromRootModule(appInfo, appInfo.getRootModule());
-		File phrescoPomFile = new File(sb.toString() + File.separator + phrescoPom);
-		File pomFile = new File(sb.toString() + File.separator + pom);
+		String rootModulePath = "";
+		String subModuleName = "";
+		if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+			rootModulePath = Utility.getProjectHome() + appInfo.getRootModule();
+			subModuleName = appInfo.getAppDirName();
+		} else {
+			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
+		}
+		
+		File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
+		File pomFile = new File(sourceFolderLocation.getPath() + File.separator + appInfo.getPomFile());
 		ProjectUtils projectUtils = new ProjectUtils();
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
-			//Need to refactore
-			List<ArtifactGroup> dependencies = new ArrayList<ArtifactGroup>();
-			List<ArtifactGroup> artifacts = new ArrayList<ArtifactGroup>();
-			for (ArtifactGroup artifactGroup : artifactGroups) {
-				if(artifactGroup.getPackaging().equals("zip") || artifactGroup.getPackaging().equals("war")) {
-					artifacts.add(artifactGroup);
-				} else {
-					dependencies.add(artifactGroup);
-				}
-			}
-			
-			if(CollectionUtils.isNotEmpty(dependencies)) {
-				projectUtils.updatePOMWithModules(pomFile, dependencies);
-			}
-			
-			if(CollectionUtils.isNotEmpty(artifacts)) {
-				projectUtils.updateToDependencyPlugin(phrescoPomFile, artifacts);
-			}
-			
+			projectUtils.updatePOMWithPluginArtifact(pomFile, phrescoPomFile, artifactGroups);
 		}
 		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
-			projectUtils.deleteFeatureDependencies(appInfo, deletedFeatures);
+			projectUtils.deleteFeatureDependencies(pomFile, deletedFeatures);
 		}
 		if (CollectionUtils.isNotEmpty(artifactGroups)) {
 			BufferedReader breader = null;
 			try {
-				breader = projectUtils.ExtractFeature(appInfo);
+				breader = projectUtils.ExtractFeature(phrescoPomFile);
 				String line = "";
 				while ((line = breader.readLine()) != null) {
 					if (line.startsWith("[INFO] BUILD SUCCESS")) {
-						readConfigJson(appInfo);
+						readConfigJson(sourceFolderLocation, rootModulePath, subModuleName);
 					}
 				}
 			} catch (IOException e) {
@@ -147,8 +133,18 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 
 	@Override
 	public List<Configuration> preConfiguration(ApplicationInfo appInfo, String componentName, String envName) throws PhrescoException {
-		StringBuilder sb = new StringBuilder(Utility.getProjectHome())
-		.append(appInfo.getAppDirName())
+		String rootModulePath = "";
+		String subModuleName = "";
+		if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+			rootModulePath = Utility.getProjectHome() + appInfo.getRootModule();
+			subModuleName = appInfo.getAppDirName();
+		} else {
+			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
+		}
+		
+		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
+		StringBuilder sb = new StringBuilder(sourceFolderLocation.getPath())
 		.append(File.separator)
 		.append("src")
 		.append(File.separator)
@@ -170,6 +166,17 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 	@Override
 	public void postConfiguration(ApplicationInfo appInfo, List<Configuration> configurations)
 	throws PhrescoException {
+		String rootModulePath = "";
+		String subModuleName = "";
+		if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+			rootModulePath = Utility.getProjectHome() + appInfo.getRootModule();
+			subModuleName = appInfo.getAppDirName();
+		} else {
+			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
+		}
+		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
+		
 		Configuration configuration = configurations.get(0);
 		JsonParser parser = new JsonParser();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -189,16 +196,27 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 		JsonObject typeJsonObject = new JsonObject();
 		typeJsonObject.add(configType, propJsonObject);
 		jsonElements.add(propJsonObject);
-		writeJson(appInfo, jsonElements, envName, configType);
+		writeJson(sourceFolderLocation, jsonElements, envName, configType);
 	}
 
 	@Override
 	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo,
 			String componentName) throws PhrescoException {
 		try {
-			StringBuilder sb = new StringBuilder(Utility.getProjectHome())
-			.append(appInfo.getAppDirName())
-			.append(getFeaturePath(appInfo))
+			
+			String rootModulePath = "";
+			String subModuleName = "";
+			if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+				rootModulePath = Utility.getProjectHome() + appInfo.getRootModule();
+				subModuleName = appInfo.getAppDirName();
+			} else {
+				rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
+			}
+			
+			ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+			File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
+			StringBuilder sb = new StringBuilder(sourceFolderLocation.getPath())
+			.append(getFeaturePath(rootModulePath, subModuleName))
 			.append(File.separator)
 			.append(componentName)
 			.append(File.separator)
@@ -314,10 +332,10 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 		return null;
 	}
 
-	private void readConfigJson(ApplicationInfo appInfo) throws PhrescoException {
+	private void readConfigJson(File sourceFolder, String rootModulePath, String subModuleName) throws PhrescoException {
 		FileReader reader = null;
 		try {
-			File componentDir = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + getFeaturePath(appInfo) + File.separator);
+			File componentDir = new File(sourceFolder + getFeaturePath(rootModulePath, subModuleName) + File.separator);
 			File[] listFiles = componentDir.listFiles();
 			if(ArrayUtils.isEmpty(listFiles)) {
 				return;
@@ -335,7 +353,7 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 						jsonElements.add(jsonElement);
 					}
 				}
-				writeJson(appInfo, jsonElements, "Production", Constants.COMPONENTS);
+				writeJson(sourceFolder, jsonElements, "Production", Constants.COMPONENTS);
 			}
 		} catch (IOException e) {
 			throw new PhrescoException(e);
@@ -344,9 +362,8 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 		}
 	}
 
-	private void writeJson(ApplicationInfo appInfo, List<JsonElement> compJsonElements, String environment, String type) throws PhrescoException {
-		File jsonDir = new File(Utility.getProjectHome() + 
-				appInfo.getAppDirName() + File.separator + "src/main/webapp/json");
+	private void writeJson(File sourceFolderLocation, List<JsonElement> compJsonElements, String environment, String type) throws PhrescoException {
+		File jsonDir = new File(sourceFolderLocation  + File.separator + "src/main/webapp/json");
 		if (!jsonDir.exists()) {
 			return;
 		}
@@ -355,7 +372,7 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 			return;
 		}
 		
-		File configFile = new File(getAppLevelConfigJson(appInfo.getAppDirName()));
+		File configFile = new File(getAppLevelConfigJson(sourceFolderLocation));
 
 		JsonParser parser = new JsonParser();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -454,9 +471,19 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 	public void postFeatureConfiguration(ApplicationInfo appInfo, List<Configuration> configs, String featureName)
 	throws PhrescoException {
 		FileWriter writer = null;
-		StringBuilder sb = new StringBuilder(Utility.getProjectHome())
-		.append(appInfo.getAppDirName())
-		.append(getFeaturePath(appInfo))
+		
+		String rootModulePath = "";
+		String subModuleName = "";
+		if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+			rootModulePath = Utility.getProjectHome() + appInfo.getRootModule();
+			subModuleName = appInfo.getAppDirName();
+		} else {
+			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
+		}
+		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
+		StringBuilder sb = new StringBuilder(sourceFolderLocation.getPath())
+		.append(getFeaturePath(rootModulePath, subModuleName))
 		.append(File.separator)
 		.append(featureName)
 		.append(File.separator)
@@ -490,11 +517,10 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 		}
 	}
 
-	private String getFeaturePath(ApplicationInfo appInfo) throws PhrescoException {
-		String pomPath = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo);
+	private String getFeaturePath(String rootModulePath, String subModuleName) throws PhrescoException {
 		try {
-			PomProcessor processor = new PomProcessor(new File(pomPath));
-			return processor.getProperty(Constants.POM_PROP_KEY_COMPONENTS_SOURCE_DIR);
+			PomProcessor pomProcessor = Utility.getPomProcessor(rootModulePath, subModuleName);
+			return pomProcessor.getProperty(Constants.POM_PROP_KEY_COMPONENTS_SOURCE_DIR);
 		} catch (PhrescoPomException e) {
 			throw new PhrescoException(e);
 		}
@@ -505,11 +531,21 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 		FileReader reader = null;
 		FileWriter writer = null;
 		try {
-			String baseDir = Utility.getProjectHome() + appInfo.getAppDirName();    
-			File pluginInfoFile = new File(baseDir + File.separator + Constants.PACKAGE_INFO_FILE);
+			String rootModulePath = "";
+			String subModuleName = "";
+			if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+				rootModulePath = Utility.getProjectHome() + appInfo.getRootModule();
+				subModuleName = appInfo.getAppDirName();
+			} else {
+				rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
+			}
+			ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+			File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
+			String dotPhrescoFolderPath = Utility.getDotPhrescoFolderPath(rootModulePath, subModuleName);
+			File pluginInfoFile = new File(dotPhrescoFolderPath + File.separator + Constants.PACKAGE_INFO_XML);
 			MojoProcessor mojoProcessor = new MojoProcessor(pluginInfoFile);
 			Parameter defaultThemeParameter = mojoProcessor.getParameter(Constants.MVN_GOAL_PACKAGE, Constants.MOJO_KEY_DEFAULT_THEME);
-			String appLevelConfigJson = getAppLevelConfigJson(appInfo.getAppDirName());
+			String appLevelConfigJson = getAppLevelConfigJson(sourceFolderLocation);
 			if (defaultThemeParameter != null && new File(appLevelConfigJson).exists()) {
 				reader = new FileReader(appLevelConfigJson);
 				JsonParser parser = new JsonParser();
@@ -524,9 +560,7 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 
 			Parameter themesParameter = mojoProcessor.getParameter(Constants.MVN_GOAL_PACKAGE, Constants.MOJO_KEY_THEMES);
 			if (themesParameter != null) {
-				StringBuilder warConfigFilePath = new StringBuilder(baseDir)
-				.append(File.separator)
-				.append(".phresco")
+				StringBuilder warConfigFilePath = new StringBuilder(dotPhrescoFolderPath)
 				.append(File.separator)
 				.append("war-config.xml");
 				File warConfigFile = new File(warConfigFilePath.toString());
@@ -558,9 +592,8 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 		}
 	}
 
-	private String getAppLevelConfigJson(String appDirName) {
-		StringBuilder sb =  new StringBuilder(Utility.getProjectHome())
-		.append(appDirName)
+	private String getAppLevelConfigJson(File sourceFolderLocation) {
+		StringBuilder sb =  new StringBuilder(sourceFolderLocation.getPath())
 		.append(File.separator)
 		.append("src")
 		.append(File.separator)

@@ -395,6 +395,7 @@ public interface Constants {
     String CONTENT_INFO_FILE 			= "phresco-content-info.xml";
     String CI_INFO 						= "ciJob.info";
     String CI_GLOBAL_INFO 				= "global-ciJob.info";
+    String PACKAGE_INFO_XML		    	= "phresco-package-info.xml";
     
 	/**
 	 * Feature Write in pom Constants

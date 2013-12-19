@@ -238,7 +238,7 @@ public class ProjectUtils implements Constants {
 		return projectinfo;
 	}
 	
-	public void updatePOMWithPluginArtifact(File pomFile, List<ArtifactGroup> artifactGroups) throws PhrescoException {
+	public void updatePOMWithPluginArtifact(File pomFile, File phrescoPomFile, List<ArtifactGroup> artifactGroups) throws PhrescoException {
 		if(CollectionUtils.isEmpty(artifactGroups)) {
 			return;
 		}
@@ -256,7 +256,9 @@ public class ProjectUtils implements Constants {
 			updatePOMWithModules(pomFile, dependencies);
 		}
 		
-		if(CollectionUtils.isNotEmpty(artifacts)) {
+		if(CollectionUtils.isNotEmpty(artifacts) && phrescoPomFile.exists()) {
+			updateToDependencyPlugin(phrescoPomFile, artifacts);
+		} else {
 			updateToDependencyPlugin(pomFile, artifacts);
 		}
 	}
@@ -292,18 +294,18 @@ public class ProjectUtils implements Constants {
 		}
 	}
 	
-	public void removeExtractedFeatures(ApplicationInfo appInfo, List<ArtifactGroup> removedArtifacts) throws PhrescoException {
-		String baseDir = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator;
+	public void removeExtractedFeatures(File pomFile, File sourceFolder, List<ArtifactGroup> removedArtifacts) throws PhrescoException {
+//		String baseDir = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator;
 		try {
-			PomProcessor processor = new PomProcessor(new File(baseDir + Utility.getPomFileName(appInfo)));
+			PomProcessor processor = new PomProcessor(pomFile);
 			String modulePath = "";
 			if(CollectionUtils.isNotEmpty(removedArtifacts)) {
-				removeMarkerFiles(appInfo, removedArtifacts);
+				removeMarkerFiles(pomFile, removedArtifacts);
 				for (ArtifactGroup artifactGroup : removedArtifacts) {
 					if (artifactGroup != null) {
 						modulePath = getModulePath(artifactGroup, processor);
 					}
-					File sourceDirFiles = new File(baseDir + modulePath) ;
+					File sourceDirFiles = new File(sourceFolder.getPath() + modulePath) ;
 					File[] listFiles = sourceDirFiles.listFiles();
 					for (File file : listFiles) {
 						if(file.exists() && artifactGroup.getName().equalsIgnoreCase(file.getName())) {
@@ -317,8 +319,8 @@ public class ProjectUtils implements Constants {
 		} 
 	}
 	
-	public void removeMarkerFiles(ApplicationInfo appInfo, List<ArtifactGroup> removedArtifacts) {
-		File markersDir = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + DO_NOT_CHECKIN_DIRY + File.separator + MARKERS_DIR);
+	public void removeMarkerFiles(File pomFile, List<ArtifactGroup> removedArtifacts) {
+		File markersDir = new File(pomFile.getParent() + File.separator + DO_NOT_CHECKIN_DIRY + File.separator + MARKERS_DIR);
 		if(!markersDir.exists()) {
 			return;
 		}
@@ -333,18 +335,18 @@ public class ProjectUtils implements Constants {
 		}
 	}
 	
-	public void deleteFeatureDependencies(ApplicationInfo appInfo, List<ArtifactGroup> removedFeatures) throws PhrescoException {
-		StringBuilder pomDir = new StringBuilder(Utility.getProjectHome());
-		if(StringUtils.isNotEmpty(appInfo.getRootModule())) {
-			pomDir.append(appInfo.getRootModule())
-			.append(File.separator);
-		}
-		pomDir.append(appInfo.getAppDirName())
-		.append(File.separator)
-		.append(Utility.getPomFileName(appInfo));
+	public void deleteFeatureDependencies(File pomFile, List<ArtifactGroup> removedFeatures) throws PhrescoException {
+//		StringBuilder pomDir = new StringBuilder(Utility.getProjectHome());
+//		if(StringUtils.isNotEmpty(appInfo.getRootModule())) {
+//			pomDir.append(appInfo.getRootModule())
+//			.append(File.separator);
+//		}
+//		pomDir.append(appInfo.getAppDirName())
+//		.append(File.separator)
+//		.append(Utility.getPomFileName(appInfo));
 		
 		try {
-			PomProcessor processor = new PomProcessor(new File(pomDir.toString()));
+			PomProcessor processor = new PomProcessor(pomFile);
 			Dependencies dependencies = processor.getModel().getDependencies();
 			if (dependencies != null) {
 				List<Dependency> dependency = dependencies.getDependency();
@@ -562,26 +564,26 @@ public class ProjectUtils implements Constants {
 		}
 	}
 	
-	public BufferedReader ExtractFeature(ApplicationInfo appInfo) throws PhrescoException {
+	public BufferedReader ExtractFeature(File phrescoPomFile) throws PhrescoException {
 		BufferedReader breader = null;
-		String pomFileName = Utility.getPhrescoPomFile(appInfo);
+//		String pomFileName = Utility.getPhrescoPomFile(appInfo);
 		StringBuilder sb = new StringBuilder();
 		sb.append(MVN_COMMAND);
 		sb.append(STR_BLANK_SPACE);
 		sb.append(PHASE);
-		if(!POM_NAME.equals(pomFileName)) {
+		if(!POM_NAME.equals(phrescoPomFile.getName())) {
 			sb.append(STR_BLANK_SPACE);
 			sb.append(HYPHEN_F);
 			sb.append(STR_BLANK_SPACE);
-			sb.append(pomFileName);
+			sb.append(phrescoPomFile.getName());
 		}
-		StringBuilder stringBuilder = new StringBuilder(Utility.getProjectHome());
-		if(StringUtils.isNotEmpty(appInfo.getRootModule())) {
-			stringBuilder.append(appInfo.getRootModule())
-			.append(File.separator);
-		}
-		stringBuilder.append(appInfo.getAppDirName());
-		breader = Utility.executeCommand(sb.toString(), stringBuilder.toString());
+//		StringBuilder stringBuilder = new StringBuilder(Utility.getProjectHome());
+//		if(StringUtils.isNotEmpty(appInfo.getRootModule())) {
+//			stringBuilder.append(appInfo.getRootModule())
+//			.append(File.separator);
+//		}
+//		stringBuilder.append(appInfo.getAppDirName());
+		breader = Utility.executeCommand(sb.toString(), phrescoPomFile.getParent());
 		return breader;
 	}
 

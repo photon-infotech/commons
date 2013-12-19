@@ -53,6 +53,7 @@ import org.w3c.dom.NodeList;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.commons.model.CoreOption;
+import com.photon.phresco.commons.model.ProjectInfo;
 import com.photon.phresco.configuration.Configuration;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.util.Constants;
@@ -107,18 +108,33 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 	@Override
 	public void postUpdate(ApplicationInfo appInfo,
 			List<ArtifactGroup> artifactGroups, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
-		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
+		String rootModulePath = "";
+		String subModuleName = "";
+		if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+			rootModulePath = Utility.getProjectHome() + appInfo.getRootModule();
+			subModuleName = appInfo.getAppDirName();
+		} else {
+			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
+		}
+		
 		ProjectUtils projectUtils = new ProjectUtils();
-		projectUtils.deletePluginExecutionFromPom(pomFile);
+		
+		File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
+		File pomFile = new File(sourceFolderLocation.getPath() + File.separator + appInfo.getPomFile());
+		
+		
+		projectUtils.deletePluginExecutionFromPom(phrescoPomFile);
 		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
-			projectUtils.removeExtractedFeatures(appInfo, deletedFeatures);
-			projectUtils.deleteFeatureDependencies(appInfo, deletedFeatures);
+			projectUtils.removeExtractedFeatures(phrescoPomFile,sourceFolderLocation, deletedFeatures);
+			projectUtils.deleteFeatureDependencies(pomFile, deletedFeatures);
 		}
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
-			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
-			excludeModule(appInfo, artifactGroups);
+			projectUtils.updatePOMWithPluginArtifact(pomFile,phrescoPomFile, artifactGroups);
+			excludeModule(phrescoPomFile, artifactGroups);
 		}
-		BufferedReader breader = projectUtils.ExtractFeature(appInfo);
+		BufferedReader breader = projectUtils.ExtractFeature(phrescoPomFile);
 		try {
 			String line = "";
 			while ((line = breader.readLine()) != null) {
@@ -143,10 +159,10 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 		}
 	}
 	
-	private void excludeModule(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroups) throws PhrescoException {
+	private void excludeModule(File phrescoPomFile, List<ArtifactGroup> artifactGroups) throws PhrescoException {
 		try {
-			File projectPath = new File(Utility.getProjectHome()+ File.separator + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
-			PomProcessor processor = new PomProcessor(projectPath);
+//			File projectPath = new File(Utility.getProjectHome()+ File.separator + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
+			PomProcessor processor = new PomProcessor(phrescoPomFile);
 			StringBuilder exclusionStringBuff = new StringBuilder();
 			StringBuilder exclusionValueBuff = new StringBuilder();
 			if (CollectionUtils.isEmpty(artifactGroups)) {
@@ -186,11 +202,25 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 	@Override
 	public void postConfiguration(ApplicationInfo appInfo, List<Configuration> configurations)
 			throws PhrescoException {
+		
+		String rootModulePath = "";
+		String subModuleName = "";
+		if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+			rootModulePath = Utility.getProjectHome() + appInfo.getRootModule();
+			subModuleName = appInfo.getAppDirName();
+		} else {
+			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
+		}
+		
 		String envName = configurations.get(0).getEnvName();
 		String featureName = configurations.get(0).getProperties().getProperty(Constants.FEATURE_NAME);
-		String propertyValue = getPropertyValue(appInfo, Constants.POM_PROP_KEY_SQL_FILE_DIR);
-		File featureManifest = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + XML);
-		File featureSqlDir = new File(Utility.getProjectHome() + appInfo.getAppDirName() + propertyValue);
+		File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
+		
+		String propertyValue = getPropertyValue(phrescoPomFile, Constants.POM_PROP_KEY_SQL_FILE_DIR);
+		File featureManifest = new File(sourceFolderLocation + getThirdPartyFolder(phrescoPomFile) + File.separator + featureName + File.separator + XML);
+		File featureSqlDir = new File(sourceFolderLocation + propertyValue);
 		if(StringUtils.isNotEmpty(featureName)) {
 			storeConfigObj(configurations, featureManifest, featureSqlDir, envName);
 		}
@@ -199,7 +229,18 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 	@Override
 	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo,
 			String featureName) throws PhrescoException {
-		File featureManifest = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + XML);
+		String rootModulePath = "";
+		String subModuleName = "";
+		if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+			rootModulePath = Utility.getProjectHome() + appInfo.getRootModule();
+			subModuleName = appInfo.getAppDirName();
+		} else {
+			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
+		}
+		File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
+		File featureManifest = new File(sourceFolderLocation + getThirdPartyFolder(phrescoPomFile) + File.separator + featureName + File.separator + XML);
 		List<Configuration> configs = getConfigObjFromXml(featureManifest.getPath());
 
 		return configs;
@@ -263,10 +304,9 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 		return tagValue;
 	  }
 	
-	private String getThirdPartyFolder(ApplicationInfo appInfo) throws PhrescoException { 
-		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
+	private String getThirdPartyFolder(File pomFile) throws PhrescoException { 
 		try {
-			PomProcessor processor = new PomProcessor(pomPath);
+			PomProcessor processor = new PomProcessor(pomFile);
 			String property = processor.getProperty(Constants.POM_PROP_KEY_MODULE_SOURCE_DIR);
 			if(StringUtils.isNotEmpty(property)) {
 				return property;
@@ -283,9 +323,21 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 			List<Configuration> configs, String featureName)
 			throws PhrescoException {
 		try {
-			String propertyValue = getPropertyValue(appInfo, Constants.POM_PROP_KEY_SQL_FILE_DIR);
-			File featureManifest = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + XML);
-			File featureSqlDir = new File(Utility.getProjectHome() + appInfo.getAppDirName() + propertyValue);
+			String rootModulePath = "";
+			String subModuleName = "";
+			if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+				rootModulePath = Utility.getProjectHome() + appInfo.getRootModule();
+				subModuleName = appInfo.getAppDirName();
+			} else {
+				rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
+			}
+			File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+			ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+			File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
+			
+			String propertyValue = getPropertyValue(phrescoPomFile, Constants.POM_PROP_KEY_SQL_FILE_DIR);
+			File featureManifest = new File(sourceFolderLocation + getThirdPartyFolder(phrescoPomFile) + File.separator + featureName + File.separator + XML);
+			File featureSqlDir = new File(sourceFolderLocation + propertyValue);
 			if (CollectionUtils.isNotEmpty(configs)) {
 				String envName = configs.get(0).getEnvName();
 				storeConfigObj(configs, featureManifest, featureSqlDir, envName);
@@ -462,10 +514,9 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
         }
 	}
 	
-	private String getPropertyValue(ApplicationInfo appInfo, String propertyKey) throws PhrescoException { 
-		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
+	private String getPropertyValue(File phrescoPomFile, String propertyKey) throws PhrescoException { 
 		try {
-			PomProcessor processor = new PomProcessor(pomPath);
+			PomProcessor processor = new PomProcessor(phrescoPomFile);
 			String property = processor.getProperty(propertyKey);
 			if(StringUtils.isNotEmpty(property)) {
 				return property;
@@ -479,7 +530,19 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 	
     @Override
     public List<Configuration> preConfiguration(ApplicationInfo appInfo, String featureName, String envName) throws PhrescoException {
-        File featureManifest = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + XML);
+    	String rootModulePath = "";
+		String subModuleName = "";
+		if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+			rootModulePath = Utility.getProjectHome() + appInfo.getRootModule();
+			subModuleName = appInfo.getAppDirName();
+		} else {
+			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
+		}
+		File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
+    	
+        File featureManifest = new File(sourceFolderLocation + getThirdPartyFolder(phrescoPomFile) + File.separator + featureName + File.separator + XML);
 		List<Configuration> configs = getConfigObjFromXml(featureManifest.getPath());
 
 		return configs;

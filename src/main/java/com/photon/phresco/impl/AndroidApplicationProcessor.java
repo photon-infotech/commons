@@ -102,11 +102,11 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 			
 			File path = new File(projectHome);
 			
-		    updateAndroidVersion(path, appInfo);
+		    updateAndroidVersion(path, appInfo, "", "");
 		   
 			File projHome = new File(projectHome);
 			
-			updatePOM(projHome);
+			updatePOM(projHome, "", "");
 			
             
 			// update String.xml app_name with user defined name
@@ -121,16 +121,26 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 	public void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroups, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
 		//		extractPilots(info, path, technology);
 		 System.out.println("postUpdate started");
-		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + SOURCE + File.separator + Utility.getPomFileName(appInfo));
-		
-		String projectHome = Utility.getProjectHome() + appInfo.getAppDirName();
-		File rootPom = new File(projectHome);
 		ProjectUtils projectUtils = new ProjectUtils();
-	
-		 deletePluginExecutionFromPom(pomFile);
+		String rootModulePath = "";
+		String subModuleName = "";
+		if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+			rootModulePath = Utility.getProjectHome() + appInfo.getRootModule();
+			subModuleName = appInfo.getAppDirName();
+		} else {
+			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
+		}
+		
+		File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
+		File testFolderLocation = Utility.getTestFolderLocation(projectInfo, rootModulePath, subModuleName);
+		File pomFile = new File(sourceFolderLocation.getPath() + File.separator + appInfo.getPomFile());
+		String dotPhrescoFolderPath = Utility.getDotPhrescoFolderPath(rootModulePath, subModuleName);
+		 deletePluginExecutionFromPom(phrescoPomFile);
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
 			 
-			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
+			projectUtils.updatePOMWithPluginArtifact(pomFile,phrescoPomFile, artifactGroups);
 			
 			 for (ArtifactGroup artifactGroup : artifactGroups) {
 					   if(artifactGroup.getType().toString().equalsIgnoreCase(COMPONENT)){
@@ -147,13 +157,13 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 		
 		if(CollectionUtils.isNotEmpty(deletedFeatures)) {
 			 
-	      deleteFeatureDependenciesFromPom(appInfo, deletedFeatures);
+	      deleteFeatureDependenciesFromPom(sourceFolderLocation, deletedFeatures);
 	    
 		 }
 		for (ArtifactGroup artifactGroup : artifactGroups) {
 			 if(artifactGroup.getType().toString().equalsIgnoreCase(COMPONENT)){
 	
-		      BufferedReader breader = extractComponent(appInfo);
+		      BufferedReader breader = extractComponent(phrescoPomFile, sourceFolderLocation);
 		
 		      try {
 			    String line = "";
@@ -169,11 +179,10 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 	          }
 		}
 		
-		File projHome = new File(projectHome);
-		updatePOM(projHome);
-		updateAndroidVersion(projHome, appInfo);
+		updatePOM(sourceFolderLocation, testFolderLocation.getPath(),dotPhrescoFolderPath);
+		updateAndroidVersion(sourceFolderLocation, appInfo,testFolderLocation.getPath(), phrescoPomFile.getPath());
 		// update String.xml app_name with user defined name
-		updateAppName(projHome, appInfo.getName());
+		updateAppName(sourceFolderLocation, appInfo.getName());
 	 }
 	
 	
@@ -349,11 +358,9 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 		}
 		
 	}
-	public void deleteFeatureDependenciesFromPom(ApplicationInfo appInfo, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
+	public void deleteFeatureDependenciesFromPom(File sourceFolder, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
 		 System.out.println(" entered in deleteFeatureDependenciesFromPom ");
-		String rootPomDir = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo);
-		String pomDir = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + SOURCE + File.separator +Utility.getPomFileName(appInfo);
-		String property =null;
+		String pomDir = sourceFolder.getPath() + File.separator + SOURCE + File.separator + Constants.POM_NAME;
 		try {
 			PomProcessor processor = new PomProcessor(new File(pomDir));
 			List<Dependency> dependencies = processor.getModel().getDependencies().getDependency();
@@ -361,7 +368,6 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 				for (ArtifactGroup artifactGroup : deletedFeatures) {
 					String APKLIB = "apklib" ;
 					
-					property  = processor.getProperty("phresco.components.source.dir");
 					processor.deleteDependency(artifactGroup.getGroupId(), artifactGroup.getArtifactId(), artifactGroup.getPackaging());
 					processor.deleteDependency(artifactGroup.getGroupId(), artifactGroup.getArtifactId(), APKLIB);
 				
@@ -407,21 +413,21 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 		   
 		}
 	
-	private BufferedReader extractComponent(ApplicationInfo appInfo) throws PhrescoException {
+	private BufferedReader extractComponent(File phrescoPomFile, File sourceFolder) throws PhrescoException {
 		System.out.println("extractFeature start ... ");
 		BufferedReader breader = null;
-		String pomFileName = Utility.getPomFileName(appInfo);
+//		String pomFileName = Utility.getPomFileName(appInfo);
 		StringBuilder sb = new StringBuilder();
 		sb.append(MVN_COMMAND);
 		sb.append(STR_BLANK_SPACE);
 		sb.append(PHASE);
-		if(!POM_NAME.equals(pomFileName)) {
+		if(!POM_NAME.equals(phrescoPomFile.getName())) {
 			sb.append(STR_BLANK_SPACE);
 			sb.append(HYPHEN_F);
 			sb.append(STR_BLANK_SPACE);
-			sb.append(pomFileName);
+			sb.append(phrescoPomFile.getName());
 		}
-		breader = Utility.executeCommand(sb.toString(), Utility.getProjectHome() + appInfo.getAppDirName()+ File.separator + SOURCE );
+		breader = Utility.executeCommand(sb.toString(), sourceFolder + File.separator + SOURCE );
 		System.out.println("extractFeature end... ");
 		return breader;
 	}
@@ -545,18 +551,28 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 				    return configs;
 		     }
         
-	public void updateAndroidVersion(File path, ApplicationInfo appInfo) throws PhrescoException {
-		File pomPath = new File(path ,Utility.getPomFileName(appInfo));
-		if(!pomPath.exists()) {
-			return;
-		}
+	public void updateAndroidVersion(File sourceFolder, ApplicationInfo appInfo, String testFolder, String phrescoPomFile) throws PhrescoException {
 		PomProcessor processor;
+//		File pomPath = new File(sourceFolder ,Utility.getPhrescoPomFile(appInfo));
 		List<File> fileList = new ArrayList<File>();
-		fileList.add(new File(path, Utility.getPomFileName(appInfo)));
-		fileList.add(new File(path, SOURCE_POM_XML));
-		fileList.add(new File(path, FUNCTIONAL_TEST_POM_XML));
-		fileList.add(new File(path, PERFORMANCE_TEST_POM_XML));
-		fileList.add(new File(path, UNIT_TEST_POM_XML));
+//		if(!pomPath.exists()) {
+//			return;
+//		}
+		
+		if(StringUtils.isEmpty(testFolder)) {
+			fileList.add(new File(sourceFolder, Utility.getPhrescoPomFile(appInfo)));
+			fileList.add(new File(sourceFolder, SOURCE_POM_XML));
+			fileList.add(new File(sourceFolder, FUNCTIONAL_TEST_POM_XML));
+			fileList.add(new File(sourceFolder, PERFORMANCE_TEST_POM_XML));
+			fileList.add(new File(sourceFolder, UNIT_TEST_POM_XML));
+			
+		} else {
+			fileList.add(new File(phrescoPomFile));
+			fileList.add(new File(sourceFolder, SOURCE_POM_XML));
+			fileList.add(new File(testFolder, FUNCTIONAL_TEST_POM_XML));
+			fileList.add(new File(testFolder, PERFORMANCE_TEST_POM_XML));
+			fileList.add(new File(testFolder, UNIT_TEST_POM_XML));
+		}
 		for (File pomFile : fileList) {
 			if(pomFile.exists()) {
 				try {
@@ -632,16 +648,25 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 	 * @throws PhrescoPomException 
 	 * @throws JAXBException 
 	 */
-	private boolean updatePOM(File path) throws PhrescoException {
-		
-		
-		File projectHome = new File(path, SOURCE_POM_XML);
-		File testFunctionalPom = new File(path, FUNCTIONAL_TEST_POM_XML);
-		File testUnitPom = new File(path, UNIT_TEST_POM_XML);
-		File testPerformancePom = new File(path, PERFORMANCE_TEST_POM_XML);
-		boolean functionalTest = updateTestPom(testFunctionalPom, projectHome);
-		boolean unitTest = updateTestPom(testUnitPom, projectHome);
-		boolean performanceTest = updateTestPom(testPerformancePom, projectHome);
+	private boolean updatePOM(File srcFolder, String testFolder, String dotPhrescoPath) throws PhrescoException {
+		File projectHome = null;
+		File testFunctionalPom = null;
+		File testUnitPom = null;
+		File testPerformancePom = null;
+		if(StringUtils.isEmpty(testFolder)) {
+			 projectHome = new File(srcFolder, SOURCE_POM_XML);
+			 testFunctionalPom = new File(srcFolder, FUNCTIONAL_TEST_POM_XML);
+			 testUnitPom = new File(srcFolder, UNIT_TEST_POM_XML);
+			 testPerformancePom = new File(srcFolder, PERFORMANCE_TEST_POM_XML);
+		} else {
+		 projectHome = new File(srcFolder, SOURCE_POM_XML);
+		 testFunctionalPom = new File(testFolder, FUNCTIONAL_TEST_POM_XML);
+		 testUnitPom = new File(testFolder, UNIT_TEST_POM_XML);
+		 testPerformancePom = new File(testFolder, PERFORMANCE_TEST_POM_XML);
+		}
+		boolean functionalTest = updateTestPom(testFunctionalPom, projectHome, dotPhrescoPath);
+		boolean unitTest = updateTestPom(testUnitPom, projectHome, dotPhrescoPath);
+		boolean performanceTest = updateTestPom(testPerformancePom, projectHome, dotPhrescoPath);
 		if (Boolean.TRUE.equals(functionalTest) || Boolean.TRUE.equals(unitTest) || Boolean.TRUE.equals(performanceTest)  ) {
 			return true;
 		} else {
@@ -660,13 +685,13 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 	 * @throws JAXBException 
 	 * @throws PhrescoPomException 
 	 */
-	private boolean updateTestPom(File projectPom, File projectHome) throws PhrescoException {
+	private boolean updateTestPom(File projectPom, File projectHome, String dotPhrescoPath) throws PhrescoException {
 		SAXBuilder builder = new SAXBuilder();
 		if(!projectPom.exists()) {
 			return false;
 		}
 		try {
-			String oldArtifactId = getOldArtifactId(projectHome.getParent());
+			String oldArtifactId = getOldArtifactId(projectHome.getParent(), dotPhrescoPath);
 			Document projectDoc = builder.build(projectHome);
 			Element projectRootNode = projectDoc.getRootElement();
 			Element artifact = getNode(projectRootNode, POMConstants.ARTIFACT_ID);
@@ -694,8 +719,14 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 		return true;
 	}
 
-	private String getOldArtifactId(String projectHome) throws PhrescoException {
-		File backupFile = new File(projectHome + File.separator + Constants.DOT_PHRESCO_FOLDER +File.separator + Constants.PROJECT_INFO_BACKUP_FILE);
+	private String getOldArtifactId(String projectHome, String dotPhrescoPath) throws PhrescoException {
+		File backupFile = null;
+		if(StringUtils.isEmpty(dotPhrescoPath)) {
+			backupFile = new File(projectHome + File.separator + Constants.DOT_PHRESCO_FOLDER + File.separator + Constants.PROJECT_INFO_BACKUP_FILE);
+		} else {
+			backupFile = new File(dotPhrescoPath + File.separator + Constants.PROJECT_INFO_BACKUP_FILE);
+		}
+		
 		if(!backupFile.exists()) {
 			return null;
 		}

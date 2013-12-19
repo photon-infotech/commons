@@ -38,6 +38,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.codehaus.plexus.util.StringUtils;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -47,6 +48,7 @@ import org.xml.sax.SAXException;
 
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
+import com.photon.phresco.commons.model.ProjectInfo;
 import com.photon.phresco.commons.model.ArtifactGroup.Type;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.util.Constants;
@@ -62,20 +64,30 @@ public class WindowsApplicationProcessor extends AbstractApplicationProcessor im
 	@Override
 	public void postUpdate(ApplicationInfo appInfo,
 			List<ArtifactGroup> artifactGroups, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
-		File pomFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Utility.getPomFileName(appInfo));
 		ProjectUtils projectUtils = new ProjectUtils();
-		File path = new File(Utility.getProjectHome() + appInfo.getAppDirName());
-		projectUtils.deletePluginExecutionFromPom(pomFile);
+		String rootModulePath = "";
+		String subModuleName = "";
+		if (StringUtils.isNotEmpty(appInfo.getRootModule())) {
+			rootModulePath = Utility.getProjectHome() + appInfo.getRootModule();
+			subModuleName = appInfo.getAppDirName();
+		} else {
+			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
+		}
+		File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
+		File pomFile = new File(sourceFolderLocation.getPath() + File.separator + appInfo.getPomFile());
 		
+		projectUtils.deletePluginExecutionFromPom(phrescoPomFile);
 		if (CollectionUtils.isNotEmpty(deletedFeatures)) {
-			deleteFeature(appInfo, deletedFeatures);
-			projectUtils.deleteFeatureDependencies(appInfo, deletedFeatures);
+			deleteFeature(sourceFolderLocation, deletedFeatures);
+			projectUtils.deleteFeatureDependencies(pomFile, deletedFeatures);
 		}
 		
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
-			projectUtils.updatePOMWithPluginArtifact(pomFile, artifactGroups);
-			updateItemGroup(appInfo, path, artifactGroups);
-			BufferedReader breader = projectUtils.ExtractFeature(appInfo);
+			projectUtils.updatePOMWithPluginArtifact(pomFile, phrescoPomFile,artifactGroups);
+			updateItemGroup(sourceFolderLocation, artifactGroups);
+			BufferedReader breader = projectUtils.ExtractFeature(phrescoPomFile);
 			try {
 				String line = "";
 				while ((line = breader.readLine()) != null) {
@@ -89,7 +101,7 @@ public class WindowsApplicationProcessor extends AbstractApplicationProcessor im
 		}	
 	}
 
-	private static void updateItemGroup(ApplicationInfo appInfo, File path, List<ArtifactGroup> artifactGroups) throws PhrescoException {
+	private static void updateItemGroup(File path, List<ArtifactGroup> artifactGroups) throws PhrescoException {
 		try {
 			path = new File(path + File.separator + SOURCE_DIR + File.separator + SRC_DIR + File.separator + PROJECT_ROOT + File.separator + PROJECT_ROOT + CSPROJ_FILE);
 			if(!path.exists() && artifactGroups == null) {
@@ -207,9 +219,9 @@ public class WindowsApplicationProcessor extends AbstractApplicationProcessor im
 		return flag;
 	}
 	
-	private static void deleteFeature(ApplicationInfo appInfo , List<ArtifactGroup> deletedFeatures) throws PhrescoException {
+	private static void deleteFeature(File sourceFolderLocation , List<ArtifactGroup> deletedFeatures) throws PhrescoException {
 		try {
-			File path = new File(Utility.getProjectHome() + File.separator + appInfo.getAppDirName() + File.separator + SOURCE_DIR + File.separator + SRC_DIR + File.separator + PROJECT_ROOT + File.separator + PROJECT_ROOT + CSPROJ_FILE);
+			File path = new File(sourceFolderLocation + File.separator + SOURCE_DIR + File.separator + SRC_DIR + File.separator + PROJECT_ROOT + File.separator + PROJECT_ROOT + CSPROJ_FILE);
 			if(!path.exists() && CollectionUtils.isNotEmpty(deletedFeatures)) {
 				return;
 			}
