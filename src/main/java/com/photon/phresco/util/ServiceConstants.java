@@ -141,6 +141,8 @@ public interface ServiceConstants {
 	String REST_QUERY_APPLIESTO = "appliesTo";
 	String REST_QUERY_APPTYPEID = "appTypeId";
 	String REST_QUERY_USERID = "userId";
+	String REST_QUERY_NATURE = "nature";
+	String REST_QUERY_VERSION = "version";
 	String REST_QUERY_APPDIR_NAME = "appDirName";
 	String REST_QUERY_TESTCASE_NAME = "testCaseId";
 	String REST_QUERY_RESULT_FILE_NAME = "resultFileName";
