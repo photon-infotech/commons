@@ -46,7 +46,7 @@ public class BlackberryApplicationProcessor extends AbstractApplicationProcessor
 			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
 		}
 		ProjectUtils projectUtils = new ProjectUtils();
-		File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+		File phrescoPomFile = Utility.getPomFileLocation(rootModulePath, subModuleName);
 		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
 		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
 		File pomFile = new File(sourceFolderLocation.getPath() + File.separator + appInfo.getPomFile());

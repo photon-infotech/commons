@@ -46,14 +46,22 @@ public class EnvironmentsParameterImpl implements DynamicParameter, Constants {
 
 	@Override
 	public PossibleValues getValues(Map<String, Object> paramsMap) throws IOException, ParserConfigurationException, SAXException, ConfigurationException, PhrescoException {
+		String rootModulePath = "";
+		String subModuleName = "";
 		PossibleValues possibleValues = new PossibleValues();
 		ApplicationInfo applicationInfo = (ApplicationInfo) paramsMap.get(KEY_APP_INFO);
 		MojoProcessor mojo = (MojoProcessor) paramsMap.get(KEY_MOJO);
 		String goal = (String) paramsMap.get(KEY_GOAL);
 		Parameter parameter = mojo.getParameter(goal, KEY_ENVIRONMENT);
 		String updateDefaultEnv = "";
-		boolean isMultiModule = (Boolean) paramsMap.get(KEY_MULTI_MODULE);
 		String rootModule = (String) paramsMap.get(KEY_ROOT_MODULE);
+		
+		if (StringUtils.isNotEmpty(rootModule)) {
+			rootModulePath = Utility.getProjectHome() + rootModule;
+			subModuleName = applicationInfo.getAppDirName();
+		} else {
+			rootModulePath = Utility.getProjectHome() + applicationInfo.getAppDirName();
+		}
 		if (paramsMap != null) {
 			String showSettings = (String) paramsMap.get(KEY_SHOW_SETTINGS);
 			if (Boolean.parseBoolean(showSettings)) {
@@ -73,8 +81,7 @@ public class EnvironmentsParameterImpl implements DynamicParameter, Constants {
 		}
 
 		if (applicationInfo != null) {
-			String projectDirectory = applicationInfo.getAppDirName();
-			String configPath = getConfigurationPath(projectDirectory, isMultiModule, rootModule).toString();
+			String configPath = getConfigurationPath(subModuleName, rootModulePath).toString();
 			ConfigManager configManager = new ConfigManagerImpl(new File(configPath)); 
 			List<Environment> environments = configManager.getEnvironments();
 			for (Environment environment : environments) {
@@ -95,14 +102,9 @@ public class EnvironmentsParameterImpl implements DynamicParameter, Constants {
 		return possibleValues;
 	}
     
-    private StringBuilder getConfigurationPath(String projectDirectory, boolean isMultiModule, String rootModule) {
-		 StringBuilder builder = new StringBuilder(Utility.getProjectHome());
-		 if (isMultiModule) {
-			 builder.append(rootModule).append(File.separator);
-		 }
-		 builder.append(projectDirectory);
-		 builder.append(File.separator);
-		 builder.append(DOT_PHRESCO_FOLDER);
+    private StringBuilder getConfigurationPath(String subModuleName, String rootModulePath) throws PhrescoException {
+    	 String dotPhrescoFolderPath = Utility.getDotPhrescoFolderPath(rootModulePath, subModuleName);
+    	 StringBuilder builder = new StringBuilder(dotPhrescoFolderPath);
 		 builder.append(File.separator);
 		 builder.append(CONFIGURATION_INFO_FILE);
 		 return builder;

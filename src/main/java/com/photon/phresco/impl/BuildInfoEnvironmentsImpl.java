@@ -24,6 +24,7 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang.StringUtils;
 import org.xml.sax.SAXException;
 
 import com.photon.phresco.api.DynamicParameter;
@@ -45,12 +46,19 @@ public class BuildInfoEnvironmentsImpl implements DynamicParameter, Constants {
 	public PossibleValues getValues(Map<String, Object> paramsMap) throws IOException, ParserConfigurationException, SAXException, ConfigurationException, PhrescoException {
 		PossibleValues possibleValues = new PossibleValues();;
 		try {
+			String rootModulePath = "";
+			String subModuleName = "";
             ApplicationInfo applicationInfo = (ApplicationInfo) paramsMap.get(KEY_APP_INFO);
             String buildNumber = (String) paramsMap.get(KEY_BUILD_NO);
-            boolean isMultiModule = (Boolean) paramsMap.get(KEY_MULTI_MODULE);
         	String rootModule = (String) paramsMap.get(KEY_ROOT_MODULE);
-            
-            BuildInfo buildInfo = Utility.getBuildInfo(Integer.parseInt(buildNumber), getBuildInfoPath(applicationInfo.getAppDirName(), isMultiModule, rootModule).toString());
+        	 if (StringUtils.isNotEmpty(rootModule)) {
+     			rootModulePath = Utility.getProjectHome() + rootModule;
+     			subModuleName = applicationInfo.getAppDirName();
+     		} else {
+     			rootModulePath = Utility.getProjectHome() + applicationInfo.getAppDirName();
+     		}
+             
+            BuildInfo buildInfo = Utility.getBuildInfo(Integer.parseInt(buildNumber), getBuildInfoPath(rootModulePath, subModuleName).toString());
             List<String> environments = buildInfo.getEnvironments();
             if (environments != null) {
                 for (String environment : environments) {
@@ -67,14 +75,10 @@ public class BuildInfoEnvironmentsImpl implements DynamicParameter, Constants {
         return possibleValues;
 	}
 	
-	private StringBuilder getBuildInfoPath(String projectDirectory, boolean isMultiModule, String rootModule) {
-	    StringBuilder builder = new StringBuilder(Utility.getProjectHome());
-	    if (isMultiModule) {
-	    	builder.append(rootModule).append(File.separator);
-	    }
-	    builder.append(projectDirectory);
+	private StringBuilder getBuildInfoPath(String rootModulePath, String subModuleName) throws PhrescoException {
+		File pomFileLocation = Utility.getPomFileLocation(rootModulePath, subModuleName);
+		StringBuilder builder = new StringBuilder(pomFileLocation.getParent());
 	    builder.append(File.separator);
-	    
 	    builder.append(DO_NOT_CHECKIN_DIR);
 	    builder.append(File.separator);
 	    builder.append(BUILD);

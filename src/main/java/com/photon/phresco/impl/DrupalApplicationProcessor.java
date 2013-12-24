@@ -119,7 +119,7 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 		
 		ProjectUtils projectUtils = new ProjectUtils();
 		
-		File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+		File phrescoPomFile = Utility.getPomFileLocation(rootModulePath, subModuleName);
 		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
 		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
 		File pomFile = new File(sourceFolderLocation.getPath() + File.separator + appInfo.getPomFile());
@@ -214,7 +214,7 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 		
 		String envName = configurations.get(0).getEnvName();
 		String featureName = configurations.get(0).getProperties().getProperty(Constants.FEATURE_NAME);
-		File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+		File phrescoPomFile = Utility.getPomFileLocation(rootModulePath, subModuleName);
 		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
 		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
 		
@@ -237,7 +237,7 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 		} else {
 			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
 		}
-		File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+		File phrescoPomFile = Utility.getPomFileLocation(rootModulePath, subModuleName);
 		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
 		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
 		File featureManifest = new File(sourceFolderLocation + getThirdPartyFolder(phrescoPomFile) + File.separator + featureName + File.separator + XML);
@@ -331,7 +331,7 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 			} else {
 				rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
 			}
-			File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+			File phrescoPomFile = Utility.getPomFileLocation(rootModulePath, subModuleName);
 			ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
 			File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
 			
@@ -538,7 +538,7 @@ public class DrupalApplicationProcessor extends AbstractApplicationProcessor {
 		} else {
 			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
 		}
-		File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+		File phrescoPomFile = Utility.getPomFileLocation(rootModulePath, subModuleName);
 		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
 		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
     	

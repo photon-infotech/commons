@@ -69,7 +69,7 @@ public class IPhonePhrescoApplicationProcessor extends AbstractApplicationProces
 			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
 		}
 		
-		File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+		File phrescoPomFile = Utility.getPomFileLocation(rootModulePath, subModuleName);
 		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
 		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
 		File pomFile = new File(sourceFolderLocation.getPath() + File.separator + appInfo.getPomFile());
@@ -108,7 +108,7 @@ public class IPhonePhrescoApplicationProcessor extends AbstractApplicationProces
 			} else {
 				rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
 			}
-			File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+			File phrescoPomFile = Utility.getPomFileLocation(rootModulePath, subModuleName);
 			ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
 			File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
 			String dotPhrescoFolderPath = Utility.getDotPhrescoFolderPath(rootModulePath, subModuleName);
@@ -143,7 +143,7 @@ public class IPhonePhrescoApplicationProcessor extends AbstractApplicationProces
 		} else {
 			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
 		}
-		File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+		File phrescoPomFile = Utility.getPomFileLocation(rootModulePath, subModuleName);
 		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
 		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
 		File plistFile = new File(sourceFolderLocation + getThirdPartyFolder(phrescoPomFile) + File.separator + featureName + File.separator + featureName+RESOURCE +File.separator + PLIST);
@@ -168,7 +168,7 @@ public class IPhonePhrescoApplicationProcessor extends AbstractApplicationProces
 			} else {
 				rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
 			}
-			File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+			File phrescoPomFile = Utility.getPomFileLocation(rootModulePath, subModuleName);
 			ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
 			File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
 			String plistPath = sourceFolderLocation.getPath() + getThirdPartyFolder(phrescoPomFile) + File.separator + featureName + File.separator + featureName+RESOURCE +File.separator + INFO_PLIST;
@@ -358,7 +358,7 @@ public class IPhonePhrescoApplicationProcessor extends AbstractApplicationProces
 			}
 			ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
 			File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
-			File phrescoPomFile = Utility.getpomFileLocation(rootModulePath, subModuleName);
+			File phrescoPomFile = Utility.getPomFileLocation(rootModulePath, subModuleName);
 			File plistFile = new File(sourceFolderLocation + getThirdPartyFolder(phrescoPomFile) + File.separator + featureName + File.separator + featureName+RESOURCE +File.separator + PLIST);
 			return getConfigFromPlist(plistFile.getPath());
 		} catch (Exception e) {

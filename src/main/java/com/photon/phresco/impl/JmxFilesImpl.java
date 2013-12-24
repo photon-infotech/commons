@@ -9,10 +9,12 @@ import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.xml.sax.SAXException;
 
 import com.photon.phresco.api.DynamicParameter;
 import com.photon.phresco.commons.model.ApplicationInfo;
+import com.photon.phresco.commons.model.ProjectInfo;
 import com.photon.phresco.exception.ConfigurationException;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.plugins.model.Mojos.Mojo.Configuration.Parameters.Parameter.PossibleValues;
@@ -30,20 +32,26 @@ public class JmxFilesImpl implements DynamicParameter, Constants {
 
 	@Override
 	public PossibleValues getValues(Map<String, Object> paramsMap) throws IOException, ParserConfigurationException, SAXException, ConfigurationException, PhrescoException {
-		
-		
+		String rootModulePath = "";
+		String subModuleName = "";
 		PossibleValues possibleValues = new PossibleValues();
     	ApplicationInfo applicationInfo = (ApplicationInfo) paramsMap.get(KEY_APP_INFO);
     	String customTestAgainst = (String) paramsMap.get(KEY_CUSTOM_TEST_AGAINST);
     	String goal = (String) paramsMap.get(KEY_GOAL);
     	String FORWARD_SLASH = "/";
-    	boolean isMultiModule = (Boolean) paramsMap.get(KEY_MULTI_MODULE);
      	String rootModule = (String) paramsMap.get(KEY_ROOT_MODULE);
-    	
+		
+		if (StringUtils.isNotEmpty(rootModule)) {
+			rootModulePath = Utility.getProjectHome() + rootModule;
+			subModuleName = applicationInfo.getAppDirName();
+		} else {
+			rootModulePath = Utility.getProjectHome() + applicationInfo.getAppDirName();
+		}
     	try {
     		String testDir = "";
         	String jmxDir = "";
-    		PomProcessor processor = new PomProcessor(getPOMFile(applicationInfo, isMultiModule, rootModule));
+        	   File pomFileLocation = Utility.getPomFileLocation(rootModulePath, subModuleName);
+    		PomProcessor processor = new PomProcessor(pomFileLocation);
     		if (PHASE_LOAD_TEST.equals(goal)) {
     			testDir = processor.getProperty(POM_PROP_KEY_LOADTEST_DIR);
         		jmxDir = processor.getProperty(POM_PROP_KEY_LOADTEST_JMX_UPLOAD_DIR);
@@ -51,23 +59,17 @@ public class JmxFilesImpl implements DynamicParameter, Constants {
         		testDir = processor.getProperty(POM_PROP_KEY_PERFORMANCETEST_DIR);
         		jmxDir = processor.getProperty(POM_PROP_KEY_PERFORMANCETEST_JMX_UPLOAD_DIR);
         	}
-			
-			StringBuilder againstTestDir = new StringBuilder(Utility.getProjectHome());
-			if (isMultiModule) {
-				againstTestDir.append(rootModule + File.separator);
-			}
-			againstTestDir.append(applicationInfo.getAppDirName())
-			.append(testDir)
+    		
+    		ProjectInfo info = Utility.getProjectInfo(rootModulePath, subModuleName);
+    		File testFolderLocation = Utility.getTestFolderLocation(info, rootModulePath, subModuleName);
+			StringBuilder againstTestDir = new StringBuilder(testFolderLocation.getPath());
+			againstTestDir.append(testDir)
 			.append(File.separator)
 			.append(customTestAgainst)
 			.append(File.separator);
 			
-			StringBuilder uploadedJmxDir = new StringBuilder(Utility.getProjectHome());
-			if (isMultiModule) {
-				uploadedJmxDir.append(rootModule + File.separator);
-			}
-			uploadedJmxDir.append(applicationInfo.getAppDirName())
-			.append(testDir)
+			StringBuilder uploadedJmxDir = new StringBuilder(testFolderLocation.getPath());
+			uploadedJmxDir.append(testDir)
 			.append(File.separator)
 			.append(customTestAgainst)
 			.append(jmxDir)
@@ -117,7 +119,7 @@ public class JmxFilesImpl implements DynamicParameter, Constants {
 		return files;
 	}
 
-	private File getPOMFile(ApplicationInfo appInfo, boolean isMultiModule, String rootModule) {
+	/*private File getPOMFile(ApplicationInfo appInfo, boolean isMultiModule, String rootModule) {
 		StringBuilder builder = new StringBuilder(Utility.getProjectHome());
 		if (isMultiModule) {
 			builder.append(rootModule + File.separator);
@@ -127,5 +129,5 @@ public class JmxFilesImpl implements DynamicParameter, Constants {
 		builder.append(File.separatorChar)
 		.append(pomFile);
 		return new File(builder.toString());
-	}
+	}*/
 }

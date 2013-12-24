@@ -49,6 +49,8 @@ public class FunctionalTestEnvironmentImpl implements DynamicParameter, Constant
 	@Override
 	public PossibleValues getValues(Map<String, Object> paramsMap) throws IOException, ParserConfigurationException, SAXException, ConfigurationException, PhrescoException {
 		PossibleValues possibleValues = new PossibleValues();;
+	  	String rootModulePath = "";
+		String subModuleName = "";
 		ApplicationInfo applicationInfo = (ApplicationInfo) paramsMap.get(KEY_APP_INFO);
 		String buildNumber = (String) paramsMap.get(KEY_BUILD_NO);
 		String customer = (String) paramsMap.get(KEY_CUSTOMER_ID);
@@ -57,8 +59,14 @@ public class FunctionalTestEnvironmentImpl implements DynamicParameter, Constant
     	String goal = (String) paramsMap.get(KEY_GOAL);
     	Parameter parameter = mojo.getParameter(goal, KEY_ENVIRONMENT);
     	String updateDefaultEnv = "";
-    	boolean isMultiModule = (Boolean) paramsMap.get(KEY_MULTI_MODULE);
     	String rootModule = (String) paramsMap.get(KEY_ROOT_MODULE);
+		
+		if (StringUtils.isNotEmpty(rootModule)) {
+			rootModulePath = Utility.getProjectHome() + rootModule;
+			subModuleName = applicationInfo.getAppDirName();
+		} else {
+			rootModulePath = Utility.getProjectHome() + applicationInfo.getAppDirName();
+		}
 		if (KEY_SERVER.equalsIgnoreCase(testAgainst)) {
 			if (paramsMap != null) {
 				String showSettings = (String) paramsMap.get(KEY_SHOW_SETTINGS);
@@ -82,8 +90,7 @@ public class FunctionalTestEnvironmentImpl implements DynamicParameter, Constant
 					}
 				}
 			}
-			String projectDirectory = applicationInfo.getAppDirName();
-			String configPath = getConfigurationPath(projectDirectory, isMultiModule, rootModule).toString();
+			String configPath = getConfigurationPath(rootModulePath, subModuleName).toString();
 			ConfigManager configManager = new ConfigManagerImpl(new File(configPath)); 
 			List<Environment> environments = configManager.getEnvironments();
 			for (Environment environment : environments) {
@@ -99,7 +106,7 @@ public class FunctionalTestEnvironmentImpl implements DynamicParameter, Constant
 	        	mojo.save();
 	    	}
 		} else {
-			BuildInfo buildInfo = Utility.getBuildInfo(Integer.parseInt(buildNumber), getBuildInfoPath(applicationInfo.getAppDirName(), isMultiModule, rootModule).toString());
+			BuildInfo buildInfo = Utility.getBuildInfo(Integer.parseInt(buildNumber), getBuildInfoPath(rootModulePath, subModuleName).toString());
 			List<String> environments = buildInfo.getEnvironments();
 			if (environments != null) {
 				for (String environment : environments) {
@@ -113,12 +120,9 @@ public class FunctionalTestEnvironmentImpl implements DynamicParameter, Constant
 		return possibleValues;
 	}
 	
-	private StringBuilder getBuildInfoPath(String projectDirectory, boolean isMultiModule, String rootModule) {
-	    StringBuilder builder = new StringBuilder(Utility.getProjectHome());
-	    if (isMultiModule) {
-			 builder.append(rootModule).append(File.separator);
-		 }
-	    builder.append(projectDirectory);
+	private StringBuilder getBuildInfoPath(String rootModulePath, String subModuleName) throws PhrescoException {
+		File pomFileLocation = Utility.getPomFileLocation(rootModulePath, subModuleName);
+		StringBuilder builder = new StringBuilder(pomFileLocation.getParent());
 	    builder.append(File.separator);
 	    builder.append(DO_NOT_CHECKIN_DIR);
 	    builder.append(File.separator);
@@ -128,14 +132,9 @@ public class FunctionalTestEnvironmentImpl implements DynamicParameter, Constant
 	    return builder;
 	}
 	
-	 private StringBuilder getConfigurationPath(String projectDirectory, boolean isMultiModule, String rootModule) {
-		 StringBuilder builder = new StringBuilder(Utility.getProjectHome());
-		 if (isMultiModule) {
-			 builder.append(rootModule).append(File.separator);
-		 }
-		 builder.append(projectDirectory);
-		 builder.append(File.separator);
-		 builder.append(DOT_PHRESCO_FOLDER);
+	 private StringBuilder getConfigurationPath(String subModuleName, String rootModulePath) throws PhrescoException {
+		 String dotPhrescoFolderPath = Utility.getDotPhrescoFolderPath(rootModulePath, subModuleName);
+		 StringBuilder builder = new StringBuilder(dotPhrescoFolderPath);
 		 builder.append(File.separator);
 		 builder.append(CONFIGURATION_INFO_FILE);
 		 

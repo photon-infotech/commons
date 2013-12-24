@@ -1062,7 +1062,7 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 	public static File getSourceFolderLocation(ProjectInfo projectinfo, String rootPath, String moduleName) throws PhrescoException {
 		File docFile = null;
 		try {
-			File pomFile = Utility.getpomFileLocation(rootPath, moduleName);
+			File pomFile = Utility.getPomFileLocation(rootPath, moduleName);
 			PomProcessor pomPro = new PomProcessor(pomFile);
 			String src = pomPro.getProperty(POM_PROP_KEY_SPLIT_SRC_DIR);
 			if(projectinfo.isMultiModule() && StringUtils.isNotEmpty(src)) {
@@ -1085,7 +1085,7 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 	public static File getTestFolderLocation(ProjectInfo projectinfo, String rootPath, String moduleName) throws PhrescoException {
 		File docFile = null;
 		try {
-			File pomFile = Utility.getpomFileLocation(rootPath, moduleName);
+			File pomFile = Utility.getPomFileLocation(rootPath, moduleName);
 			PomProcessor pomPro = new PomProcessor(pomFile);
 			String src = pomPro.getProperty(POM_PROP_KEY_SPLIT_TEST_DIR);
 			String test = pomPro.getProperty(POM_PROP_KEY_SPLIT_SRC_DIR);
@@ -1111,7 +1111,7 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 	}
 	
 	
-	public static File getpomFileLocation(String appDirPath, String module) throws PhrescoException {
+	public static File getPomFileLocation(String appDirPath, String module) throws PhrescoException {
 		try {
 			File appDir = new File(appDirPath);
 			File[] split_phresco = null;
@@ -1192,7 +1192,7 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 	
 	public static PomProcessor getPomProcessor(String rootModulePath , String subModule) throws PhrescoException {
 		try {
-			File pomFile = getpomFileLocation(rootModulePath, subModule);
+			File pomFile = getPomFileLocation(rootModulePath, subModule);
 			return new PomProcessor(pomFile);
 		} catch (PhrescoPomException e) {
 			throw new PhrescoException(e);

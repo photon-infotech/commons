@@ -21,6 +21,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.photon.phresco.api.DynamicParameter;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.BuildInfo;
@@ -35,9 +37,18 @@ public class BuildInfoParameterImpl implements DynamicParameter, Constants {
     @Override
     public PossibleValues getValues(Map<String, Object> map) throws PhrescoException {
         try {
+        	String rootModulePath = "";
+			String subModuleName = "";
 			PossibleValues possibleValues = new PossibleValues();
 			ApplicationInfo applicationInfo = (ApplicationInfo) map.get(KEY_APP_INFO);
-			String buildInfoPath = getBuildInfoPath(applicationInfo.getAppDirName()).toString();
+			String rootModule = (String) map.get(KEY_ROOT_MODULE);
+			if (StringUtils.isNotEmpty(rootModule)) {
+     			rootModulePath = Utility.getProjectHome() + rootModule;
+     			subModuleName = applicationInfo.getAppDirName();
+     		} else {
+     			rootModulePath = Utility.getProjectHome() + applicationInfo.getAppDirName();
+     		}
+			String buildInfoPath = getBuildInfoPath(rootModulePath, subModuleName).toString();
 			List<BuildInfo> buildInfos = Utility.getBuildInfos(new File(buildInfoPath));
 			if (buildInfos != null) {
 			    for (BuildInfo buildInfo : buildInfos) {
@@ -52,9 +63,9 @@ public class BuildInfoParameterImpl implements DynamicParameter, Constants {
 		}
     }
 
-    private StringBuilder getBuildInfoPath(String projectDirectory) {
-        StringBuilder builder = new StringBuilder(Utility.getProjectHome());
-        builder.append(projectDirectory);
+    private StringBuilder getBuildInfoPath(String rootModulePath, String subModuleName) throws PhrescoException {
+    	File pomFileLocation = Utility.getPomFileLocation(rootModulePath, subModuleName);
+        StringBuilder builder = new StringBuilder(pomFileLocation.getParent());
         builder.append(File.separator);
         builder.append("do_not_checkin");
         builder.append(File.separator);

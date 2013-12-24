@@ -24,6 +24,7 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang.StringUtils;
 import org.xml.sax.SAXException;
 
 import com.photon.phresco.api.ConfigManager;
@@ -31,6 +32,7 @@ import com.photon.phresco.api.DynamicParameterForModule;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.configuration.Environment;
 import com.photon.phresco.exception.ConfigurationException;
+import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.plugins.model.Module.Configurations.Configuration.Parameter.PossibleValues;
 import com.photon.phresco.plugins.model.Module.Configurations.Configuration.Parameter.PossibleValues.Value;
 import com.photon.phresco.util.Constants;
@@ -43,9 +45,19 @@ public class EnvironmentsParameterImplForModule implements DynamicParameterForMo
 	private static final long serialVersionUID = 1L;
 
     @Override
-	public PossibleValues getValues(Map<String, Object> paramsMap) throws IOException, ParserConfigurationException, SAXException, ConfigurationException {
+	public PossibleValues getValues(Map<String, Object> paramsMap) throws IOException, ParserConfigurationException, SAXException, ConfigurationException, PhrescoException {
     	PossibleValues possibleValues = new PossibleValues();
+    	String rootModulePath = "";
+		String subModuleName = "";
     	ApplicationInfo applicationInfo = (ApplicationInfo) paramsMap.get(KEY_APP_INFO);
+		String rootModule = (String) paramsMap.get("rootModule");
+		
+		if (StringUtils.isNotEmpty(rootModule)) {
+			rootModulePath = Utility.getProjectHome() + rootModule;
+			subModuleName = applicationInfo.getAppDirName();
+		} else {
+			rootModulePath = Utility.getProjectHome() + applicationInfo.getAppDirName();
+		}
     	String customer = (String) paramsMap.get(KEY_CUSTOMER_ID);
     	if (paramsMap != null) {
     	    String showSettings = (String) paramsMap.get(KEY_SHOW_SETTINGS);
@@ -61,8 +73,7 @@ public class EnvironmentsParameterImplForModule implements DynamicParameterForMo
         	}
     	}
     	
-    	String projectDirectory = applicationInfo.getAppDirName();
-    	String configPath = getConfigurationPath(projectDirectory).toString();
+    	String configPath = getConfigurationPath(rootModulePath, subModuleName).toString();
     	ConfigManager configManager = new ConfigManagerImpl(new File(configPath)); 
     	List<Environment> environments = configManager.getEnvironments();
     	for (Environment environment : environments) {
@@ -74,11 +85,9 @@ public class EnvironmentsParameterImplForModule implements DynamicParameterForMo
     	return possibleValues;
     }
     
-    private StringBuilder getConfigurationPath(String projectDirectory) {
-		 StringBuilder builder = new StringBuilder(Utility.getProjectHome());
-		 builder.append(projectDirectory);
-		 builder.append(File.separator);
-		 builder.append(DOT_PHRESCO_FOLDER);
+    private StringBuilder getConfigurationPath(String subModuleName, String rootModulePath) throws PhrescoException {
+    	 String dotPhrescoFolderPath = Utility.getDotPhrescoFolderPath(rootModulePath, subModuleName);
+		 StringBuilder builder = new StringBuilder(dotPhrescoFolderPath);
 		 builder.append(File.separator);
 		 builder.append(CONFIGURATION_INFO_FILE);
 		 
