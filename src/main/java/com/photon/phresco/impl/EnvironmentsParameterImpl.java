@@ -111,6 +111,6 @@ public class EnvironmentsParameterImpl implements DynamicParameter, Constants {
 	 }
     
     private String getSettingsPath(String projectCode) {
-    	return Utility.getProjectHome() + projectCode +"-settings.xml";
+    	return Utility.getProjectHome() + projectCode + SETTINGS_XML;
     }
 }

@@ -23,6 +23,7 @@ public class BuildInfoParameterImplTest {
 	@Test
 	public void buildParamsTest() throws PhrescoException {
 		map.put("applicationInfo",getApplicationInfo());
+		map.put("rootModule", "");
 		PossibleValues values = buildInfoParmas.getValues(map);
 		Assert.assertEquals(0, values.getValue().size());
 		
