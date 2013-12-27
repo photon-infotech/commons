@@ -515,8 +515,6 @@ public final class Utility implements Constants {
 			}
 			if (System.getProperty(Constants.OS_NAME).startsWith(Constants.WINDOWS_PLATFORM)) {
 				Runtime.getRuntime().exec("cmd /X /C taskkill /F /T /PID " + processId.toString());
-			} else if (System.getProperty(Constants.OS_NAME).startsWith("Mac")) {
-				Runtime.getRuntime().exec(Constants.JAVA_UNIX_PROCESS_KILL_CMD + processId.toString());
 			} else {
 				Runtime.getRuntime().exec(Constants.JAVA_UNIX_PROCESS_KILL_CMD + processId.toString());
 			}

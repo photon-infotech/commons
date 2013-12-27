@@ -161,6 +161,7 @@ public interface ServiceConstants {
 	String REST_QUERY_EMAIL_ADDRESS = "emailAddress";
 	String REST_QUERY_EMAIL_PASSWORD = "emailPassword";
 	String REST_QUERY_APPID = "appId";
+	String REST_QUERY_SUBMODULEIDS = "subModuleIds";
 	String REST_QUERY_APPNAME = "appName";
 	String REST_QUERY_APPCODE = "appCode";
 	String REST_QUERY_BUILD_DOWNLOAD_URL = "buildDownloadUrl";

@@ -188,6 +188,7 @@ public interface Constants {
     String STR_EQUAL = "=";
     String STR_DOUBLE_QUOTES = "\"";
     String SLASH = "/";
+    String KILLPROCESS_BUILD = "build";
 
     //Action constants
     String TEST_FUNCTIONAL = "Functional";
