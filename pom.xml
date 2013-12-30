@@ -410,5 +410,6 @@
         <xalan.version>2.7.1</xalan.version>
         <json-simple>1.1</json-simple>
         <trilead-ssh2.version xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">build212-hudson-5</trilead-ssh2.version>
+        <phresco.src.repo.url>https://github.com/photon-infotech/commons.git</phresco.src.repo.url>
     </properties>
 </project>

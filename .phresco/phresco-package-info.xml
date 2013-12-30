@@ -187,6 +187,7 @@
                     <description></description>
                     <key>packageFileBrowse</key>
                     <multiple>false</multiple>
+                    <value></value>
                     <sort>false</sort>
                     <show>true</show>
                 </parameter>
