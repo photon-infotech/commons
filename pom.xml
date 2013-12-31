@@ -348,6 +348,11 @@
 	 	   <artifactId>wink-json4j</artifactId>
            <version>1.4</version>
 		</dependency>
+		<dependency>
+		<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4</version>
+		</dependency>
     </dependencies>
     <distributionManagement>
         <repository>

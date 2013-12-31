@@ -306,6 +306,11 @@ public class UtilityTest {
 	}
 	
 	@Test
+	public void testSendEmail() throws PhrescoException {
+		Utility.sendTemplateEmail("rohan.lukose@photoninfotech.net", "phresco.do.not.reply@gmail.com", "Test", "Test", "phresco.do.not.reply@gmail.com", "phresco123");
+	}
+	
+	@Test
 	public void testKillProcess() throws PhrescoException {
 		String baseDir = Utility.getProjectHome()+File.separator+"wp1-wordpress3.4.2";
 		Utility.killProcess(baseDir, "eclipse");

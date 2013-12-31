@@ -39,6 +39,14 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
@@ -1197,6 +1205,43 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 		}
 	}
 	
+	public static void sendTemplateEmail(String toAddr, String fromAddr, String subject, String body, final String username, final String password) {
+
+		Properties props = new Properties();  
+		props.put("mail.smtp.host", "smtp.gmail.com");  
+		props.put("mail.smtp.auth", "true");  
+		props.put("mail.debug", "true");  
+		props.put("mail.smtp.port", 25);  
+		props.put("mail.smtp.socketFactory.port", 25);  
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.transport.protocol", "smtp");
+		Session mailSession = null;
+
+		mailSession = Session.getInstance(props,  
+				new javax.mail.Authenticator() {  
+			protected PasswordAuthentication getPasswordAuthentication() {  
+				return new PasswordAuthentication(username, password);  
+			}  
+		});  
+		try {
+
+			Transport transport = mailSession.getTransport();
+
+			MimeMessage message = new MimeMessage(mailSession);
+
+			message.setSubject(subject);
+			message.setFrom(new InternetAddress(fromAddr));
+			String []to = new String[]{toAddr};
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to[0]));
+			message.setContent(body,"text/html");
+			transport.connect();
+
+			transport.sendMessage(message,message.getRecipients(Message.RecipientType.TO));
+			transport.close();
+		} catch (Exception exception) {
+
+		}
+	}
 	
 	private static class PhrescoFileNameFilter implements FilenameFilter {
 		 private String filter_;
