@@ -52,6 +52,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -124,7 +125,6 @@ public class ConfigManagerImpl implements ConfigManager {
 			Node envNode = nodeList.item(i);
 			envNode.getParentNode().removeChild(envNode);
 		}
-		
 		createEnvironment(environments, configFile);
 	}
 	
@@ -241,12 +241,10 @@ public class ConfigManagerImpl implements ConfigManager {
 		TransformerFactory tFactory = TransformerFactory.newInstance();
 		Transformer transformer;
 		try {
-			File configFile = FileUtils.toFile(this.getClass().getResource("/stripspace.xsl"));
-//			String filePath = this.getClass().getResource("/stripspace.xsl").getFile();
-//			System.out.println("filePath" + filePath);
-//			StreamSource stream = new StreamSource(new File(filePath));
-//			transformer = tFactory.newTransformer(stream);
-			transformer = tFactory.newTransformer();
+			InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream("strip-space.xsl");
+			StreamSource stream = new StreamSource(resourceAsStream);
+			transformer = tFactory.newTransformer(stream);
+//			transformer = tFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");

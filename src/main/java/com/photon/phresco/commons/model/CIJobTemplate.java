@@ -179,25 +179,26 @@ public class CIJobTemplate {
 		this.uploadTypes = uploadTypes;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "CIJobTemplate [name=" + name + ", type=" + type + ", appIds="
-				+ appIds + ", enableRepo=" + enableRepo
-				+ ", repoTypes=" + repoTypes + ", enableSheduler="
-				+ enableSheduler + ", enableEmailSettings="
-				+ enableEmailSettings + ", enableUploadSettings="
-				+ enableUploadSettings + ", uploadTypes=" + uploadTypes + "]";
-	}
-
 	public void setModule(String module) {
 		this.module = module;
 	}
 
 	public String getModule() {
 		return module;
+	}
+
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "CIJobTemplate [name=" + name + ", type=" + type + ", appIds="
+				+ appIds + ", enableRepo=" + enableRepo + ", module=" 
+				+ module + ", repoTypes=" + repoTypes + ", enableSheduler="
+				+ enableSheduler + ", enableEmailSettings="
+				+ enableEmailSettings + ", enableUploadSettings="
+				+ enableUploadSettings + ", uploadTypes=" + uploadTypes + "]";
 	}
 
 	@Override
