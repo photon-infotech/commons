@@ -463,4 +463,27 @@ public interface Constants {
 	String POM_PROP_KEY_SRC_REPO_URL = "phresco.src.repo.url";
 	String POM_PROP_KEY_PHRESCO_REPO_URL = "phresco.dotphresco.repo.url";
 	String POM_PROP_KEY_TEST_REPO_URL = "phresco.test.repo.url";
+	
+	/**
+	 * SCM Constants
+	 */
+	String SCM   					= "scm";
+	String SCM_CHECKOUT   			= "checkout";
+	String SCM_HYPHEN_D   			= "-D";
+	String SCM_CONNECTION_URL   	= "connectionUrl";
+	String SCM_CHECKOUT_DIRECTORY   = "checkoutDirectory";
+	String SCM_VERSION_TYPE         = "scmVersionType";
+	String SCM_BRANCH  				= "branch";
+	String SCM_VERSION				= "scmVersion";
+	String SCM_RELEASE				= "release";
+	String SCM_BRANCH_NAME			= "branchName";
+	String SCM_USERNAME				= "username";
+	String SCM_PASSWORD				= "password";
+	String SCM_UPDATE_BRANCH_VERSIONS= "updateBranchVersions";
+	String SCM_UPDATE_WORKING_COPY_VERSIONS = "updateWorkingCopyVersions";
+	String SCM_RELEASE_VERSION		= "releaseVersion";
+	String SCM_PREPARE				= "prepare";
+	String SCM_TAG					= "tag";
+	String SCM_COMMENT_PREFIX		= "scmCommentPrefix";
+	String SCM_INCLUDES				= "includes";
 }
