@@ -1205,7 +1205,7 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 		}
 	}
 	
-	public static void sendTemplateEmail(String toAddr, String fromAddr, String subject, String body, final String username, final String password) {
+	public static void sendTemplateEmail(String toAddr, String fromAddr, String subject, String body, final String username, final String password) throws PhrescoException {
 
 		Properties props = new Properties();  
 		props.put("mail.smtp.host", "smtp.gmail.com");  
@@ -1239,7 +1239,7 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 			transport.sendMessage(message,message.getRecipients(Message.RecipientType.TO));
 			transport.close();
 		} catch (Exception exception) {
-
+			throw new PhrescoException("Sending email failed");
 		}
 	}
 	
