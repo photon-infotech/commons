@@ -99,6 +99,8 @@ public class CIJob {
     private String logs = "";
     private String showSettings = "";
     private String packageFileBrowse = "";
+    private String packageType = "";
+    private String selectedFiles = "";
     
     private String sdk = "";
     private String target = "";
@@ -507,6 +509,22 @@ public class CIJob {
 
 	public void setLogs(String logs) {
 		this.logs = logs;
+	}
+
+	public String getPackageType() {
+		return packageType;
+	}
+
+	public void setPackageType(String packageType) {
+		this.packageType = packageType;
+	}
+
+	public String getSelectedFiles() {
+		return selectedFiles;
+	}
+
+	public void setSelectedFiles(String selectedFiles) {
+		this.selectedFiles = selectedFiles;
 	}
 
 	public String getSdk() {
@@ -1754,6 +1772,8 @@ public class CIJob {
 				+ ((packageFileBrowse == null) ? 0 : packageFileBrowse
 						.hashCode());
 		result = prime * result
+				+ ((packageType == null) ? 0 : packageType.hashCode());
+		result = prime * result
 				+ ((parameterName == null) ? 0 : parameterName.hashCode());
 		result = prime * result
 				+ ((parameterValue == null) ? 0 : parameterValue.hashCode());
@@ -1814,6 +1834,8 @@ public class CIJob {
 		result = prime * result + ((sdk == null) ? 0 : sdk.hashCode());
 		result = prime * result
 				+ ((sdkVersion == null) ? 0 : sdkVersion.hashCode());
+		result = prime * result
+				+ ((selectedFiles == null) ? 0 : selectedFiles.hashCode());
 		result = prime * result
 				+ ((serialNumber == null) ? 0 : serialNumber.hashCode());
 		result = prime * result
@@ -2366,6 +2388,11 @@ public class CIJob {
 				return false;
 		} else if (!packageFileBrowse.equals(other.packageFileBrowse))
 			return false;
+		if (packageType == null) {
+			if (other.packageType != null)
+				return false;
+		} else if (!packageType.equals(other.packageType))
+			return false;
 		if (parameterName == null) {
 			if (other.parameterName != null)
 				return false;
@@ -2505,6 +2532,11 @@ public class CIJob {
 			if (other.sdkVersion != null)
 				return false;
 		} else if (!sdkVersion.equals(other.sdkVersion))
+			return false;
+		if (selectedFiles == null) {
+			if (other.selectedFiles != null)
+				return false;
+		} else if (!selectedFiles.equals(other.selectedFiles))
 			return false;
 		if (serialNumber == null) {
 			if (other.serialNumber != null)
