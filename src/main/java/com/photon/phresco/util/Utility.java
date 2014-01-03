@@ -1068,14 +1068,15 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 	public static File getSourceFolderLocation(ProjectInfo projectinfo, String rootPath, String moduleName) throws PhrescoException {
 		File docFile = null;
 		try {
+			ApplicationInfo applicationInfo = projectinfo.getAppInfos().get(0);
 			File pomFile = Utility.getPomFileLocation(rootPath, moduleName);
 			PomProcessor pomPro = new PomProcessor(pomFile);
 			String src = pomPro.getProperty(POM_PROP_KEY_SPLIT_SRC_DIR);
 			if(projectinfo.isMultiModule() && StringUtils.isNotEmpty(src)) {
 			 docFile = new File(rootPath + File.separator + src + File.separator + moduleName);
-			} else if(projectinfo.isMultiModule() && StringUtils.isEmpty(src)) {
+			} else if(CollectionUtils.isNotEmpty(applicationInfo.getModules()) && StringUtils.isEmpty(src)) {
 				 docFile = new File(rootPath + File.separator + moduleName);
-			} else if (!projectinfo.isMultiModule() && StringUtils.isNotEmpty(src)) {
+			} else if (CollectionUtils.isEmpty(applicationInfo.getModules()) && StringUtils.isNotEmpty(src)) {
 				 docFile = new File(rootPath + File.separator + src);
 			} else {
 				 docFile = new File(rootPath);
@@ -1091,19 +1092,20 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 	public static File getTestFolderLocation(ProjectInfo projectinfo, String rootPath, String moduleName) throws PhrescoException {
 		File docFile = null;
 		try {
+			ApplicationInfo applicationInfo = projectinfo.getAppInfos().get(0);
 			File pomFile = Utility.getPomFileLocation(rootPath, moduleName);
 			PomProcessor pomPro = new PomProcessor(pomFile);
 			String src = pomPro.getProperty(POM_PROP_KEY_SPLIT_TEST_DIR);
 			String test = pomPro.getProperty(POM_PROP_KEY_SPLIT_SRC_DIR);
-			if(projectinfo.isMultiModule() && StringUtils.isNotEmpty(test)) {
+			if(CollectionUtils.isNotEmpty(applicationInfo.getModules()) && StringUtils.isNotEmpty(test)) {
 			 docFile = new File(rootPath + File.separator + test + File.separator + moduleName);
-			} else if(projectinfo.isMultiModule() && StringUtils.isNotEmpty(src)) {
+			} else if(CollectionUtils.isNotEmpty(applicationInfo.getModules()) && StringUtils.isNotEmpty(src)) {
 			 docFile = new File(rootPath + File.separator + src + File.separator + moduleName);
-			} else if(projectinfo.isMultiModule() && StringUtils.isEmpty(src)) {
+			} else if(CollectionUtils.isNotEmpty(applicationInfo.getModules()) && StringUtils.isEmpty(src)) {
 				 docFile = new File(rootPath + File.separator + moduleName);
-			} else if (!projectinfo.isMultiModule() && StringUtils.isNotEmpty(test)) {
+			} else if (CollectionUtils.isEmpty(applicationInfo.getModules()) && StringUtils.isNotEmpty(test)) {
 				 docFile = new File(rootPath + File.separator + test);
-			}else if (!projectinfo.isMultiModule() && StringUtils.isNotEmpty(src)) {
+			}else if (CollectionUtils.isEmpty(applicationInfo.getModules()) && StringUtils.isNotEmpty(src)) {
 				 docFile = new File(rootPath + File.separator + src);
 			} else {
 				 docFile = new File(rootPath);
@@ -1121,7 +1123,7 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 		try {
 			File appDir = new File(appDirPath);
 			File[] split_phresco = null;
-			File[] split_src = null;
+//			File[] split_src = null;
 			File[] dotPhrescoFolders = null;
 			File dotAppDir = null;
 			File srcAppDir = null;
