@@ -1269,6 +1269,22 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 		}
 	}
 	
+	public static String splitPathConstruction(String appDirName) throws PhrescoException, PhrescoPomException {
+		try {
+			File pomFileLocation = Utility.getPomFileLocation(Utility.getProjectHome() + File.separator + appDirName, "");
+			PomProcessor pom = new PomProcessor(pomFileLocation);
+			String property = pom.getProperty(POM_PROP_KEY_SPLIT_PHRESCO_DIR);
+			if(StringUtils.isNotEmpty(property)) {
+				appDirName = appDirName + File.separator + property;
+			}
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		} catch (PhrescoException e) {
+			throw new PhrescoException(e);
+		}
+		return appDirName;
+	}
+	
 	private static class PhrescoFileNameFilter implements FilenameFilter {
 		 private String filter_;
 		 public PhrescoFileNameFilter(String filter) {

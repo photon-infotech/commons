@@ -222,6 +222,10 @@ public class CIJob {
 	private String type = "";
 	private String coverage = "";
 	private List<String> fetchDependency;
+	private String releaseVersion = "";
+	private String developmentVersion = "";
+	private String tagName = "";
+	
   
 	// Android functional test
 	private String deviceList = "";
@@ -1553,6 +1557,30 @@ public class CIJob {
 		return projectPath;
 	}
 
+	public String getReleaseVersion() {
+		return releaseVersion;
+	}
+
+	public void setReleaseVersion(String releaseVersion) {
+		this.releaseVersion = releaseVersion;
+	}
+
+	public String getDevelopmentVersion() {
+		return developmentVersion;
+	}
+
+	public void setDevelopmentVersion(String developmentVersion) {
+		this.developmentVersion = developmentVersion;
+	}
+
+	public String getTagName() {
+		return tagName;
+	}
+
+	public void setTagName(String tagName) {
+		this.tagName = tagName;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -1669,6 +1697,10 @@ public class CIJob {
 		result = prime * result + ((dbName == null) ? 0 : dbName.hashCode());
 		result = prime * result
 				+ ((defaultValue == null) ? 0 : defaultValue.hashCode());
+		result = prime
+				* result
+				+ ((developmentVersion == null) ? 0 : developmentVersion
+						.hashCode());
 		result = prime * result + ((device == null) ? 0 : device.hashCode());
 		result = prime * result
 				+ ((deviceId == null) ? 0 : deviceId.hashCode());
@@ -1816,6 +1848,8 @@ public class CIJob {
 		result = prime * result
 				+ ((regexExtractor == null) ? 0 : regexExtractor.hashCode());
 		result = prime * result
+				+ ((releaseVersion == null) ? 0 : releaseVersion.hashCode());
+		result = prime * result
 				+ ((repoType == null) ? 0 : repoType.hashCode());
 		result = prime * result
 				+ ((reportName == null) ? 0 : reportName.hashCode());
@@ -1853,6 +1887,7 @@ public class CIJob {
 				+ ((storepass == null) ? 0 : storepass.hashCode());
 		result = prime * result
 				+ ((successEmailIds == null) ? 0 : successEmailIds.hashCode());
+		result = prime * result + ((tagName == null) ? 0 : tagName.hashCode());
 		result = prime * result + ((target == null) ? 0 : target.hashCode());
 		result = prime * result
 				+ ((technologyName == null) ? 0 : technologyName.hashCode());
@@ -2130,6 +2165,11 @@ public class CIJob {
 			if (other.defaultValue != null)
 				return false;
 		} else if (!defaultValue.equals(other.defaultValue))
+			return false;
+		if (developmentVersion == null) {
+			if (other.developmentVersion != null)
+				return false;
+		} else if (!developmentVersion.equals(other.developmentVersion))
 			return false;
 		if (device == null) {
 			if (other.device != null)
@@ -2488,6 +2528,11 @@ public class CIJob {
 				return false;
 		} else if (!regexExtractor.equals(other.regexExtractor))
 			return false;
+		if (releaseVersion == null) {
+			if (other.releaseVersion != null)
+				return false;
+		} else if (!releaseVersion.equals(other.releaseVersion))
+			return false;
 		if (repoType == null) {
 			if (other.repoType != null)
 				return false;
@@ -2587,6 +2632,11 @@ public class CIJob {
 			if (other.successEmailIds != null)
 				return false;
 		} else if (!successEmailIds.equals(other.successEmailIds))
+			return false;
+		if (tagName == null) {
+			if (other.tagName != null)
+				return false;
+		} else if (!tagName.equals(other.tagName))
 			return false;
 		if (target == null) {
 			if (other.target != null)
