@@ -63,6 +63,7 @@ public interface Constants {
 	String TYPE_JBOSS = "JBoss";
 	String TYPE_WEBLOGIC ="WebLogic";
 	String PHRESCO = "phresco";
+	String POM = "pom";
 	String CONFIGURATION_INFO_FILE = "phresco-env-config.xml";
 	String CONFIGURATION_FILE = "settings.xml";
 	String DOT_PHRESCO_FOLDER = ".phresco";

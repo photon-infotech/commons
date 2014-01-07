@@ -1090,27 +1090,27 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 	}
 	
 	public static File getTestFolderLocation(ProjectInfo projectinfo, String rootPath, String moduleName) throws PhrescoException {
-		File docFile = null;
+		File testFile = null;
 		try {
 			ApplicationInfo applicationInfo = projectinfo.getAppInfos().get(0);
 			File pomFile = Utility.getPomFileLocation(rootPath, moduleName);
 			PomProcessor pomPro = new PomProcessor(pomFile);
-			String src = pomPro.getProperty(POM_PROP_KEY_SPLIT_TEST_DIR);
-			String test = pomPro.getProperty(POM_PROP_KEY_SPLIT_SRC_DIR);
+			String test = pomPro.getProperty(POM_PROP_KEY_SPLIT_TEST_DIR);
+			String src = pomPro.getProperty(POM_PROP_KEY_SPLIT_SRC_DIR);
 			if(CollectionUtils.isNotEmpty(applicationInfo.getModules()) && StringUtils.isNotEmpty(test)) {
-			 docFile = new File(rootPath + File.separator + test + File.separator + moduleName);
+				testFile = new File(rootPath + File.separator + test + File.separator + moduleName);
 			} else if(CollectionUtils.isNotEmpty(applicationInfo.getModules()) && StringUtils.isNotEmpty(src)) {
-			 docFile = new File(rootPath + File.separator + src + File.separator + moduleName);
+				testFile = new File(rootPath + File.separator + src + File.separator + moduleName);
 			} else if(CollectionUtils.isNotEmpty(applicationInfo.getModules()) && StringUtils.isEmpty(src)) {
-				 docFile = new File(rootPath + File.separator + moduleName);
+				testFile = new File(rootPath + File.separator + moduleName);
 			} else if (CollectionUtils.isEmpty(applicationInfo.getModules()) && StringUtils.isNotEmpty(test)) {
-				 docFile = new File(rootPath + File.separator + test);
+				testFile = new File(rootPath + File.separator + test);
 			}else if (CollectionUtils.isEmpty(applicationInfo.getModules()) && StringUtils.isNotEmpty(src)) {
-				 docFile = new File(rootPath + File.separator + src);
+				testFile = new File(rootPath + File.separator + src);
 			} else {
-				 docFile = new File(rootPath);
+				testFile = new File(rootPath);
 			}
-			return docFile;
+			return testFile;
 		} catch (PhrescoException e) {
 			throw new PhrescoException(e);
 		} catch (PhrescoPomException e) {
