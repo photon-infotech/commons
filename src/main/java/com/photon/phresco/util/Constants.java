@@ -486,4 +486,5 @@ public interface Constants {
 	String SCM_TAG					= "tag";
 	String SCM_COMMENT_PREFIX		= "scmCommentPrefix";
 	String SCM_INCLUDES				= "includes";
+	String SCM_POM_FILE_NAME		= "pomFileName";
 }
