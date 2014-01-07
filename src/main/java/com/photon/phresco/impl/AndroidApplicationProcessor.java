@@ -22,24 +22,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.configuration.plist.XMLPropertyListConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -47,19 +38,14 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import com.google.gson.Gson;
-import com.photon.phresco.api.ConfigManager;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
 import com.photon.phresco.commons.model.ProjectInfo;
 import com.photon.phresco.configuration.Configuration;
-import com.photon.phresco.configuration.Environment;
-import com.photon.phresco.exception.ConfigurationException;
 import com.photon.phresco.exception.PhrescoException;
+import com.photon.phresco.parser.JSONParser;
 import com.photon.phresco.service.pom.POMConstants;
 import com.photon.phresco.util.Constants;
 import com.photon.phresco.util.ProjectUtils;
@@ -84,12 +70,15 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 	private static final String SOURCE_POM_XML = "/source/pom.xml";
 	private static final String SOURCE = "source";
 	private static final String ASSETS = "assets";
+	private static final String CONFIG = "config";
+	private static final String CONFIG_XML_FILE = "config.xml";
+	private static final String CONFIG_JSON_FILE = "config.json";
+	private static final String WWW_JSON_FOLDER_PATH = "source/assets/www/json";
 	
 	private String ANDROID_VERSION = "android.version";
 	
 	// android application processor configuration
-	private static final String PLIST = "feature-manifest.xml";
-	private static final String ENVIRONMENT_PLIST = "environment.xml";
+	
 	
 	static {
 		System.out.println("Loading AndroidApplicationProcessor release build .... ");
@@ -120,7 +109,7 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 	@Override
 	public void postUpdate(ApplicationInfo appInfo, List<ArtifactGroup> artifactGroups, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
 		//		extractPilots(info, path, technology);
-		 System.out.println("postUpdate started");
+	    
 		ProjectUtils projectUtils = new ProjectUtils();
 		String rootModulePath = "";
 		String subModuleName = "";
@@ -137,8 +126,9 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 		File testFolderLocation = Utility.getTestFolderLocation(projectInfo, rootModulePath, subModuleName);
 		String dotPhrescoFolderPath = Utility.getDotPhrescoFolderPath(rootModulePath, subModuleName);
 		File pomFile = new File(sourceFolderLocation.getPath() + File.separator + SOURCE + File.separator + appInfo.getPomFile());
-		
-		
+		if(CollectionUtils.isNotEmpty(deletedFeatures)){
+		    deleteFeatureDependenciesFromPom(sourceFolderLocation,deletedFeatures);
+		 }
 		 deletePluginExecutionFromPom(pomFile);
 		 
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
@@ -168,79 +158,37 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 	
 	@Override
 	public List<Configuration> preConfiguration(ApplicationInfo appInfo, String featureName, String envName) throws PhrescoException {
+		return null;
 		
-		File plistFile = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + SOURCE + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator+ SOURCE + File.separator +ASSETS + File.separator +PLIST );
-		
-		try {
-			
-			return getConfigFromXml(plistFile.getPath());
-			
-		} catch (Exception e) {
-			throw new PhrescoException(e);
-		}
-	}
+    }
 	
 	@Override
 	public void postConfiguration(ApplicationInfo appInfo, List<Configuration> configs) throws PhrescoException {
-		File ConfigFilePath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + Constants.DOT_PHRESCO_FOLDER + File.separator + Constants.CONFIGURATION_INFO_FILE);
-		try {
-			
-			ConfigManager configManager = new ConfigManagerImpl(ConfigFilePath);
-			List<Environment> environments = configManager.getEnvironments();
-			for (Environment environment : environments) {
-				String environmenName = "";
-				Map<String, List<Properties>> values = new HashMap<String, List<Properties>>();
-				String environmentName = environment.getName();
-				File file = new File(Utility.getProjectHome() + appInfo.getAppDirName() + getThirdPartyFolder(appInfo) + File.separator + environmentName);
-				if(!file.exists()) {
-					file.mkdir();
-				}
-				List<Configuration> configurations = environment.getConfigurations();
-				if (CollectionUtils.isNotEmpty(configurations)) {
-					String plistFile = file.getPath() + File.separator + ENVIRONMENT_PLIST;
-					XMLPropertyListConfiguration plist = new XMLPropertyListConfiguration();
-					for (Configuration configuration : configurations) {
-						if(configuration != null) {
-							String configType = configuration.getType();
-							environmenName = environment.getName();
-							Properties properties = configuration.getProperties();
-							properties.setProperty(NAME, configuration.getName());
-							if (values.containsKey(configType)) {
-								List<Properties> list = values.get(configType);
-								list.add(properties);
-								values.put(configType, list);
-							} else {
-								List<Properties> listProps = new ArrayList<Properties>();
-								listProps.add(properties);
-								values.put(configType, listProps);
-							}
-						}
-					}
-					plist.addProperty(environmenName, values);
-					plist.save(plistFile);
-				}
-			}
-		} catch (ConfigurationException e) {
-			throw new PhrescoException(e);
-		} catch (org.apache.commons.configuration.ConfigurationException e) {
-			throw new PhrescoException(e);
-		}
+		
 	}
 
 	@Override
 	public List<Configuration> preFeatureConfiguration(ApplicationInfo appInfo, String featureName) throws PhrescoException {
+		File  configFilePath =null;
 		
-		String plistDir = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + SOURCE + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator+ SOURCE + File.separator +ASSETS ;
-		
-
-    	File plistFile =null;
-		
-		try {
+		if(featureName.equalsIgnoreCase("application")){
 			
-			return getConfigFromXml(plistFile.getPath());
-		} catch (Exception e) {
-			throw new PhrescoException(e);
+			configFilePath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + WWW_JSON_FOLDER_PATH + File.separator + CONFIG_JSON_FILE ) ;
+		}else{
+			configFilePath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + SOURCE + getThirdPartyFolder(appInfo) + File.separator + featureName +File.separator + CONFIG + File.separator + CONFIG_JSON_FILE );
 		}
+		
+		System.out.println("preFeatureConfiguration : configXml Path ==="+configFilePath.getAbsolutePath());
+        
+    	try {
+			   if(configFilePath!=null){
+				   JSONParser jsonParser = new JSONParser();
+				   return jsonParser.getConfigFromJson(null, configFilePath.getPath());
+			 }
+		   } catch (Exception e) {
+			   throw new PhrescoException(e);
+		   }
+		 return null;
 	}
 	
 	
@@ -249,26 +197,32 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 	public void postFeatureConfiguration(ApplicationInfo appInfo, List<Configuration> configs, String featureName)
 	throws PhrescoException {
 		try {
+			Properties properties = configs.get(0).getProperties();
+		    String configJsonFilePath=null;
+		    String globalConfig = Utility.getProjectHome() + appInfo.getAppDirName()+ File.separator + WWW_JSON_FOLDER_PATH + File.separator + CONFIG_JSON_FILE ;
+			 if(featureName.equalsIgnoreCase("application")){
+				configJsonFilePath = Utility.getProjectHome() + appInfo.getAppDirName()+ File.separator + WWW_JSON_FOLDER_PATH + File.separator + CONFIG_JSON_FILE ;
+			 }else{
+                configJsonFilePath = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + SOURCE + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator + CONFIG + File.separator +CONFIG_JSON_FILE ;
+			 }
 			
-			String plistPath = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + SOURCE + getThirdPartyFolder(appInfo) + File.separator + featureName + File.separator+ SOURCE + File.separator +ASSETS + File.separator +PLIST;
+	        JSONParser jsonParser = new JSONParser(properties ,featureName ,configJsonFilePath ,globalConfig);
+	        jsonParser.read();
 			
-			storeConfigObjAsPlist(configs.get(0), plistPath);
 		} catch (Exception e) {
 			throw new PhrescoException(e);
 		}
 
 	}
 	
-
 	
-   
-	public void deletePluginExecutionFromPom(File pomFile) throws PhrescoException {
+  public void deletePluginExecutionFromPom(File pomFile) throws PhrescoException {
 		try {
 			
 			 PomProcessor processor = new PomProcessor(pomFile);
 			 processor.deletePlugin(DEPENDENCY_PLUGIN_GROUPID, DEPENDENCY_PLUGIN_ARTIFACTID);
 			 processor.save();
-			System.out.println(" Deleting Plugin Execution from pom>> end "); 
+			 
 		} catch (PhrescoPomException e) {
 			throw new PhrescoException(e);
 		}
@@ -277,6 +231,7 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 	public void deleteFeatureDependenciesFromPom(File sourceFolder, List<ArtifactGroup> deletedFeatures) throws PhrescoException {
 		 
 		String pomDir = sourceFolder.getPath() + File.separator + SOURCE + File.separator + Constants.POM_NAME;
+		System.out.println("pomDir==="+pomDir);
 		try {
 			PomProcessor processor = new PomProcessor(new File(pomDir));
 			List<Dependency> dependencies = processor.getModel().getDependencies().getDependency();
@@ -293,10 +248,9 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 	}
 	
 private BufferedReader extractComponent(File phrescoPomFile, File sourceFolder) throws PhrescoException {
-		System.out.println("extractFeature start ... ");
+		
 		BufferedReader breader = null;
-//		String pomFileName = Utility.getPomFileName(appInfo);
-		StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
 		sb.append(MVN_COMMAND);
 		sb.append(STR_BLANK_SPACE);
 		sb.append(PHASE);
@@ -310,26 +264,6 @@ private BufferedReader extractComponent(File phrescoPomFile, File sourceFolder) 
 		System.out.println("extractFeature end... ");
 		return breader;
 	}
-
-	public void storeConfigObjAsPlist(Configuration keyValueObj, String plistPath) throws Exception {
-		Properties properties = keyValueObj.getProperties();
-		System.out.println("properties > " + properties);
-		
-		UpdatingConfigXml plist = new UpdatingConfigXml(plistPath);
-		
-		
-		Enumeration key = properties.keys();
-		while (key.hasMoreElements()) {
-			String xmlTag = (String) key.nextElement();
-			String tagValue = properties.get(xmlTag).toString();
-			
-			System.out.println("str--key > " + xmlTag);
-			System.out.println("str--Value > " + properties.get(tagValue));
-			
-			plist.updateStyle(xmlTag, tagValue);
-		}
-	}
-
 	private String getThirdPartyFolder(ApplicationInfo appInfo) throws PhrescoException { 
 		File pomPath = new File(Utility.getProjectHome() + appInfo.getAppDirName() + File.separator + SOURCE + File.separator + Utility.getPomFileName(appInfo));
 		
@@ -343,63 +277,8 @@ private BufferedReader extractComponent(File phrescoPomFile, File sourceFolder) 
 			throw new PhrescoException(e);
 		}
 		return "";
-	}
-        @SuppressWarnings("unchecked")
-		private List<Configuration> getConfigFromXml(String plistPath)
-				  {
-				    @SuppressWarnings("rawtypes")
-					List configs = new ArrayList();
-				    try {
-				      Configuration config = null;
-				      File plistFile = new File(plistPath);
-				      if (plistFile.isFile())
-				        config = new Configuration(plistFile.getName(), "features");
-				      else {
-				        return Collections.EMPTY_LIST;
-				      }
-      
-				      DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-				      DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-                      org.w3c.dom.Document doc = dBuilder.parse(plistFile);
-				      doc.getDocumentElement().normalize();
-                      NodeList nList = doc.getElementsByTagName("Configuration");
-                      Properties properties = new Properties();
-			          for (int temp = 0; temp < nList.getLength(); temp++)
-				      {
-				        Node nNode = nList.item(temp);
-				        if (nNode.getNodeType() == Node.ELEMENT_NODE){
-				        NodeList childNodes = nNode.getChildNodes();
-				          for (int temp1 = 0; temp1 <= childNodes.getLength();temp1++) {
-				            Node nNode1 = childNodes.item(temp1);
-				           if (nNode1 != null){
-				            	if (!nNode1.getNodeName().equalsIgnoreCase("#text") ){
-				            
-				              String key = nNode1.getNodeName();
-				              System.out.println("-->getNodeName " + key);
-				              String value = nNode1.getTextContent();
-				              System.out.println("-->getNodeValue " + value);
-				              properties.setProperty(key, value);
-				               }
-				             }
-				           }
-				         }
-				      }
-				      config.setProperties(properties);
-					  configs.add(config);
-				  
-					} catch (ParserConfigurationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (SAXException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} 
-				    return configs;
-		     }
-        
+	 }
+       
 	public void updateAndroidVersion(File sourceFolder, ApplicationInfo appInfo, String testFolder, String phrescoPomFile) throws PhrescoException {
 		PomProcessor processor;
 //		File pomPath = new File(sourceFolder ,Utility.getPhrescoPomFile(appInfo));
