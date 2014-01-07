@@ -8,7 +8,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @XmlRootElement
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class FunctionalFramework extends Element {
+public class FunctionalFramework extends CustomerBasedElement {
 
 	private static final long serialVersionUID = 1L;
 	

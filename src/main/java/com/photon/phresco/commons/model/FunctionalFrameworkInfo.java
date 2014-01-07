@@ -10,6 +10,7 @@ public class FunctionalFrameworkInfo extends Element {
 	private String frameworkGroupId;
 	private String frameworkIds;
 	private String version;
+	private String iframeUrl;
 	private List<String> functionalFrameworkIds;
 	
 	public String getFrameworkGroupId() {
@@ -42,6 +43,14 @@ public class FunctionalFrameworkInfo extends Element {
 
 	public List<String> getFunctionalFrameworkIds() {
 		return functionalFrameworkIds;
+	}
+
+	public void setIframeUrl(String iframeUrl) {
+		this.iframeUrl = iframeUrl;
+	}
+
+	public String getIframeUrl() {
+		return iframeUrl;
 	}
 
 	@Override

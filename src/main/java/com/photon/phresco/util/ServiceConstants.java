@@ -243,6 +243,7 @@ public interface ServiceConstants {
 	String FAILED_TO_GET_FUNCTIONAL_FRAMEWORK = "Failed to get the functional test framework";
 	String FUNCTIONAL_TEST_FRAMEWORK_FETCHED_SUCCESSFULLY = "Functional test framework fetched Successfully";
 	String HUB_STATUS = "hubStatus";
+	String FUNCTIONAL_IFRAME_URL = "iframeUrl";
 	String NODE_STATUS = "nodeStatus";
 	String FUNCTIONAL_FRAMEWORK = "functionalFramework";
 	String TEST_CASE_NOT_AVAILABLE = "TestCase Not Available";
