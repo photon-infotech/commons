@@ -488,4 +488,15 @@ public interface Constants {
 	String SCM_COMMENT_PREFIX		= "scmCommentPrefix";
 	String SCM_INCLUDES				= "includes";
 	String SCM_POM_FILE_NAME		= "pomFileName";
+	String SCM_GIT					= "git";
+	String SCM_GIT_CLONE			= "clone";
+	String SCM_HYPHEN_N			    = "-n";
+	String HYPHEN_DEPTH_ONE			= "--depth 1";
+	String HYPHEN_DEPTH				= "--depth";
+	String HYPHEN_B					="-b";
+	String DOUBLE_AMPERSAND			= "&&";
+	String CHANGE_DIRECTORY			= "cd";
+	String SCM_SVN					= "svn";
+	String EMPTY					= "empty";
+	String SVN_UPDATE			= "update";
 }
