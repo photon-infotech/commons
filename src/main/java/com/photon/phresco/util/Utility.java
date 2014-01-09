@@ -1130,7 +1130,6 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 			File pomFile = null;
 			ProjectInfo projectInfo = getProjectInfo(appDirPath, module);
 			ApplicationInfo appInfo = projectInfo.getAppInfos().get(0);
-			
 			if (StringUtils.isNotEmpty(module)) {
  				File appDirT = new File(appDir + File.separator + module);
  				dotPhrescoFolders = appDirT.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
@@ -1151,12 +1150,10 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 			}
 			
 			if (ArrayUtils.isEmpty(dotPhrescoFolders)) {
+				dotAppDir = new File(appDir + File.separator + appDir.getName() + SUFFIX_PHRESCO);
 				if (StringUtils.isNotEmpty(module)) {
-					dotAppDir = new File(appDir + File.separator + appDir.getName() + SUFFIX_PHRESCO + File.separator
-							+ module);
-				} else {
-					dotAppDir = new File(appDir + File.separator + appDir.getName() + SUFFIX_PHRESCO);
-				}
+					dotAppDir = new File(dotAppDir.getPath() + File.separator + module);
+				} 
 				split_phresco = dotAppDir.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
 				
 				if (!ArrayUtils.isEmpty(split_phresco)) {
@@ -1169,6 +1166,24 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 					 if(pomFile.exists()) {
 							return pomFile;
 					} 
+				} else {
+					dotAppDir = new File(appDir + File.separator + appDir.getName());
+					if (StringUtils.isNotEmpty(module)) {
+						dotAppDir = new File(dotAppDir.getPath() + File.separator + module);
+					} 
+					split_phresco = dotAppDir.listFiles(new PhrescoFileNameFilter(DOT_PHRESCO_FOLDER));
+					
+					if (!ArrayUtils.isEmpty(split_phresco)) {
+						File parentFile = split_phresco[0].getParentFile();
+						pomFile = new File(parentFile +  File.separator + appInfo.getPhrescoPomFile());
+						if(pomFile.exists()) {
+							return pomFile;
+						} 
+						pomFile = new File(parentFile +  File.separator + appInfo.getPomFile());
+						 if(pomFile.exists()) {
+								return pomFile;
+						} 
+					}
 				}
 				
 				if (!pomFile.exists()) {
@@ -1273,9 +1288,12 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 		try {
 			File pomFileLocation = Utility.getPomFileLocation(Utility.getProjectHome() + File.separator + appDirName, "");
 			PomProcessor pom = new PomProcessor(pomFileLocation);
-			String property = pom.getProperty(POM_PROP_KEY_SPLIT_PHRESCO_DIR);
-			if(StringUtils.isNotEmpty(property)) {
-				appDirName = appDirName + File.separator + property;
+			String dotPhrescoDir = pom.getProperty(POM_PROP_KEY_SPLIT_PHRESCO_DIR);
+			String srcDir = pom.getProperty(POM_PROP_KEY_SPLIT_SRC_DIR);
+			if(StringUtils.isNotEmpty(dotPhrescoDir)) {
+				appDirName = appDirName + File.separator + dotPhrescoDir;
+			} else if (StringUtils.isNotEmpty(srcDir)) {
+				appDirName = appDirName + File.separator + srcDir;
 			}
 		} catch (PhrescoPomException e) {
 			throw new PhrescoException(e);
@@ -1283,6 +1301,52 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 			throw new PhrescoException(e);
 		}
 		return appDirName;
+	}
+	
+	public static String constructSubPath(String appDirName, boolean flag) throws FileNotFoundException {
+		File rootDir = new File(Utility.getProjectHome() + appDirName);
+		File dotPhresco = new File(rootDir, ".phresco");
+		ApplicationInfo applicationInfo;
+		if (dotPhresco.exists() && dotPhresco.isDirectory()) {
+			applicationInfo = returnAppInfo(rootDir);
+			if (StringUtils.isNotEmpty(applicationInfo.getPhrescoPomFile())) {
+				return applicationInfo.getPhrescoPomFile();
+			}
+			return applicationInfo.getPomFile();
+		} 
+		dotPhresco = new File(rootDir, appDirName+"-phresco");
+		
+		if (dotPhresco.exists() && dotPhresco.isDirectory()) {
+			applicationInfo = returnAppInfo(dotPhresco);
+			if (StringUtils.isNotEmpty(applicationInfo.getPhrescoPomFile())) {
+				if (!flag) {
+					return appDirName+"-phresco" + File.separator + applicationInfo.getPhrescoPomFile();
+				}
+				return applicationInfo.getPhrescoPomFile();
+			}
+			if (!flag) {
+				return appDirName + File.separator + applicationInfo.getPomFile();
+			}
+			return applicationInfo.getPomFile();
+		}
+		dotPhresco = new File(rootDir, appDirName);
+		if (dotPhresco.exists() && dotPhresco.isDirectory()) {
+			applicationInfo = returnAppInfo(dotPhresco);
+			if (!flag) {
+				return appDirName + File.separator + applicationInfo.getPomFile();
+			}
+			return applicationInfo.getPomFile();
+		}
+		
+		return "pom.xml";
+	}
+	
+	private static ApplicationInfo returnAppInfo(File dotPhresco) throws FileNotFoundException {
+		dotPhresco = new File(dotPhresco, ".phresco/project.info");
+		Gson gson = new Gson();
+		BufferedReader reader = new BufferedReader(new FileReader(dotPhresco));
+		ProjectInfo projectInfo = gson.fromJson(reader, ProjectInfo.class);
+		return projectInfo.getAppInfos().get(0);
 	}
 	
 	private static class PhrescoFileNameFilter implements FilenameFilter {

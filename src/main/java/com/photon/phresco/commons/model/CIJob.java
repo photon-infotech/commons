@@ -25,6 +25,25 @@ public class CIJob {
     private String url;
     private String username;
     private String password;
+    private String branch;
+    private String projectPath;
+    //split implementation
+    private String phrescoUrl;
+    private String phrescoUsername;
+    private String phrescobranch;
+    private String phrescoProjectPath;
+    
+    private String phrescoPassword;
+    private String testUrl;
+    private String testUsername;
+    private String testPassword;
+    private String testbranch;
+    private String testProjectPath;
+    
+    private String releaseMessage = "";
+    private String releaseUsername = "";
+    private String releasePassword = "";
+    
     private Map<String, String> email;
     private String scheduleType;
     private String scheduleExpression;
@@ -35,8 +54,7 @@ public class CIJob {
     private String jenkinsPath;
     private List<String> triggers;
     private String repoType;
-    private String branch;
-    private String projectPath;
+    
   //collabNet implementation
     private boolean enableBuildRelease = false;
     private String collabNetURL = "";
@@ -1581,6 +1599,132 @@ public class CIJob {
 		this.tagName = tagName;
 	}
 
+	public String getPhrescoUrl() {
+		return phrescoUrl;
+	}
+
+	public void setPhrescoUrl(String phrescoUrl) {
+		this.phrescoUrl = phrescoUrl;
+	}
+
+	public String getPhrescoUsername() {
+		return phrescoUsername;
+	}
+
+	public void setPhrescoUsername(String phrescoUsername) {
+		this.phrescoUsername = phrescoUsername;
+	}
+
+	public String getPhrescoPassword() {
+		return phrescoPassword;
+	}
+
+	public void setPhrescoPassword(String phrescoPassword) {
+		this.phrescoPassword = phrescoPassword;
+	}
+
+	public String getTestUrl() {
+		return testUrl;
+	}
+
+	public void setTestUrl(String testUrl) {
+		this.testUrl = testUrl;
+	}
+
+	public String getTestUsername() {
+		return testUsername;
+	}
+
+	public void setTestUsername(String testUsername) {
+		this.testUsername = testUsername;
+	}
+
+	public String getTestPassword() {
+		return testPassword;
+	}
+
+	public void setTestPassword(String testPassword) {
+		this.testPassword = testPassword;
+	}
+
+	public String getPhrescobranch() {
+		return phrescobranch;
+	}
+
+	public void setPhrescobranch(String phrescobranch) {
+		this.phrescobranch = phrescobranch;
+	}
+
+	public String getPhrescoProjectPath() {
+		return phrescoProjectPath;
+	}
+
+	public void setPhrescoProjectPath(String phrescoProjectPath) {
+		this.phrescoProjectPath = phrescoProjectPath;
+	}
+
+	public String getTestbranch() {
+		return testbranch;
+	}
+
+	public void setTestbranch(String testbranch) {
+		this.testbranch = testbranch;
+	}
+
+	public String getTestProjectPath() {
+		return testProjectPath;
+	}
+
+	public void setTestProjectPath(String testProjectPath) {
+		this.testProjectPath = testProjectPath;
+	}
+
+	public String getReleaseUsername() {
+		return releaseUsername;
+	}
+
+	public void setReleaseUsername(String releaseUsername) {
+		this.releaseUsername = releaseUsername;
+	}
+
+	public String getReleasePassword() {
+		return releasePassword;
+	}
+
+	public void setReleasePassword(String releasePassword) {
+		this.releasePassword = releasePassword;
+	}
+
+	public String getReleaseMessage() {
+		return releaseMessage;
+	}
+
+	public void setReleaseMessage(String releaseMessage) {
+		this.releaseMessage = releaseMessage;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "CIJob [name=" + jobName + ", svnUrl=" + url + ", email="
+				+ email + ", scheduleExpression=" + scheduleExpression
+				+ ", mvnCommand=" + mvnCommand + ", jenkinsUrl=" + jenkinsUrl
+				+ ", jenkinsPort=" + jenkinsPort + ", triggers=" + triggers
+				+ ", repoType=" + repoType + ", downStreamApplication="
+				+ downstreamApplication + ", downStreamCriteria="
+				+ downStreamCriteria + ", usedClonnedWorkspace="
+				+ usedClonnedWorkspace + ", operation=" + operation
+				+ ", pomLocation=" + pomLocation + ", enablePostBuildStep="
+				+ enablePostBuildStep + ", enablePreBuildStep="
+				+ enablePreBuildStep + ", prebuildStepCommands="
+				+ prebuildStepCommands + ", postbuildStepCommands="
+				+ postbuildStepCommands + ", attachmentsPattern="
+				+ attachmentsPattern + ", enableArtifactArchiver="
+				+ enableArtifactArchiver + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -1812,6 +1956,18 @@ public class CIJob {
 		result = prime * result
 				+ ((password == null) ? 0 : password.hashCode());
 		result = prime * result
+				+ ((phrescoPassword == null) ? 0 : phrescoPassword.hashCode());
+		result = prime
+				* result
+				+ ((phrescoProjectPath == null) ? 0 : phrescoProjectPath
+						.hashCode());
+		result = prime * result
+				+ ((phrescoUrl == null) ? 0 : phrescoUrl.hashCode());
+		result = prime * result
+				+ ((phrescoUsername == null) ? 0 : phrescoUsername.hashCode());
+		result = prime * result
+				+ ((phrescobranch == null) ? 0 : phrescobranch.hashCode());
+		result = prime * result
 				+ ((platform == null) ? 0 : platform.hashCode());
 		result = prime * result
 				+ ((plistFile == null) ? 0 : plistFile.hashCode());
@@ -1847,6 +2003,12 @@ public class CIJob {
 		result = prime * result + ((regex == null) ? 0 : regex.hashCode());
 		result = prime * result
 				+ ((regexExtractor == null) ? 0 : regexExtractor.hashCode());
+		result = prime * result
+				+ ((releaseMessage == null) ? 0 : releaseMessage.hashCode());
+		result = prime * result
+				+ ((releasePassword == null) ? 0 : releasePassword.hashCode());
+		result = prime * result
+				+ ((releaseUsername == null) ? 0 : releaseUsername.hashCode());
 		result = prime * result
 				+ ((releaseVersion == null) ? 0 : releaseVersion.hashCode());
 		result = prime * result
@@ -1902,7 +2064,16 @@ public class CIJob {
 		result = prime * result
 				+ ((testName == null) ? 0 : testName.hashCode());
 		result = prime * result
+				+ ((testPassword == null) ? 0 : testPassword.hashCode());
+		result = prime * result
+				+ ((testProjectPath == null) ? 0 : testProjectPath.hashCode());
+		result = prime * result
 				+ ((testType == null) ? 0 : testType.hashCode());
+		result = prime * result + ((testUrl == null) ? 0 : testUrl.hashCode());
+		result = prime * result
+				+ ((testUsername == null) ? 0 : testUsername.hashCode());
+		result = prime * result
+				+ ((testbranch == null) ? 0 : testbranch.hashCode());
 		result = prime * result + ((theme == null) ? 0 : theme.hashCode());
 		result = prime * result
 				+ ((tokenPairName == null) ? 0 : tokenPairName.hashCode());
@@ -2448,6 +2619,31 @@ public class CIJob {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
+		if (phrescoPassword == null) {
+			if (other.phrescoPassword != null)
+				return false;
+		} else if (!phrescoPassword.equals(other.phrescoPassword))
+			return false;
+		if (phrescoProjectPath == null) {
+			if (other.phrescoProjectPath != null)
+				return false;
+		} else if (!phrescoProjectPath.equals(other.phrescoProjectPath))
+			return false;
+		if (phrescoUrl == null) {
+			if (other.phrescoUrl != null)
+				return false;
+		} else if (!phrescoUrl.equals(other.phrescoUrl))
+			return false;
+		if (phrescoUsername == null) {
+			if (other.phrescoUsername != null)
+				return false;
+		} else if (!phrescoUsername.equals(other.phrescoUsername))
+			return false;
+		if (phrescobranch == null) {
+			if (other.phrescobranch != null)
+				return false;
+		} else if (!phrescobranch.equals(other.phrescobranch))
+			return false;
 		if (platform == null) {
 			if (other.platform != null)
 				return false;
@@ -2527,6 +2723,21 @@ public class CIJob {
 			if (other.regexExtractor != null)
 				return false;
 		} else if (!regexExtractor.equals(other.regexExtractor))
+			return false;
+		if (releaseMessage == null) {
+			if (other.releaseMessage != null)
+				return false;
+		} else if (!releaseMessage.equals(other.releaseMessage))
+			return false;
+		if (releasePassword == null) {
+			if (other.releasePassword != null)
+				return false;
+		} else if (!releasePassword.equals(other.releasePassword))
+			return false;
+		if (releaseUsername == null) {
+			if (other.releaseUsername != null)
+				return false;
+		} else if (!releaseUsername.equals(other.releaseUsername))
 			return false;
 		if (releaseVersion == null) {
 			if (other.releaseVersion != null)
@@ -2673,10 +2884,35 @@ public class CIJob {
 				return false;
 		} else if (!testName.equals(other.testName))
 			return false;
+		if (testPassword == null) {
+			if (other.testPassword != null)
+				return false;
+		} else if (!testPassword.equals(other.testPassword))
+			return false;
+		if (testProjectPath == null) {
+			if (other.testProjectPath != null)
+				return false;
+		} else if (!testProjectPath.equals(other.testProjectPath))
+			return false;
 		if (testType == null) {
 			if (other.testType != null)
 				return false;
 		} else if (!testType.equals(other.testType))
+			return false;
+		if (testUrl == null) {
+			if (other.testUrl != null)
+				return false;
+		} else if (!testUrl.equals(other.testUrl))
+			return false;
+		if (testUsername == null) {
+			if (other.testUsername != null)
+				return false;
+		} else if (!testUsername.equals(other.testUsername))
+			return false;
+		if (testbranch == null) {
+			if (other.testbranch != null)
+				return false;
+		} else if (!testbranch.equals(other.testbranch))
 			return false;
 		if (theme == null) {
 			if (other.theme != null)
@@ -2736,27 +2972,5 @@ public class CIJob {
 		} else if (!zipAlign.equals(other.zipAlign))
 			return false;
 		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "CIJob [name=" + jobName + ", svnUrl=" + url + ", email="
-				+ email + ", scheduleExpression=" + scheduleExpression
-				+ ", mvnCommand=" + mvnCommand + ", jenkinsUrl=" + jenkinsUrl
-				+ ", jenkinsPort=" + jenkinsPort + ", triggers=" + triggers
-				+ ", repoType=" + repoType + ", downStreamApplication="
-				+ downstreamApplication + ", downStreamCriteria="
-				+ downStreamCriteria + ", usedClonnedWorkspace="
-				+ usedClonnedWorkspace + ", operation=" + operation
-				+ ", pomLocation=" + pomLocation + ", enablePostBuildStep="
-				+ enablePostBuildStep + ", enablePreBuildStep="
-				+ enablePreBuildStep + ", prebuildStepCommands="
-				+ prebuildStepCommands + ", postbuildStepCommands="
-				+ postbuildStepCommands + ", attachmentsPattern="
-				+ attachmentsPattern + ", enableArtifactArchiver="
-				+ enableArtifactArchiver + "]";
 	}
 }

@@ -316,6 +316,7 @@ public interface Constants {
     String PHASE_VALIDATE_CODE = "validate-code";
     String PHASE_UNIT_TEST = "unit-test";
     String PHASE_COMPONENT_TEST = "component-test";
+    String PHASE_RELEASE = "release";
     String PHASE_FUNCTIONAL_TEST = "functional-test";
     String PHASE_PERFORMANCE_TEST = "performance-test";
     String PHASE_LOAD_TEST = "load-test";
@@ -339,6 +340,16 @@ public interface Constants {
     String CREATIONTYPE = " -DcreationType=";
     String ID = " -Did=";
     String CONTINUOUSNAME = " -DcontinuousDeliveryName=";
+    String HYPHEN_DEV_VERSION = " -DdevelopmentVersion=";
+    String HYPHEN_REL_VERSION = " -DreleaseVersion=";
+    String HYPHEN_TAG = " -Dtag=";
+    String HYPHEN_USERNAME = " -Dusername=";
+    String HYPHEN_PASSWORD = " -Dpassword=";
+    String HYPHEN_MESSAGE = " -Dmessage=";
+    String HYPHEN_JOBNAME = " -DjobName=";
+    String HYPHEN_PHASE = " -Dphase=";
+    String HYPHEN_GOAL = " -Dgoal=";
+    String HYPHEN_F_SPACE = " -f ";
     
     String JAVA_UNIX_PROCESS_KILL_CMD	= "kill -9 ";
 	 String WINDOWS_PLATFORM			= "Windows";
