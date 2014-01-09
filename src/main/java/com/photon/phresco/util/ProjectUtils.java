@@ -116,7 +116,7 @@ public class ProjectUtils implements Constants {
 		testPomFiles.put("performance", "/test/performance/pom.xml");
 		}
 	
-	public static ApplicationInfo getApplicationInfo(File directory) throws PhrescoException {
+	public static ProjectInfo getApplicationInfo(File directory) throws PhrescoException {
 		StringBuilder builder  = new StringBuilder();
 		builder.append(directory.getPath())
 		.append(File.separatorChar)
@@ -132,11 +132,11 @@ public class ProjectUtils implements Constants {
 			bufferedReader = new BufferedReader(new FileReader(builder.toString()));
 			Gson gson = new Gson();
 			ProjectInfo projectInfo = gson.fromJson(bufferedReader, ProjectInfo.class);
-			ApplicationInfo applicationInfo = null;
-			if (projectInfo != null) {
-				applicationInfo = projectInfo.getAppInfos().get(0);
-			}
-			return applicationInfo;
+//			ApplicationInfo applicationInfo = null;
+//			if (projectInfo != null) {
+//				applicationInfo = projectInfo.getAppInfos().get(0);
+//			}
+			return projectInfo;
 		} catch (JsonSyntaxException e) {
 			throw new PhrescoException(e);
 		} catch (JsonIOException e) {
