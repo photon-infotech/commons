@@ -464,6 +464,7 @@ public interface Constants {
 	String POM_PROP_KEY_SRC_REPO_URL = "phresco.src.repo.url";
 	String POM_PROP_KEY_PHRESCO_REPO_URL = "phresco.dotphresco.repo.url";
 	String POM_PROP_KEY_TEST_REPO_URL = "phresco.test.repo.url";
+	String RELEASE_PLUGIN = "org.apache.maven.plugins:maven-release-plugin:2.4";
 	
 	/**
 	 * SCM Constants
