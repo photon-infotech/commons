@@ -476,6 +476,10 @@ public interface Constants {
 	String POM_PROP_KEY_PHRESCO_REPO_URL = "phresco.dotphresco.repo.url";
 	String POM_PROP_KEY_TEST_REPO_URL = "phresco.test.repo.url";
 	String RELEASE_PLUGIN = "org.apache.maven.plugins:maven-release-plugin:2.4";
+	String POM_PROP_KEY_PREV_BUILD_NO = "phresco.previous.build.number";
+	String CURRENT_VERSION = "currentVersion";
+	String TAG_VERSION = "tagVersion";
+	String DEV_VERSION = "devVersion";
 	
 	/**
 	 * SCM Constants
