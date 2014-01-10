@@ -1108,7 +1108,8 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 			}else if (CollectionUtils.isEmpty(applicationInfo.getModules()) && StringUtils.isNotEmpty(src)) {
 				testFile = new File(rootPath + File.separator + src);
 			} else {
-				testFile = new File(rootPath);
+				String applicationPath = StringUtils.isNotEmpty(moduleName) ? rootPath.concat(File.separator).concat(moduleName) : rootPath;
+				testFile = new File(applicationPath);
 			}
 			return testFile;
 		} catch (PhrescoException e) {
