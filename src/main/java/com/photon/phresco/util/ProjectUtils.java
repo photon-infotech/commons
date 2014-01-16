@@ -116,7 +116,7 @@ public class ProjectUtils implements Constants {
 		testPomFiles.put("performance", "/test/performance/pom.xml");
 		}
 	
-	public static ProjectInfo getApplicationInfo(File directory) throws PhrescoException {
+	public static ProjectInfo getProjectInfoFile(File directory) throws PhrescoException {
 		StringBuilder builder  = new StringBuilder();
 		builder.append(directory.getPath())
 		.append(File.separatorChar)
