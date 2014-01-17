@@ -1304,7 +1304,7 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 		return appDirName;
 	}
 	
-	public static String constructSubPath(String appDirName, boolean flag) throws FileNotFoundException {
+	public static String constructSubPath(String appDirName, boolean flag, String type) throws FileNotFoundException {
 		File rootDir = new File(Utility.getProjectHome() + appDirName);
 		File dotPhresco = new File(rootDir, ".phresco");
 		ApplicationInfo applicationInfo;
@@ -1320,12 +1320,12 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 		if (dotPhresco.exists() && dotPhresco.isDirectory()) {
 			applicationInfo = returnAppInfo(dotPhresco);
 			if (StringUtils.isNotEmpty(applicationInfo.getPhrescoPomFile())) {
-				if (!flag) {
+				if (!flag || type.equalsIgnoreCase("git")) {
 					return appDirName+"-phresco" + File.separator + applicationInfo.getPhrescoPomFile();
 				}
 				return applicationInfo.getPhrescoPomFile();
 			}
-			if (!flag) {
+			if (!flag || type.equalsIgnoreCase("git")) {
 				return appDirName + File.separator + applicationInfo.getPomFile();
 			}
 			return applicationInfo.getPomFile();
@@ -1333,7 +1333,7 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 		dotPhresco = new File(rootDir, appDirName);
 		if (dotPhresco.exists() && dotPhresco.isDirectory()) {
 			applicationInfo = returnAppInfo(dotPhresco);
-			if (!flag) {
+			if (!flag || type.equalsIgnoreCase("git")) {
 				return appDirName + File.separator + applicationInfo.getPomFile();
 			}
 			return applicationInfo.getPomFile();
