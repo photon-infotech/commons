@@ -47,7 +47,7 @@ public class BlackberryApplicationProcessor extends AbstractApplicationProcessor
 		}
 		ProjectUtils projectUtils = new ProjectUtils();
 		File phrescoPomFile = Utility.getPomFileLocation(rootModulePath, subModuleName);
-		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, "");
 		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
 		File pomFile = new File(sourceFolderLocation.getPath() + File.separator + appInfo.getPomFile());
 		projectUtils.deletePluginExecutionFromPom(pomFile);

@@ -38,7 +38,7 @@ public class DefaultApplicationProcessor extends AbstractApplicationProcessor {
 			}
 			
 			File phrescoPomFile = Utility.getPomFileLocation(rootModulePath, subModuleName);
-			ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+			ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, "");
 			File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
 			
 			System.out.println(" sourceFolderLocation.getPath() : " + sourceFolderLocation.getPath());

@@ -1072,7 +1072,7 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 			File pomFile = Utility.getPomFileLocation(rootPath, moduleName);
 			PomProcessor pomPro = new PomProcessor(pomFile);
 			String src = pomPro.getProperty(POM_PROP_KEY_SPLIT_SRC_DIR);
-			if(projectinfo.isMultiModule() && StringUtils.isNotEmpty(src)) {
+			if(CollectionUtils.isNotEmpty(applicationInfo.getModules()) && StringUtils.isNotEmpty(src)) {
 			 docFile = new File(rootPath + File.separator + src + File.separator + moduleName);
 			} else if(CollectionUtils.isNotEmpty(applicationInfo.getModules()) && StringUtils.isEmpty(src)) {
 				 docFile = new File(rootPath + File.separator + moduleName);

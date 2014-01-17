@@ -121,7 +121,7 @@ public class AndroidApplicationProcessor extends AbstractApplicationProcessor im
 		}
 		
 		File phrescoPomFile = Utility.getPomFileLocation(rootModulePath, subModuleName);
-		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, subModuleName);
+		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, "");
 		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
 		File testFolderLocation = Utility.getTestFolderLocation(projectInfo, rootModulePath, subModuleName);
 		String dotPhrescoFolderPath = Utility.getDotPhrescoFolderPath(rootModulePath, subModuleName);
