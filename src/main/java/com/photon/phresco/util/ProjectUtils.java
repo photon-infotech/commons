@@ -245,7 +245,9 @@ public class ProjectUtils implements Constants {
 		List<ArtifactGroup> dependencies = new ArrayList<ArtifactGroup>();
 		List<ArtifactGroup> artifacts = new ArrayList<ArtifactGroup>();
 		for (ArtifactGroup artifactGroup : artifactGroups) {
-			if(artifactGroup.getPackaging().equals("zip") || artifactGroup.getPackaging().equals("war")) {
+			//To Do : war is added to dependency tag bcoz of qunit dependency in widget technologies ( Need to change Logic) 
+//			if(artifactGroup.getPackaging().equals("zip") || artifactGroup.getPackaging().equals("war")) {
+			if(artifactGroup.getPackaging().equals("zip")) {
 				artifacts.add(artifactGroup);
 			} else {
 				dependencies.add(artifactGroup);
