@@ -38,6 +38,7 @@ import java.net.URLConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
@@ -1247,37 +1248,50 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 		}
 	}
 	
-	public static void sendTemplateEmail(String toAddr, String fromAddr, String subject, String body, final String username, final String password) throws PhrescoException {
+	public static void sendTemplateEmail(String toAddr, String fromAddr, String subject, String body,  String username,  String password, String host) throws PhrescoException {
 
+		HashMap<String, String> smtpServers = new HashMap<String, String>();
+		smtpServers.put("gmail.com", "smtp.gmail.com");
+		smtpServers.put("photoninfotech.net", "gmail-smtp-in.l.google.com");
+		if (fromAddr == null) {
+			fromAddr = "phresco.do.not.reply@gmail.com";
+			username = "phresco.do.not.reply@gmail.com";
+			password = "phresco123";
+		}
+		String hostName = fromAddr.split("@")[1];
 		Properties props = new Properties();  
-		props.put("mail.smtp.host", "smtp.gmail.com");  
+		if (host != null && !host.equals("")) {
+			props.put("mail.smtp.host", host);  
+
+		} else {
+			props.put("mail.smtp.host", smtpServers.get(hostName));
+
+		}
 		props.put("mail.smtp.auth", "true");  
-		props.put("mail.debug", "true");  
-		props.put("mail.smtp.port", 25);  
-		props.put("mail.smtp.socketFactory.port", 25);  
+//		props.put("mail.debug", "true");  
+		props.put("mail.smtp.port", 25);  //587
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.transport.protocol", "smtp");
-		Session mailSession = null;
 
+		Session mailSession = null;
+		final String username1 = username;
+		final String password1 = password;
 		mailSession = Session.getInstance(props,  
 				new javax.mail.Authenticator() {  
 			protected PasswordAuthentication getPasswordAuthentication() {  
-				return new PasswordAuthentication(username, password);  
+				return new PasswordAuthentication(username1, password1);  
 			}  
 		});  
+
 		try {
-
 			Transport transport = mailSession.getTransport();
-
 			MimeMessage message = new MimeMessage(mailSession);
-
 			message.setSubject(subject);
 			message.setFrom(new InternetAddress(fromAddr));
 			String []to = new String[]{toAddr};
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to[0]));
 			message.setContent(body,"text/html");
 			transport.connect();
-
 			transport.sendMessage(message,message.getRecipients(Message.RecipientType.TO));
 			transport.close();
 		} catch (Exception exception) {

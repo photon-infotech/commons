@@ -51,6 +51,9 @@ public class Customer extends Element {
 	private List<String> options;
 	private String context;
 	private UIType uiType;
+	private String supportEmail;
+	private String supportPassword;
+	private String supportSmtpHost;
 	
 	public enum UIType {
         ADVANCED_UI, SIMPLE_UI
@@ -282,6 +285,30 @@ public class Customer extends Element {
 	public UIType getUiType() {
 		return uiType;
 	}
+	
+	public String getSupportEmail() {
+		return supportEmail;
+	}
+
+	public void setSupportEmail(String supportEmail) {
+		this.supportEmail = supportEmail;
+	}
+
+	public String getSupportPassword() {
+		return supportPassword;
+	}
+
+	public void setSupportPassword(String supportPassword) {
+		this.supportPassword = supportPassword;
+	}
+
+	public String getSupportSmtpHost() {
+		return supportSmtpHost;
+	}
+
+	public void setSupportSmtpHost(String supportSmtpHost) {
+		this.supportSmtpHost = supportSmtpHost;
+	}
 
 	public String toString() {
         return new ToStringBuilder(this,
@@ -303,6 +330,9 @@ public class Customer extends Element {
                 .append("options", options)
                 .append("context", context)
                 .append("uiType", uiType)
+                .append("supportEmail", supportEmail)
+                .append("supportPassword", supportPassword)
+                .append("supportSmtpHost", supportSmtpHost)
                 .toString();
     }
 }
