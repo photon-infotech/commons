@@ -347,6 +347,9 @@ public interface Constants {
     String HYPHEN_PASSWORD = " -Dpassword=";
     String HYPHEN_MESSAGE = " -Dmessage=";
     String HYPHEN_JOBNAME = " -DjobName=";
+    String HYPHEN_APPDIR_NAME = "-DappDirName=";
+    String HYPHEN_REPO_USERNAME = "-DrepoUserName=";
+    String HYPHEN_REPO_PWD = "-DrepoPassword=";
     String HYPHEN_PHASE = " -Dphase=";
     String HYPHEN_GOAL = " -Dgoal=";
     String HYPHEN_F_SPACE = " -f ";
