@@ -292,6 +292,7 @@ public interface ServiceConstants {
 	String DEVICES_RETURNED_FAILED = "Devices returned failed";
 	String TEST_NOT_YET_EXECUTED_FOR = "Test not yet executed for ";
 	String TEST_RESULT_FILES_RETURNED_SUCCESSFULLY = "Test Result Files returned successfully";
+	String CREDENTAIL_SAVED_FAILED= "Credentails Save Failed";
 	 /*
      * Constants for MongoDB Collections
      */
