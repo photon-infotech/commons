@@ -202,10 +202,11 @@ public interface ServiceConstants {
 	String REST_QUERY_DASHBOARD_NAME = "dashboardname";
 	String REST_QUERY_DASHBOARD_ID = "dashboardid";
 	String REST_QUERY_COMMENT		= "comment";
-	String REST_QUERY_CURRENT_BRANCH_NAME = "currentbranchname";
-	String REST_QUERY_TAG_NAME		      = "tagname";
-	String REST_QUERY_BRANCH_NAME		  = "branchname";
-	String REST_QUERY_DOWNLOAD_OPTION	  = "downloadoption";
+	String REST_QUERY_CURRENT_BRANCH = "currentBranch";
+	String REST_QUERY_TAG			      = "tag";
+	String REST_QUERY_BRANCH_NAME		  = "branchName";
+	String REST_QUERY_DOWNLOAD_OPTION	  = "downloadOption";
+	String REST_QUERY_RELEASE_VERSION	  = "releaseVersion";
 
 
 	
