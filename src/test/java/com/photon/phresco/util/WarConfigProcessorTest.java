@@ -10,6 +10,7 @@ import javax.xml.bind.JAXBException;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
+import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.plugins.model.Assembly.FileSets.FileSet;
 import com.photon.phresco.plugins.util.WarConfigProcessor;
 
@@ -40,8 +41,8 @@ public class WarConfigProcessorTest {
 	}
 	
 	@Test
-    public void delete() throws IOException {
-		File directory = new File(Utility.getProjectHome()+ "wp1-wordpress3.4.2");
+    public void delete() throws IOException, PhrescoException {
+		File directory = new File(Utility.getProjectHome() + "wp1-wordpress3.4.2");
 		FileUtils.deleteDirectory(directory);
 		
     }

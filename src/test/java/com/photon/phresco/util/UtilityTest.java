@@ -242,7 +242,7 @@ public class UtilityTest {
 		String processName = ManagementFactory.getRuntimeMXBean().getName();
 		String[] split = processName.split("@");
 		String processId = split[0].toString();
-		Utility.writeProcessid(baseDir, "eclipse", processId);
+		//Utility.writeProcessid(baseDir, "eclipse", processId);
 	}
 	
 	@Test
@@ -319,7 +319,7 @@ public class UtilityTest {
 	@Test
 	public void testKillProcess() throws PhrescoException {
 		String baseDir = Utility.getProjectHome()+File.separator+"wp1-wordpress3.4.2";
-		Utility.killProcess(baseDir, "eclipse");
+//		Utility.killProcess(baseDir, "eclipse");
 	}
 	
 	private static ApplicationInfo getApplicationInfo(String appDirName) throws PhrescoException {
