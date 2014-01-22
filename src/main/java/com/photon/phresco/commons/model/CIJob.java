@@ -243,6 +243,7 @@ public class CIJob {
 	private String releaseVersion = "";
 	private String developmentVersion = "";
 	private String tagName = "";
+	private String webservices = "";
 	
   
 	// Android functional test
@@ -1703,6 +1704,14 @@ public class CIJob {
 		this.releaseMessage = releaseMessage;
 	}
 
+	public void setWebservices(String webservices) {
+		this.webservices = webservices;
+	}
+
+	public String getWebservices() {
+		return webservices;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -2097,6 +2106,8 @@ public class CIJob {
 						.hashCode());
 		result = prime * result
 				+ ((username == null) ? 0 : username.hashCode());
+		result = prime * result
+				+ ((webservices == null) ? 0 : webservices.hashCode());
 		result = prime * result
 				+ ((zipAlign == null) ? 0 : zipAlign.hashCode());
 		return result;
@@ -2965,6 +2976,11 @@ public class CIJob {
 			if (other.username != null)
 				return false;
 		} else if (!username.equals(other.username))
+			return false;
+		if (webservices == null) {
+			if (other.webservices != null)
+				return false;
+		} else if (!webservices.equals(other.webservices))
 			return false;
 		if (zipAlign == null) {
 			if (other.zipAlign != null)
