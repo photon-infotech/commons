@@ -7,9 +7,11 @@
     <version>3.2.0.10005-SNAPSHOT</version>
     <description>phresco-commons</description>
     <url>http://www.phresco.org</url>
-    <scm>
+     <scm>
         <connection>https://github.com/photon-infotech/commons.git</connection>
-    </scm>
+        <developerConnection>scm:git:https://github.com/photon-infotech/commons.git</developerConnection>
+        <url>scm:git:https://github.com/photon-infotech/commons.git</url>
+  </scm>
     <build>
         <directory>do_not_checkin/target</directory>
         <finalName>phresco-commons</finalName>
