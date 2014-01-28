@@ -1138,6 +1138,9 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 			File srcAppDir = null;
 			File pomFile = null;
 			ProjectInfo projectInfo = getProjectInfo(appDirPath, module);
+			if (projectInfo == null) {
+				return pomFile;
+			}
 			ApplicationInfo appInfo = projectInfo.getAppInfos().get(0);
 			
 			File appDir = new File(appDirPath);
