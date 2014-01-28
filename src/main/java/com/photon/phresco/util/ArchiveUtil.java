@@ -146,25 +146,22 @@ public class ArchiveUtil {
 		tarGZipUnArchiver.setDestDirectory(destPath);
 		tarGZipUnArchiver.extract();
 	}
-
+	
 	public static boolean unzip(String zipFilePath, String destDirectory, String folder) throws IOException {
 		ZipInputStream zipIn = null;
+		byte[] buffer = new byte[4096];
 		boolean success = true;
 		try {
 			File temp = new File(destDirectory);
 			if (!temp.exists()) {
 				temp.mkdir();
 			} 
-			
 			String folderName = "";
-			//if folder is not empty create a folder by the name and extract zip content into it
 			if (StringUtils.isNotEmpty(folder)) {
 				folderName = Constants.PROJECTS_TEMP + folder;
-			} else {//else extract zip to folder called extract
+			} else {
 				folderName = "extract";
 			}
-			
-			
 			destDirectory =destDirectory + File.separator + folderName;
 			File destDir = new File(destDirectory);
 			if (!destDir.exists()) {
@@ -172,7 +169,6 @@ public class ArchiveUtil {
 			}
 			zipIn = new ZipInputStream(new FileInputStream(zipFilePath));
 			ZipEntry entry = zipIn.getNextEntry();
-			
 			if (entry == null) {
 				success = false;
 			} else {
@@ -180,10 +176,16 @@ public class ArchiveUtil {
 				while (entry != null) {
 					String filePath = destDirectory + File.separator + entry.getName();
 					if (!entry.isDirectory()) {
-						// if the entry is a file, extracts it
-						extractFile(zipIn, filePath);
+						File newFile = new File(destDirectory + File.separator + entry.getName());
+						new File(newFile.getParent()).mkdirs();
+						BufferedOutputStream fos = new BufferedOutputStream(new FileOutputStream(newFile));
+						int len;
+						while ((len = zipIn.read(buffer)) > 0) {
+							fos.write(buffer, 0, len);
+						}
+						fos.close();   
+						
 					} else {
-						// if the entry is a directory, make the directory
 						File dir = new File(filePath);
 						dir.mkdir();
 					}
@@ -199,15 +201,5 @@ public class ArchiveUtil {
 		
 		return success;
 	}
-	 
-	 private static void extractFile(ZipInputStream zipIn, String filePath) throws IOException {
-		 BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
-		 byte[] bytesIn = new byte[BUFFER_SIZE];
-		 int read = 0;
-		 while ((read = zipIn.read(bytesIn)) != -1) {
-			 bos.write(bytesIn, 0, read);
-		 }
-		 bos.close();
-	 }
 
 }
