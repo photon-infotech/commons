@@ -321,6 +321,7 @@ public interface Constants {
     String PHASE_UNIT_TEST = "unit-test";
     String PHASE_COMPONENT_TEST = "component-test";
     String PHASE_RELEASE = "release";
+    String PHASE_NEXUS_DEPLOY = "nexusDeploy";
     String PHASE_FUNCTIONAL_TEST = "functional-test";
     String PHASE_PERFORMANCE_TEST = "performance-test";
     String PHASE_LOAD_TEST = "load-test";

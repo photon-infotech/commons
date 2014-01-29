@@ -1078,10 +1078,17 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 	public static File getSourceFolderLocation(ProjectInfo projectinfo, String rootPath, String moduleName) throws PhrescoException {
 		File docFile = null;
 		try {
-			ApplicationInfo applicationInfo = projectinfo.getAppInfos().get(0);
 			File pomFile = Utility.getPomFileLocation(rootPath, moduleName);
 			PomProcessor pomPro = new PomProcessor(pomFile);
 			String src = pomPro.getProperty(POM_PROP_KEY_SPLIT_SRC_DIR);
+			String[] split = rootPath.split("###");
+ 			if(split.length>1) {
+				for (int i = 0; i < split.length;) {
+					rootPath = split[0];
+					break;
+				}
+ 			}
+			ApplicationInfo applicationInfo = projectinfo.getAppInfos().get(0);
 			if(CollectionUtils.isNotEmpty(applicationInfo.getModules()) && StringUtils.isNotEmpty(src)) {
 			 docFile = new File(rootPath + File.separator + src + File.separator + moduleName);
 			} else if(CollectionUtils.isNotEmpty(applicationInfo.getModules()) && StringUtils.isEmpty(src)) {

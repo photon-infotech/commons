@@ -244,6 +244,8 @@ public class CIJob {
 	private String developmentVersion = "";
 	private String tagName = "";
 	private String webservices = "";
+	private String nexusUsername = "";
+	private String nexusPassword = "";
 	
   
 	// Android functional test
@@ -1712,6 +1714,22 @@ public class CIJob {
 		return webservices;
 	}
 
+	public String getNexusUsername() {
+		return nexusUsername;
+	}
+
+	public void setNexusUsername(String nexusUsername) {
+		this.nexusUsername = nexusUsername;
+	}
+
+	public String getNexusPassword() {
+		return nexusPassword;
+	}
+
+	public void setNexusPassword(String nexusPassword) {
+		this.nexusPassword = nexusPassword;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -1738,378 +1756,188 @@ public class CIJob {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((addHeader == null) ? 0 : addHeader.hashCode());
+		result = prime * result + ((addHeader == null) ? 0 : addHeader.hashCode());
 		result = prime * result + ((alias == null) ? 0 : alias.hashCode());
-		result = prime * result
-				+ ((appDirName == null) ? 0 : appDirName.hashCode());
+		result = prime * result + ((appDirName == null) ? 0 : appDirName.hashCode());
 		result = prime * result + ((appName == null) ? 0 : appName.hashCode());
 		result = prime * result + ((applyTo == null) ? 0 : applyTo.hashCode());
-		result = prime
-				* result
-				+ ((attachmentsPattern == null) ? 0 : attachmentsPattern
-						.hashCode());
-		result = prime * result
-				+ ((authManager == null) ? 0 : authManager.hashCode());
-		result = prime
-				* result
-				+ ((authorizationDomain == null) ? 0 : authorizationDomain
-						.hashCode());
-		result = prime
-				* result
-				+ ((authorizationPassword == null) ? 0 : authorizationPassword
-						.hashCode());
-		result = prime
-				* result
-				+ ((authorizationRealm == null) ? 0 : authorizationRealm
-						.hashCode());
-		result = prime
-				* result
-				+ ((authorizationUrl == null) ? 0 : authorizationUrl.hashCode());
-		result = prime
-				* result
-				+ ((authorizationUserName == null) ? 0 : authorizationUserName
-						.hashCode());
-		result = prime * result
-				+ ((availableJmx == null) ? 0 : availableJmx.hashCode());
+		result = prime * result + ((attachmentsPattern == null) ? 0 : attachmentsPattern.hashCode());
+		result = prime * result + ((authManager == null) ? 0 : authManager.hashCode());
+		result = prime * result + ((authorizationDomain == null) ? 0 : authorizationDomain.hashCode());
+		result = prime * result + ((authorizationPassword == null) ? 0 : authorizationPassword.hashCode());
+		result = prime * result + ((authorizationRealm == null) ? 0 : authorizationRealm.hashCode());
+		result = prime * result + ((authorizationUrl == null) ? 0 : authorizationUrl.hashCode());
+		result = prime * result + ((authorizationUserName == null) ? 0 : authorizationUserName.hashCode());
+		result = prime * result + ((availableJmx == null) ? 0 : availableJmx.hashCode());
 		result = prime * result + ((branch == null) ? 0 : branch.hashCode());
 		result = prime * result + ((browser == null) ? 0 : browser.hashCode());
-		result = prime
-				* result
-				+ ((buildEnvironmentName == null) ? 0 : buildEnvironmentName
-						.hashCode());
-		result = prime * result
-				+ ((buildName == null) ? 0 : buildName.hashCode());
-		result = prime * result
-				+ ((buildNotes == null) ? 0 : buildNotes.hashCode());
-		result = prime * result
-				+ ((buildNumber == null) ? 0 : buildNumber.hashCode());
+		result = prime * result + ((buildEnvironmentName == null) ? 0 : buildEnvironmentName.hashCode());
+		result = prime * result + ((buildName == null) ? 0 : buildName.hashCode());
+		result = prime * result + ((buildNotes == null) ? 0 : buildNotes.hashCode());
+		result = prime * result + ((buildNumber == null) ? 0 : buildNumber.hashCode());
 		result = prime * result + (cloneWorkspace ? 1231 : 1237);
-		result = prime
-				* result
-				+ ((clonnedWorkspaceName == null) ? 0 : clonnedWorkspaceName
-						.hashCode());
+		result = prime * result + ((clonnedWorkspaceName == null) ? 0 : clonnedWorkspaceName.hashCode());
 		result = prime * result + (coberturaPlugin ? 1231 : 1237);
-		result = prime
-				* result
-				+ ((collabNetFileReleasePattern == null) ? 0
-						: collabNetFileReleasePattern.hashCode());
-		result = prime
-				* result
-				+ ((collabNetPackage == null) ? 0 : collabNetPackage.hashCode());
-		result = prime
-				* result
-				+ ((collabNetProject == null) ? 0 : collabNetProject.hashCode());
-		result = prime
-				* result
-				+ ((collabNetRelease == null) ? 0 : collabNetRelease.hashCode());
-		result = prime * result
-				+ ((collabNetURL == null) ? 0 : collabNetURL.hashCode());
+		result = prime * result + ((collabNetFileReleasePattern == null) ? 0 : collabNetFileReleasePattern.hashCode());
+		result = prime * result + ((collabNetPackage == null) ? 0 : collabNetPackage.hashCode());
+		result = prime * result + ((collabNetProject == null) ? 0 : collabNetProject.hashCode());
+		result = prime * result + ((collabNetRelease == null) ? 0 : collabNetRelease.hashCode());
+		result = prime * result + ((collabNetURL == null) ? 0 : collabNetURL.hashCode());
 		result = prime * result + (collabNetoverWriteFiles ? 1231 : 1237);
-		result = prime
-				* result
-				+ ((collabNetpassword == null) ? 0 : collabNetpassword
-						.hashCode());
-		result = prime
-				* result
-				+ ((collabNetusername == null) ? 0 : collabNetusername
-						.hashCode());
-		result = prime
-				* result
-				+ ((compatibleHeaders == null) ? 0 : compatibleHeaders
-						.hashCode());
-		result = prime * result
-				+ ((configuration == null) ? 0 : configuration.hashCode());
-		result = prime * result
-				+ ((configurations == null) ? 0 : configurations.hashCode());
+		result = prime * result + ((collabNetpassword == null) ? 0 : collabNetpassword.hashCode());
+		result = prime * result + ((collabNetusername == null) ? 0 : collabNetusername.hashCode());
+		result = prime * result + ((compatibleHeaders == null) ? 0 : compatibleHeaders.hashCode());
+		result = prime * result + ((configuration == null) ? 0 : configuration.hashCode());
+		result = prime * result + ((configurations == null) ? 0 : configurations.hashCode());
 		result = prime * result + (confluenceArtifacts ? 1231 : 1237);
-		result = prime * result
-				+ ((confluenceOther == null) ? 0 : confluenceOther.hashCode());
-		result = prime * result
-				+ ((confluencePage == null) ? 0 : confluencePage.hashCode());
+		result = prime * result + ((confluenceOther == null) ? 0 : confluenceOther.hashCode());
+		result = prime * result + ((confluencePage == null) ? 0 : confluencePage.hashCode());
 		result = prime * result + (confluencePublish ? 1231 : 1237);
-		result = prime * result
-				+ ((confluenceSite == null) ? 0 : confluenceSite.hashCode());
-		result = prime * result
-				+ ((confluenceSpace == null) ? 0 : confluenceSpace.hashCode());
+		result = prime * result + ((confluenceSite == null) ? 0 : confluenceSite.hashCode());
+		result = prime * result + ((confluenceSpace == null) ? 0 : confluenceSpace.hashCode());
 		result = prime * result + ((context == null) ? 0 : context.hashCode());
-		result = prime * result
-				+ ((contextType == null) ? 0 : contextType.hashCode());
-		result = prime * result
-				+ ((contextUrls == null) ? 0 : contextUrls.hashCode());
-		result = prime * result
-				+ ((coverage == null) ? 0 : coverage.hashCode());
-		result = prime
-				* result
-				+ ((customTestAgainst == null) ? 0 : customTestAgainst
-						.hashCode());
-		result = prime * result
-				+ ((dataBase == null) ? 0 : dataBase.hashCode());
-		result = prime * result
-				+ ((dbContextUrls == null) ? 0 : dbContextUrls.hashCode());
+		result = prime * result + ((contextType == null) ? 0 : contextType.hashCode());
+		result = prime * result + ((contextUrls == null) ? 0 : contextUrls.hashCode());
+		result = prime * result + ((coverage == null) ? 0 : coverage.hashCode());
+		result = prime * result + ((customTestAgainst == null) ? 0 : customTestAgainst.hashCode());
+		result = prime * result + ((dataBase == null) ? 0 : dataBase.hashCode());
+		result = prime * result + ((dbContextUrls == null) ? 0 : dbContextUrls.hashCode());
 		result = prime * result + ((dbName == null) ? 0 : dbName.hashCode());
-		result = prime * result
-				+ ((defaultValue == null) ? 0 : defaultValue.hashCode());
-		result = prime
-				* result
-				+ ((developmentVersion == null) ? 0 : developmentVersion
-						.hashCode());
+		result = prime * result + ((defaultValue == null) ? 0 : defaultValue.hashCode());
+		result = prime * result + ((developmentVersion == null) ? 0 : developmentVersion.hashCode());
 		result = prime * result + ((device == null) ? 0 : device.hashCode());
-		result = prime * result
-				+ ((deviceId == null) ? 0 : deviceId.hashCode());
-		result = prime
-				* result
-				+ ((deviceKeyPassword == null) ? 0 : deviceKeyPassword
-						.hashCode());
-		result = prime * result
-				+ ((deviceList == null) ? 0 : deviceList.hashCode());
-		result = prime * result
-				+ ((deviceType == null) ? 0 : deviceType.hashCode());
+		result = prime * result + ((deviceId == null) ? 0 : deviceId.hashCode());
+		result = prime * result + ((deviceKeyPassword == null) ? 0 : deviceKeyPassword.hashCode());
+		result = prime * result + ((deviceList == null) ? 0 : deviceList.hashCode());
+		result = prime * result + ((deviceType == null) ? 0 : deviceType.hashCode());
 		result = prime * result + ((devices == null) ? 0 : devices.hashCode());
-		result = prime
-				* result
-				+ ((downStreamCriteria == null) ? 0 : downStreamCriteria
-						.hashCode());
-		result = prime
-				* result
-				+ ((downstreamApplication == null) ? 0 : downstreamApplication
-						.hashCode());
+		result = prime * result + ((downStreamCriteria == null) ? 0 : downStreamCriteria.hashCode());
+		result = prime * result + ((downstreamApplication == null) ? 0 : downstreamApplication.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime
-				* result
-				+ ((emulatorKeyPassword == null) ? 0 : emulatorKeyPassword
-						.hashCode());
+		result = prime * result + ((emulatorKeyPassword == null) ? 0 : emulatorKeyPassword.hashCode());
 		result = prime * result + (enableArtifactArchiver ? 1231 : 1237);
 		result = prime * result + (enableBuildRelease ? 1231 : 1237);
 		result = prime * result + (enableConfluence ? 1231 : 1237);
 		result = prime * result + (enablePostBuildStep ? 1231 : 1237);
 		result = prime * result + (enablePreBuildStep ? 1231 : 1237);
 		result = prime * result + (enableTestFlight ? 1231 : 1237);
-		result = prime * result
-				+ ((encodingType == null) ? 0 : encodingType.hashCode());
+		result = prime * result + ((encodingType == null) ? 0 : encodingType.hashCode());
 		result = prime * result + ((encrypt == null) ? 0 : encrypt.hashCode());
-		result = prime * result
-				+ ((environmentName == null) ? 0 : environmentName.hashCode());
-		result = prime * result
-				+ ((executeSql == null) ? 0 : executeSql.hashCode());
-		result = prime * result
-				+ ((failureEmailIds == null) ? 0 : failureEmailIds.hashCode());
+		result = prime * result + ((environmentName == null) ? 0 : environmentName.hashCode());
+		result = prime * result + ((executeSql == null) ? 0 : executeSql.hashCode());
+		result = prime * result + ((failureEmailIds == null) ? 0 : failureEmailIds.hashCode());
 		result = prime * result + ((family == null) ? 0 : family.hashCode());
-		result = prime * result
-				+ ((fetchDependency == null) ? 0 : fetchDependency.hashCode());
-		result = prime * result
-				+ ((fetchSql == null) ? 0 : fetchSql.hashCode());
-		result = prime * result
-				+ ((followRedirects == null) ? 0 : followRedirects.hashCode());
-		result = prime * result
-				+ ((headerKey == null) ? 0 : headerKey.hashCode());
-		result = prime * result
-				+ ((headerValue == null) ? 0 : headerValue.hashCode());
-		result = prime * result
-				+ ((httpName == null) ? 0 : httpName.hashCode());
-		result = prime * result
-				+ ((isFromCI == null) ? 0 : isFromCI.hashCode());
-		result = prime * result
-				+ ((jarLocation == null) ? 0 : jarLocation.hashCode());
+		result = prime * result + ((fetchDependency == null) ? 0 : fetchDependency.hashCode());
+		result = prime * result + ((fetchSql == null) ? 0 : fetchSql.hashCode());
+		result = prime * result + ((followRedirects == null) ? 0 : followRedirects.hashCode());
+		result = prime * result + ((headerKey == null) ? 0 : headerKey.hashCode());
+		result = prime * result + ((headerValue == null) ? 0 : headerValue.hashCode());
+		result = prime * result + ((httpName == null) ? 0 : httpName.hashCode());
+		result = prime * result + ((isFromCI == null) ? 0 : isFromCI.hashCode());
+		result = prime * result + ((jarLocation == null) ? 0 : jarLocation.hashCode());
 		result = prime * result + ((jarName == null) ? 0 : jarName.hashCode());
-		result = prime * result
-				+ ((jenkinsPath == null) ? 0 : jenkinsPath.hashCode());
-		result = prime * result
-				+ ((jenkinsPort == null) ? 0 : jenkinsPort.hashCode());
-		result = prime * result
-				+ ((jenkinsProtocol == null) ? 0 : jenkinsProtocol.hashCode());
-		result = prime * result
-				+ ((jenkinsUrl == null) ? 0 : jenkinsUrl.hashCode());
+		result = prime * result + ((jenkinsPath == null) ? 0 : jenkinsPath.hashCode());
+		result = prime * result + ((jenkinsPort == null) ? 0 : jenkinsPort.hashCode());
+		result = prime * result + ((jenkinsProtocol == null) ? 0 : jenkinsProtocol.hashCode());
+		result = prime * result + ((jenkinsUrl == null) ? 0 : jenkinsUrl.hashCode());
 		result = prime * result + ((jobName == null) ? 0 : jobName.hashCode());
-		result = prime * result
-				+ ((keepAlive == null) ? 0 : keepAlive.hashCode());
-		result = prime * result
-				+ ((keyPassword == null) ? 0 : keyPassword.hashCode());
+		result = prime * result + ((keepAlive == null) ? 0 : keepAlive.hashCode());
+		result = prime * result + ((keyPassword == null) ? 0 : keyPassword.hashCode());
 		result = prime * result + ((keypass == null) ? 0 : keypass.hashCode());
-		result = prime * result
-				+ ((keystore == null) ? 0 : keystore.hashCode());
-		result = prime * result
-				+ ((loadContextUrl == null) ? 0 : loadContextUrl.hashCode());
+		result = prime * result + ((keystore == null) ? 0 : keystore.hashCode());
+		result = prime * result + ((loadContextUrl == null) ? 0 : loadContextUrl.hashCode());
 		result = prime * result + ((logo == null) ? 0 : logo.hashCode());
 		result = prime * result + ((logs == null) ? 0 : logs.hashCode());
-		result = prime * result
-				+ ((loopCount == null) ? 0 : loopCount.hashCode());
-		result = prime * result
-				+ ((mainClassName == null) ? 0 : mainClassName.hashCode());
+		result = prime * result + ((loopCount == null) ? 0 : loopCount.hashCode());
+		result = prime * result + ((mainClassName == null) ? 0 : mainClassName.hashCode());
 		result = prime * result + ((matchNo == null) ? 0 : matchNo.hashCode());
 		result = prime * result + ((minify == null) ? 0 : minify.hashCode());
 		result = prime * result + ((mode == null) ? 0 : mode.hashCode());
 		result = prime * result + ((module == null) ? 0 : module.hashCode());
-		result = prime * result
-				+ ((multipartData == null) ? 0 : multipartData.hashCode());
-		result = prime * result
-				+ ((mvnCommand == null) ? 0 : mvnCommand.hashCode());
-		result = prime * result
-				+ ((noOfUsers == null) ? 0 : noOfUsers.hashCode());
-		result = prime * result
-				+ ((operation == null) ? 0 : operation.hashCode());
-		result = prime
-				* result
-				+ ((packMinifiedFiles == null) ? 0 : packMinifiedFiles
-						.hashCode());
-		result = prime
-				* result
-				+ ((packageFileBrowse == null) ? 0 : packageFileBrowse
-						.hashCode());
-		result = prime * result
-				+ ((packageType == null) ? 0 : packageType.hashCode());
-		result = prime * result
-				+ ((parameterName == null) ? 0 : parameterName.hashCode());
-		result = prime * result
-				+ ((parameterValue == null) ? 0 : parameterValue.hashCode());
-		result = prime * result
-				+ ((password == null) ? 0 : password.hashCode());
-		result = prime * result
-				+ ((phrescoPassword == null) ? 0 : phrescoPassword.hashCode());
-		result = prime
-				* result
-				+ ((phrescoProjectPath == null) ? 0 : phrescoProjectPath
-						.hashCode());
-		result = prime * result
-				+ ((phrescoUrl == null) ? 0 : phrescoUrl.hashCode());
-		result = prime * result
-				+ ((phrescoUsername == null) ? 0 : phrescoUsername.hashCode());
-		result = prime * result
-				+ ((phrescobranch == null) ? 0 : phrescobranch.hashCode());
-		result = prime * result
-				+ ((platform == null) ? 0 : platform.hashCode());
-		result = prime * result
-				+ ((plistFile == null) ? 0 : plistFile.hashCode());
-		result = prime * result
-				+ ((pomLocation == null) ? 0 : pomLocation.hashCode());
-		result = prime
-				* result
-				+ ((postbuildStepCommands == null) ? 0 : postbuildStepCommands
-						.hashCode());
-		result = prime
-				* result
-				+ ((prebuildStepCommands == null) ? 0 : prebuildStepCommands
-						.hashCode());
-		result = prime * result
-				+ ((proguard == null) ? 0 : proguard.hashCode());
-		result = prime * result
-				+ ((projectModule == null) ? 0 : projectModule.hashCode());
-		result = prime * result
-				+ ((projectPath == null) ? 0 : projectPath.hashCode());
-		result = prime * result
-				+ ((projectType == null) ? 0 : projectType.hashCode());
+		result = prime * result + ((multipartData == null) ? 0 : multipartData.hashCode());
+		result = prime * result + ((mvnCommand == null) ? 0 : mvnCommand.hashCode());
+		result = prime * result + ((nexusPassword == null) ? 0 : nexusPassword.hashCode());
+		result = prime * result + ((nexusUsername == null) ? 0 : nexusUsername.hashCode());
+		result = prime * result + ((noOfUsers == null) ? 0 : noOfUsers.hashCode());
+		result = prime * result + ((operation == null) ? 0 : operation.hashCode());
+		result = prime * result + ((packMinifiedFiles == null) ? 0 : packMinifiedFiles.hashCode());
+		result = prime * result + ((packageFileBrowse == null) ? 0 : packageFileBrowse.hashCode());
+		result = prime * result + ((packageType == null) ? 0 : packageType.hashCode());
+		result = prime * result + ((parameterName == null) ? 0 : parameterName.hashCode());
+		result = prime * result + ((parameterValue == null) ? 0 : parameterValue.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((phrescoPassword == null) ? 0 : phrescoPassword.hashCode());
+		result = prime * result + ((phrescoProjectPath == null) ? 0 : phrescoProjectPath.hashCode());
+		result = prime * result + ((phrescoUrl == null) ? 0 : phrescoUrl.hashCode());
+		result = prime * result + ((phrescoUsername == null) ? 0 : phrescoUsername.hashCode());
+		result = prime * result + ((phrescobranch == null) ? 0 : phrescobranch.hashCode());
+		result = prime * result + ((platform == null) ? 0 : platform.hashCode());
+		result = prime * result + ((plistFile == null) ? 0 : plistFile.hashCode());
+		result = prime * result + ((pomLocation == null) ? 0 : pomLocation.hashCode());
+		result = prime * result + ((postbuildStepCommands == null) ? 0 : postbuildStepCommands.hashCode());
+		result = prime * result + ((prebuildStepCommands == null) ? 0 : prebuildStepCommands.hashCode());
+		result = prime * result + ((proguard == null) ? 0 : proguard.hashCode());
+		result = prime * result + ((projectModule == null) ? 0 : projectModule.hashCode());
+		result = prime * result + ((projectPath == null) ? 0 : projectPath.hashCode());
+		result = prime * result + ((projectType == null) ? 0 : projectType.hashCode());
 		result = prime * result + ((query == null) ? 0 : query.hashCode());
-		result = prime * result
-				+ ((queryType == null) ? 0 : queryType.hashCode());
-		result = prime * result
-				+ ((rampUpPeriod == null) ? 0 : rampUpPeriod.hashCode());
-		result = prime
-				* result
-				+ ((redirectAutomatically == null) ? 0 : redirectAutomatically
-						.hashCode());
-		result = prime * result
-				+ ((referenceName == null) ? 0 : referenceName.hashCode());
+		result = prime * result + ((queryType == null) ? 0 : queryType.hashCode());
+		result = prime * result + ((rampUpPeriod == null) ? 0 : rampUpPeriod.hashCode());
+		result = prime * result + ((redirectAutomatically == null) ? 0 : redirectAutomatically.hashCode());
+		result = prime * result + ((referenceName == null) ? 0 : referenceName.hashCode());
 		result = prime * result + ((regex == null) ? 0 : regex.hashCode());
-		result = prime * result
-				+ ((regexExtractor == null) ? 0 : regexExtractor.hashCode());
-		result = prime * result
-				+ ((releaseMessage == null) ? 0 : releaseMessage.hashCode());
-		result = prime * result
-				+ ((releasePassword == null) ? 0 : releasePassword.hashCode());
-		result = prime * result
-				+ ((releaseUsername == null) ? 0 : releaseUsername.hashCode());
-		result = prime * result
-				+ ((releaseVersion == null) ? 0 : releaseVersion.hashCode());
-		result = prime * result
-				+ ((repoType == null) ? 0 : repoType.hashCode());
-		result = prime * result
-				+ ((reportName == null) ? 0 : reportName.hashCode());
-		result = prime * result
-				+ ((reportType == null) ? 0 : reportType.hashCode());
-		result = prime * result
-				+ ((resolution == null) ? 0 : resolution.hashCode());
-		result = prime * result
-				+ ((responseField == null) ? 0 : responseField.hashCode());
-		result = prime
-				* result
-				+ ((scheduleExpression == null) ? 0 : scheduleExpression
-						.hashCode());
-		result = prime * result
-				+ ((scheduleType == null) ? 0 : scheduleType.hashCode());
+		result = prime * result + ((regexExtractor == null) ? 0 : regexExtractor.hashCode());
+		result = prime * result + ((releaseMessage == null) ? 0 : releaseMessage.hashCode());
+		result = prime * result + ((releasePassword == null) ? 0 : releasePassword.hashCode());
+		result = prime * result + ((releaseUsername == null) ? 0 : releaseUsername.hashCode());
+		result = prime * result + ((releaseVersion == null) ? 0 : releaseVersion.hashCode());
+		result = prime * result + ((repoType == null) ? 0 : repoType.hashCode());
+		result = prime * result + ((reportName == null) ? 0 : reportName.hashCode());
+		result = prime * result + ((reportType == null) ? 0 : reportType.hashCode());
+		result = prime * result + ((resolution == null) ? 0 : resolution.hashCode());
+		result = prime * result + ((responseField == null) ? 0 : responseField.hashCode());
+		result = prime * result + ((scheduleExpression == null) ? 0 : scheduleExpression.hashCode());
+		result = prime * result + ((scheduleType == null) ? 0 : scheduleType.hashCode());
 		result = prime * result + ((sdk == null) ? 0 : sdk.hashCode());
-		result = prime * result
-				+ ((sdkVersion == null) ? 0 : sdkVersion.hashCode());
-		result = prime * result
-				+ ((selectedFiles == null) ? 0 : selectedFiles.hashCode());
-		result = prime * result
-				+ ((serialNumber == null) ? 0 : serialNumber.hashCode());
-		result = prime * result
-				+ ((showSettings == null) ? 0 : showSettings.hashCode());
+		result = prime * result + ((sdkVersion == null) ? 0 : sdkVersion.hashCode());
+		result = prime * result + ((selectedFiles == null) ? 0 : selectedFiles.hashCode());
+		result = prime * result + ((serialNumber == null) ? 0 : serialNumber.hashCode());
+		result = prime * result + ((showSettings == null) ? 0 : showSettings.hashCode());
 		result = prime * result + ((signing == null) ? 0 : signing.hashCode());
-		result = prime * result
-				+ ((skipTest == null) ? 0 : skipTest.hashCode());
-		result = prime * result
-				+ ((skipTests == null) ? 0 : skipTests.hashCode());
+		result = prime * result + ((skipTest == null) ? 0 : skipTest.hashCode());
+		result = prime * result + ((skipTests == null) ? 0 : skipTests.hashCode());
 		result = prime * result + ((sonar == null) ? 0 : sonar.hashCode());
-		result = prime * result
-				+ ((sonarUrl == null) ? 0 : sonarUrl.hashCode());
+		result = prime * result + ((sonarUrl == null) ? 0 : sonarUrl.hashCode());
 		result = prime * result + ((src == null) ? 0 : src.hashCode());
-		result = prime * result
-				+ ((storepass == null) ? 0 : storepass.hashCode());
-		result = prime * result
-				+ ((successEmailIds == null) ? 0 : successEmailIds.hashCode());
+		result = prime * result + ((storepass == null) ? 0 : storepass.hashCode());
+		result = prime * result + ((successEmailIds == null) ? 0 : successEmailIds.hashCode());
 		result = prime * result + ((tagName == null) ? 0 : tagName.hashCode());
 		result = prime * result + ((target == null) ? 0 : target.hashCode());
-		result = prime * result
-				+ ((technologyName == null) ? 0 : technologyName.hashCode());
-		result = prime * result
-				+ ((template == null) ? 0 : template.hashCode());
-		result = prime * result
-				+ ((templateName == null) ? 0 : templateName.hashCode());
-		result = prime * result
-				+ ((testAgainst == null) ? 0 : testAgainst.hashCode());
-		result = prime * result
-				+ ((testBasis == null) ? 0 : testBasis.hashCode());
-		result = prime * result
-				+ ((testName == null) ? 0 : testName.hashCode());
-		result = prime * result
-				+ ((testPassword == null) ? 0 : testPassword.hashCode());
-		result = prime * result
-				+ ((testProjectPath == null) ? 0 : testProjectPath.hashCode());
-		result = prime * result
-				+ ((testType == null) ? 0 : testType.hashCode());
+		result = prime * result + ((technologyName == null) ? 0 : technologyName.hashCode());
+		result = prime * result + ((template == null) ? 0 : template.hashCode());
+		result = prime * result + ((templateName == null) ? 0 : templateName.hashCode());
+		result = prime * result + ((testAgainst == null) ? 0 : testAgainst.hashCode());
+		result = prime * result + ((testBasis == null) ? 0 : testBasis.hashCode());
+		result = prime * result + ((testName == null) ? 0 : testName.hashCode());
+		result = prime * result + ((testPassword == null) ? 0 : testPassword.hashCode());
+		result = prime * result + ((testProjectPath == null) ? 0 : testProjectPath.hashCode());
+		result = prime * result + ((testType == null) ? 0 : testType.hashCode());
 		result = prime * result + ((testUrl == null) ? 0 : testUrl.hashCode());
-		result = prime * result
-				+ ((testUsername == null) ? 0 : testUsername.hashCode());
-		result = prime * result
-				+ ((testbranch == null) ? 0 : testbranch.hashCode());
+		result = prime * result + ((testUsername == null) ? 0 : testUsername.hashCode());
+		result = prime * result + ((testbranch == null) ? 0 : testbranch.hashCode());
 		result = prime * result + ((theme == null) ? 0 : theme.hashCode());
-		result = prime * result
-				+ ((tokenPairName == null) ? 0 : tokenPairName.hashCode());
-		result = prime
-				* result
-				+ ((triggerSimulator == null) ? 0 : triggerSimulator.hashCode());
-		result = prime * result
-				+ ((triggers == null) ? 0 : triggers.hashCode());
+		result = prime * result + ((tokenPairName == null) ? 0 : tokenPairName.hashCode());
+		result = prime * result + ((triggerSimulator == null) ? 0 : triggerSimulator.hashCode());
+		result = prime * result + ((triggers == null) ? 0 : triggers.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result + (unitTestType ? 1231 : 1237);
-		result = prime * result
-				+ ((unittest == null) ? 0 : unittest.hashCode());
-		result = prime
-				* result
-				+ ((upstreamApplication == null) ? 0 : upstreamApplication
-						.hashCode());
+		result = prime * result + ((unittest == null) ? 0 : unittest.hashCode());
+		result = prime * result + ((upstreamApplication == null) ? 0 : upstreamApplication.hashCode());
 		result = prime * result + ((url == null) ? 0 : url.hashCode());
-		result = prime
-				* result
-				+ ((usedClonnedWorkspace == null) ? 0 : usedClonnedWorkspace
-						.hashCode());
-		result = prime * result
-				+ ((username == null) ? 0 : username.hashCode());
-		result = prime * result
-				+ ((webservices == null) ? 0 : webservices.hashCode());
-		result = prime * result
-				+ ((zipAlign == null) ? 0 : zipAlign.hashCode());
+		result = prime * result + ((usedClonnedWorkspace == null) ? 0 : usedClonnedWorkspace.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		result = prime * result + ((webservices == null) ? 0 : webservices.hashCode());
+		result = prime * result + ((zipAlign == null) ? 0 : zipAlign.hashCode());
 		return result;
 	}
 
@@ -2229,8 +2057,7 @@ public class CIJob {
 		if (collabNetFileReleasePattern == null) {
 			if (other.collabNetFileReleasePattern != null)
 				return false;
-		} else if (!collabNetFileReleasePattern
-				.equals(other.collabNetFileReleasePattern))
+		} else if (!collabNetFileReleasePattern.equals(other.collabNetFileReleasePattern))
 			return false;
 		if (collabNetPackage == null) {
 			if (other.collabNetPackage != null)
@@ -2589,6 +2416,16 @@ public class CIJob {
 			if (other.mvnCommand != null)
 				return false;
 		} else if (!mvnCommand.equals(other.mvnCommand))
+			return false;
+		if (nexusPassword == null) {
+			if (other.nexusPassword != null)
+				return false;
+		} else if (!nexusPassword.equals(other.nexusPassword))
+			return false;
+		if (nexusUsername == null) {
+			if (other.nexusUsername != null)
+				return false;
+		} else if (!nexusUsername.equals(other.nexusUsername))
 			return false;
 		if (noOfUsers == null) {
 			if (other.noOfUsers != null)
