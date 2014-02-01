@@ -240,6 +240,16 @@
             <artifactId>jersey-server</artifactId>
             <version>${jersey-server.version}</version>
         </dependency>
+         <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            <version>${jersey-server.version}</version>
+        </dependency>
+        <dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>${jersey-server.version}</version>
+		</dependency>
         <dependency>
             <groupId>org.sonatype.aether</groupId>
             <artifactId>aether-api</artifactId>

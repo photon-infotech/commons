@@ -251,6 +251,8 @@ public class CIJob {
 	// Android functional test
 	private String deviceList = "";
 	
+	//BBY-TAW functional test 
+	private List<String> testSuites;
     public CIJob() {
         super();
     }
@@ -1728,6 +1730,14 @@ public class CIJob {
 
 	public void setNexusPassword(String nexusPassword) {
 		this.nexusPassword = nexusPassword;
+	}
+
+	public void setTestSuites(List<String> testSuites) {
+		this.testSuites = testSuites;
+	}
+
+	public List<String> getTestSuites() {
+		return testSuites;
 	}
 
 	/* (non-Javadoc)
