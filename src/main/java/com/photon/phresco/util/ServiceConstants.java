@@ -207,6 +207,7 @@ public interface ServiceConstants {
 	String REST_QUERY_BRANCH_NAME		  = "branchName";
 	String REST_QUERY_DOWNLOAD_OPTION	  = "downloadOption";
 	String REST_QUERY_RELEASE_VERSION	  = "releaseVersion";
+	String REST_QUERY_SKIP_TESTS		  = "skipTests";
 
 
 	
