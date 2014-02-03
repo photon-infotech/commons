@@ -189,7 +189,7 @@ public class UtilityTest {
 		assertNotNull(Utility.executeStreamconsumer(command, workingDir, baseDir, "unit"));
 	}
 	
-	@Test
+	//@Test
 	public void testExecuteconsumerSecondError() throws PhrescoPomException, FileNotFoundException {
 		File pomPath = new File(Utility.getProjectHome()+File.separator+"wp1-wordpress3.4.2"+File.separator+"pom.xml");
 		String baseDir = Utility.getProjectHome()+"wp1-wordpress3.4.2";
@@ -212,7 +212,7 @@ public class UtilityTest {
 		Utility.executeStreamconsumer(command, fos);
 	}
 	
-	@Test
+	//@Test
 	public void testExecuteconsumerThirdError() throws PhrescoPomException, FileNotFoundException {
 		File pomPath = new File(Utility.getProjectHome()+File.separator+"wp1-wordpress3.4.2"+File.separator+"pom.xml");
 		String baseDir = Utility.getProjectHome()+"wp1-wordpress3.4.2";
