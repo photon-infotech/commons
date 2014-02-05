@@ -248,7 +248,6 @@ public interface Constants {
 	String POM_PROP_KEY_UNITTEST_TESTSUITE_XPATH = "phresco.unitTest.testsuite.xpath";
 	String POM_PROP_KEY_UNITTEST_TESTCASE_PATH = "phresco.unitTest.testcase.path";
 	String POM_PROP_KEY_UNITTEST_TESTSTEP_XPATH = "phresco.unitTest.teststep.xpath";
-	String POM_PROP_KEY_UNITTEST_TESTFUNCTION_XPATH = "phresco.unitTest.testfunction.xpath";
 	
 	//component test report constants
 	String POM_PROP_KEY_COMPONENTTEST_DIR = "phresco.componentTest.dir";
@@ -268,7 +267,6 @@ public interface Constants {
 	String POM_PROP_KEY_UNITTEST_TESTSUITE_XPATH_END = ".testsuite.xpath";
 	String POM_PROP_KEY_UNITTEST_TESTCASE_PATH_END = ".testcase.path";
 	String POM_PROP_KEY_UNITTEST_TESTSTEP_XPATH_END = ".teststep.xpath";
-	String POM_PROP_KEY_UNITTEST_TESTFUNCTION_XPATH_END = ".testfunction.xpath";
 	
 	// Integration test report constants
 	String POM_PROP_KEY_INTEGRATIONTEST_TESTCASE_PATH = "phresco.IntegrationTest.testcase.path";
@@ -287,7 +285,6 @@ public interface Constants {
     String POM_PROP_KEY_FUNCTEST_TESTSUITE_XPATH = "phresco.functionalTest.testsuite.xpath";
     String POM_PROP_KEY_FUNCTEST_TESTCASE_PATH = "phresco.functionalTest.testcase.path";
     String POM_PROP_KEY_FUNCTEST_TESTSTEP_XPATH = "phresco.functionalTest.teststep.xpath";
-    String POM_PROP_KEY_FUNCTEST_TESTFUNCTION_XPATH = "phresco.functionalTest.testfunction.xpath";
 	String POM_PROP_KEY_FUNCTEST_DIR = "phresco.functionalTest.dir";
 	String PHRESCO_CODE_VALIDATE_REPORT = "phresco.code.validate.report";
 	String POM_PROP_KEY_PERFORMANCETEST_DIR = "phresco.performanceTest.dir";
