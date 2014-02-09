@@ -66,7 +66,7 @@ public class ApplicationInfo extends CustomerBasedElement {
     private boolean showDatabase;
     private boolean showWebservice;
     private boolean showTestingFramework;
-
+    private boolean parentArchrtypeCreated;
 	
 
 	public Map<String, String> getSelectedFeatureMap() {
@@ -350,5 +350,13 @@ public class ApplicationInfo extends CustomerBasedElement {
 
 	public void setRootModule(String rootModule) {
 		this.rootModule = rootModule;
+	}
+
+	public void setParentArchrtypeCreated(boolean parentArchrtypeCreated) {
+		this.parentArchrtypeCreated = parentArchrtypeCreated;
+	}
+
+	public boolean isParentArchrtypeCreated() {
+		return parentArchrtypeCreated;
 	}
 }
