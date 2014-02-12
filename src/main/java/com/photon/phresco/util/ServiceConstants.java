@@ -184,6 +184,10 @@ public interface ServiceConstants {
 	String REST_QUERY_MODULE_NAME = "moduleName";
 	String REST_QUERY_PROJECT_CODE = "projectCode";
 	String REST_QUERY_ROOT_MODULE_NAME = "rootModule";
+	String REST_QUERY_PUBLICATION_TYPE = "type";
+	String REST_QUERY_PUBLICATION_SERVER = "server";
+	String REST_QUERY_PUBLICATION_USERNAME = "username";
+	String REST_QUERY_PUBLICATION_PASSWORD = "password";
 	String REST_QUERY_TEST_SUITE ="testSuite";
 	String REST_QUERY_ACTION = "action";
 	String REST_QUERY_CONTEXT = "context";
