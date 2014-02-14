@@ -132,7 +132,7 @@ public class FunctionalTestEnvironmentImpl implements DynamicParameter, Constant
 	    return builder;
 	}
 	
-	 private StringBuilder getConfigurationPath(String subModuleName, String rootModulePath) throws PhrescoException {
+	 private StringBuilder getConfigurationPath(String rootModulePath, String subModuleName) throws PhrescoException {
 		 String dotPhrescoFolderPath = Utility.getDotPhrescoFolderPath(rootModulePath, subModuleName);
 		 StringBuilder builder = new StringBuilder(dotPhrescoFolderPath);
 		 builder.append(File.separator);

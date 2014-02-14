@@ -101,6 +101,8 @@ public class HtmlApplicationProcessor extends AbstractApplicationProcessor {
 		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
 		File pomFile = new File(sourceFolderLocation.getPath() + File.separator + appInfo.getPomFile());
 		ProjectUtils projectUtils = new ProjectUtils();
+		
+		projectUtils.deletePluginExecutionFromPom(phrescoPomFile);
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, phrescoPomFile, artifactGroups);
 		}
