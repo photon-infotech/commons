@@ -141,7 +141,8 @@ public class CIJob {
     private String configuration = "";
     private String keyPassword = "";
     private String packMinifiedFiles = "";
-    private String zipAlign = "";   
+    private String zipAlign = "";
+    private String components = "";
     
     // iphone unit test
     private boolean unitTestType = false;
@@ -1739,6 +1740,14 @@ public class CIJob {
 	public List<String> getTestSuites() {
 		return testSuites;
 	}
+	
+	public String getComponents() {
+		return components;
+	}
+
+	public void setComponents(String components) {
+		this.components = components;
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -1759,7 +1768,7 @@ public class CIJob {
 				+ prebuildStepCommands + ", postbuildStepCommands="
 				+ postbuildStepCommands + ", attachmentsPattern="
 				+ attachmentsPattern + ", enableArtifactArchiver="
-				+ enableArtifactArchiver + "]";
+				+ enableArtifactArchiver + ", components=" + components + "]";
 	}
 
 	@Override
@@ -1846,6 +1855,8 @@ public class CIJob {
 				* result
 				+ ((compatibleHeaders == null) ? 0 : compatibleHeaders
 						.hashCode());
+		result = prime * result
+				+ ((components == null) ? 0 : components.hashCode());
 		result = prime * result
 				+ ((configuration == null) ? 0 : configuration.hashCode());
 		result = prime * result
@@ -2302,6 +2313,11 @@ public class CIJob {
 			if (other.compatibleHeaders != null)
 				return false;
 		} else if (!compatibleHeaders.equals(other.compatibleHeaders))
+			return false;
+		if (components == null) {
+			if (other.components != null)
+				return false;
+		} else if (!components.equals(other.components))
 			return false;
 		if (configuration == null) {
 			if (other.configuration != null)

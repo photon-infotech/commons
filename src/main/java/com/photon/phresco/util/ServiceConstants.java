@@ -98,6 +98,7 @@ public interface ServiceConstants {
 	String REST_API_WIDGET ="/widget";
 	String REST_API_WIDGET_ID ="/widget/{widgetid}";
 	String REST_API_WIDGET_SEARCH ="/search";
+	String REST_API_DYNAMIC_PARAMETER_TREE = "/dynamicParameterTree";
 
 	
 	String REST_API_CI_CONFIG = "/ci/config";
@@ -208,8 +209,7 @@ public interface ServiceConstants {
 	String REST_QUERY_DOWNLOAD_OPTION	  = "downloadOption";
 	String REST_QUERY_RELEASE_VERSION	  = "releaseVersion";
 	String REST_QUERY_SKIP_TESTS		  = "skipTests";
-
-
+	String REST_QUERY_PARAMETER_KEY = "parameterKey";
 	
 	String DEFAULT_CUSTOMER_NAME = "photon";
 	String REST_ACTION_TYPE = "actionType";

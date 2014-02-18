@@ -48,6 +48,10 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.dom.DOMSource;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
@@ -68,6 +72,9 @@ import org.eclipse.ui.PlatformUI;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -1368,6 +1375,61 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 		}
 		
 		return POM_NAME;
+	}
+	
+	public static DOMSource createXML(String browsePath, String fileType) throws PhrescoException {
+		try {
+			File inputPath = new File(browsePath);
+			if (!inputPath.isDirectory() || inputPath.isFile()) {
+				return null;
+			}
+			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+			Document document = documentBuilder.newDocument();
+			Element rootElement = document.createElement("root");
+			document.appendChild(rootElement);
+
+			Element mainFolder = document.createElement("Item");
+			mainFolder.setAttribute("name", inputPath.getName());
+			mainFolder.setAttribute("path", inputPath.toString());
+			mainFolder.setAttribute("type", "Folder");
+			rootElement.appendChild(mainFolder);
+
+			listDirectories(mainFolder, document, inputPath, fileType);
+
+			DOMSource source = new DOMSource(document);
+			return source;
+		} catch (DOMException e) {
+			throw new PhrescoException(e);
+		} catch (ParserConfigurationException e) {
+			throw new PhrescoException(e);
+		}
+	}
+
+	private static void listDirectories(Element rootElement, Document document, File dir, String fileType) {
+		for (File childFile : dir.listFiles()) {
+			String name = childFile.getName();
+			String path = childFile.getPath();
+			if (childFile.isDirectory()) {
+				Element childElement = document.createElement("Item");
+				childElement.setAttribute("name", name);
+				childElement.setAttribute("path", path);
+				childElement.setAttribute("type", "Folder");
+				rootElement.appendChild(childElement);
+
+				listDirectories(childElement, document, childFile.getAbsoluteFile(), fileType);
+			} else { 
+				String fileName = childFile.getName();
+				fileName = fileName.substring(fileName.lastIndexOf('.')+1,fileName.length());
+				if(StringUtils.isEmpty(fileType) || fileName.equals(fileType)) {
+					Element childElement = document.createElement("Item");
+					childElement.setAttribute("name", name);
+					childElement.setAttribute("path", path);
+					childElement.setAttribute("type", "File");
+					rootElement.appendChild(childElement);
+				}
+			}
+		}
 	}
 	
 	private static ApplicationInfo returnAppInfo(File dotPhresco) throws FileNotFoundException {
