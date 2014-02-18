@@ -311,6 +311,9 @@ public interface Constants {
 	String POM_PROP_KEY_THEME_BROWSE_BUILDER = "phresco.theme.builder.browse.path";
 	String POM_PROP_KEY_THEME_BUILDER_IMAGE = "phresco.theme.builder.image.path";
 	String POM_PROP_KEY_THEME_BUNDLE_UPLOAD_DIR = "phresco.theme.bundle.upload.dir";
+	// c++ pom constants
+	String POM_PROP_KEY_PHRESCO_WINDOWS_CPP_FILE_NAME= "phresco.windows.cpp.file.name";
+	String POM_PROP_KEY_PHRESCO_MAC_CPP_FILE_NAME = "phresco.mac.cpp.file.name";
 	
 	/**
 	 * MVN Goal Constants

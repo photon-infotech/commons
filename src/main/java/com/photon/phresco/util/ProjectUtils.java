@@ -445,7 +445,7 @@ public class ProjectUtils implements Constants {
 		Element overWrite = doc.createElement(OVER_WRITE);
 		overWrite.setTextContent(OVER_WIRTE_VALUE);
 		Element outputDirectory = doc.createElement(OUTPUT_DIR);
-		outputDirectory.setTextContent("${project.basedir}" + modulePath);
+		outputDirectory.setTextContent("${phresco.src.root.dir}" + modulePath);
 		configList.add(groupId);
 		configList.add(artifactId);
 		configList.add(version);

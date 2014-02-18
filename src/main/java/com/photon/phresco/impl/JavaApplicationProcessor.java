@@ -53,6 +53,7 @@ public class JavaApplicationProcessor extends AbstractApplicationProcessor {
 		File pomFile = new File(sourceFolderLocation.getPath() + File.separator + appInfo.getPomFile());
 		ProjectUtils projectUtils = new ProjectUtils();
 		
+		projectUtils.deletePluginExecutionFromPom(phrescoPomFile);
 		if(CollectionUtils.isNotEmpty(artifactGroups)) {
 			projectUtils.updatePOMWithPluginArtifact(pomFile, phrescoPomFile, artifactGroups);
 		}
