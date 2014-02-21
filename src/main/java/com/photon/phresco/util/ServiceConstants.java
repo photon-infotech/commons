@@ -210,6 +210,7 @@ public interface ServiceConstants {
 	String REST_QUERY_RELEASE_VERSION	  = "releaseVersion";
 	String REST_QUERY_SKIP_TESTS		  = "skipTests";
 	String REST_QUERY_PARAMETER_KEY = "parameterKey";
+	String REST_QUERY_FILE_EXTENSION	  = "fileExtn";
 	
 	String DEFAULT_CUSTOMER_NAME = "photon";
 	String REST_ACTION_TYPE = "actionType";
