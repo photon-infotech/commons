@@ -370,6 +370,20 @@ public final class Utility implements Constants {
         FileUtils.mkdir(builder.toString());
         return builder.toString();
     }
+    
+    public static String getPythonHome() {
+    	String phrescoHome = Utility.getPhrescoHome();
+        StringBuilder builder = new StringBuilder(phrescoHome);
+        builder.append(File.separator);
+        builder.append(Constants.PROJECTS_WORKSPACE);
+        builder.append(File.separator);
+        builder.append(TOOLS_DIR);
+        builder.append(File.separator);
+        builder.append(PYTHON);
+        builder.append(File.separator);
+        FileUtils.mkdir(builder.toString());
+        return builder.toString();
+    }
 
     public static String getJenkinsHomePluginDir() {
     	String jenkinsDataHome = System.getenv(JENKINS_HOME);
