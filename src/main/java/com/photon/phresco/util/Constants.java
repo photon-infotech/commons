@@ -76,7 +76,6 @@ public interface Constants {
 	String ENVIRONMENTS = "environments";
 	String ECLIPSE_HOME = "eclipseHome";
 	String PHRESCO_WORKSPACE = "PHRESCO_WORKSPACE";
-	String PYTHON			 = "python";
 	/*String FILE_SEPARATOR = "/";
 	String BUILD_INFO_FILE_NAME = "build.info";
 	String DO_NOT_CHECKIN_DIR = "do_not_checkin";
@@ -315,7 +314,8 @@ public interface Constants {
 	// c++ pom constants
 	String POM_PROP_KEY_PHRESCO_WINDOWS_CPP_FILE_NAME= "phresco.windows.cpp.file.name";
 	String POM_PROP_KEY_PHRESCO_MAC_CPP_FILE_NAME = "phresco.mac.cpp.file.name";
-	String POM_PROP_KEY_PHRESCO_XCODE_PLIST_FILE	= "phresco.xcode.plist.file";
+	String POM_PROP_KEY_PHRESCO_ENV_CONFIG_JSON = "phresco.env.config.json";
+	String POM_PROP_KEY_PHRESCO_ENV_CONFIG_XML = "phresco.env.config.xml";
 	
 	/**
 	 * MVN Goal Constants
