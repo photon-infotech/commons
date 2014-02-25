@@ -494,6 +494,9 @@ public interface Constants {
 	String CURRENT_VERSION = "currentVersion";
 	String TAG_VERSION = "tagVersion";
 	String DEV_VERSION = "devVersion";
+	String POM_PROP_KEY_TFS_SRC_WORKSPACE_NAME = "phresco.tfs.src.workspace.name";
+	String POM_PROP_KEY_TFS_PHR_WORKSPACE_NAME = "phresco.tfs.phr.workspace.name";
+	String POM_PROP_KEY_TFS_TEST_WORKSPACE_NAME = "phresco.tfs.test.workspace.name";
 	
 	/**
 	 * SCM Constants
