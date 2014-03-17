@@ -54,6 +54,35 @@ public class CIJob {
     private String jenkinsPath;
     private List<String> triggers;
     private String repoType;
+  //Xcode Plugin
+    private String xcodeTarget;
+    private String xcodeconfiguration;
+    private boolean buildIpa = false;
+    private String codeSigningIdentity;
+    private String xcodesdk;
+    private String xcodeProjectPath;
+    private boolean osxKeychainBuild = false;
+    //lateral changes
+    private String symRoot = "";
+    private String configurationBuildDir = "";
+    private String xcodeProjectFile = "";
+    private String xcodebuildArguments = "";
+    private boolean cleanBeforeBuild =  false;
+    private boolean cleanTestReports = false;
+    private String xcodeSchema = "";
+    private String xcodeWorkspaceFile = "";
+    private String embeddedProfileFile = "";
+    private String cfBundleVersionValue = "";
+    private String cfBundleShortVersionStringValue = "";
+    private boolean generateArchive = false;
+    private boolean unlockKeychain = false;
+    private String keychainName = "";
+    private String keychainPath = "";
+    private String keychainPwd = "";
+    private boolean allowFailingBuildResults = false;
+    private String ipaName = "";
+    private String ipaOutputDirectory = "";
+    private boolean provideApplicationVersion = false;
     
   //collabNet implementation
     private boolean enableBuildRelease = false;
@@ -141,7 +170,8 @@ public class CIJob {
     private String configuration = "";
     private String keyPassword = "";
     private String packMinifiedFiles = "";
-    private String zipAlign = "";   
+    private String zipAlign = "";
+    private String components = "";
     
     // iphone unit test
     private boolean unitTestType = false;
@@ -1739,27 +1769,234 @@ public class CIJob {
 	public List<String> getTestSuites() {
 		return testSuites;
 	}
+	
+	public String getComponents() {
+		return components;
+	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "CIJob [name=" + jobName + ", svnUrl=" + url + ", email="
-				+ email + ", scheduleExpression=" + scheduleExpression
-				+ ", mvnCommand=" + mvnCommand + ", jenkinsUrl=" + jenkinsUrl
-				+ ", jenkinsPort=" + jenkinsPort + ", triggers=" + triggers
-				+ ", repoType=" + repoType + ", downStreamApplication="
-				+ downstreamApplication + ", downStreamCriteria="
-				+ downStreamCriteria + ", usedClonnedWorkspace="
-				+ usedClonnedWorkspace + ", operation=" + operation
-				+ ", pomLocation=" + pomLocation + ", enablePostBuildStep="
-				+ enablePostBuildStep + ", enablePreBuildStep="
-				+ enablePreBuildStep + ", prebuildStepCommands="
-				+ prebuildStepCommands + ", postbuildStepCommands="
-				+ postbuildStepCommands + ", attachmentsPattern="
-				+ attachmentsPattern + ", enableArtifactArchiver="
-				+ enableArtifactArchiver + "]";
+	public void setComponents(String components) {
+		this.components = components;
+	}
+
+	public String getXcodeTarget() {
+		return xcodeTarget;
+	}
+
+	public void setXcodeTarget(String xcodeTarget) {
+		this.xcodeTarget = xcodeTarget;
+	}
+
+	public String getXcodeconfiguration() {
+		return xcodeconfiguration;
+	}
+
+	public void setXcodeconfiguration(String xcodeconfiguration) {
+		this.xcodeconfiguration = xcodeconfiguration;
+	}
+
+	public boolean isBuildIpa() {
+		return buildIpa;
+	}
+
+	public void setBuildIpa(boolean buildIpa) {
+		this.buildIpa = buildIpa;
+	}
+
+	public String getCodeSigningIdentity() {
+		return codeSigningIdentity;
+	}
+
+	public void setCodeSigningIdentity(String codeSigningIdentity) {
+		this.codeSigningIdentity = codeSigningIdentity;
+	}
+
+	public String getXcodesdk() {
+		return xcodesdk;
+	}
+
+	public void setXcodesdk(String xcodesdk) {
+		this.xcodesdk = xcodesdk;
+	}
+
+	public String getXcodeProjectPath() {
+		return xcodeProjectPath;
+	}
+
+	public void setXcodeProjectPath(String xcodeProjectPath) {
+		this.xcodeProjectPath = xcodeProjectPath;
+	}
+
+	public boolean isOsxKeychainBuild() {
+		return osxKeychainBuild;
+	}
+
+	public void setOsxKeychainBuild(boolean osxKeychainBuild) {
+		this.osxKeychainBuild = osxKeychainBuild;
+	}
+
+	public boolean isUnitTestType() {
+		return unitTestType;
+	}
+
+	public String getSymRoot() {
+		return symRoot;
+	}
+
+	public void setSymRoot(String symRoot) {
+		this.symRoot = symRoot;
+	}
+
+	public String getConfigurationBuildDir() {
+		return configurationBuildDir;
+	}
+
+	public void setConfigurationBuildDir(String configurationBuildDir) {
+		this.configurationBuildDir = configurationBuildDir;
+	}
+
+	public String getXcodeProjectFile() {
+		return xcodeProjectFile;
+	}
+
+	public void setXcodeProjectFile(String xcodeProjectFile) {
+		this.xcodeProjectFile = xcodeProjectFile;
+	}
+
+	public String getXcodebuildArguments() {
+		return xcodebuildArguments;
+	}
+
+	public void setXcodebuildArguments(String xcodebuildArguments) {
+		this.xcodebuildArguments = xcodebuildArguments;
+	}
+
+	public boolean isCleanBeforeBuild() {
+		return cleanBeforeBuild;
+	}
+
+	public void setCleanBeforeBuild(boolean cleanBeforeBuild) {
+		this.cleanBeforeBuild = cleanBeforeBuild;
+	}
+
+	public boolean isCleanTestReports() {
+		return cleanTestReports;
+	}
+
+	public void setCleanTestReports(boolean cleanTestReports) {
+		this.cleanTestReports = cleanTestReports;
+	}
+
+	public String getXcodeSchema() {
+		return xcodeSchema;
+	}
+
+	public void setXcodeSchema(String xcodeSchema) {
+		this.xcodeSchema = xcodeSchema;
+	}
+
+	public String getXcodeWorkspaceFile() {
+		return xcodeWorkspaceFile;
+	}
+
+	public void setXcodeWorkspaceFile(String xcodeWorkspaceFile) {
+		this.xcodeWorkspaceFile = xcodeWorkspaceFile;
+	}
+
+	public String getEmbeddedProfileFile() {
+		return embeddedProfileFile;
+	}
+
+	public void setEmbeddedProfileFile(String embeddedProfileFile) {
+		this.embeddedProfileFile = embeddedProfileFile;
+	}
+
+	public String getCfBundleVersionValue() {
+		return cfBundleVersionValue;
+	}
+
+	public void setCfBundleVersionValue(String cfBundleVersionValue) {
+		this.cfBundleVersionValue = cfBundleVersionValue;
+	}
+
+	public String getCfBundleShortVersionStringValue() {
+		return cfBundleShortVersionStringValue;
+	}
+
+	public void setCfBundleShortVersionStringValue(
+			String cfBundleShortVersionStringValue) {
+		this.cfBundleShortVersionStringValue = cfBundleShortVersionStringValue;
+	}
+
+	public boolean isGenerateArchive() {
+		return generateArchive;
+	}
+
+	public void setGenerateArchive(boolean generateArchive) {
+		this.generateArchive = generateArchive;
+	}
+
+	public boolean isUnlockKeychain() {
+		return unlockKeychain;
+	}
+
+	public void setUnlockKeychain(boolean unlockKeychain) {
+		this.unlockKeychain = unlockKeychain;
+	}
+
+	public String getKeychainName() {
+		return keychainName;
+	}
+
+	public void setKeychainName(String keychainName) {
+		this.keychainName = keychainName;
+	}
+
+	public String getKeychainPath() {
+		return keychainPath;
+	}
+
+	public void setKeychainPath(String keychainPath) {
+		this.keychainPath = keychainPath;
+	}
+
+	public String getKeychainPwd() {
+		return keychainPwd;
+	}
+
+	public void setKeychainPwd(String keychainPwd) {
+		this.keychainPwd = keychainPwd;
+	}
+
+	public boolean isAllowFailingBuildResults() {
+		return allowFailingBuildResults;
+	}
+
+	public void setAllowFailingBuildResults(boolean allowFailingBuildResults) {
+		this.allowFailingBuildResults = allowFailingBuildResults;
+	}
+
+	public String getIpaName() {
+		return ipaName;
+	}
+
+	public void setIpaName(String ipaName) {
+		this.ipaName = ipaName;
+	}
+
+	public String getIpaOutputDirectory() {
+		return ipaOutputDirectory;
+	}
+
+	public void setIpaOutputDirectory(String ipaOutputDirectory) {
+		this.ipaOutputDirectory = ipaOutputDirectory;
+	}
+
+	public boolean isProvideApplicationVersion() {
+		return provideApplicationVersion;
+	}
+
+	public void setProvideApplicationVersion(boolean provideApplicationVersion) {
+		this.provideApplicationVersion = provideApplicationVersion;
 	}
 
 	@Override
@@ -1769,6 +2006,7 @@ public class CIJob {
 		result = prime * result
 				+ ((addHeader == null) ? 0 : addHeader.hashCode());
 		result = prime * result + ((alias == null) ? 0 : alias.hashCode());
+		result = prime * result + (allowFailingBuildResults ? 1231 : 1237);
 		result = prime * result
 				+ ((appDirName == null) ? 0 : appDirName.hashCode());
 		result = prime * result + ((appName == null) ? 0 : appName.hashCode());
@@ -1806,18 +2044,33 @@ public class CIJob {
 				* result
 				+ ((buildEnvironmentName == null) ? 0 : buildEnvironmentName
 						.hashCode());
+		result = prime * result + (buildIpa ? 1231 : 1237);
 		result = prime * result
 				+ ((buildName == null) ? 0 : buildName.hashCode());
 		result = prime * result
 				+ ((buildNotes == null) ? 0 : buildNotes.hashCode());
 		result = prime * result
 				+ ((buildNumber == null) ? 0 : buildNumber.hashCode());
+		result = prime
+				* result
+				+ ((cfBundleShortVersionStringValue == null) ? 0
+						: cfBundleShortVersionStringValue.hashCode());
+		result = prime
+				* result
+				+ ((cfBundleVersionValue == null) ? 0 : cfBundleVersionValue
+						.hashCode());
+		result = prime * result + (cleanBeforeBuild ? 1231 : 1237);
+		result = prime * result + (cleanTestReports ? 1231 : 1237);
 		result = prime * result + (cloneWorkspace ? 1231 : 1237);
 		result = prime
 				* result
 				+ ((clonnedWorkspaceName == null) ? 0 : clonnedWorkspaceName
 						.hashCode());
 		result = prime * result + (coberturaPlugin ? 1231 : 1237);
+		result = prime
+				* result
+				+ ((codeSigningIdentity == null) ? 0 : codeSigningIdentity
+						.hashCode());
 		result = prime
 				* result
 				+ ((collabNetFileReleasePattern == null) ? 0
@@ -1847,7 +2100,13 @@ public class CIJob {
 				+ ((compatibleHeaders == null) ? 0 : compatibleHeaders
 						.hashCode());
 		result = prime * result
+				+ ((components == null) ? 0 : components.hashCode());
+		result = prime * result
 				+ ((configuration == null) ? 0 : configuration.hashCode());
+		result = prime
+				* result
+				+ ((configurationBuildDir == null) ? 0 : configurationBuildDir
+						.hashCode());
 		result = prime * result
 				+ ((configurations == null) ? 0 : configurations.hashCode());
 		result = prime * result + (confluenceArtifacts ? 1231 : 1237);
@@ -1905,6 +2164,10 @@ public class CIJob {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime
 				* result
+				+ ((embeddedProfileFile == null) ? 0 : embeddedProfileFile
+						.hashCode());
+		result = prime
+				* result
 				+ ((emulatorKeyPassword == null) ? 0 : emulatorKeyPassword
 						.hashCode());
 		result = prime * result + (enableArtifactArchiver ? 1231 : 1237);
@@ -1929,12 +2192,18 @@ public class CIJob {
 				+ ((fetchSql == null) ? 0 : fetchSql.hashCode());
 		result = prime * result
 				+ ((followRedirects == null) ? 0 : followRedirects.hashCode());
+		result = prime * result + (generateArchive ? 1231 : 1237);
 		result = prime * result
 				+ ((headerKey == null) ? 0 : headerKey.hashCode());
 		result = prime * result
 				+ ((headerValue == null) ? 0 : headerValue.hashCode());
 		result = prime * result
 				+ ((httpName == null) ? 0 : httpName.hashCode());
+		result = prime * result + ((ipaName == null) ? 0 : ipaName.hashCode());
+		result = prime
+				* result
+				+ ((ipaOutputDirectory == null) ? 0 : ipaOutputDirectory
+						.hashCode());
 		result = prime * result
 				+ ((isFromCI == null) ? 0 : isFromCI.hashCode());
 		result = prime * result
@@ -1953,6 +2222,12 @@ public class CIJob {
 				+ ((keepAlive == null) ? 0 : keepAlive.hashCode());
 		result = prime * result
 				+ ((keyPassword == null) ? 0 : keyPassword.hashCode());
+		result = prime * result
+				+ ((keychainName == null) ? 0 : keychainName.hashCode());
+		result = prime * result
+				+ ((keychainPath == null) ? 0 : keychainPath.hashCode());
+		result = prime * result
+				+ ((keychainPwd == null) ? 0 : keychainPwd.hashCode());
 		result = prime * result + ((keypass == null) ? 0 : keypass.hashCode());
 		result = prime * result
 				+ ((keystore == null) ? 0 : keystore.hashCode());
@@ -1980,6 +2255,7 @@ public class CIJob {
 				+ ((noOfUsers == null) ? 0 : noOfUsers.hashCode());
 		result = prime * result
 				+ ((operation == null) ? 0 : operation.hashCode());
+		result = prime * result + (osxKeychainBuild ? 1231 : 1237);
 		result = prime
 				* result
 				+ ((packMinifiedFiles == null) ? 0 : packMinifiedFiles
@@ -2030,6 +2306,7 @@ public class CIJob {
 				+ ((projectPath == null) ? 0 : projectPath.hashCode());
 		result = prime * result
 				+ ((projectType == null) ? 0 : projectType.hashCode());
+		result = prime * result + (provideApplicationVersion ? 1231 : 1237);
 		result = prime * result + ((query == null) ? 0 : query.hashCode());
 		result = prime * result
 				+ ((queryType == null) ? 0 : queryType.hashCode());
@@ -2090,6 +2367,7 @@ public class CIJob {
 				+ ((storepass == null) ? 0 : storepass.hashCode());
 		result = prime * result
 				+ ((successEmailIds == null) ? 0 : successEmailIds.hashCode());
+		result = prime * result + ((symRoot == null) ? 0 : symRoot.hashCode());
 		result = prime * result + ((tagName == null) ? 0 : tagName.hashCode());
 		result = prime * result + ((target == null) ? 0 : target.hashCode());
 		result = prime * result
@@ -2129,6 +2407,7 @@ public class CIJob {
 		result = prime * result + (unitTestType ? 1231 : 1237);
 		result = prime * result
 				+ ((unittest == null) ? 0 : unittest.hashCode());
+		result = prime * result + (unlockKeychain ? 1231 : 1237);
 		result = prime
 				* result
 				+ ((upstreamApplication == null) ? 0 : upstreamApplication
@@ -2142,6 +2421,30 @@ public class CIJob {
 				+ ((username == null) ? 0 : username.hashCode());
 		result = prime * result
 				+ ((webservices == null) ? 0 : webservices.hashCode());
+		result = prime
+				* result
+				+ ((xcodeProjectFile == null) ? 0 : xcodeProjectFile.hashCode());
+		result = prime
+				* result
+				+ ((xcodeProjectPath == null) ? 0 : xcodeProjectPath.hashCode());
+		result = prime * result
+				+ ((xcodeSchema == null) ? 0 : xcodeSchema.hashCode());
+		result = prime * result
+				+ ((xcodeTarget == null) ? 0 : xcodeTarget.hashCode());
+		result = prime
+				* result
+				+ ((xcodeWorkspaceFile == null) ? 0 : xcodeWorkspaceFile
+						.hashCode());
+		result = prime
+				* result
+				+ ((xcodebuildArguments == null) ? 0 : xcodebuildArguments
+						.hashCode());
+		result = prime
+				* result
+				+ ((xcodeconfiguration == null) ? 0 : xcodeconfiguration
+						.hashCode());
+		result = prime * result
+				+ ((xcodesdk == null) ? 0 : xcodesdk.hashCode());
 		result = prime * result
 				+ ((zipAlign == null) ? 0 : zipAlign.hashCode());
 		return result;
@@ -2165,6 +2468,8 @@ public class CIJob {
 			if (other.alias != null)
 				return false;
 		} else if (!alias.equals(other.alias))
+			return false;
+		if (allowFailingBuildResults != other.allowFailingBuildResults)
 			return false;
 		if (appDirName == null) {
 			if (other.appDirName != null)
@@ -2236,6 +2541,8 @@ public class CIJob {
 				return false;
 		} else if (!buildEnvironmentName.equals(other.buildEnvironmentName))
 			return false;
+		if (buildIpa != other.buildIpa)
+			return false;
 		if (buildName == null) {
 			if (other.buildName != null)
 				return false;
@@ -2251,6 +2558,21 @@ public class CIJob {
 				return false;
 		} else if (!buildNumber.equals(other.buildNumber))
 			return false;
+		if (cfBundleShortVersionStringValue == null) {
+			if (other.cfBundleShortVersionStringValue != null)
+				return false;
+		} else if (!cfBundleShortVersionStringValue
+				.equals(other.cfBundleShortVersionStringValue))
+			return false;
+		if (cfBundleVersionValue == null) {
+			if (other.cfBundleVersionValue != null)
+				return false;
+		} else if (!cfBundleVersionValue.equals(other.cfBundleVersionValue))
+			return false;
+		if (cleanBeforeBuild != other.cleanBeforeBuild)
+			return false;
+		if (cleanTestReports != other.cleanTestReports)
+			return false;
 		if (cloneWorkspace != other.cloneWorkspace)
 			return false;
 		if (clonnedWorkspaceName == null) {
@@ -2259,6 +2581,11 @@ public class CIJob {
 		} else if (!clonnedWorkspaceName.equals(other.clonnedWorkspaceName))
 			return false;
 		if (coberturaPlugin != other.coberturaPlugin)
+			return false;
+		if (codeSigningIdentity == null) {
+			if (other.codeSigningIdentity != null)
+				return false;
+		} else if (!codeSigningIdentity.equals(other.codeSigningIdentity))
 			return false;
 		if (collabNetFileReleasePattern == null) {
 			if (other.collabNetFileReleasePattern != null)
@@ -2303,10 +2630,20 @@ public class CIJob {
 				return false;
 		} else if (!compatibleHeaders.equals(other.compatibleHeaders))
 			return false;
+		if (components == null) {
+			if (other.components != null)
+				return false;
+		} else if (!components.equals(other.components))
+			return false;
 		if (configuration == null) {
 			if (other.configuration != null)
 				return false;
 		} else if (!configuration.equals(other.configuration))
+			return false;
+		if (configurationBuildDir == null) {
+			if (other.configurationBuildDir != null)
+				return false;
+		} else if (!configurationBuildDir.equals(other.configurationBuildDir))
 			return false;
 		if (configurations == null) {
 			if (other.configurations != null)
@@ -2432,6 +2769,11 @@ public class CIJob {
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
+		if (embeddedProfileFile == null) {
+			if (other.embeddedProfileFile != null)
+				return false;
+		} else if (!embeddedProfileFile.equals(other.embeddedProfileFile))
+			return false;
 		if (emulatorKeyPassword == null) {
 			if (other.emulatorKeyPassword != null)
 				return false;
@@ -2494,6 +2836,8 @@ public class CIJob {
 				return false;
 		} else if (!followRedirects.equals(other.followRedirects))
 			return false;
+		if (generateArchive != other.generateArchive)
+			return false;
 		if (headerKey == null) {
 			if (other.headerKey != null)
 				return false;
@@ -2508,6 +2852,16 @@ public class CIJob {
 			if (other.httpName != null)
 				return false;
 		} else if (!httpName.equals(other.httpName))
+			return false;
+		if (ipaName == null) {
+			if (other.ipaName != null)
+				return false;
+		} else if (!ipaName.equals(other.ipaName))
+			return false;
+		if (ipaOutputDirectory == null) {
+			if (other.ipaOutputDirectory != null)
+				return false;
+		} else if (!ipaOutputDirectory.equals(other.ipaOutputDirectory))
 			return false;
 		if (isFromCI == null) {
 			if (other.isFromCI != null)
@@ -2558,6 +2912,21 @@ public class CIJob {
 			if (other.keyPassword != null)
 				return false;
 		} else if (!keyPassword.equals(other.keyPassword))
+			return false;
+		if (keychainName == null) {
+			if (other.keychainName != null)
+				return false;
+		} else if (!keychainName.equals(other.keychainName))
+			return false;
+		if (keychainPath == null) {
+			if (other.keychainPath != null)
+				return false;
+		} else if (!keychainPath.equals(other.keychainPath))
+			return false;
+		if (keychainPwd == null) {
+			if (other.keychainPwd != null)
+				return false;
+		} else if (!keychainPwd.equals(other.keychainPwd))
 			return false;
 		if (keypass == null) {
 			if (other.keypass != null)
@@ -2643,6 +3012,8 @@ public class CIJob {
 			if (other.operation != null)
 				return false;
 		} else if (!operation.equals(other.operation))
+			return false;
+		if (osxKeychainBuild != other.osxKeychainBuild)
 			return false;
 		if (packMinifiedFiles == null) {
 			if (other.packMinifiedFiles != null)
@@ -2743,6 +3114,8 @@ public class CIJob {
 			if (other.projectType != null)
 				return false;
 		} else if (!projectType.equals(other.projectType))
+			return false;
+		if (provideApplicationVersion != other.provideApplicationVersion)
 			return false;
 		if (query == null) {
 			if (other.query != null)
@@ -2899,6 +3272,11 @@ public class CIJob {
 				return false;
 		} else if (!successEmailIds.equals(other.successEmailIds))
 			return false;
+		if (symRoot == null) {
+			if (other.symRoot != null)
+				return false;
+		} else if (!symRoot.equals(other.symRoot))
+			return false;
 		if (tagName == null) {
 			if (other.tagName != null)
 				return false;
@@ -3006,6 +3384,8 @@ public class CIJob {
 				return false;
 		} else if (!unittest.equals(other.unittest))
 			return false;
+		if (unlockKeychain != other.unlockKeychain)
+			return false;
 		if (upstreamApplication == null) {
 			if (other.upstreamApplication != null)
 				return false;
@@ -3031,6 +3411,46 @@ public class CIJob {
 				return false;
 		} else if (!webservices.equals(other.webservices))
 			return false;
+		if (xcodeProjectFile == null) {
+			if (other.xcodeProjectFile != null)
+				return false;
+		} else if (!xcodeProjectFile.equals(other.xcodeProjectFile))
+			return false;
+		if (xcodeProjectPath == null) {
+			if (other.xcodeProjectPath != null)
+				return false;
+		} else if (!xcodeProjectPath.equals(other.xcodeProjectPath))
+			return false;
+		if (xcodeSchema == null) {
+			if (other.xcodeSchema != null)
+				return false;
+		} else if (!xcodeSchema.equals(other.xcodeSchema))
+			return false;
+		if (xcodeTarget == null) {
+			if (other.xcodeTarget != null)
+				return false;
+		} else if (!xcodeTarget.equals(other.xcodeTarget))
+			return false;
+		if (xcodeWorkspaceFile == null) {
+			if (other.xcodeWorkspaceFile != null)
+				return false;
+		} else if (!xcodeWorkspaceFile.equals(other.xcodeWorkspaceFile))
+			return false;
+		if (xcodebuildArguments == null) {
+			if (other.xcodebuildArguments != null)
+				return false;
+		} else if (!xcodebuildArguments.equals(other.xcodebuildArguments))
+			return false;
+		if (xcodeconfiguration == null) {
+			if (other.xcodeconfiguration != null)
+				return false;
+		} else if (!xcodeconfiguration.equals(other.xcodeconfiguration))
+			return false;
+		if (xcodesdk == null) {
+			if (other.xcodesdk != null)
+				return false;
+		} else if (!xcodesdk.equals(other.xcodesdk))
+			return false;
 		if (zipAlign == null) {
 			if (other.zipAlign != null)
 				return false;
@@ -3038,4 +3458,149 @@ public class CIJob {
 			return false;
 		return true;
 	}
-}
+
+	@Override
+	public String toString() {
+		return "CIJob [jobName=" + jobName + ", url=" + url + ", username="
+				+ username + ", password=" + password + ", branch=" + branch
+				+ ", projectPath=" + projectPath + ", phrescoUrl=" + phrescoUrl
+				+ ", phrescoUsername=" + phrescoUsername + ", phrescobranch="
+				+ phrescobranch + ", phrescoProjectPath=" + phrescoProjectPath
+				+ ", phrescoPassword=" + phrescoPassword + ", testUrl="
+				+ testUrl + ", testUsername=" + testUsername
+				+ ", testPassword=" + testPassword + ", testbranch="
+				+ testbranch + ", testProjectPath=" + testProjectPath
+				+ ", releaseMessage=" + releaseMessage + ", releaseUsername="
+				+ releaseUsername + ", releasePassword=" + releasePassword
+				+ ", email=" + email + ", scheduleType=" + scheduleType
+				+ ", scheduleExpression=" + scheduleExpression
+				+ ", mvnCommand=" + mvnCommand + ", jenkinsUrl=" + jenkinsUrl
+				+ ", jenkinsPort=" + jenkinsPort + ", jenkinsProtocol="
+				+ jenkinsProtocol + ", jenkinsPath=" + jenkinsPath
+				+ ", triggers=" + triggers + ", repoType=" + repoType
+				+ ", xcodeTarget=" + xcodeTarget + ", xcodeconfiguration="
+				+ xcodeconfiguration + ", buildIpa=" + buildIpa
+				+ ", codeSigningIdentity=" + codeSigningIdentity
+				+ ", xcodesdk=" + xcodesdk + ", xcodeProjectPath="
+				+ xcodeProjectPath + ", osxKeychainBuild=" + osxKeychainBuild
+				+ ", symRoot=" + symRoot + ", configurationBuildDir="
+				+ configurationBuildDir + ", xcodeProjectFile="
+				+ xcodeProjectFile + ", xcodebuildArguments="
+				+ xcodebuildArguments + ", cleanBeforeBuild="
+				+ cleanBeforeBuild + ", cleanTestReports=" + cleanTestReports
+				+ ", xcodeSchema=" + xcodeSchema + ", xcodeWorkspaceFile="
+				+ xcodeWorkspaceFile + ", embeddedProfileFile="
+				+ embeddedProfileFile + ", cfBundleVersionValue="
+				+ cfBundleVersionValue + ", cfBundleShortVersionStringValue="
+				+ cfBundleShortVersionStringValue + ", generateArchive="
+				+ generateArchive + ", unlockKeychain=" + unlockKeychain
+				+ ", keychainName=" + keychainName + ", keychainPath="
+				+ keychainPath + ", keychainPwd=" + keychainPwd
+				+ ", allowFailingBuildResults=" + allowFailingBuildResults
+				+ ", ipaName=" + ipaName + ", ipaOutputDirectory="
+				+ ipaOutputDirectory + ", provideApplicationVersion="
+				+ provideApplicationVersion + ", enableBuildRelease="
+				+ enableBuildRelease + ", collabNetURL=" + collabNetURL
+				+ ", collabNetusername=" + collabNetusername
+				+ ", collabNetpassword=" + collabNetpassword
+				+ ", collabNetProject=" + collabNetProject
+				+ ", collabNetPackage=" + collabNetPackage
+				+ ", collabNetRelease=" + collabNetRelease
+				+ ", collabNetoverWriteFiles=" + collabNetoverWriteFiles
+				+ ", collabNetFileReleasePattern="
+				+ collabNetFileReleasePattern + ", enableConfluence="
+				+ enableConfluence + ", enableTestFlight=" + enableTestFlight
+				+ ", confluenceSite=" + confluenceSite + ", confluencePublish="
+				+ confluencePublish + ", confluenceSpace=" + confluenceSpace
+				+ ", confluencePage=" + confluencePage
+				+ ", confluenceArtifacts=" + confluenceArtifacts
+				+ ", confluenceOther=" + confluenceOther + ", tokenPairName="
+				+ tokenPairName + ", buildNotes=" + buildNotes
+				+ ", cloneWorkspace=" + cloneWorkspace
+				+ ", clonnedWorkspaceName=" + clonnedWorkspaceName
+				+ ", downStreamCriteria=" + downStreamCriteria
+				+ ", usedClonnedWorkspace=" + usedClonnedWorkspace
+				+ ", operation=" + operation + ", upstreamApplication="
+				+ upstreamApplication + ", downstreamApplication="
+				+ downstreamApplication + ", successEmailIds="
+				+ successEmailIds + ", failureEmailIds=" + failureEmailIds
+				+ ", pomLocation=" + pomLocation + ", enablePostBuildStep="
+				+ enablePostBuildStep + ", enablePreBuildStep="
+				+ enablePreBuildStep + ", prebuildStepCommands="
+				+ prebuildStepCommands + ", postbuildStepCommands="
+				+ postbuildStepCommands + ", attachmentsPattern="
+				+ attachmentsPattern + ", enableArtifactArchiver="
+				+ enableArtifactArchiver + ", buildName=" + buildName
+				+ ", buildNumber=" + buildNumber + ", environmentName="
+				+ environmentName + ", buildEnvironmentName="
+				+ buildEnvironmentName + ", logs=" + logs + ", showSettings="
+				+ showSettings + ", packageFileBrowse=" + packageFileBrowse
+				+ ", packageType=" + packageType + ", selectedFiles="
+				+ selectedFiles + ", sdk=" + sdk + ", target=" + target
+				+ ", mode=" + mode + ", encrypt=" + encrypt + ", plistFile="
+				+ plistFile + ", skipTest=" + skipTest + ", proguard="
+				+ proguard + ", signing=" + signing + ", keystore=" + keystore
+				+ ", storepass=" + storepass + ", keypass=" + keypass
+				+ ", alias=" + alias + ", projectType=" + projectType
+				+ ", jarName=" + jarName + ", mainClassName=" + mainClassName
+				+ ", jarLocation=" + jarLocation + ", minify=" + minify
+				+ ", configuration=" + configuration + ", keyPassword="
+				+ keyPassword + ", packMinifiedFiles=" + packMinifiedFiles
+				+ ", zipAlign=" + zipAlign + ", components=" + components
+				+ ", unitTestType=" + unitTestType + ", unittest=" + unittest
+				+ ", device=" + device + ", deviceType=" + deviceType
+				+ ", sdkVersion=" + sdkVersion + ", family=" + family
+				+ ", devices=" + devices + ", serialNumber=" + serialNumber
+				+ ", testAgainst=" + testAgainst + ", browser=" + browser
+				+ ", resolution=" + resolution + ", executeSql=" + executeSql
+				+ ", dataBase=" + dataBase + ", fetchSql=" + fetchSql
+				+ ", triggerSimulator=" + triggerSimulator + ", deviceId="
+				+ deviceId + ", theme=" + theme + ", deviceKeyPassword="
+				+ deviceKeyPassword + ", emulatorKeyPassword="
+				+ emulatorKeyPassword + ", platform=" + platform
+				+ ", projectModule=" + projectModule + ", module=" + module
+				+ ", sonar=" + sonar + ", skipTests=" + skipTests + ", src="
+				+ src + ", reportType=" + reportType + ", testType=" + testType
+				+ ", logo=" + logo + ", sonarUrl=" + sonarUrl + ", reportName="
+				+ reportName + ", headerKey=" + headerKey + ", headerValue="
+				+ headerValue + ", addHeader=" + addHeader
+				+ ", configurations=" + configurations + ", testName="
+				+ testName + ", httpName=" + httpName + ", noOfUsers="
+				+ noOfUsers + ", rampUpPeriod=" + rampUpPeriod + ", loopCount="
+				+ loopCount + ", context=" + context + ", contextUrls="
+				+ contextUrls + ", contextType=" + contextType
+				+ ", encodingType=" + encodingType + ", parameterName="
+				+ parameterName + ", parameterValue=" + parameterValue
+				+ ", dbName=" + dbName + ", queryType=" + queryType
+				+ ", query=" + query + ", dbContextUrls=" + dbContextUrls
+				+ ", loadContextUrl=" + loadContextUrl + ", isFromCI="
+				+ isFromCI + ", testBasis=" + testBasis
+				+ ", customTestAgainst=" + customTestAgainst
+				+ ", availableJmx=" + availableJmx + ", coberturaPlugin="
+				+ coberturaPlugin + ", authManager=" + authManager
+				+ ", authorizationUrl=" + authorizationUrl
+				+ ", authorizationUserName=" + authorizationUserName
+				+ ", authorizationPassword=" + authorizationPassword
+				+ ", authorizationDomain=" + authorizationDomain
+				+ ", authorizationRealm=" + authorizationRealm
+				+ ", appDirName=" + appDirName + ", appName=" + appName
+				+ ", templateName=" + templateName + ", technologyName="
+				+ technologyName + ", redirectAutomatically="
+				+ redirectAutomatically + ", followRedirects="
+				+ followRedirects + ", keepAlive=" + keepAlive
+				+ ", multipartData=" + multipartData + ", compatibleHeaders="
+				+ compatibleHeaders + ", regexExtractor=" + regexExtractor
+				+ ", applyTo=" + applyTo + ", responseField=" + responseField
+				+ ", referenceName=" + referenceName + ", regex=" + regex
+				+ ", template=" + template + ", matchNo=" + matchNo
+				+ ", defaultValue=" + defaultValue + ", type=" + type
+				+ ", coverage=" + coverage + ", fetchDependency="
+				+ fetchDependency + ", releaseVersion=" + releaseVersion
+				+ ", developmentVersion=" + developmentVersion + ", tagName="
+				+ tagName + ", webservices=" + webservices + ", nexusUsername="
+				+ nexusUsername + ", nexusPassword=" + nexusPassword
+				+ ", deviceList=" + deviceList + ", testSuites=" + testSuites
+				+ "]";
+	}
+
+	}

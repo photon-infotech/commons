@@ -37,6 +37,7 @@ public interface Constants {
     String FOLDER_JSON = "json";
     String KEY_ECLIPSE = "eclipse";
     String MACOSX = "__MACOSX";
+	String PYTHON = "python";
 
     String PHRESCO_HOME = "PHRESCO_HOME";
     String USER_HOME = "user.home";
@@ -314,6 +315,8 @@ public interface Constants {
 	// c++ pom constants
 	String POM_PROP_KEY_PHRESCO_WINDOWS_CPP_FILE_NAME= "phresco.windows.cpp.file.name";
 	String POM_PROP_KEY_PHRESCO_MAC_CPP_FILE_NAME = "phresco.mac.cpp.file.name";
+	String POM_PROP_KEY_PHRESCO_ENV_CONFIG_JSON = "phresco.env.config.json";
+	String POM_PROP_KEY_PHRESCO_ENV_CONFIG_XML = "phresco.env.config.xml";
 	
 	/**
 	 * MVN Goal Constants
@@ -491,6 +494,9 @@ public interface Constants {
 	String CURRENT_VERSION = "currentVersion";
 	String TAG_VERSION = "tagVersion";
 	String DEV_VERSION = "devVersion";
+	String POM_PROP_KEY_TFS_SRC_WORKSPACE_NAME = "phresco.tfs.src.workspace.name";
+	String POM_PROP_KEY_TFS_PHR_WORKSPACE_NAME = "phresco.tfs.phr.workspace.name";
+	String POM_PROP_KEY_TFS_TEST_WORKSPACE_NAME = "phresco.tfs.test.workspace.name";
 	
 	/**
 	 * SCM Constants

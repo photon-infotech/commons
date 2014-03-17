@@ -18,8 +18,10 @@
 package com.photon.phresco.impl;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -34,7 +36,9 @@ import java.util.Properties;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.configuration.plist.XMLPropertyListConfiguration;
 import org.apache.commons.lang.StringUtils;
+import org.json.simple.JSONObject;
 
+import com.google.gson.Gson;
 import com.photon.phresco.api.ConfigManager;
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
@@ -53,6 +57,7 @@ import com.photon.phresco.util.ProjectUtils;
 import com.photon.phresco.util.Utility;
 import com.phresco.pom.exception.PhrescoPomException;
 import com.phresco.pom.util.PomProcessor;
+
 
 public class IPhoneApplicationProcessor extends AbstractApplicationProcessor {
 
@@ -339,11 +344,81 @@ public class IPhoneApplicationProcessor extends AbstractApplicationProcessor {
 		}
 		properties.put(Constants.MOJO_KEY_ENVIRONMENT_NAME, environmentValue);
 		configuration.setProperties(properties);
-		String plistFile = sourceFolderLocation.getPath() + File.separator + "source/info.plist";
 		try {
+			File pomFileLocation = Utility.getPomFileLocation(Utility.getProjectHome() + appInfo.getAppDirName(), "");
+			PomProcessor pomProcessor = new PomProcessor(new File(pomFileLocation.getPath()));
+			String sourceDirectory = pomProcessor.getSourceDirectory();
+			String plistFile = sourceFolderLocation.getPath() + File.separator + sourceDirectory + File.separator + "info.plist";
 			storeConfigObjAsPlist(configuration, plistFile);
+			
+			String configJson = pomProcessor.getProperty(Constants.POM_PROP_KEY_PHRESCO_ENV_CONFIG_JSON);
+			if (StringUtils.isNotEmpty(configJson)) {
+				String totalPath = Utility.getProjectHome() + appInfo.getAppDirName() + configJson;
+				ConfigManagerImpl conf = new ConfigManagerImpl(new File(dotPhrescoFolderPath, Constants.CONFIGURATION_INFO_FILE));
+				Environment environment = conf.getEnvironment(environmentValue);
+				JSONObject jsonObj = envToJsonConverter(environment);
+				updateJsonInfo(jsonObj, totalPath);
+			}
 		} catch (Exception e) {
 			throw new PhrescoException(e);
+		}
+	}
+	
+	private JSONObject envToJsonConverter(Environment env) throws PhrescoException {
+		System.out.println("env "+env);
+		List<Configuration> configurations = env.getConfigurations();
+		JSONObject envJson = new JSONObject();
+		
+		envJson.put("-name", env.getName());
+		envJson.put("-desc", env.getDesc());
+		envJson.put("-default", env.isDefaultEnv());
+
+		for (Configuration config : configurations) {
+			JSONObject configJson = new JSONObject();
+			configJson.put("-name", config.getName());
+			configJson.put("-desc", config.getDesc());
+			Properties properties = config.getProperties();
+			Enumeration em = properties.keys();
+			
+			while (em.hasMoreElements()) {
+				String key = (String) em.nextElement();
+				Object object = properties.get(key);
+				configJson.put(key, object.toString());
+			}
+			envJson.put(config.getType(), configJson);
+		}
+		JSONObject envsJson = new JSONObject();
+		envsJson.put("environment", envJson);
+		
+		JSONObject finalJson = new JSONObject();
+		finalJson.put("environments", envsJson);
+		System.out.println("finalJson ====> "+finalJson);
+		return finalJson;
+	}
+	
+	public static void updateJsonInfo(JSONObject toJson, String jsonFile) throws PhrescoException {
+		BufferedWriter out = null;
+		FileWriter fstream = null;
+		try {
+			Gson gson = new Gson();
+			FileWriter writer = null;
+			String json = gson.toJson(toJson);
+			writer = new FileWriter(jsonFile);
+			writer.write(json);
+			writer.flush();
+		} catch (IOException e) {
+			throw new PhrescoException(e);
+		} finally {
+			try {
+				if (out != null) {
+					out.close();
+				}
+				if (fstream != null) {
+					fstream.close();
+				}
+			} catch (IOException e) {
+				throw new PhrescoException(e);
+			}
 		}
 	}
 
