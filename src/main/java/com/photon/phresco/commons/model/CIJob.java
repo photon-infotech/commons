@@ -276,8 +276,9 @@ public class CIJob {
 	private String webservices = "";
 	private String nexusUsername = "";
 	private String nexusPassword = "";
+	private String ciBuild = "";
 	
-  
+
 	// Android functional test
 	private String deviceList = "";
 	
@@ -301,6 +302,14 @@ public class CIJob {
     public void setJobName(String jobName) {
         this.jobName = jobName;
     }
+	public String getCiBuild() {
+		return ciBuild;
+	}
+
+	public void setCiBuild(String ciBuild) {
+		this.ciBuild = ciBuild;
+	}
+
     public String getUrl() {
         return url;
     }
@@ -2059,6 +2068,7 @@ public class CIJob {
 				* result
 				+ ((cfBundleVersionValue == null) ? 0 : cfBundleVersionValue
 						.hashCode());
+		result = prime * result + ((ciBuild == null) ? 0 : ciBuild.hashCode());
 		result = prime * result + (cleanBeforeBuild ? 1231 : 1237);
 		result = prime * result + (cleanTestReports ? 1231 : 1237);
 		result = prime * result + (cloneWorkspace ? 1231 : 1237);
@@ -2568,6 +2578,11 @@ public class CIJob {
 			if (other.cfBundleVersionValue != null)
 				return false;
 		} else if (!cfBundleVersionValue.equals(other.cfBundleVersionValue))
+			return false;
+		if (ciBuild == null) {
+			if (other.ciBuild != null)
+				return false;
+		} else if (!ciBuild.equals(other.ciBuild))
 			return false;
 		if (cleanBeforeBuild != other.cleanBeforeBuild)
 			return false;
