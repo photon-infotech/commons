@@ -710,7 +710,7 @@ public final class Utility implements Constants {
 		return false;
 	}
 	
-	private static void fillErrorIdentifiers() {
+	public static void fillErrorIdentifiers() {
 		ERRORIDENTIFIERS.add("Error");
 		ERRORIDENTIFIERS.add("Parse error");
 		ERRORIDENTIFIERS.add("Warning");
