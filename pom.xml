@@ -4,7 +4,7 @@
     <artifactId>phresco-commons</artifactId>
     <packaging>jar</packaging>
     <name>Phresco Commons</name>
-    <version>3.3.1.3001-SNAPSHOT</version>
+    <version>3.3.0.6001-SNAPSHOT</version>
     <description>phresco-commons</description>
     <url>http://www.phresco.org</url>
      <scm>
@@ -160,33 +160,33 @@
             <artifactId>json</artifactId>
             <version>20080701</version>
         </dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-model</artifactId>
             <version>3.0.3</version>
-        </dependency>
-        <dependency>
+        </dependency> -->
+        <!-- <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>1.0.0.GA</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>4.3.0.Final</version>
         </dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>org.sonatype.sisu</groupId>
             <artifactId>sisu-inject-plexus</artifactId>
             <version>${sisu-inject-plexus.version}</version>
-        </dependency>
-        <dependency>
+        </dependency> -->
+       <!--  <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.7</version>
             <scope>test</scope>
         </dependency>
-		
+		 -->
 		<dependency>
             <groupId>org.jvnet.hudson</groupId>
 	        <artifactId>trilead-ssh2</artifactId>
@@ -198,11 +198,11 @@
             <artifactId>gson</artifactId>
             <version>${gson.version}</version>
         </dependency>
-        <dependency>
+       <!--  <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>${log4j.version}</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>org.apache.struts</groupId>
             <artifactId>struts2-json-plugin</artifactId>
@@ -211,6 +211,10 @@
                 <exclusion>
                     <artifactId>tools</artifactId>
                     <groupId>com.sun</groupId>
+                </exclusion>
+                <exclusion>
+                	<groupId>javassist</groupId>
+                	<artifactId>javassist</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -225,66 +229,66 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
+         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>${commons-lang.version}</version>
-        </dependency>
+        </dependency> 
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>${commons-codec.version}</version>
         </dependency>
-        <dependency>
+       <!--  <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-server</artifactId>
             <version>${jersey-server.version}</version>
-        </dependency>
-         <dependency>
+        </dependency> -->
+        <!--  <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-json</artifactId>
             <version>${jersey-server.version}</version>
-        </dependency>
+        </dependency> -->
         <dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-client</artifactId>
 			<version>${jersey-server.version}</version>
 		</dependency>
-        <dependency>
+       <!--  <dependency>
             <groupId>org.sonatype.aether</groupId>
             <artifactId>aether-api</artifactId>
             <version>${aether-api.version}</version>
-        </dependency>
-        <dependency>
+        </dependency> -->
+        <!-- <dependency>
             <groupId>org.sonatype.aether</groupId>
             <artifactId>aether-spi</artifactId>
             <version>${aether-spi.version}</version>
-        </dependency>
-        <dependency>
+        </dependency> -->
+        <!-- <dependency>
             <groupId>org.sonatype.aether</groupId>
             <artifactId>aether-util</artifactId>
             <version>${aether-util.version}</version>
-        </dependency>
-        <dependency>
+        </dependency> -->
+        <!-- <dependency>
             <groupId>org.sonatype.aether</groupId>
             <artifactId>aether-impl</artifactId>
             <version>${aether-impl.version}</version>
-        </dependency>
-        <dependency>
+        </dependency> -->
+        <!-- <dependency>
             <groupId>org.sonatype.aether</groupId>
             <artifactId>aether-connector-file</artifactId>
             <version>${aether-connector-file.version}</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>org.sonatype.aether</groupId>
             <artifactId>aether-connector-wagon</artifactId>
             <version>${aether-connector-wagon.version}</version>
         </dependency>
-        <dependency>
+       <!--  <dependency>
             <groupId>org.apache.maven.wagon</groupId>
             <artifactId>wagon-http-lightweight</artifactId>
             <version>${wagon-http-lightweight.version}</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-aether-provider</artifactId>
@@ -300,11 +304,11 @@
             <artifactId>jdom</artifactId>
             <version>${jdom.version}</version>
         </dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>xalan</groupId>
             <artifactId>xalan</artifactId>
             <version>${xalan.version}</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
@@ -315,11 +319,11 @@
             <artifactId>phloc-css</artifactId>
             <version>3.3.0</version>
         </dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <version>1.9.5</version>
-        </dependency>
+        </dependency> -->
 		<dependency>
 			<groupId>org.eclipse.core</groupId>
 			<artifactId>org.eclipse.core.resources</artifactId>
@@ -355,11 +359,11 @@
 			<artifactId>ui.workbench</artifactId>
 			<version>3.105.0.v20130529-1406</version>
 		</dependency>
-		<dependency>
+		 <dependency>
 		  <groupId>org.osgi</groupId>
 		  <artifactId>org.osgi.core</artifactId>
 		  <version>4.2.0</version>
-		</dependency>
+		</dependency> 
 		<dependency>
 		<groupId>org.apache.wink</groupId>
 	 	   <artifactId>wink-json4j</artifactId>
@@ -370,6 +374,11 @@
 			<artifactId>mail</artifactId>
 			<version>1.4</version>
 		</dependency>
+		<dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            <version>1.8</version>
+        </dependency>
     </dependencies>
     <distributionManagement>
         <repository>
