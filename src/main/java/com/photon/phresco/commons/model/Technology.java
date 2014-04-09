@@ -52,7 +52,16 @@ public class Technology extends CustomerBasedElement implements Cloneable {
 	private List<FunctionalFrameworkInfo> functionalFrameworksInfo;
 	private boolean multiModule;
 	private List<String> subModules;
+	private List<String> webServices;
 	
+	public List<String> getWebServices() {
+		return webServices;
+	}
+
+	public void setWebServices(List<String> webServices) {
+		this.webServices = webServices;
+	}
+
 	public Technology() {
         super();
     }
@@ -180,6 +189,7 @@ public class Technology extends CustomerBasedElement implements Cloneable {
                 .append("functionalFrameworks", getFunctionalFrameworks())
                 .append("multiModule", isMultiModule())
                 .append("subModules", getSubModules())
+                .append("webServices", getWebServices())
                 .toString();
     }
 }
