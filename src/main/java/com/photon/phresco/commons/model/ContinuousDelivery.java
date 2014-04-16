@@ -9,6 +9,10 @@ public class ContinuousDelivery {
 
 	private String name;
 	private String envName;
+	
+	private String version;
+	
+	
 	private List<CIJob> jobs;
 
 	public ContinuousDelivery() {
@@ -44,6 +48,15 @@ public class ContinuousDelivery {
 	public String getEnvName() {
 		return envName;
 	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
 
 }
 

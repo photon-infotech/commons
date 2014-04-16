@@ -1,7 +1,7 @@
 /**
  * Phresco Commons
  *
- * Copyright (C) 1999-2013 Photon Infotech Inc.
+ * Copyright (C) 1999-2014 Photon Infotech Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,7 +67,7 @@ public class ApplicationInfo extends CustomerBasedElement {
     private boolean showWebservice;
     private boolean showTestingFramework;
     private boolean parentArchrtypeCreated;
-	
+	private String buildVersion;
 
 	public Map<String, String> getSelectedFeatureMap() {
 		return selectedFeatureMap;
@@ -358,5 +358,13 @@ public class ApplicationInfo extends CustomerBasedElement {
 
 	public boolean isParentArchrtypeCreated() {
 		return parentArchrtypeCreated;
+	}
+
+	public void setBuildVersion(String buildVersion) {
+		this.buildVersion = buildVersion;
+	}
+
+	public String getBuildVersion() {
+		return buildVersion;
 	}
 }
