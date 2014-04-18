@@ -30,6 +30,7 @@ public class UserPermissions implements Serializable  {
     private boolean manageCIJobs;
     private boolean executeCIJobs;
     private boolean manageMavenReports;
+    private boolean viewRepo;
   
 	public boolean isManageApplication() {
 		return manageApplication;
@@ -127,6 +128,14 @@ public class UserPermissions implements Serializable  {
 		this.manageMavenReports = manageMavenReports;
 	}
 	
+	public boolean isViewRepo() {
+		return viewRepo;
+	}
+
+	public void setViewRepo(boolean viewRepo) {
+		this.viewRepo = viewRepo;
+	}
+	
 	public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
@@ -143,6 +152,7 @@ public class UserPermissions implements Serializable  {
                 .append("manageCIJobs", isManageCIJobs())
                 .append("executeCIJobs", isExecuteCIJobs())
                 .append("manageMavenReports", isManageMavenReports())
+                .append("viewRepo",isViewRepo())
                 .toString();
     }
 }
