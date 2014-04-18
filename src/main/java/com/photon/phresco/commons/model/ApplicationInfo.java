@@ -67,7 +67,7 @@ public class ApplicationInfo extends CustomerBasedElement {
     private boolean showWebservice;
     private boolean showTestingFramework;
     private boolean parentArchrtypeCreated;
-	
+	private String buildVersion;
 
 	public Map<String, String> getSelectedFeatureMap() {
 		return selectedFeatureMap;
@@ -358,5 +358,13 @@ public class ApplicationInfo extends CustomerBasedElement {
 
 	public boolean isParentArchrtypeCreated() {
 		return parentArchrtypeCreated;
+	}
+
+	public void setBuildVersion(String buildVersion) {
+		this.buildVersion = buildVersion;
+	}
+
+	public String getBuildVersion() {
+		return buildVersion;
 	}
 }
