@@ -31,6 +31,8 @@ public class UserPermissions implements Serializable  {
     private boolean executeCIJobs;
     private boolean manageMavenReports;
     private boolean viewRepo;
+    private boolean manageDash;
+    private boolean releseRepo;
   
 	public boolean isManageApplication() {
 		return manageApplication;
@@ -136,6 +138,22 @@ public class UserPermissions implements Serializable  {
 		this.viewRepo = viewRepo;
 	}
 	
+	public boolean isManageDash() {
+		return manageDash;
+	}
+
+	public void setManageDash(boolean manageDash) {
+		this.manageDash = manageDash;
+	}
+
+	public boolean isReleseRepo() {
+		return releseRepo;
+	}
+
+	public void setReleseRepo(boolean releseRepo) {
+		this.releseRepo = releseRepo;
+	}
+
 	public String toString() {
         return new ToStringBuilder(this,
                 ToStringStyle.DEFAULT_STYLE)
@@ -153,6 +171,8 @@ public class UserPermissions implements Serializable  {
                 .append("executeCIJobs", isExecuteCIJobs())
                 .append("manageMavenReports", isManageMavenReports())
                 .append("viewRepo",isViewRepo())
+                .append("manageDash",isManageDash())
+                .append("createRepo",isReleseRepo())
                 .toString();
     }
 }
