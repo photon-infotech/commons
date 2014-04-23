@@ -107,6 +107,7 @@ public interface Constants {
 	String COMPONENTS   = "components";
 	String NODE_LOG = "node.log";
 	String HUB_LOG = "hub.log";
+	String APPIUM_LOG = "appium.log";
 	String POM_NAME = "pom.xml";
 	String DO_NOT_CHECKIN_DIRY = "do_not_checkin";
 	String MARKERS_DIR		= "markers";
@@ -317,6 +318,8 @@ public interface Constants {
 	String POM_PROP_KEY_PHRESCO_MAC_CPP_FILE_NAME = "phresco.mac.cpp.file.name";
 	String POM_PROP_KEY_PHRESCO_ENV_CONFIG_JSON = "phresco.env.config.json";
 	String POM_PROP_KEY_PHRESCO_ENV_CONFIG_XML = "phresco.env.config.xml";
+	// Appium POM properties
+	String POM_PROP_KEY_APPIUM_HOME = "appium.home";
 	
 	/**
 	 * MVN Goal Constants
@@ -334,8 +337,10 @@ public interface Constants {
     String PHASE_INTEGRATION_TEST = "integration-test";
     String PHASE_START_HUB = "start-hub";
     String PHASE_START_NODE = "start-node";
+    String PHASE_START_APPIUM = "start-appium";
     String PHASE_STOP_HUB = "stop-hub";
     String PHASE_STOP_NODE = "stop-node";
+    String PHASE_STOP_APPIUM = "stop-appium";
     String PHASE_RUNGAINST_SRC_START = "start";
     String PHASE_RUNGAINST_SRC_STOP = "stop";
     String PHASE_PDF_REPORT = "pdf-report";
@@ -414,6 +419,7 @@ public interface Constants {
     String STOP_INFO_FILE 				= ".phresco/phresco-run-against-source-info.xml";
     String START_HUB_INFO_FILE 			= ".phresco/phresco-start-hub-info.xml";
     String START_NODE_INFO_FILE 		= ".phresco/phresco-start-node-info.xml";
+    String START_APPIUM_INFO_FILE 		= ".phresco/phresco-start-appium-info.xml";
     String SONAR_INFO_FILE 				= ".phresco/phresco-sonar-info.xml";
     String INTEGRATION_TEST_INFO_FILE	= ".phresco/phresco-integration-test-info.xml";
     String APPLICATION_HANDLER_INFO_FILE= "phresco-application-handler-info.xml";

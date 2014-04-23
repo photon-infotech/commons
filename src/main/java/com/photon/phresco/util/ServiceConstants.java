@@ -253,6 +253,7 @@ public interface ServiceConstants {
 	String FUNCTIONAL_IFRAME_URL = "iframeUrl";
 	String FUNCTIONAL_IFRAME_URL_ALIVE = "iframeUrlAlive";
 	String NODE_STATUS = "nodeStatus";
+	String APPIUM_STATUS = "appiumStatus";
 	String FUNCTIONAL_FRAMEWORK = "functionalFramework";
 	String TEST_CASE_NOT_AVAILABLE = "TestCase Not Available";
 	String TEST_CASES_LISTED_SUCCESSFULLY = "Test Cases listed successfully";
