@@ -538,4 +538,15 @@ public interface Constants {
 	String SCM_SVN					= "svn";
 	String EMPTY					= "empty";
 	String SVN_UPDATE			= "update";
+	
+	/**
+	 * Constants for iOS Frameworks Fix in Import Application
+	 */
+	String LN_CMD			=	"ln -sFh ";
+	String VERSIONS			=	"Versions";
+	String CURRENT			=	"Current";
+	String HEADERS			=	"Headers";
+	String RESOURCES		=	"Resources";
+	String DOT_FRAMEWORK	=	".framework";
+	String IOS				=	"iOS";
 }
