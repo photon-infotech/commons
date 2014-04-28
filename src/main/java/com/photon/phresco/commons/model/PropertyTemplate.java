@@ -26,7 +26,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @XmlRootElement
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PropertyTemplate extends Element {
+public class PropertyTemplate extends CustomerBasedElement {
 
 	private static final long serialVersionUID = 1L;
 	
