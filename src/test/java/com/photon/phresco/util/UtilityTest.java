@@ -307,12 +307,14 @@ public class UtilityTest {
 	
 	@Test
 	public void testSendEmail() throws PhrescoException {
-		Utility.sendTemplateEmail("rohan.lukose@photoninfotech.net", "phresco.do.not.reply@gmail.com", "Test", "Test", "phresco.do.not.reply@gmail.com", "phresco123", null);
+		String[] mailIds1 = new String[]{"rohan.lukose@photoninfotech.net"};
+		Utility.sendTemplateEmail(mailIds1, "phresco.do.not.reply@gmail.com", "Test", "Test", "phresco.do.not.reply@gmail.com", "phresco123", null);
 	}
 	
 	@Test(expected=PhrescoException.class)
 	public void testSendEmail1() throws PhrescoException {
-		Utility.sendTemplateEmail("abcxyz.com", "phresco.do.not.reply@gmail.com", "Test", "Test", "phresco.do.not.reply@gmail.com", "phresco123", null);
+		String[] mailIds2 = new String[]{"abcxyz.com"};
+		Utility.sendTemplateEmail(mailIds2, "phresco.do.not.reply@gmail.com", "Test", "Test", "phresco.do.not.reply@gmail.com", "phresco123", null);
 	}
 	
 	

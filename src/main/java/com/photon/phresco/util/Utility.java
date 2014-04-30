@@ -52,6 +52,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.dom.DOMSource;
+import java.util.Arrays;
+import javax.mail.Address;
+import javax.mail.Authenticator;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
@@ -1275,57 +1280,50 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 		}
 	}
 	
-	public static void sendTemplateEmail(String toAddr, String fromAddr, String subject, String body,  String username,  String password, String host) throws PhrescoException {
+	public static void sendTemplateEmail(String[] toAddr, String fromAddr, String subject, String body,  String username,  String password, String host) throws PhrescoException {
 
-		HashMap<String, String> smtpServers = new HashMap<String, String>();
-		smtpServers.put("gmail.com", "smtp.gmail.com");
-		smtpServers.put("photoninfotech.net", "gmail-smtp-in.l.google.com");
+		List<String> lists = Arrays.asList(toAddr);
 		if (fromAddr == null) {
 			fromAddr = "phresco.do.not.reply@gmail.com";
 			username = "phresco.do.not.reply@gmail.com";
 			password = "phresco123";
 		}
-		String hostName = fromAddr.split("@")[1];
-		Properties props = new Properties();  
-		if (host != null && !host.equals("")) {
-			props.put("mail.smtp.host", host);  
-
-		} else {
-			props.put("mail.smtp.host", smtpServers.get(hostName));
-
-		}
-		props.put("mail.smtp.auth", "true");  
-//		props.put("mail.debug", "true");  
-		props.put("mail.smtp.port", 25);  //587
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.transport.protocol", "smtp");
-
-		Session mailSession = null;
-		final String username1 = username;
-		final String password1 = password;
-		mailSession = Session.getInstance(props,  
-				new javax.mail.Authenticator() {  
-			protected PasswordAuthentication getPasswordAuthentication() {  
-				return new PasswordAuthentication(username1, password1);  
-			}  
-		});  
-
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+	    Session session = Session.getDefaultInstance(props,new LoginAuthenticator(username,password));
 		try {
-			Transport transport = mailSession.getTransport();
-			MimeMessage message = new MimeMessage(mailSession);
-			message.setSubject(subject);
+			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(fromAddr));
-			String []to = new String[]{toAddr};
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to[0]));
-			message.setContent(body,"text/html");
-			transport.connect();
-			transport.sendMessage(message,message.getRecipients(Message.RecipientType.TO));
-			transport.close();
-		} catch (Exception exception) {
-			throw new PhrescoException("Sending email failed");
-		}
+		 	List<Address> emailsList = getEmailsList(lists);
+			Address []dsf = new Address[emailsList.size()];
+			message.setRecipients(Message.RecipientType.BCC, emailsList.toArray(dsf)); 
+			message.setSubject(subject); 
+			message.setText(body);
+			Transport.send(message);
+		}catch (MessagingException e) {			  
+		   throw new PhrescoException(e);
+		} 
 	}
 	
+	private static List<Address> getEmailsList(List<String> items)throws PhrescoException {
+		List<Address> adresses = new ArrayList<Address>();
+		Address address = null;
+		if (CollectionUtils.isNotEmpty(items)) {
+			for (String emailId : items) {
+				try {
+					address = new InternetAddress(emailId);
+					adresses.add(address);
+				} catch (AddressException e) {
+					throw new PhrescoException(e);
+				}
+			}
+		}
+		return adresses;
+	}
+		
 	public static String splitPathConstruction(String appDirName) throws PhrescoException, PhrescoPomException {
 		try {
 			File pomFileLocation = Utility.getPomFileLocation(Utility.getProjectHome() + File.separator + appDirName, "");
@@ -1464,3 +1462,16 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 		 }
 	 }
 }
+
+   class LoginAuthenticator extends Authenticator {
+	 PasswordAuthentication authentication = null;
+	 public LoginAuthenticator(String username, String password) {
+	 authentication = new PasswordAuthentication(username,password);
+	 }
+	 
+	 @Override
+	 protected PasswordAuthentication getPasswordAuthentication() {
+	  return authentication;
+	 }
+   }
+	
