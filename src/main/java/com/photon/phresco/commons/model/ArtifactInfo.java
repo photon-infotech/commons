@@ -47,6 +47,7 @@ public class ArtifactInfo extends Element {
     private List<String> dependencyIds;
     private List<RequiredOption> appliesTo;
     private String downloadURL;
+    private String icondownloadURL;
     private String scope;
     
     public ArtifactInfo() {
@@ -108,7 +109,15 @@ public class ArtifactInfo extends Element {
 	public void setDownloadURL(String downloadURL) {
 		this.downloadURL = downloadURL;
 	}
+    
+	public String getIcondownloadURL() {
+		return icondownloadURL;
+	}
 
+	public void setIcondownloadURL(String icondownloadURL) {
+		this.icondownloadURL = icondownloadURL;
+	}
+	
 	public String getScope() {
 		return scope;
 	}
@@ -131,6 +140,5 @@ public class ArtifactInfo extends Element {
                 .append("downloadURL", getDownloadURL())
                 .append("scope", getScope())
                 .toString();
-    }
-    
+    }   
 }
