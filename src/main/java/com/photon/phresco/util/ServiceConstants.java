@@ -81,6 +81,8 @@ public interface ServiceConstants {
 	String REST_LOGIN_PATH = "/service/rest/api/login";
 	String REST_API_REPO = "/repo";
 	String REST_API_UNIT = "/unit";
+	String REST_API_ZAP = "/zap";
+	String REST_API_ZAP_STATUS = "/zapstatus";
 	String REST_API_TEST_SUITES = "/testsuites";
 	String REST_API_TEST_REPORTS = "/testreports";
 	String REST_API_FUNCTIONAL_FRAMEWORK = "/functionalFramework";
