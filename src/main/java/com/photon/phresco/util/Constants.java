@@ -110,6 +110,7 @@ public interface Constants {
 	String APPIUM_LOG = "appium.log";
 	String POM_NAME = "pom.xml";
 	String DO_NOT_CHECKIN_DIRY = "do_not_checkin";
+	
 	String MARKERS_DIR		= "markers";
 	String LOG_DIRECTORY = "log";
     //Constants for Authentication Token
@@ -288,6 +289,7 @@ public interface Constants {
     String POM_PROP_KEY_FUNCTEST_TESTCASE_PATH = "phresco.functionalTest.testcase.path";
     String POM_PROP_KEY_FUNCTEST_TESTSTEP_XPATH = "phresco.functionalTest.teststep.xpath";
 	String POM_PROP_KEY_FUNCTEST_DIR = "phresco.functionalTest.dir";
+	String POM_PROP_KEY_COMPONENT_MERGE="phresco.components.merge";
 	String PHRESCO_CODE_VALIDATE_REPORT = "phresco.code.validate.report";
 	String POM_PROP_KEY_PERFORMANCETEST_DIR = "phresco.performanceTest.dir";
 	String POM_PROP_KEY_PERFORMANCETEST_JMX_UPLOAD_DIR = "phresco.performanceTest.jmx.upload.dir";
@@ -398,6 +400,7 @@ public interface Constants {
     String HINTPATH = "HintPath";
     String COMMON = "\\Common";
     String METRO_BUILD_SEPARATOR = "~";
+    String COMMONS="commons";
     
 
     /**
@@ -444,6 +447,16 @@ public interface Constants {
     String OVER_WIRTE_VALUE = "false";
     String DEPENDENCY_PLUGIN_GROUPID = "org.apache.maven.plugins";
     String DEPENDENCY_PLUGIN_ARTIFACTID = "maven-dependency-plugin";
+    String CLEAN_PLUGIN_ARTIFACTID ="maven-clean-plugin";
+    String CLEAN_EXECUTION_ID="clean-resources";
+   
+    String CLEAN__GOAL="clean";
+    String CLEAN__PHASE="clean";
+    String RESOURCE_PLUGIN_GROUPID="org.apache.maven.plugins";
+    String RESOURCE_PLUGIN_ARTIFACTID="maven-resources-plugin";
+    String RESOURCE_EXECUTION_ID="copy-resources";
+    String RESOURCE_PHASE="validate";
+    String RESOURCE_GOAL="copy-resources";
     String EXECUTION_ID = "unpack-module";
     String PHASE = "validate";
     String GOAL = "unpack";
