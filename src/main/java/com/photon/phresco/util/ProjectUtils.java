@@ -265,6 +265,117 @@ public class ProjectUtils implements Constants {
 		}
 	}
 	
+	
+	public void updatePOMWithMergePlugins(File pomFile, File phrescoPomFile, List<ArtifactGroup> artifactGroups) throws PhrescoException {
+		
+		if(CollectionUtils.isEmpty(artifactGroups)) {
+		return;
+		}
+		List<ArtifactGroup> artifacts = new ArrayList<ArtifactGroup>();	
+		
+		for (ArtifactGroup artifactGroup : artifactGroups) {			
+			
+		if(artifactGroup.getType().name().equals(Type.COMPONENT.name())) {
+	
+		  artifacts.add(artifactGroup);
+		}
+		}
+         
+		if(CollectionUtils.isNotEmpty(artifacts) && phrescoPomFile.exists()) {
+		    
+	    	updateToResourcePlugin(phrescoPomFile, artifacts);
+            
+		} else {
+           
+		   updateToResourcePlugin(phrescoPomFile, artifacts);
+
+		
+
+		}
+
+		}
+
+	
+	
+	public void updatePOMWithPluginDependencies(File pomFile, List<ArtifactGroup> artifactGroups) throws PhrescoException {
+		if(CollectionUtils.isEmpty(artifactGroups)) {
+			return;
+		}
+		List<ArtifactGroup> dependencies = new ArrayList<ArtifactGroup>();
+		List<ArtifactGroup> artifacts = new ArrayList<ArtifactGroup>();
+		for (ArtifactGroup artifactGroup : artifactGroups) {
+			//To Do : war is added to dependency tag bcoz of qunit dependency in widget technologies ( Need to change Logic) 
+//			if(artifactGroup.getPackaging().equals("zip") || artifactGroup.getPackaging().equals("war")) {
+			if(artifactGroup.getPackaging().equals("zip")) {
+				artifacts.add(artifactGroup);
+			} else {
+				dependencies.add(artifactGroup);
+			}
+		}
+		
+		if(CollectionUtils.isNotEmpty(dependencies)) {
+			updatePOMWithModules(pomFile, dependencies);
+		}
+		
+		
+	}
+	
+	public void updateToResourcePlugin(File pomFile, List<ArtifactGroup> artifactGroups) throws PhrescoException {
+		try {
+			if(CollectionUtils.isEmpty(artifactGroups)) {
+				return;
+			}
+			
+			PomProcessor processor = new PomProcessor(pomFile);
+		    String outPutDir =  "${phresco.src.root.dir}" + processor.getProperty(Constants.POM_PROP_KEY_COMPONENTS_SOURCE_DIR);
+			 
+			List<Element> configList = new ArrayList<Element>();
+			String modulePath = "";
+			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
+			Document doc = docBuilder.newDocument();
+			for (ArtifactGroup artifactGroup : artifactGroups) {
+				
+				     
+				     modulePath = getModulePath(artifactGroup, processor);
+				     configList = configResourceList(modulePath,artifactGroup.getArtifactId(), doc);
+					 processor.addExecutionResourceConfiguration(outPutDir,RESOURCE_PLUGIN_GROUPID, RESOURCE_PLUGIN_ARTIFACTID, RESOURCE_EXECUTION_ID, RESOURCE_PHASE, RESOURCE_GOAL, configList, doc);
+			}
+			processor.save();
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		} catch (ParserConfigurationException e) {
+			throw new PhrescoException(e);
+		}
+	}
+	
+	
+	public void updateToCleanPlugin(File pomFile, List<ArtifactGroup> artifactGroups) throws PhrescoException {
+		try {
+			if(CollectionUtils.isEmpty(artifactGroups)) {
+				return;
+			}
+			
+			PomProcessor processor = new PomProcessor(pomFile);
+			List<Element> configList = new ArrayList<Element>();
+			String modulePath = "";
+			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
+			Document doc = docBuilder.newDocument();
+			for (ArtifactGroup artifactGroup : artifactGroups) {
+				  modulePath = getModulePath(artifactGroup, processor);
+				  configList = configResourceList(modulePath,artifactGroup.getArtifactId(), doc);
+				  processor.addFileSetConfiguration(RESOURCE_PLUGIN_GROUPID, CLEAN_PLUGIN_ARTIFACTID, CLEAN_EXECUTION_ID, CLEAN__PHASE, CLEAN__GOAL, configList, doc);
+		     }
+			processor.save();
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		} catch (ParserConfigurationException e) {
+			throw new PhrescoException(e);
+		}
+	}
+	
+	
 	public void updateToDependencyPlugin(File pomFile, List<ArtifactGroup> artifactGroups) throws PhrescoException {
 		try {
 			if(CollectionUtils.isEmpty(artifactGroups)) {
@@ -381,7 +492,7 @@ public class ProjectUtils implements Constants {
 		return builder.toString();
 	}
 	
-	private String getModulePath(ArtifactGroup artifactGroup, PomProcessor processor) throws PhrescoException {
+	public String getModulePath(ArtifactGroup artifactGroup, PomProcessor processor) throws PhrescoException {
 		try {
 		if(artifactGroup.getType().name().equals(Type.FEATURE.name())) {
 			return processor.getProperty(Constants.POM_PROP_KEY_MODULE_SOURCE_DIR);
@@ -431,6 +542,26 @@ public class ProjectUtils implements Constants {
 			throw new PhrescoException(e);
 		}
 	}
+	
+	public void deleteResourcePluginExecutionFromPom(File pomFile) throws PhrescoException {
+		try {
+			PomProcessor processor = new PomProcessor(pomFile);
+			processor.deleteConfiguration(RESOURCE_PLUGIN_GROUPID, RESOURCE_PLUGIN_ARTIFACTID, RESOURCE_EXECUTION_ID ,RESOURCE_GOAL);
+			processor.save();
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		}
+	}
+	
+	public void deleteCleanPluginExecutionFromPom(File pomFile) throws PhrescoException {
+		try {
+			PomProcessor processor = new PomProcessor(pomFile);
+			processor.deleteConfiguration(RESOURCE_PLUGIN_GROUPID, CLEAN_PLUGIN_ARTIFACTID,CLEAN_EXECUTION_ID ,CLEAN__GOAL);
+			processor.save();
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		}
+	}
 
 	private List<Element> configList(String modulePath, String moduleGroupId, String moduleArtifactId, String moduleVersion, Document doc) throws PhrescoException {
 		List<Element> configList = new ArrayList<Element>();
@@ -454,6 +585,15 @@ public class ProjectUtils implements Constants {
 		configList.add(outputDirectory);
 		return configList;
 	}
+	
+	private List<Element> configResourceList(String modulePath,String moduleArtifactId, Document doc) throws PhrescoException {
+		List<Element> configList = new ArrayList<Element>();
+		Element directory = doc.createElement("directory");
+	    directory.setTextContent("${phresco.src.root.dir}" + modulePath +"/"+ moduleArtifactId );
+		configList.add(directory);
+		return configList;
+	}
+	
 	
 	public void updatePOMWithModules(File pomFile, List<com.photon.phresco.commons.model.ArtifactGroup> modules) throws PhrescoException {
 		if (CollectionUtils.isEmpty(modules)) {
