@@ -335,6 +335,9 @@ public interface Constants {
     String PHASE_NEXUS_DEPLOY = "nexusDeploy";
     String PHASE_FUNCTIONAL_TEST = "functional-test";
     String PHASE_PERFORMANCE_TEST = "performance-test";
+    String PHASE_ZAP_TEST = "zap-test";
+    String PHASE_ZAP_START = "zap-start";
+    String PHASE_ZAP_STOP = "zap-stop";
     String PHASE_LOAD_TEST = "load-test";
     String PHASE_INTEGRATION_TEST = "integration-test";
     String PHASE_START_HUB = "start-hub";
@@ -432,6 +435,9 @@ public interface Constants {
     String CI_INFO 						= "ciJob.info";
     String CI_GLOBAL_INFO 				= "global-ciJob.info";
     String PACKAGE_INFO_XML		    	= "phresco-package-info.xml";
+    String ZAP_INFO_XML		    	    = "phresco-zap-test-info.xml";
+    String ZAP_START_INFO_XML		    = "phresco-zap-start-info.xml";
+    String ZAP_STOP_INFO_XML		    = "phresco-zap-stop-info.xml";
     
 	/**
 	 * Feature Write in pom Constants

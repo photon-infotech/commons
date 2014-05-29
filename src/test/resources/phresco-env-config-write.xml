@@ -4864,4 +4864,132 @@
             <protocol>http</protocol>
         </Server>
     </environment>
+<environment default="false" name="Production">
+        <WebService name="webservice">
+            <port>8080</port>
+            <password/>
+            <context>auth-2.0</context>
+            <host>localhost</host>
+            <protocol>http</protocol>
+            <username/>
+        </WebService>
+        <Database name="database">
+            <version>2.0.4</version>
+            <port>27017</port>
+            <password/>
+            <type>mongodb</type>
+            <host>localhost</host>
+            <dbname>database-dump</dbname>
+            <username/>
+        </Database>
+        <Server name="server">
+            <context>repository</context>
+            <admin_username>admin</admin_username>
+            <deploy_dir>c:/</deploy_dir>
+            <additional_context>/</additional_context>
+            <port>8080</port>
+            <admin_password>ZGV2cmVwbzI=</admin_password>
+            <version>7.0.x</version>
+            <type>Apache Tomcat</type>
+            <remoteDeployment>No</remoteDeployment>
+            <protocol>http</protocol>
+            <host>172.16.17.226</host>
+        </Server>
+    </environment>
+    <environment default="false" name="Development">
+        <WebService name="webservice">
+            <port>8080</port>
+            <password/>
+            <context>auth-2.0</context>
+            <host>localhost</host>
+            <protocol>http</protocol>
+            <username/>
+        </WebService>
+        <Database name="database">
+            <version>2.0.4</version>
+            <port>27017</port>
+            <password/>
+            <type>mongodb</type>
+            <host>localhost</host>
+            <dbname>database-dump</dbname>
+            <username/>
+        </Database>
+        <Server name="server">
+            <context>repository</context>
+            <admin_username>admin</admin_username>
+            <deploy_dir>c:/</deploy_dir>
+            <additional_context>/</additional_context>
+            <port>8080</port>
+            <admin_password>ZGV2cmVwbzI=</admin_password>
+            <version>7.0.x</version>
+            <type>Apache Tomcat</type>
+            <remoteDeployment>No</remoteDeployment>
+            <protocol>http</protocol>
+            <host>localhost</host>
+        </Server>
+    </environment>
+<environment default="false" name="Production">
+        <WebService name="webservice">
+            <port>8080</port>
+            <password/>
+            <context>auth-2.0</context>
+            <host>localhost</host>
+            <protocol>http</protocol>
+            <username/>
+        </WebService>
+        <Database name="database">
+            <version>2.0.4</version>
+            <port>27017</port>
+            <password/>
+            <type>mongodb</type>
+            <host>localhost</host>
+            <dbname>database-dump</dbname>
+            <username/>
+        </Database>
+        <Server name="server">
+            <context>repository</context>
+            <admin_username>admin</admin_username>
+            <deploy_dir>c:/</deploy_dir>
+            <additional_context>/</additional_context>
+            <port>8080</port>
+            <admin_password>ZGV2cmVwbzI=</admin_password>
+            <version>7.0.x</version>
+            <type>Apache Tomcat</type>
+            <remoteDeployment>No</remoteDeployment>
+            <host>172.16.17.226</host>
+            <protocol>http</protocol>
+        </Server>
+    </environment>
+    <environment default="false" name="Development">
+        <WebService name="webservice">
+            <port>8080</port>
+            <password/>
+            <context>auth-2.0</context>
+            <host>localhost</host>
+            <protocol>http</protocol>
+            <username/>
+        </WebService>
+        <Database name="database">
+            <version>2.0.4</version>
+            <port>27017</port>
+            <password/>
+            <type>mongodb</type>
+            <host>localhost</host>
+            <dbname>database-dump</dbname>
+            <username/>
+        </Database>
+        <Server name="server">
+            <context>repository</context>
+            <admin_username>admin</admin_username>
+            <deploy_dir>c:/</deploy_dir>
+            <additional_context>/</additional_context>
+            <port>8080</port>
+            <admin_password>ZGV2cmVwbzI=</admin_password>
+            <version>7.0.x</version>
+            <type>Apache Tomcat</type>
+            <remoteDeployment>No</remoteDeployment>
+            <host>localhost</host>
+            <protocol>http</protocol>
+        </Server>
+    </environment>
 </environments>
