@@ -379,6 +379,33 @@
             <artifactId>jersey-json</artifactId>
             <version>1.8</version>
         </dependency>
+        <!-- Aether Dependencies Begins -->
+        <dependency>
+      <groupId>org.eclipse.aether</groupId>
+      <artifactId>aether-api</artifactId>
+      <version>${aetherVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.aether</groupId>
+      <artifactId>aether-spi</artifactId>
+      <version>${aetherVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.aether</groupId>
+      <artifactId>aether-util</artifactId>
+      <version>${aetherVersion}</version>
+    </dependency>
+    <dependency>
+	<groupId>org.apache.maven</groupId>
+	<artifactId>maven-aether-provider</artifactId>
+	<version>3.2.1</version>
+	<exclusions>
+		<exclusion>
+			<groupId>org.eclipse.aether</groupId>
+			<artifactId>aether-spi</artifactId>
+		</exclusion>
+	</exclusions>
+</dependency>
     </dependencies>
     <distributionManagement>
         <repository>
@@ -396,6 +423,7 @@
         </site>
     </distributionManagement>
     <properties>
+   		 <aetherVersion>0.9.0.M2</aetherVersion>
         <phresco.env.config.xml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">/src/main/resources/phresco-env-config.xml</phresco.env.config.xml>
         <project.build.sourceEncoding xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">UTF-8</project.build.sourceEncoding>
         <phresco.unitTest.report.dir xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">/do_not_checkin/target/surefire-reports</phresco.unitTest.report.dir>

@@ -34,8 +34,8 @@ import java.util.zip.ZipEntry;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.lang.StringUtils;
-import org.sonatype.aether.artifact.Artifact;
-import org.sonatype.aether.util.artifact.DefaultArtifact;
+import org.eclipse.aether.artifact.Artifact;
+import org.eclipse.aether.artifact.DefaultArtifact;
 import org.xml.sax.SAXException;
 
 import com.photon.phresco.api.ApplicationProcessor;
@@ -200,9 +200,7 @@ public class PhrescoDynamicLoader {
 		for (ArtifactGroup plugin : plugins) {
 			List<ArtifactInfo> versions = plugin.getVersions();
 			for (ArtifactInfo artifactInfo : versions) {
-				Artifact artifact = new DefaultArtifact(plugin.getGroupId(),
-						plugin.getArtifactId(), "jar",
-						artifactInfo.getVersion());
+				Artifact artifact = new DefaultArtifact(plugin.getGroupId(), plugin.getArtifactId(), "jar", artifactInfo.getVersion());
 				artifacts.add(artifact);
 			}
 		}
