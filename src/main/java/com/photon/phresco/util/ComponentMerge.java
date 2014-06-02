@@ -36,6 +36,9 @@ public class ComponentMerge {
 			String xmlDirName = sourceFolderLocation.getPath() + File.separator + Constants.DO_NOT_CHECKIN_DIRY;
 			String finalxmlDirName = xmlDirName.replace("/", "");
 			finalxmlDirName = finalxmlDirName + File.separator + Constants.COMPONENTS;
+			
+			//markers DIR Path specifying
+			String markersDirName=sourceFolderLocation.getPath() + File.separator + Constants.DO_NOT_CHECKIN_DIRY + File.separator + Constants.MARKERS_DIR;
 				
 			
 			String componentDir = sourceFolderLocation.getPath() + File.separator + Constants.SOURCE_DIR + componentDirName;
@@ -64,9 +67,12 @@ public class ComponentMerge {
 				{
 					xmlFilePath.delete();
 				}				
+				
 				//deleteing files				
-				System.out.println("Component Dir Name :"+componentDir);
-				deleteFiles(filesList, componentDir);			
+				deleteFiles(filesList, componentDir);
+				
+				//delete markers files
+				deleteMarkers(markersDirName,deleteArtifact);
 				
 			}
 			deleteEmptyFolders(componentDir);
@@ -206,6 +212,23 @@ public class ComponentMerge {
 			}
 		  }
 		}
+	}
+	
+	public static void deleteMarkers(String markersDirName,ArtifactGroup artifactGroup)
+	{		
+		
+		File[] markersFiles=new File(markersDirName).listFiles();
+		
+		if(markersFiles!=null)
+		{
+			for(File file : markersFiles)
+			{				
+				if(file.getName().contains(artifactGroup.getArtifactId()))
+				{
+					file.delete();
+				}				
+			}			
+		}		
 	}
 		
 	 public static BufferedReader cleanComponents(File phrescoPomFile) throws PhrescoException {
