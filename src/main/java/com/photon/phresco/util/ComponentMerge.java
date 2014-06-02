@@ -29,8 +29,8 @@ public class ComponentMerge {
 		try {
 			PomProcessor processor1 = new PomProcessor(pomFile);
 			String componentDirName = "";
-			componentDirName = processor1.getProperty(Constants.POM_PROP_KEY_COMPONENTS_SOURCE_DIR);
-			String finalComponentDirName = componentDirName.replace("/", "'\'");
+			componentDirName = processor1.getProperty(Constants.POM_PROP_KEY_COMPONENTS_SOURCE_DIR);			
+
 			
 			//XML File Path specifying 
 			String xmlDirName = sourceFolderLocation.getPath() + File.separator + Constants.DO_NOT_CHECKIN_DIRY;
@@ -38,7 +38,7 @@ public class ComponentMerge {
 			finalxmlDirName = finalxmlDirName + File.separator + Constants.COMPONENTS;
 				
 			
-			String componentDir = sourceFolderLocation.getPath() + File.separator + Constants.SOURCE_DIR + finalComponentDirName;
+			String componentDir = sourceFolderLocation.getPath() + File.separator + Constants.SOURCE_DIR + componentDirName;
 			for (ArtifactGroup artifactGroup : artifactGroups) {				
 				String componentPath = componentDir + File.separator + artifactGroup.getArtifactId();	
 				File component = new File(componentPath);
@@ -65,6 +65,7 @@ public class ComponentMerge {
 					xmlFilePath.delete();
 				}				
 				//deleteing files				
+				System.out.println("Component Dir Name :"+componentDir);
 				deleteFiles(filesList, componentDir);			
 				
 			}
