@@ -172,6 +172,7 @@ public interface ServiceConstants {
 	String REST_QUERY_SENDER_MAIL_ID = "senderEmailId";
 	String REST_QUERY_SENDER_MAIL_PWD = "senderEmailPassword";
 	String REST_QUERY_URL = "url";
+	String REST_QUERY_SONAR_URL = "sonarUrl";
 	String REST_QUERY_EVN_NAME = "envName";
 	String REST_QUERY_CLONE_NAME = "cloneName";
 	String REST_QUERY_ENVIRONMENT = "environment";
@@ -200,6 +201,7 @@ public interface ServiceConstants {
 	String REST_QUERY_USER_NAME = "username";
 	String REST_QUERY_PASSWORD = "password";
 	String REST_QUERY_TFS_URL = "tfsUrl";
+	String REST_QUERY_SONAR_JDBC_URL = "sonarJdbcUrl";
 	String REST_QUERY_WIDGET_QUERY = "query";
 	String REST_QUERY_WIDGET_ID = "widgetid";
 	String REST_QUERY_WIDGET_NAME = "name";

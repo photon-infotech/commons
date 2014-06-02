@@ -279,15 +279,26 @@ public interface Constants {
 	//manual test report constants
 	String POM_PROP_KEY_MANUALTEST_RPT_DIR = "phresco.manualTest.report.dir";
 	
+	//seo Test Report Dir
+	
+
+	String POM_PROP_KEY_SEOTEST_TESTSUITE_XPATH  = "phresco.seoTest.testsuite.xpath";
+	String POM_PROP_KEY_SEOTEST_TESTCASE_PATH = "phresco.seoTest.testcase.path";
+	String POM_PROP_KEY_SEOTEST_RPT_DIR = "phresco.seoTest.report.dir";
+	String POM_PROP_KEY_SEOTEST_DIR = "phresco.seoTest.dir";
+
+
 	String POM_PROP_KEY_LOADTEST_DIR = "phresco.loadTest.dir";
 	String POM_PROP_KEY_LOADTEST_RPT_DIR = "phresco.loadTest.report.dir";
 	String POM_PROP_KEY_LOADTEST_JMX_UPLOAD_DIR = "phresco.loadTest.jmx.upload.dir";
 	String POM_PROP_KEY_FUNCTEST_SELENIUM_TOOL = "phresco.functionalTest.selenium.tool";
-    String POM_PROP_KEY_FUNCTEST_RPT_DIR = "phresco.functionalTest.report.dir";
-    String POM_PROP_KEY_SCREENSHOT_DIR = "phresco.screenShot.dir";
-    String POM_PROP_KEY_FUNCTEST_TESTSUITE_XPATH = "phresco.functionalTest.testsuite.xpath";
-    String POM_PROP_KEY_FUNCTEST_TESTCASE_PATH = "phresco.functionalTest.testcase.path";
-    String POM_PROP_KEY_FUNCTEST_TESTSTEP_XPATH = "phresco.functionalTest.teststep.xpath";
+	String POM_PROP_KEY_FUNCTEST_RPT_DIR = "phresco.functionalTest.report.dir";
+	String POM_PROP_KEY_SCREENSHOT_DIR = "phresco.screenShot.dir";
+	String POM_PROP_KEY_FUNCTEST_TESTSUITE_XPATH = "phresco.functionalTest.testsuite.xpath";
+	String POM_PROP_KEY_FUNCTEST_TESTCASE_PATH = "phresco.functionalTest.testcase.path";
+	String POM_PROP_KEY_FUNCTEST_TESTSTEP_XPATH = "phresco.functionalTest.teststep.xpath";
+
+
 	String POM_PROP_KEY_FUNCTEST_DIR = "phresco.functionalTest.dir";
 	String POM_PROP_KEY_COMPONENT_MERGE="phresco.components.merge";
 	String PHRESCO_CODE_VALIDATE_REPORT = "phresco.code.validate.report";
@@ -338,6 +349,7 @@ public interface Constants {
     String PHASE_ZAP_TEST = "zap-test";
     String PHASE_ZAP_START = "zap-start";
     String PHASE_ZAP_STOP = "zap-stop";
+    String PHASE_SEO_TEST = "seo-test";
     String PHASE_LOAD_TEST = "load-test";
     String PHASE_INTEGRATION_TEST = "integration-test";
     String PHASE_START_HUB = "start-hub";
@@ -438,6 +450,7 @@ public interface Constants {
     String ZAP_INFO_XML		    	    = "phresco-zap-test-info.xml";
     String ZAP_START_INFO_XML		    = "phresco-zap-start-info.xml";
     String ZAP_STOP_INFO_XML		    = "phresco-zap-stop-info.xml";
+    String SEO_INFO_FILE 				= "phresco-seo-test-info.xml";
     
 	/**
 	 * Feature Write in pom Constants
