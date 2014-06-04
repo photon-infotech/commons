@@ -105,15 +105,10 @@ public class ATGApplicationProcessor extends AbstractApplicationProcessor {
 		updateBuildProperties(buildProperties, subModuleName);
 		try {
 			PomProcessor processor = new PomProcessor(new File(rootModulePath, "pom.xml"));
-			Modules modules = processor.getModel().getModules();
-			if(modules != null) {
-				List<String> moduless = modules.getModule();
-				for (String mod : moduless) {
-					processor.removeModule(mod);
-					processor.save();
-				}
-			} 
+			processor.removeModules();
+			processor.save();
 		} catch (PhrescoPomException e) {
+			e.printStackTrace();
 			throw new PhrescoException(e);
 		}
 	}
