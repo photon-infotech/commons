@@ -31,6 +31,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 import com.photon.phresco.commons.model.ApplicationInfo;
 import com.photon.phresco.commons.model.ArtifactGroup;
+import com.photon.phresco.commons.model.ArtifactGroup.Type;
 import com.photon.phresco.commons.model.ProjectInfo;
 import com.photon.phresco.exception.PhrescoException;
 import com.photon.phresco.util.ProjectUtils;
@@ -53,7 +54,6 @@ public class ATGApplicationProcessor extends AbstractApplicationProcessor {
 		} else {
 			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
 		}
-		
 		File phrescoPomFile = Utility.getPomFileLocation(rootModulePath, subModuleName);
 		ProjectInfo projectInfo = Utility.getProjectInfo(rootModulePath, "");
 		File sourceFolderLocation = Utility.getSourceFolderLocation(projectInfo, rootModulePath, subModuleName);
@@ -79,6 +79,16 @@ public class ATGApplicationProcessor extends AbstractApplicationProcessor {
 		} catch (IOException e) {
 			throw new PhrescoException(e);
 		}
+		
+		//Update Components In Build Properties
+		File buildProperties = new File(rootModulePath, "build.properties");
+		if(CollectionUtils.isNotEmpty(artifactGroups)) {
+			for (ArtifactGroup artifactGroup : artifactGroups) {
+				if(artifactGroup.getType().name().equals(Type.COMPONENT.name())) {
+					updateBuildProperties(buildProperties, artifactGroup.getName());
+				}
+			}
+		}
 	}
 	
 	@Override
@@ -92,46 +102,52 @@ public class ATGApplicationProcessor extends AbstractApplicationProcessor {
 			rootModulePath = Utility.getProjectHome() + appInfo.getAppDirName();
 		}
 		File buildProperties = new File(rootModulePath, "build.properties");
-		Properties properties = new Properties();
-		FileInputStream fis;
+		updateBuildProperties(buildProperties, subModuleName);
 		try {
-			fis = new FileInputStream(buildProperties);
-			properties.load(fis);
-			String moduleBuildOrder = properties.getProperty("modules.build.order");
-			String module = subModuleName + "/build.xml";
-			if(StringUtils.isEmpty(moduleBuildOrder)) {
-				properties.put("modules.build.order", module);
-				
-			} else {
-				properties.put("modules.build.order", moduleBuildOrder.concat(",").concat(module));
-			}
-			
-			
-			String moduleOrder = properties.getProperty("module.order");
-			if(StringUtils.isEmpty(moduleOrder)) {
-				properties.put("module.order", subModuleName);
-			} else {
-				properties.put("module.order", moduleOrder + " " + subModuleName);
-			}
-			
-			properties.save(new FileOutputStream(buildProperties), "");
-			
-			//Need to remove modules tag from parent pom 
 			PomProcessor processor = new PomProcessor(new File(rootModulePath, "pom.xml"));
 			Modules modules = processor.getModel().getModules();
 			if(modules != null) {
 				List<String> moduless = modules.getModule();
 				for (String mod : moduless) {
 					processor.removeModule(mod);
+					processor.save();
 				}
+			} 
+		} catch (PhrescoPomException e) {
+			throw new PhrescoException(e);
+		}
+	}
+	
+	private void updateBuildProperties(File propertyFile, String moduleName) throws PhrescoException {
+		Properties properties = new Properties();
+		FileInputStream fis;
+		try {
+			fis = new FileInputStream(propertyFile);
+			properties.load(fis);
+			String moduleBuildOrder = properties.getProperty("modules.build.order");
+			String module = moduleName + "/build.xml";
+			if(StringUtils.isEmpty(moduleBuildOrder)) {
+				properties.put("modules.build.order", module);
 				
+			} else {
+				if(!moduleBuildOrder.contains(module)) {
+					properties.put("modules.build.order", moduleBuildOrder.concat(",").concat(module));
+				}
 			}
-			processor.save();
+			
+			
+			String moduleOrder = properties.getProperty("module.order");
+			if(StringUtils.isEmpty(moduleOrder)) {
+				properties.put("module.order", moduleName);
+			} else {
+				if(!moduleOrder.contains(moduleName)) {
+					properties.put("module.order", moduleOrder + " " + moduleName);
+				}
+			}
+			properties.save(new FileOutputStream(propertyFile), "");
 		} catch (FileNotFoundException e) {
 			throw new PhrescoException(e);
 		} catch (IOException e) {
-			throw new PhrescoException(e);
-		} catch (PhrescoPomException e) {
 			throw new PhrescoException(e);
 		}
 	}
