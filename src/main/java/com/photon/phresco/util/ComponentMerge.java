@@ -33,8 +33,8 @@ public class ComponentMerge {
 
 			
 			//XML File Path specifying 
-			String xmlDirName = sourceFolderLocation.getPath() + File.separator + Constants.DO_NOT_CHECKIN_DIRY;
-			String finalxmlDirName = xmlDirName + File.separator + Constants.COMPONENTS;
+			String finalxmlDirName = sourceFolderLocation.getPath() + File.separator + Constants.DOT_PHRESCO_FOLDER;
+			
 			
 			//markers DIR Path specifying
 			String markersDirName=sourceFolderLocation.getPath() + File.separator + Constants.DO_NOT_CHECKIN_DIRY + File.separator + Constants.MARKERS_DIR;
