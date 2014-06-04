@@ -200,6 +200,7 @@ public interface ServiceConstants {
 	String REST_QUERY_DATATYPE = "datatype";
 	String REST_QUERY_USER_NAME = "username";
 	String REST_QUERY_PASSWORD = "password";
+	String REST_QUERY_REMOTE_SONAR = "remoteSonar";
 	String REST_QUERY_TFS_URL = "tfsUrl";
 	String REST_QUERY_SONAR_JDBC_URL = "sonarJdbcUrl";
 	String REST_QUERY_WIDGET_QUERY = "query";
