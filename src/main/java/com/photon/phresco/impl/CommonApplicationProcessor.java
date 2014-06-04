@@ -120,6 +120,7 @@ public class CommonApplicationProcessor extends AbstractApplicationProcessor {
 
 		}
 		 
+	    if(isMerge.equalsIgnoreCase("true")){ 
 	   BufferedReader bufferreader = ComponentMerge.cleanComponents(phrescoPomFile);
 		 
 		 try {
@@ -134,6 +135,7 @@ public class CommonApplicationProcessor extends AbstractApplicationProcessor {
 			}
 		} 
 		 
+		}
 		} catch (PhrescoPomException e1) {
 			throw new PhrescoException(e1);
 		}
