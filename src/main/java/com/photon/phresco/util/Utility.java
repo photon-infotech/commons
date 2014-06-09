@@ -1293,11 +1293,11 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 	public static void sendTemplateEmail(String[] toAddr, String fromAddr,String user, String subject, String body,  String username,  String password, String host,String screen,String build) throws PhrescoException {
 
 		List<String> lists = Arrays.asList(toAddr);
-//		if (fromAddr == null) {
-//			fromAddr = "phresco.do.not.reply@gmail.com";
-//			username = "phresco.do.not.reply@gmail.com";
-//			password = "phresco123";
-//		}
+		if (fromAddr == null) {
+			fromAddr = "phresco.do.not.reply@gmail.com";
+			username = "phresco.do.not.reply@gmail.com";
+			password = "phresco123";
+		}
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
@@ -1334,6 +1334,34 @@ public static String getCiJobInfoPath(String appDir, String globalInfo, String s
 	    }
 	}
 	
+	public static void sendNewPassword(String[] toAddr, String fromAddr,String user, String subject, String body,  String username,  String password, String host,String screen,String build) throws PhrescoException {
+
+		List<String> lists = Arrays.asList(toAddr);
+		if (fromAddr == null) {
+			fromAddr = "phresco.do.not.reply@gmail.com";
+			username = "phresco.do.not.reply@gmail.com";
+			password = "phresco123";
+		}
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+	    Session session = Session.getDefaultInstance(props,new LoginAuthenticator(username,password));
+	    try {
+	    	Message message = new MimeMessage(session);
+	    	message.setFrom(new InternetAddress(fromAddr));
+	    	List<Address> emailsList = getEmailsList(lists);
+	    	Address[] dsf = new Address[emailsList.size()];
+	    	message.setRecipients(Message.RecipientType.BCC,
+	    	emailsList.toArray(dsf));
+	    	message.setSubject(subject);
+	       	message.setContent(body, "text/html");
+           	Transport.send(message);
+	    } catch (MessagingException e) {
+	    	throw new PhrescoException(e);
+	    }
+	}
 	private static List<Address> getEmailsList(List<String> items)throws PhrescoException {
 		List<Address> adresses = new ArrayList<Address>();
 		Address address = null;
