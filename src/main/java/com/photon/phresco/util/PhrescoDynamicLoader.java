@@ -34,8 +34,8 @@ import java.util.zip.ZipEntry;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.lang.StringUtils;
-import org.eclipse.aether.artifact.Artifact;
-import org.eclipse.aether.artifact.DefaultArtifact;
+import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.DefaultArtifact;
 import org.xml.sax.SAXException;
 
 import com.photon.phresco.api.ApplicationProcessor;
@@ -159,7 +159,8 @@ public class PhrescoDynamicLoader {
 		for (ArtifactGroup plugin : plugins) {
 			List<ArtifactInfo> versions = plugin.getVersions();
 			for (ArtifactInfo artifactInfo : versions) {
-				foundArtifact = new DefaultArtifact(plugin.getGroupId(),
+				
+				foundArtifact = createArtifact(plugin.getGroupId(),
 						plugin.getArtifactId(), "jar",
 						artifactInfo.getVersion());
 				artifacts.add(foundArtifact);
@@ -173,7 +174,7 @@ public class PhrescoDynamicLoader {
 			if (jarFile.getName().equals(
 					foundArtifact.getArtifactId() + "-"
 							+ foundArtifact.getVersion() + "."
-							+ foundArtifact.getExtension())) {
+							+ foundArtifact.getType())) {
 				jarfile = new JarFile(jarFile);
 				for (Enumeration<JarEntry> em = jarfile.entries(); em
 						.hasMoreElements();) {
@@ -200,7 +201,7 @@ public class PhrescoDynamicLoader {
 		for (ArtifactGroup plugin : plugins) {
 			List<ArtifactInfo> versions = plugin.getVersions();
 			for (ArtifactInfo artifactInfo : versions) {
-				Artifact artifact = new DefaultArtifact(plugin.getGroupId(), plugin.getArtifactId(), "jar", artifactInfo.getVersion());
+				Artifact artifact = createArtifact(plugin.getGroupId(), plugin.getArtifactId(), "jar", artifactInfo.getVersion());
 				artifacts.add(artifact);
 			}
 		}
@@ -221,7 +222,12 @@ public class PhrescoDynamicLoader {
 		URLClassLoader classLoader = new URLClassLoader(new URL[]{artifactURL}, clsLoader);
 		return classLoader;
 	}
-
+	
+	private Artifact createArtifact(String groupId, String artifactId, String packaging, String version) {
+		return new DefaultArtifact(groupId, artifactId, version,
+				"", packaging, "", null);
+	}
+	
 	public static void main(String[] args) throws PhrescoException,
 			IOException, ParserConfigurationException, SAXException,
 			ConfigurationException {
