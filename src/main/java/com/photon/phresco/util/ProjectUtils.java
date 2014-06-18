@@ -409,8 +409,10 @@ public class ProjectUtils implements Constants {
 	
 	public void removeExtractedFeatures(File pomFile, File sourceFolder, List<ArtifactGroup> removedArtifacts) throws PhrescoException {
 //		String baseDir = Utility.getProjectHome() + appInfo.getAppDirName() + File.separator;
+		File sourceDirFiles = null;
 		try {
 			PomProcessor processor = new PomProcessor(pomFile);
+			String soruceDirName = processor.getProperty("phresco.src.root.dir");
 			String modulePath = "";
 			if(CollectionUtils.isNotEmpty(removedArtifacts)) {
 				removeMarkerFiles(pomFile, removedArtifacts);
@@ -418,7 +420,10 @@ public class ProjectUtils implements Constants {
 					if (artifactGroup != null) {
 						modulePath = getModulePath(artifactGroup, processor);
 					}
-					File sourceDirFiles = new File(sourceFolder.getPath() + modulePath) ;
+					sourceDirFiles = new File(sourceFolder.getPath() +  modulePath) ;
+					if(StringUtils.isNotEmpty(soruceDirName)) {
+					sourceDirFiles = new File(sourceFolder.getPath() + File.separator + soruceDirName +  modulePath);
+					}
 					File[] listFiles = sourceDirFiles.listFiles();
 					for (File file : listFiles) {
 						if(file.exists() && artifactGroup.getName().equalsIgnoreCase(file.getName())) {
