@@ -249,7 +249,22 @@ public class IPhoneApplicationProcessor extends AbstractApplicationProcessor {
 		}
 
 	}
-
+	
+	@Override
+	public void postCreate(ApplicationInfo appInfo) throws PhrescoException {
+		// TODO Auto-generated method stub
+		String projectPath = Utility.getProjectHome() + appInfo.getAppDirName();
+		String validateCommand = "mvn validate";
+		BufferedReader executeCommand = Utility.executeCommand(validateCommand, projectPath);
+		String line = null;
+		try {
+			while ((line = executeCommand.readLine()) != null) {
+		}
+		} catch (IOException e) {
+		throw new PhrescoException(e);
+		}
+		
+	}
 	public void storeConfigObjAsPlist(Configuration keyValueObj, String plistPath) throws Exception {
 		XMLPropertyListConfiguration plist = new XMLPropertyListConfiguration();
 		Properties properties = keyValueObj.getProperties();
