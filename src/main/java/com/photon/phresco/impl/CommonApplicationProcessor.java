@@ -84,6 +84,7 @@ public class CommonApplicationProcessor extends AbstractApplicationProcessor {
 		}
 
 		if (CollectionUtils.isNotEmpty(deletedFeatures)) {
+			projectUtils.removeExtractedFeatures(phrescoPomFile,sourceFolderLocation, deletedFeatures);
 			projectUtils.deleteFeatureDependencies(pomFile, deletedFeatures);
 		}
 
