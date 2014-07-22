@@ -177,6 +177,7 @@ public class CIJob {
     private boolean unitTestType = false;
     private String unittest = "";
     private String device = "";
+    private String iosDeviceType ="";
     
     // deploy job info
     private String deviceType = "";
@@ -275,8 +276,7 @@ public class CIJob {
 	private String tagName = "";
 	private String webservices = "";
 	private String nexusUsername = "";
-	private String nexusPassword = "";
-	
+	private String nexusPassword = "";	
   
 	// Android functional test
 	private String deviceList = "";
@@ -1998,6 +1998,14 @@ public class CIJob {
 	public void setProvideApplicationVersion(boolean provideApplicationVersion) {
 		this.provideApplicationVersion = provideApplicationVersion;
 	}
+	
+	public String getIosDeviceType() {
+		return iosDeviceType;
+	}
+
+	public void setIosDeviceType(String iosDeviceType) {
+		this.iosDeviceType = iosDeviceType;
+	}
 
 	@Override
 	public int hashCode() {
@@ -2447,6 +2455,8 @@ public class CIJob {
 				+ ((xcodesdk == null) ? 0 : xcodesdk.hashCode());
 		result = prime * result
 				+ ((zipAlign == null) ? 0 : zipAlign.hashCode());
+		result = prime * result
+				+ ((iosDeviceType==null)? 0 : iosDeviceType.hashCode());
 		return result;
 	}
 
@@ -3599,7 +3609,8 @@ public class CIJob {
 				+ ", developmentVersion=" + developmentVersion + ", tagName="
 				+ tagName + ", webservices=" + webservices + ", nexusUsername="
 				+ nexusUsername + ", nexusPassword=" + nexusPassword
-				+ ", deviceList=" + deviceList + ", testSuites=" + testSuites
+				+ ", deviceList=" + deviceList + ", testSuites=" + testSuites 
+				+ ", iosDeviceType=" + iosDeviceType
 				+ "]";
 	}
 
