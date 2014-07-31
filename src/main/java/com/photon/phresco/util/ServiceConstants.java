@@ -268,6 +268,7 @@ public interface ServiceConstants {
 	String DEVICES = "devices";
 	String SHOW_DEVICE = "showDevice";
 	String TEST_RESULT_FILES = "testResultFiles";
+	String TEST_RESULT = "testResult";
 	String RESULT_AVAILABLE = "resultAvailable";
 	String TEST_AGAINSTS = "testAgainsts";
 	String RESULT_FILE_NOT_FOUND = "Result File Not Found";

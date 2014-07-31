@@ -293,6 +293,7 @@ public interface Constants {
 	String POM_PROP_KEY_LOADTEST_JMX_UPLOAD_DIR = "phresco.loadTest.jmx.upload.dir";
 	String POM_PROP_KEY_FUNCTEST_SELENIUM_TOOL = "phresco.functionalTest.selenium.tool";
 	String POM_PROP_KEY_FUNCTEST_RPT_DIR = "phresco.functionalTest.report.dir";
+	String POM_PROP_KEY_FUNCTIONAL_RPT_DIR = "phresco.functional.report.dir";
 	String POM_PROP_KEY_SCREENSHOT_DIR = "phresco.screenShot.dir";
 	String POM_PROP_KEY_FUNCTEST_TESTSUITE_XPATH = "phresco.functionalTest.testsuite.xpath";
 	String POM_PROP_KEY_FUNCTEST_TESTCASE_PATH = "phresco.functionalTest.testcase.path";
@@ -305,8 +306,11 @@ public interface Constants {
 	String POM_PROP_KEY_PERFORMANCETEST_DIR = "phresco.performanceTest.dir";
 	String POM_PROP_KEY_PERFORMANCETEST_JMX_UPLOAD_DIR = "phresco.performanceTest.jmx.upload.dir";
 	String POM_PROP_KEY_PERFORMANCETEST_RESULT_EXTENSION = "phresco.performanceTest.result.extension";
+	String POM_PROP_KEY_UNITTEST_RESULT_EXTENSION = "phresco.unitTest.result.extension";
 	String POM_PROP_KEY_LOADTEST_RESULT_EXTENSION = "phresco.loadTest.result.extension";
 	String POM_PROP_KEY_PERF_SHOW_DEVICE = "phresco.performance.device.report";
+	String POM_PROP_KEY_UNIT_SHOW_DEVICE = "phresco.unit.device.report";
+	String POM_PROP_KEY_FUNCTIONAL_SHOW_DEVICE = "phresco.functional.device.report";
 	String POM_PROP_KEY_PERFORMANCETEST_RPT_DIR = "phresco.performanceTest.report.dir";
 	String PHRESCO_FUNCTIONAL_TEST_ADAPT_DIR = "phresco.functionalTest.adapt.config";
 	String POM_PROP_KEY_SQL_FILE_DIR = "phresco.sql.path";
