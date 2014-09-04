@@ -277,6 +277,14 @@ public class CIJob {
 	private String webservices = "";
 	private String nexusUsername = "";
 	private String nexusPassword = "";	
+	//cucumber
+	private String mainClass = "";
+	private String environment = "";
+	private String runMode = "";
+	private String vdiName = "";
+	private String breakPoint = "";
+	private String targetOperatingSystem = "";
+	private String scenarioTags = "";
   
 	// Android functional test
 	private String deviceList = "";
@@ -2006,6 +2014,62 @@ public class CIJob {
 	public void setIosDeviceType(String iosDeviceType) {
 		this.iosDeviceType = iosDeviceType;
 	}
+	
+	public String getMainClass() {
+		return mainClass;
+	}
+
+	public void setMainClass(String mainClass) {
+		this.mainClass = mainClass;
+	}
+
+	public String getEnvironment() {
+		return environment;
+	}
+
+	public void setEnvironment(String environment) {
+		this.environment = environment;
+	}
+
+	public String getRunMode() {
+		return runMode;
+	}
+
+	public void setRunMode(String runMode) {
+		this.runMode = runMode;
+	}
+
+	public String getVdiName() {
+		return vdiName;
+	}
+
+	public void setVdiName(String vdiName) {
+		this.vdiName = vdiName;
+	}
+
+	public String getBreakPoint() {
+		return breakPoint;
+	}
+
+	public void setBreakPoint(String breakPoint) {
+		this.breakPoint = breakPoint;
+	}
+
+	public String getTargetOperatingSystem() {
+		return targetOperatingSystem;
+	}
+
+	public void setTargetOperatingSystem(String targetOperatingSystem) {
+		this.targetOperatingSystem = targetOperatingSystem;
+	}
+
+	public String getScenarioTags() {
+		return scenarioTags;
+	}
+
+	public void setScenarioTags(String scenarioTags) {
+		this.scenarioTags = scenarioTags;
+	}
 
 	@Override
 	public int hashCode() {
@@ -3469,6 +3533,8 @@ public class CIJob {
 		return true;
 	}
 
+	
+
 	@Override
 	public String toString() {
 		return "CIJob [jobName=" + jobName + ", url=" + url + ", username="
@@ -3610,7 +3676,12 @@ public class CIJob {
 				+ tagName + ", webservices=" + webservices + ", nexusUsername="
 				+ nexusUsername + ", nexusPassword=" + nexusPassword
 				+ ", deviceList=" + deviceList + ", testSuites=" + testSuites 
-				+ ", iosDeviceType=" + iosDeviceType
+				+ ", iosDeviceType=" + iosDeviceType+ nexusUsername + ", nexusPassword=" + nexusPassword
+				+ ", mainClass=" + mainClass + ", environment=" + environment
+				+ ", runMode=" + runMode + ", vdiName=" + vdiName
+				+ ", breakPoint=" + breakPoint + ", targetOperatingSystem="
+				+ targetOperatingSystem + ", scenarioTags=" + scenarioTags
+				+ ", deviceList=" + deviceList + ", testSuites=" + testSuites
 				+ "]";
 	}
 
