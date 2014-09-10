@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.photon.phresco.commons</groupId>
     <artifactId>phresco-commons</artifactId>
     <packaging>jar</packaging>
-    <name>Phresco Commons</name>
+    <name>Phresco-Commons</name>
     <version>3.3.1.16002-SNAPSHOT</version>
     <description>phresco-commons</description>
     <url>http://www.phresco.org</url>
@@ -426,14 +427,9 @@
             <id>${snapshots.repo.id}</id>
             <url>${snapshots.repo.url}</url>
         </snapshotRepository>
-        <site>
-            <id>phresco.commons</id>
-            <name>Phresco Commons Framework</name>
-            <url>${siteBaseUrl}/phresco-commons/</url>
-        </site>
     </distributionManagement>
     <properties>
-   		 <aetherVersion>0.9.0.M2</aetherVersion>
+        <aetherVersion>0.9.0.M2</aetherVersion>
         <phresco.env.config.xml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">/src/main/resources/phresco-env-config.xml</phresco.env.config.xml>
         <project.build.sourceEncoding xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">UTF-8</project.build.sourceEncoding>
         <phresco.unitTest.report.dir xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">/do_not_checkin/target/surefire-reports</phresco.unitTest.report.dir>
@@ -480,5 +476,6 @@
         <json-simple>1.1</json-simple>
         <trilead-ssh2.version xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">build212-hudson-5</trilead-ssh2.version>
         <phresco.src.repo.url>https://github.com/photon-infotech/commons.git</phresco.src.repo.url>
+        <phresco.src.root.dir>../commons/</phresco.src.root.dir>
     </properties>
 </project>

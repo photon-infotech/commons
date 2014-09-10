@@ -34,7 +34,7 @@
                     <description></description>
                     <key>buildName</key>
                     <multiple>false</multiple>
-                    <value></value>
+                    <value>buildname</value>
                     <sort>false</sort>
                     <show>true</show>
                 </parameter>
@@ -48,7 +48,7 @@
                     <description></description>
                     <key>buildNumber</key>
                     <multiple>false</multiple>
-                    <value></value>
+                    <value>2</value>
                     <sort>false</sort>
                     <show>true</show>
                 </parameter>
@@ -62,7 +62,7 @@
                     <description></description>
                     <key>jarName</key>
                     <multiple>false</multiple>
-                    <value></value>
+                    <value>buildname</value>
                     <sort>false</sort>
                     <show>true</show>
                 </parameter>
