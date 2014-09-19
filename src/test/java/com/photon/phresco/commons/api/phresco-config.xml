@@ -18,6 +18,7 @@
 
 
 
+
 <test desc="configuration of testUpdate" name="testUpdate">
         <prop3>properties3Update</prop3>
         <prop2>properties2Update</prop2>

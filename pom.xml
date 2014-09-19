@@ -15,7 +15,7 @@
   </scm>
     <build>
         <directory>do_not_checkin/target</directory>
-        <finalName>phresco-commons</finalName>
+        <finalName>buildname</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -417,15 +417,45 @@
             <artifactId>maven-artifact</artifactId>
             <version>3.0.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.sonatype.aether</groupId>
+            <artifactId>aether-spi</artifactId>
+            <version>1.13</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activeio-core</artifactId>
+            <version>3.1.2</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-core</artifactId>
+            <version>5.5.1</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>1.7.2</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     <distributionManagement>
         <repository>
-            <id>${releases.repo.id}</id>
-            <url>${releases.repo.url}</url>
+            <id>Phresco-release</id>
+            <url>http://phresco.photoninfotech.com/repo/content/repositories/dep-3-2/</url>
         </repository>
         <snapshotRepository>
-            <id>${snapshots.repo.id}</id>
-            <url>${snapshots.repo.url}</url>
+            <id>Phresco-snapshot</id>
+            <url>http://phresco.photoninfotech.com/repo/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
     <properties>

@@ -16,8 +16,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 
--->
-<environments>
+--><environments>
     <environment appliesTo="php,drupal" default="true" desc="Test For Production" name="Production">
         <TestServer desc="server" name="Server">
             <port>1010</port>
