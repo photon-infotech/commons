@@ -441,9 +441,6 @@
         <snapshotRepository>
             <id>${snapshots.repo.id}</id>
             <url>${snapshots.repo.url}</url>
-        <snapshotRepository>
-            <id>Phresco-snapshot</id>
-            <url>http://phresco.photoninfotech.com/repo/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
     <properties>
