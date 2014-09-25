@@ -435,9 +435,12 @@
     </dependencies>
     <distributionManagement>
         <repository>
-            <id>Phresco-release</id>
-            <url>http://phresco.photoninfotech.com/repo/content/repositories/dep-3-2/</url>
+            <id>${releases.repo.id}</id>
+            <url>${releases.repo.url}</url>
         </repository>
+        <snapshotRepository>
+            <id>${snapshots.repo.id}</id>
+            <url>${snapshots.repo.url}</url>
         <snapshotRepository>
             <id>Phresco-snapshot</id>
             <url>http://phresco.photoninfotech.com/repo/content/repositories/snapshots/</url>
