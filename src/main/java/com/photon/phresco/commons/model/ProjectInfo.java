@@ -44,7 +44,8 @@ public class ProjectInfo extends CustomerBasedElement implements Cloneable {
     private boolean multiModule;
 	private boolean integrationTest;
 	private String groupId;
-    
+	private String ciType;
+	
 	public String getProjectCode() {
         return projectCode;
     }
@@ -135,6 +136,14 @@ public class ProjectInfo extends CustomerBasedElement implements Cloneable {
 		return groupId;
 	}
 	
+	public String getCiType() {
+		return ciType;
+	}
+
+	public void setCiType(String ciType) {
+		this.ciType = ciType;
+	}
+	
 	public ProjectInfo clone() {
 		try {
 			return (ProjectInfo)super.clone();
@@ -156,8 +165,10 @@ public class ProjectInfo extends CustomerBasedElement implements Cloneable {
 		.append("endDate", getStartDate())
 		.append("preBuilt", isPreBuilt())
 		.append("multiModule", isMultiModule())
-		.append("integrationTest", isIntegrationTest())
+		.append("integrationTest", isIntegrationTest())	
 		.append("groupId", getGroupId())
+		.append("ciType",getCiType())
 		.toString();
 	}
+
 }

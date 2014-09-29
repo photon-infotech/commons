@@ -20,6 +20,7 @@ package com.photon.phresco.commons.model;
 public class CIJobStatus {
     int code;
     String message;
+    String result;
     
     public CIJobStatus() {
         super();
@@ -30,8 +31,16 @@ public class CIJobStatus {
         this.code = code;
         this.message = message;
     }
+    
+   public String getResult() {
+		return result;
+	}
 
-    public int getCode() {
+	public void setResult(String result) {
+		this.result = result;
+	}
+
+	public int getCode() {
         return code;
     }
 
